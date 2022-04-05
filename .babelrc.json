@@ -1,0 +1,34 @@
+{
+  "presets": [
+    "@babel/preset-react",
+    [
+      "@babel/preset-env",
+      {
+        "loose": true,
+        "shippedProposals": true
+      }
+    ],
+    "@babel/preset-typescript",
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "extensions": [".ts", ".tsx", ".js", ".jsx"],
+        "root": ["./src"]
+      }
+    ],
+    [
+      "@babel/plugin-proposal-private-property-in-object",
+      {
+        "loose": "true"
+      }
+    ]
+  ],
+  "ignore": ["documentation"],
+  "env": {
+    "test": {
+      "plugins": ["@babel/plugin-transform-runtime", "require-context-hook"]
+    }
+  }
+}
