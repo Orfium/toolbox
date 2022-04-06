@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from 'react-query';
-import { createQueryKey } from 'utils';
+import { createQueryKey } from '../utils';
 
 export const DEFAULT_QUERY_CONFIG = {
   retry: false,

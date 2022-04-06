@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from 'react';
 
-export const useResetOnRouteChange = (onReset: () => void, history: any) => {
+export const useCallbackOnRouteChange = (callback: () => void, history: any) => {
   const resetOnRouteChange = useCallback(() => {
     history.listen(() => {
-      onReset();
+      callback();
     });
-  }, [onReset, history]);
+  }, [callback, history]);
 
   useEffect(() => {
     resetOnRouteChange();

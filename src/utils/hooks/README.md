@@ -1,6 +1,6 @@
 ## Hook utilities usage examples
 
-### useResetOnRouteChange
+### useCallbackOnRouteChange
 
 _Description:</br> Accepts two parameters a **callback**, and a **router history instance**.</br> The callback parameter will be invoked everytime the history changes._
 
@@ -8,12 +8,12 @@ _Description:</br> Accepts two parameters a **callback**, and a **router history
 
 ```javascript
 import { history } from 'react-router-dom';
-import { useResetOnRouteChange } from '@orfium/cmo-client-utils';
+import { useCallbackOnRouteChange } from '@orfium/cmo-client-utils';
 
 const alertUser = () => alert('Route has changed.');
 
 const Component = () => {
-  useResetOnRouteChange(alertUser, history);
+  useCallbackOnRouteChange(alertUser, history);
 }
 ```
 

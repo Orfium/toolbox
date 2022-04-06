@@ -1,6 +1,6 @@
 import { useQueryClient, UseQueryOptions } from 'react-query';
 import { useEffect, useState } from 'react';
-import { createQueryKey } from '../../utils';
+import { createQueryKey } from '../utils';
 import { useData } from './useData';
 
 const pageStep = 1;
