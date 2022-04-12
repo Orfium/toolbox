@@ -9,6 +9,12 @@ export * from './modules/request';
 export * from './modules/data';
 
 /*
+* Routing module
+*/
+export * from './modules/routing';
+
+
+/*
 * Utils
 */
 export * from './utils';
