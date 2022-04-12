@@ -1,15 +1,17 @@
-import { Redirect, Route, Router, Switch, useHistory } from 'react-router-dom';
-import React from 'react';
-import { RouteProps } from 'react-router-dom';
+import type { RouteProps } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import type { ComponentType, FunctionComponent } from 'react';
+
+export * from 'react-router-dom';
 
 /**
  * anonymous: general users that can view only public pages
  * unauthorized: only users that are logged in but not authorized to view those routes
  * authorized: only users that are logged in and also authorized for these routes
  */
-type Authorization = 'anonymous' | 'authorized' | 'unauthorized';
+export type Authorization = 'anonymous' | 'authorized' | 'unauthorized';
 
-type Config = {
+export type RoutingStructure = {
   fallbackPaths?: Partial<Record<Authorization, string>>;
   routes: RouteItem[];
 };
@@ -22,53 +24,52 @@ type RouteItem = {
 type Props = {
   isAuthenticated: boolean;
   // page not found Component
-  fallbackComponent: React.ComponentType;
-  structure: Config;
+  fallbackComponent?: ComponentType;
+  structure: RoutingStructure;
 };
 
-function TestAppNavigation({ auth }: any) {
-  const history = useHistory();
-  const structure: Config = {
-    fallbackPaths: {
-      unauthorized: '/accountVerification',
-      authorized: '/not-logged-in',
-      anonymous: '/403',
-    },
-    routes: [
-      { authorization: 'authorized', path: '/authorized', component: () => <div>authorized</div> },
-      {
-        authorization: 'unauthorized',
-        path: '/unauthorized',
-        component: () => <div>unauthorized</div>,
-      },
-      {
-        authorization: 'anonymous',
-        path: '/orfium-one-page',
-        component: () => <div>anonymous</div>,
-      },
-      {
-        authorization: 'unauthorized',
-        path: '/login',
-        component: () => <div>unauthorized</div>,
-      },
-    ],
-  };
+// function TestAppNavigation({ auth }: any) {
+//   const structure: RoutingStructure = {
+//     fallbackPaths: {
+//       unauthorized: '/accountVerification',
+//       authorized: '/not-logged-in',
+//       anonymous: '/403',
+//     },
+//     routes: [
+//       { authorization: 'authorized', path: '/authorized', component: () => <div>authorized</div> },
+//       {
+//         authorization: 'unauthorized',
+//         path: '/unauthorized',
+//         component: () => <div>unauthorized</div>,
+//       },
+//       {
+//         authorization: 'anonymous',
+//         path: '/orfium-one-page',
+//         component: () => <div>anonymous</div>,
+//       },
+//       {
+//         authorization: 'unauthorized',
+//         path: '/login',
+//         component: () => <div>unauthorized</div>,
+//       },
+//     ],
+//   };
+//
+//   return (
+//     <Router>
+//       {generateRoutes({
+//         isAuthenticated: auth.isAuthenticated,
+//         structure,
+//         fallbackComponent: () => <div>page not found</div>,
+//       })}
+//     </Router>
+//   );
+// }
 
-  return (
-    <Router history={history}>
-      {generateRoutes({
-        isAuthenticated: auth.isAuthenticated,
-        structure,
-        fallbackComponent: () => <div>page not found</div>,
-      })}
-    </Router>
-  );
-}
-
-const generateRoutes: React.FunctionComponent<Props> = ({
+export const generateRoutes: FunctionComponent<Props> = ({
   isAuthenticated,
   structure,
-  fallbackComponent,
+  fallbackComponent = <div>Page not found</div>,
 }) => {
   return (
     <Switch>
@@ -79,12 +80,16 @@ const generateRoutes: React.FunctionComponent<Props> = ({
           return <Route exact key={`${route?.path}_${index}`} {...route} />;
         }
 
+        return <Route exact key={`${route?.path}_${index}`} {...route} />;
+
         return renderCondition ? (
           <Route exact key={`${route?.path}_${index}`} {...route} />
         ) : (
           <Redirect to={structure.fallbackPaths?.[authorization] || '/403'} />
         );
       })}
+      {/*
+      // @ts-ignore */}
       {fallbackComponent && <Route children={fallbackComponent} />}
     </Switch>
   );
