@@ -4,6 +4,9 @@ import { terser } from 'rollup-plugin-terser';
 import resolve from '@rollup/plugin-node-resolve';
 import external from 'rollup-plugin-peer-deps-external';
 import dts from 'rollup-plugin-dts';
+import npmRun from 'rollup-plugin-npm-run';
+
+const dev = process.env.ROLLUP_WATCH === 'true';
 
 export default [
   {
@@ -12,24 +15,20 @@ export default [
       {
         file: pkg.main,
         format: 'cjs',
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-          'styled-components': 'styled',
-        },
       },
       {
         file: pkg.module,
         format: 'es',
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-          'styled-components': 'styled',
-        },
       },
     ],
     external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})],
-    plugins: [external(), resolve(), typescript({ tsconfig: './tsconfig.json' }), terser()],
+    plugins: [
+      external(),
+      resolve(),
+      typescript({ tsconfig: './tsconfig.json' }),
+      terser(),
+      dev && npmRun('yalc:push'),
+    ],
   },
   {
     input: 'dist/esm/types/index.d.ts',

@@ -1,6 +1,7 @@
 import type { RouteProps } from 'react-router-dom';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import type { ComponentType, FunctionComponent } from 'react';
+import React from 'react';
 
 export * from 'react-router-dom';
 
@@ -28,43 +29,43 @@ type Props = {
   structure: RoutingStructure;
 };
 
-// function TestAppNavigation({ auth }: any) {
-//   const structure: RoutingStructure = {
-//     fallbackPaths: {
-//       unauthorized: '/accountVerification',
-//       authorized: '/not-logged-in',
-//       anonymous: '/403',
-//     },
-//     routes: [
-//       { authorization: 'authorized', path: '/authorized', component: () => <div>authorized</div> },
-//       {
-//         authorization: 'unauthorized',
-//         path: '/unauthorized',
-//         component: () => <div>unauthorized</div>,
-//       },
-//       {
-//         authorization: 'anonymous',
-//         path: '/orfium-one-page',
-//         component: () => <div>anonymous</div>,
-//       },
-//       {
-//         authorization: 'unauthorized',
-//         path: '/login',
-//         component: () => <div>unauthorized</div>,
-//       },
-//     ],
-//   };
-//
-//   return (
-//     <Router>
-//       {generateRoutes({
-//         isAuthenticated: auth.isAuthenticated,
-//         structure,
-//         fallbackComponent: () => <div>page not found</div>,
-//       })}
-//     </Router>
-//   );
-// }
+function TestAppNavigation({ auth }: any) {
+  const structure: RoutingStructure = {
+    fallbackPaths: {
+      unauthorized: '/accountVerification',
+      authorized: '/not-logged-in',
+      anonymous: '/403',
+    },
+    routes: [
+      { authorization: 'authorized', path: '/authorized', component: () => <div>authorized</div> },
+      {
+        authorization: 'unauthorized',
+        path: '/unauthorized',
+        component: () => <div>unauthorized</div>,
+      },
+      {
+        authorization: 'anonymous',
+        path: '/orfium-one-page',
+        component: () => <div>anonymous</div>,
+      },
+      {
+        authorization: 'unauthorized',
+        path: '/login',
+        component: () => <div>unauthorized</div>,
+      },
+    ],
+  };
+
+  return (
+    <BrowserRouter>
+      {generateRoutes({
+        isAuthenticated: auth.isAuthenticated,
+        structure,
+        fallbackComponent: () => <div>page not found</div>,
+      })}
+    </BrowserRouter>
+  );
+}
 
 export const generateRoutes: FunctionComponent<Props> = ({
   isAuthenticated,
@@ -79,8 +80,6 @@ export const generateRoutes: FunctionComponent<Props> = ({
         if (authorization === 'anonymous') {
           return <Route exact key={`${route?.path}_${index}`} {...route} />;
         }
-
-        return <Route exact key={`${route?.path}_${index}`} {...route} />;
 
         return renderCondition ? (
           <Route exact key={`${route?.path}_${index}`} {...route} />
