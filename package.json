@@ -5,6 +5,7 @@
   "types": "./dist/index.d.ts",
   "license": "MIT",
   "dependencies": {
+    "@orfium/ictinus": "^4.38.2",
     "axios": "^0.26.1",
     "axios-mock-adapter": "^1.20.0",
     "react-query": "^3.34.19",
