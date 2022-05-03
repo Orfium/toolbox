@@ -97,18 +97,8 @@ export const generateRoutes: FunctionComponent<Props> = ({
             ? authorization === 'authorized'
             : isAuthenticated;
 
-          console.log({ v: '1.1', ...route, authorization });
           // if the user is logged in and tries to go to an anonymous route then redirect him to 'home'
           // e.g authenticated user tries to go to login redirect him to /
-          // if (isAuthenticated && authorization === 'anonymous') {
-          //   return (
-          //     <Route
-          //       key={`${route?.path}_${index}`}
-          //       render={() => <Redirect key={`${route?.path}_${index}`} to={'/'} />}
-          //     />
-          //   );
-          // }
-
           if (authorization === 'anonymous') {
             return (
               <Route
