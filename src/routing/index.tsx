@@ -1,7 +1,7 @@
-import type { RouteProps } from 'react-router-dom';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import type { ComponentType, FunctionComponent } from 'react';
 import React from 'react';
+import { RouteComponentProps as ReactRouterRouteComponentProps } from 'react-router';
 
 export * from 'react-router-dom';
 
@@ -17,10 +17,17 @@ export type RoutingStructure = {
   routes: RouteItem[];
 };
 
+export type RouteComponentProps<T = any> = ReactRouterRouteComponentProps<any> & {
+  extraProps: T;
+};
+
 type RouteItem = {
+  path: string | string[];
   // defaults: 'anonymous'
   authorization?: Authorization;
-} & RouteProps;
+  extraProps?: any;
+  component?: React.FunctionComponent<RouteComponentProps>;
+};
 
 type Props = {
   isAuthenticated: boolean;
@@ -28,6 +35,15 @@ type Props = {
   fallbackComponent?: ComponentType;
   structure: RoutingStructure;
 };
+
+export enum Pages {
+  SignIn,
+  SignUp,
+  CheckEmail,
+  ForgotPasswordSubmitPassword,
+  ForgotPasswordSubmitEmail,
+  Loading,
+}
 
 function TestAppNavigation({ auth }: any) {
   const structure: RoutingStructure = {
@@ -41,7 +57,8 @@ function TestAppNavigation({ auth }: any) {
       {
         authorization: 'unauthorized',
         path: '/unauthorized',
-        component: () => <div>unauthorized</div>,
+        extraProps: Pages.SignUp,
+        component: () => <div>authorized</div>,
       },
       {
         authorization: 'anonymous',
@@ -74,19 +91,67 @@ export const generateRoutes: FunctionComponent<Props> = ({
 }) => {
   return (
     <Switch>
-      {structure.routes.map(({ authorization = 'anonymous', ...route }, index) => {
-        const renderCondition = authorization === 'authorized' ? isAuthenticated : !isAuthenticated;
+      {structure.routes.map(
+        ({ authorization = 'anonymous', component: Component, ...route }, index) => {
+          const renderCondition = isAuthenticated
+            ? authorization === 'authorized'
+            : isAuthenticated;
 
-        if (authorization === 'anonymous') {
-          return <Route exact key={`${route?.path}_${index}`} {...route} />;
+          console.log({ v: '1.1', ...route, authorization });
+          // if the user is logged in and tries to go to an anonymous route then redirect him to 'home'
+          // e.g authenticated user tries to go to login redirect him to /
+          // if (isAuthenticated && authorization === 'anonymous') {
+          //   return (
+          //     <Route
+          //       key={`${route?.path}_${index}`}
+          //       render={() => <Redirect key={`${route?.path}_${index}`} to={'/'} />}
+          //     />
+          //   );
+          // }
+
+          if (authorization === 'anonymous') {
+            return (
+              <Route
+                exact
+                key={`${route?.path}_${index}`}
+                render={
+                  typeof Component === 'function'
+                    ? (props: ReactRouterRouteComponentProps) => (
+                        <Component {...props} extraProps={route?.extraProps} />
+                      )
+                    : undefined
+                }
+                {...route}
+              />
+            );
+          }
+
+          return renderCondition ? (
+            <Route
+              exact
+              key={`${route?.path}_${index}`}
+              render={
+                typeof Component === 'function'
+                  ? (props: ReactRouterRouteComponentProps) => (
+                      <Component {...props} extraProps={route?.extraProps} />
+                    )
+                  : undefined
+              }
+              {...route}
+            />
+          ) : (
+            <Route
+              key={`${route?.path}_${index}`}
+              render={(props: ReactRouterRouteComponentProps) => (
+                <Redirect
+                  key={`${route?.path}_${index}`}
+                  to={structure.fallbackPaths?.[authorization] || '/403'}
+                />
+              )}
+            />
+          );
         }
-
-        return renderCondition ? (
-          <Route exact key={`${route?.path}_${index}`} {...route} />
-        ) : (
-          <Redirect to={structure.fallbackPaths?.[authorization] || '/403'} />
-        );
-      })}
+      )}
       {/*
       // @ts-ignore */}
       {fallbackComponent && <Route children={fallbackComponent} />}
