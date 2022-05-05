@@ -35,8 +35,7 @@
       "@testing-library/jest-dom"
     ],
     "jsxImportSource": "react",
-    "declarationDir": "types",
-    "emitDeclarationOnly": true
+    "declarationDir": "./dist/types",
   },
   "include": [
     "./src/*",

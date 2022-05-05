@@ -22,8 +22,8 @@ export default [
     plugins: [external(), resolve(), typescript({ tsconfig: './tsconfig.json' }), terser()],
   },
   {
-    input: 'dist/esm/types/index.d.ts',
-    output: [{ file: 'dist/index.d.ts', format: 'esm' }],
+    input: './src/index.ts',
+    output: [{ file: pkg.types, format: 'esm' }],
     plugins: [dts()],
   },
 ];
