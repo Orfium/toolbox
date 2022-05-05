@@ -59,7 +59,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "documentation:generate": "typedoc --out typeDocs src",
-    "documentation:up": "node server/docs-server.js"
+    "documentation:up": "cd documentation && yarn start"
   },
   "keywords": [
     "Orfium",

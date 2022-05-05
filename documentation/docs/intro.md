@@ -2,46 +2,36 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Intro
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Toolbox focus into bringing together several common functionalities in one place for reusability.
+
+## The Plan
+
+The plan is to bring the following functionalities in, in order for a much smoother experience in all of our products
+
+* Routes
+* Navigation Bar
+* Request - HTTP requests made through one tool
+* Access - A function that easily provide access for each user
+* Yggdrasil - Our SSO
+
+Excuse my drawing 🙃
+![What Contains](/img/Toolbox-graph.jpeg)
 
 ## Getting Started
 
-Get started by **creating a new site**.
+Toolbox is not build to run as a standalone but rather as part of an React application. For this in order to see it in action
+you rather have to either connect it with an application locally ([see this](/docs/maintenance)) or by running the documentation
+and browse around Docs or Guides sections ([see this](/docs/intro#start-documentation))
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
 
-### What you'll need
+## Start documentation
 
-- [Node.js](https://nodejs.org/en/download/) version 14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+In order to run the documentation of the Toolbox you have to first install all the neccessary `node_modules` for that as they will not 
+be installed automatically by running yarn.
 
-## Generate a new site
+1) You must navigate to *documentation* directory and install the packages `cd documentation && yarn install`.
 
-Generate a new Docusaurus site using the **classic template**.
+2) Then going back to the home directory of the toolbox you can start the documentation by running `yarn documentation:up`
 
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
-```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
