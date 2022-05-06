@@ -35,8 +35,9 @@ jobs:
 
       - name: Install dependencies and build app
         run: |
+          cd documentation
           yarn install
-          yarn build:storybook
+          yarn build
 
       - name: Run Tests
         run: yarn test
@@ -85,5 +86,5 @@ jobs:
           S3_BUCKET_NAME=$(aws cloudformation describe-stacks --stack-name "${{ env.PRODUCT }}-pr-${{ github.event.pull_request.number }}" --query 'Stacks[0].Outputs[?OutputKey==`S3BucketName`].OutputValue' --output text)
           DISTRIBUTION_ID=$(aws cloudformation describe-stacks --stack-name "${{ env.PRODUCT }}-pr-${{ github.event.pull_request.number }}" --query 'Stacks[0].Outputs[?OutputKey==`FeCloudFrontDistributionId`].OutputValue' --output text)
           INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*" | jq -r .Invalidation.Id`
-          aws s3 sync storybook-static/ s3://${S3_BUCKET_NAME}/
+          aws s3 sync documentation/build/ s3://${S3_BUCKET_NAME}/
           aws cloudfront wait invalidation-completed --distribution-id $DISTRIBUTION_ID --id $INVALIDATION_ID
