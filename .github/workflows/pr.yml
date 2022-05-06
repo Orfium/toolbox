@@ -35,9 +35,7 @@ jobs:
 
       - name: Install dependencies and build app
         run: |
-          cd documentation
-          yarn install
-          yarn build
+          yarn documentation:build
 
       - name: Run Tests
         run: yarn test
