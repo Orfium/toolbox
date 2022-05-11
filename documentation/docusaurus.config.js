@@ -16,6 +16,17 @@ const config = {
   organizationName: 'facebook', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
 
+  plugins: [
+    [
+      'docusaurus-plugin-typedoc',
+
+      // Plugin / TypeDoc options
+      {
+        entryPoints: ['../src/index.ts'],
+        tsconfig: '../tsconfig.json',
+      },
+    ],
+  ],
   presets: [
     [
       'classic',
@@ -24,6 +35,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
+          editCurrentVersion: false,
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
@@ -51,10 +63,10 @@ const config = {
             label: 'Docs',
           },
           {
-            type: 'doc',
-            docId: 'intro',
+            to: 'docs/api/',
+            activeBasePath: 'docs/api',
+            label: 'API',
             position: 'left',
-            label: 'Guides',
           },
           // { to: '/blog', label: 'Blog', position: 'left' },
           {
