@@ -24,6 +24,7 @@ const config = {
       {
         entryPoints: ['../src/index.ts'],
         tsconfig: '../tsconfig.json',
+        watch: process.env.NODE_ENV === 'development',
       },
     ],
   ],
@@ -83,12 +84,12 @@ const config = {
             title: 'Items',
             items: [
               {
-                label: 'API',
+                label: 'Docs',
                 to: '/docs/intro',
               },
               {
-                label: 'Guides',
-                to: '/docs/intro',
+                label: 'API',
+                to: '/docs/api',
               },
             ],
           },

@@ -1,39 +1,38 @@
 ---
-id: "ReactRouterDom.MemoryRouter"
-title: "Class: MemoryRouter"
-sidebar_label: "MemoryRouter"
+id: "Redirect"
+title: "Class: Redirect"
+sidebar_label: "Redirect"
+sidebar_position: 0
 custom_edit_url: null
 ---
 
-[ReactRouterDom](../namespaces/ReactRouterDom.md).MemoryRouter
-
 ## Hierarchy
 
-- `Component`<[`MemoryRouterProps`](../interfaces/ReactRouterDom.MemoryRouterProps.md), `any`\>
+- `Component`<`RedirectProps`, `any`\>
 
-  ↳ **`MemoryRouter`**
+  ↳ **`Redirect`**
 
 ## Constructors
 
 ### constructor
 
-• **new MemoryRouter**(`props`)
+• **new Redirect**(`props`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`MemoryRouterProps`](../interfaces/ReactRouterDom.MemoryRouterProps.md) \| `Readonly`<[`MemoryRouterProps`](../interfaces/ReactRouterDom.MemoryRouterProps.md)\> |
+| `props` | `RedirectProps` \| `Readonly`<`RedirectProps`\> |
 
 #### Inherited from
 
-React.Component<MemoryRouterProps, any\>.constructor
+React.Component<RedirectProps, any\>.constructor
 
 #### Defined in
 
 node_modules/@types/react-router/node_modules/@types/react/index.d.ts:482
 
-• **new MemoryRouter**(`props`, `context`)
+• **new Redirect**(`props`, `context`)
 
 **`deprecated`**
 
@@ -43,12 +42,12 @@ node_modules/@types/react-router/node_modules/@types/react/index.d.ts:482
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`MemoryRouterProps`](../interfaces/ReactRouterDom.MemoryRouterProps.md) |
+| `props` | `RedirectProps` |
 | `context` | `any` |
 
 #### Inherited from
 
-React.Component<MemoryRouterProps, any\>.constructor
+React.Component<RedirectProps, any\>.constructor
 
 #### Defined in
 
@@ -86,7 +85,7 @@ ___
 
 ### props
 
-• `Readonly` **props**: `Readonly`<[`MemoryRouterProps`](../interfaces/ReactRouterDom.MemoryRouterProps.md)\> & `Readonly`<{ `children?`: `ReactNode`  }\>
+• `Readonly` **props**: `Readonly`<`RedirectProps`\> & `Readonly`<{ `children?`: `ReactNode`  }\>
 
 #### Inherited from
 
@@ -223,7 +222,7 @@ prevents this from being invoked.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`MemoryRouterProps`](../interfaces/ReactRouterDom.MemoryRouterProps.md)\> |
+| `nextProps` | `Readonly`<`RedirectProps`\> |
 | `nextContext` | `any` |
 
 #### Returns
@@ -263,7 +262,7 @@ prevents this from being invoked.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`MemoryRouterProps`](../interfaces/ReactRouterDom.MemoryRouterProps.md)\> |
+| `nextProps` | `Readonly`<`RedirectProps`\> |
 | `nextState` | `Readonly`<`any`\> |
 | `nextContext` | `any` |
 
@@ -341,7 +340,7 @@ The snapshot is only present if getSnapshotBeforeUpdate is present and returns n
 
 | Name | Type |
 | :------ | :------ |
-| `prevProps` | `Readonly`<[`MemoryRouterProps`](../interfaces/ReactRouterDom.MemoryRouterProps.md)\> |
+| `prevProps` | `Readonly`<`RedirectProps`\> |
 | `prevState` | `Readonly`<`any`\> |
 | `snapshot?` | `any` |
 
@@ -412,7 +411,7 @@ prevents this from being invoked.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`MemoryRouterProps`](../interfaces/ReactRouterDom.MemoryRouterProps.md)\> |
+| `nextProps` | `Readonly`<`RedirectProps`\> |
 | `nextContext` | `any` |
 
 #### Returns
@@ -471,7 +470,7 @@ prevents this from being invoked.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`MemoryRouterProps`](../interfaces/ReactRouterDom.MemoryRouterProps.md)\> |
+| `nextProps` | `Readonly`<`RedirectProps`\> |
 | `nextState` | `Readonly`<`any`\> |
 | `nextContext` | `any` |
 
@@ -528,7 +527,7 @@ lifecycle events from running.
 
 | Name | Type |
 | :------ | :------ |
-| `prevProps` | `Readonly`<[`MemoryRouterProps`](../interfaces/ReactRouterDom.MemoryRouterProps.md)\> |
+| `prevProps` | `Readonly`<`RedirectProps`\> |
 | `prevState` | `Readonly`<`any`\> |
 
 #### Returns
@@ -611,7 +610,7 @@ and `componentDidUpdate` will not be called.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`MemoryRouterProps`](../interfaces/ReactRouterDom.MemoryRouterProps.md)\> |
+| `nextProps` | `Readonly`<`RedirectProps`\> |
 | `nextState` | `Readonly`<`any`\> |
 | `nextContext` | `any` |
 

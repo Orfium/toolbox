@@ -1,4 +1,4 @@
 import React from 'react';
 
-export * as ReactRouterDom from 'react-router-dom';
+export { BrowserRouter, Route, Redirect } from 'react-router-dom';
 export * from './Routing';

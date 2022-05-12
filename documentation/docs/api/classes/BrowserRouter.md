@@ -1,81 +1,53 @@
 ---
-id: "ReactRouterDom.Route"
-title: "Class: Route<T, Path>"
-sidebar_label: "Route"
+id: "BrowserRouter"
+title: "Class: BrowserRouter"
+sidebar_label: "BrowserRouter"
+sidebar_position: 0
 custom_edit_url: null
 ---
 
-[ReactRouterDom](../namespaces/ReactRouterDom.md).Route
-
-## Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `Object` = {} |
-| `Path` | extends `string` = `string` |
-
 ## Hierarchy
 
-- `Component`<[`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`Path`\> & `OmitNative`<`T`, keyof [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)\>, `any`\>
+- `Component`<`BrowserRouterProps`, `any`\>
 
-  ↳ **`Route`**
+  ↳ **`BrowserRouter`**
 
 ## Constructors
 
 ### constructor
 
-• **new Route**<`T`, `Path`\>(`props`)
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `Object` = {} |
-| `Path` | extends `string` = `string` |
+• **new BrowserRouter**(`props`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`string`, {}\>\> \| `Readonly`<[`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`string`, {}\>\>\> |
+| `props` | `BrowserRouterProps` \| `Readonly`<`BrowserRouterProps`\> |
 
 #### Inherited from
 
-React.Component<
-    RouteProps<Path\> & OmitNative<T, keyof RouteProps\>,
-    any
-\>.constructor
+React.Component<BrowserRouterProps, any\>.constructor
 
 #### Defined in
 
 node_modules/@types/react-router/node_modules/@types/react/index.d.ts:482
 
-• **new Route**<`T`, `Path`\>(`props`, `context`)
+• **new BrowserRouter**(`props`, `context`)
 
 **`deprecated`**
 
 **`see`** https://reactjs.org/docs/legacy-context.html
 
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `Object` = {} |
-| `Path` | extends `string` = `string` |
-
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`string`, {}\>\> |
+| `props` | `BrowserRouterProps` |
 | `context` | `any` |
 
 #### Inherited from
 
-React.Component<
-    RouteProps<Path\> & OmitNative<T, keyof RouteProps\>,
-    any
-\>.constructor
+React.Component<BrowserRouterProps, any\>.constructor
 
 #### Defined in
 
@@ -113,7 +85,7 @@ ___
 
 ### props
 
-• `Readonly` **props**: `Readonly`<[`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`string`, {}\>\>\> & `Readonly`<{ `children?`: `ReactNode`  }\>
+• `Readonly` **props**: `Readonly`<`BrowserRouterProps`\> & `Readonly`<{ `children?`: `ReactNode`  }\>
 
 #### Inherited from
 
@@ -250,7 +222,7 @@ prevents this from being invoked.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`string`, {}\>\>\> |
+| `nextProps` | `Readonly`<`BrowserRouterProps`\> |
 | `nextContext` | `any` |
 
 #### Returns
@@ -290,7 +262,7 @@ prevents this from being invoked.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`string`, {}\>\>\> |
+| `nextProps` | `Readonly`<`BrowserRouterProps`\> |
 | `nextState` | `Readonly`<`any`\> |
 | `nextContext` | `any` |
 
@@ -368,7 +340,7 @@ The snapshot is only present if getSnapshotBeforeUpdate is present and returns n
 
 | Name | Type |
 | :------ | :------ |
-| `prevProps` | `Readonly`<[`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`string`, {}\>\>\> |
+| `prevProps` | `Readonly`<`BrowserRouterProps`\> |
 | `prevState` | `Readonly`<`any`\> |
 | `snapshot?` | `any` |
 
@@ -439,7 +411,7 @@ prevents this from being invoked.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`string`, {}\>\>\> |
+| `nextProps` | `Readonly`<`BrowserRouterProps`\> |
 | `nextContext` | `any` |
 
 #### Returns
@@ -498,7 +470,7 @@ prevents this from being invoked.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`string`, {}\>\>\> |
+| `nextProps` | `Readonly`<`BrowserRouterProps`\> |
 | `nextState` | `Readonly`<`any`\> |
 | `nextContext` | `any` |
 
@@ -555,7 +527,7 @@ lifecycle events from running.
 
 | Name | Type |
 | :------ | :------ |
-| `prevProps` | `Readonly`<[`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`string`, {}\>\>\> |
+| `prevProps` | `Readonly`<`BrowserRouterProps`\> |
 | `prevState` | `Readonly`<`any`\> |
 
 #### Returns
@@ -638,7 +610,7 @@ and `componentDidUpdate` will not be called.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof [`RouteProps`](../interfaces/ReactRouterDom.RouteProps.md)<`string`, {}\>\>\> |
+| `nextProps` | `Readonly`<`BrowserRouterProps`\> |
 | `nextState` | `Readonly`<`any`\> |
 | `nextContext` | `any` |
 

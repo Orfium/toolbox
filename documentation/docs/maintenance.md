@@ -28,7 +28,7 @@ yarn global add yalc
 ```
 2) Run `yarn yalc:push` on the Toolbox. This will create a fake publish on the registry and push latest changes.
 
-3) Lastly, run `yalc add @orfium/toolbox` on your local application to link the package from the registry.
+3) Now, run `yalc add @orfium/toolbox` on your local application to link the package from the registry.
 This will copy the current version from the registry and inject the `file:.yalc/@orfium/toolbox` dependecy on your `package.json`
 
 Your `package.json` should look like this.
@@ -40,4 +40,6 @@ devDependencies: {
 }
 ```
 
-Congrats! 🎉 &nbsp; Now by running `yarn watch` on the Toolbox any change that you do it will automatically reload the linked applications when they are running.
+4) Lastly, **(optional)** by running `yarn watch` on the Toolbox any change that you do it will automatically reload the linked applications when they are running
+
+**Congrats! 🎉 &nbsp;Now you are ready.**

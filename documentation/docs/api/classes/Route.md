@@ -1,54 +1,80 @@
 ---
-id: "ReactRouterDom.Prompt"
-title: "Class: Prompt"
-sidebar_label: "Prompt"
+id: "Route"
+title: "Class: Route<T, Path>"
+sidebar_label: "Route"
+sidebar_position: 0
 custom_edit_url: null
 ---
 
-[ReactRouterDom](../namespaces/ReactRouterDom.md).Prompt
+## Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends `Object` = {} |
+| `Path` | extends `string` = `string` |
 
 ## Hierarchy
 
-- `Component`<[`PromptProps`](../interfaces/ReactRouterDom.PromptProps.md), `any`\>
+- `Component`<`RouteProps`<`Path`\> & `OmitNative`<`T`, keyof `RouteProps`\>, `any`\>
 
-  ↳ **`Prompt`**
+  ↳ **`Route`**
 
 ## Constructors
 
 ### constructor
 
-• **new Prompt**(`props`)
+• **new Route**<`T`, `Path`\>(`props`)
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends `Object` = {} |
+| `Path` | extends `string` = `string` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`PromptProps`](../interfaces/ReactRouterDom.PromptProps.md) \| `Readonly`<[`PromptProps`](../interfaces/ReactRouterDom.PromptProps.md)\> |
+| `props` | `RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\> \| `Readonly`<`RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\>\> |
 
 #### Inherited from
 
-React.Component<PromptProps, any\>.constructor
+React.Component<
+    RouteProps<Path\> & OmitNative<T, keyof RouteProps\>,
+    any
+\>.constructor
 
 #### Defined in
 
 node_modules/@types/react-router/node_modules/@types/react/index.d.ts:482
 
-• **new Prompt**(`props`, `context`)
+• **new Route**<`T`, `Path`\>(`props`, `context`)
 
 **`deprecated`**
 
 **`see`** https://reactjs.org/docs/legacy-context.html
 
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends `Object` = {} |
+| `Path` | extends `string` = `string` |
+
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`PromptProps`](../interfaces/ReactRouterDom.PromptProps.md) |
+| `props` | `RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\> |
 | `context` | `any` |
 
 #### Inherited from
 
-React.Component<PromptProps, any\>.constructor
+React.Component<
+    RouteProps<Path\> & OmitNative<T, keyof RouteProps\>,
+    any
+\>.constructor
 
 #### Defined in
 
@@ -86,7 +112,7 @@ ___
 
 ### props
 
-• `Readonly` **props**: `Readonly`<[`PromptProps`](../interfaces/ReactRouterDom.PromptProps.md)\> & `Readonly`<{ `children?`: `ReactNode`  }\>
+• `Readonly` **props**: `Readonly`<`RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\>\> & `Readonly`<{ `children?`: `ReactNode`  }\>
 
 #### Inherited from
 
@@ -223,7 +249,7 @@ prevents this from being invoked.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`PromptProps`](../interfaces/ReactRouterDom.PromptProps.md)\> |
+| `nextProps` | `Readonly`<`RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\>\> |
 | `nextContext` | `any` |
 
 #### Returns
@@ -263,7 +289,7 @@ prevents this from being invoked.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`PromptProps`](../interfaces/ReactRouterDom.PromptProps.md)\> |
+| `nextProps` | `Readonly`<`RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\>\> |
 | `nextState` | `Readonly`<`any`\> |
 | `nextContext` | `any` |
 
@@ -341,7 +367,7 @@ The snapshot is only present if getSnapshotBeforeUpdate is present and returns n
 
 | Name | Type |
 | :------ | :------ |
-| `prevProps` | `Readonly`<[`PromptProps`](../interfaces/ReactRouterDom.PromptProps.md)\> |
+| `prevProps` | `Readonly`<`RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\>\> |
 | `prevState` | `Readonly`<`any`\> |
 | `snapshot?` | `any` |
 
@@ -412,7 +438,7 @@ prevents this from being invoked.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`PromptProps`](../interfaces/ReactRouterDom.PromptProps.md)\> |
+| `nextProps` | `Readonly`<`RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\>\> |
 | `nextContext` | `any` |
 
 #### Returns
@@ -471,7 +497,7 @@ prevents this from being invoked.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`PromptProps`](../interfaces/ReactRouterDom.PromptProps.md)\> |
+| `nextProps` | `Readonly`<`RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\>\> |
 | `nextState` | `Readonly`<`any`\> |
 | `nextContext` | `any` |
 
@@ -528,7 +554,7 @@ lifecycle events from running.
 
 | Name | Type |
 | :------ | :------ |
-| `prevProps` | `Readonly`<[`PromptProps`](../interfaces/ReactRouterDom.PromptProps.md)\> |
+| `prevProps` | `Readonly`<`RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\>\> |
 | `prevState` | `Readonly`<`any`\> |
 
 #### Returns
@@ -611,7 +637,7 @@ and `componentDidUpdate` will not be called.
 
 | Name | Type |
 | :------ | :------ |
-| `nextProps` | `Readonly`<[`PromptProps`](../interfaces/ReactRouterDom.PromptProps.md)\> |
+| `nextProps` | `Readonly`<`RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\>\> |
 | `nextState` | `Readonly`<`any`\> |
 | `nextContext` | `any` |
 

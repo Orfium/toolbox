@@ -1,4 +1,4 @@
-import React, { ComponentType, FunctionComponent } from 'react';
+import React, { ComponentType } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { RouteComponentProps as ReactRouterRouteComponentProps } from 'react-router';
 
@@ -33,10 +33,13 @@ export type RouteComponentProps<T = any> = ReactRouterRouteComponentProps<any> &
 
 const UNAUTHORIZED_URL = '/401';
 
-type RouteItem = {
+export type RouteItem = {
   /** The url path or paths of the route that will listen to in order to render **/
   path: string | string[];
-  /** The authorization level of the route, there are 3: 'anonymous' | 'authorized' | 'unauthorized' - @default: 'anonymous' **/
+  /**
+   * The authorization level of the route, there are 3: 'anonymous' | 'authorized' | 'unauthorized' -
+   * @defaultValue: 'anonymous'
+   * **/
   authorization?: Authorization;
   /** Any custom/extra props that are going to be available on the component **/
   extraProps?: any;
@@ -44,26 +47,24 @@ type RouteItem = {
   component?: React.FunctionComponent<RouteComponentProps>;
 };
 
-type Props = {
-  /** An indicator that will be passed in order to identify authenticity of the user. This is different to authorization **/
-  isAuthenticated: boolean;
-  /** A component to render if a route path is not found within the configuration a.k.a page not found **/
-  fallbackComponent?: ComponentType;
-  structure: RoutingStructure;
-};
-
 /**
  * For each item of the structure it creates a new Route with a Switch statement.
  * It automatically handles the redirections based on authorization of each route to specific pages
  * If the fallbacks are defined then those will be used instead.
- * @param isAuthenticated - defines from the parent if the user is authenticated or not
- * @param structure - the Array of Routes that needs to render with authorization level and extra props.
- * @param fallbackComponent - the component that will render if none of the routes match the url location
+ * @category component
+ * @param {object} props Component properties
  */
-export const generateRoutes: FunctionComponent<Props> = ({
-  isAuthenticated,
+export const generateRoutes = ({
+  isAuthenticated = false,
   structure,
-  fallbackComponent = <div>Page not found</div>,
+  fallbackComponent = () => <div>Page not found</div>,
+}: {
+  /** Defines from the parent if the user is authenticated or not **/
+  isAuthenticated: boolean;
+  /** The {Array} of Routes that needs to render with authorization level and extra props. **/
+  fallbackComponent?: ComponentType;
+  /** The component that will render if none of the routes match the url location **/
+  structure: RoutingStructure;
 }) => {
   return (
     <Switch>

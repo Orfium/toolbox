@@ -6,9 +6,15 @@ sidebar_position: 0.5
 custom_edit_url: null
 ---
 
-## Namespaces
+## Classes
 
-- [ReactRouterDom](namespaces/ReactRouterDom.md)
+- [BrowserRouter](classes/BrowserRouter.md)
+- [Redirect](classes/Redirect.md)
+- [Route](classes/Route.md)
+
+## component Functions
+
+- [generateRoutes](modules.md#generateroutes-6)
 
 ## Type aliases
 
@@ -22,7 +28,7 @@ authorized: only users that are logged in and also authorized for these routes
 
 #### Defined in
 
-[src/routing/Routing.tsx:10](https://github.com/Orfium/toolbox/blob/6cc9b48/src/routing/Routing.tsx#L10)
+[src/routing/Routing.tsx:10](https://github.com/Orfium/toolbox/blob/2a32375/src/routing/Routing.tsx#L10)
 
 ___
 
@@ -36,7 +42,7 @@ authenticatedButAnonymous: when a user has authentication but tries to visit an 
 
 #### Defined in
 
-[src/routing/Routing.tsx:18](https://github.com/Orfium/toolbox/blob/6cc9b48/src/routing/Routing.tsx#L18)
+[src/routing/Routing.tsx:18](https://github.com/Orfium/toolbox/blob/2a32375/src/routing/Routing.tsx#L18)
 
 ___
 
@@ -46,13 +52,13 @@ ___
 
 #### Defined in
 
-[src/request/mock.ts:3](https://github.com/Orfium/toolbox/blob/6cc9b48/src/request/mock.ts#L3)
+[src/request/mock.ts:3](https://github.com/Orfium/toolbox/blob/2a32375/src/request/mock.ts#L3)
 
 ___
 
 ### RouteComponentProps
 
-Ƭ **RouteComponentProps**<`T`\>: [`RouteComponentProps`](interfaces/ReactRouterDom.RouteComponentProps.md)<`any`\> & { `extraProps`: `T`  }
+Ƭ **RouteComponentProps**<`T`\>: `ReactRouterRouteComponentProps`<`any`\> & { `extraProps`: `T`  }
 
 This is actual part of the library so you can skip it.
 An extension of the React Router Component props to be used with the extra props.
@@ -66,7 +72,26 @@ Is being used to the route component to extend its functionality on types
 
 #### Defined in
 
-[src/routing/Routing.tsx:30](https://github.com/Orfium/toolbox/blob/6cc9b48/src/routing/Routing.tsx#L30)
+[src/routing/Routing.tsx:30](https://github.com/Orfium/toolbox/blob/2a32375/src/routing/Routing.tsx#L30)
+
+___
+
+### RouteItem
+
+Ƭ **RouteItem**: `Object`
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `authorization?` | [`Authorization`](modules.md#authorization-6) | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' -  **`defaultvalue:`** 'anonymous' |
+| `component?` | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-6)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route |
+| `extraProps?` | `any` | Any custom/extra props that are going to be available on the component |
+| `path` | `string` \| `string`[] | The url path or paths of the route that will listen to in order to render |
+
+#### Defined in
+
+[src/routing/Routing.tsx:36](https://github.com/Orfium/toolbox/blob/2a32375/src/routing/Routing.tsx#L36)
 
 ___
 
@@ -78,12 +103,12 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
-| `routes` | `RouteItem`[] | - |
+| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath-6), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
+| `routes` | [`RouteItem`](modules.md#routeitem-6)[] | - |
 
 #### Defined in
 
-[src/routing/Routing.tsx:20](https://github.com/Orfium/toolbox/blob/6cc9b48/src/routing/Routing.tsx#L20)
+[src/routing/Routing.tsx:20](https://github.com/Orfium/toolbox/blob/2a32375/src/routing/Routing.tsx#L20)
 
 ## Variables
 
@@ -103,7 +128,7 @@ ___
 
 #### Defined in
 
-[src/request/index.ts:11](https://github.com/Orfium/toolbox/blob/6cc9b48/src/request/index.ts#L11)
+[src/request/index.ts:11](https://github.com/Orfium/toolbox/blob/2a32375/src/request/index.ts#L11)
 
 ___
 
@@ -113,24 +138,31 @@ ___
 
 #### Defined in
 
-[src/request/mock.ts:4](https://github.com/Orfium/toolbox/blob/6cc9b48/src/request/mock.ts#L4)
+[src/request/mock.ts:4](https://github.com/Orfium/toolbox/blob/2a32375/src/request/mock.ts#L4)
 
-___
+## component Functions
 
 ### generateRoutes
 
-• `Const` **generateRoutes**: `FunctionComponent`<`Props`\>
+▸ **generateRoutes**(`props`): `Element`
 
 For each item of the structure it creates a new Route with a Switch statement.
 It automatically handles the redirections based on authorization of each route to specific pages
 If the fallbacks are defined then those will be used instead.
 
-**`param`** defines from the parent if the user is authenticated or not
+#### Parameters
 
-**`param`** the Array of Routes that needs to render with authorization level and extra props.
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `props` | `Object` | Component properties |
+| `props.fallbackComponent?` | `ComponentType`<{}\> | The {Array} of Routes that needs to render with authorization level and extra props. |
+| `props.isAuthenticated` | `boolean` | Defines from the parent if the user is authenticated or not |
+| `props.structure` | [`RoutingStructure`](modules.md#routingstructure-6) | The component that will render if none of the routes match the url location |
 
-**`param`** the component that will render if none of the routes match the url location
+#### Returns
+
+`Element`
 
 #### Defined in
 
-[src/routing/Routing.tsx:63](https://github.com/Orfium/toolbox/blob/6cc9b48/src/routing/Routing.tsx#L63)
+[src/routing/Routing.tsx:57](https://github.com/Orfium/toolbox/blob/2a32375/src/routing/Routing.tsx#L57)
