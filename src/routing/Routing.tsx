@@ -13,8 +13,8 @@ export type Authorization = 'anonymous' | 'authorized' | 'unauthorized';
  * unauthenticated: in case a user visits a path and has no authentication
  * unauthorized: when a user visits a path without authorization
  * authenticatedButAnonymous: when a user has authentication but tries to visit an anonymous path
+ // @TODO remove 'authenticatedButAnonymous' when SSO is implemented because there will be no public anonymous path for any of our products
  */
-// @TODO remove 'authenticatedButAnonymous' when SSO is implemented because there will be no public anonymous path for any of our products
 export type FallbackPath = 'unauthenticated' | 'unauthorized' | 'authenticatedButAnonymous';
 
 export type RoutingStructure = {
