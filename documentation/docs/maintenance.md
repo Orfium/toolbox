@@ -4,7 +4,7 @@ sidebar_position: 2
 # Developer Maintenance
 
 Our main focus is DevExp of this tool on the applications that is going to be used. We want fluent integrations and that is why we spent
-quite some time to fine tune the process and documentation for this to happen. So please read the following carefully before proc
+quite some time to fine tune the process and documentation for this to happen. So please read the following carefully before proceeding
 
 ## Developing Tools
 
