@@ -35,6 +35,7 @@ jobs:
 
       - name: Install dependencies and build app
         run: |
+          yarn
           yarn documentation:build
 
       - name: Run Tests
