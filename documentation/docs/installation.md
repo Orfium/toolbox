@@ -15,3 +15,5 @@ Now you can import the toolbox and use any of the available modules
 ```js
 import { ... } from '@orfium/toolbox';
 ```
+
+For available exports please refer to the [API documentation](/docs/api/modules)
