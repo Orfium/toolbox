@@ -8,7 +8,7 @@ quite some time to fine tune the process and documentation for this to happen. S
 
 ## Developing Tools
 
-For developing Toolbox we are using `yalc` and not `npm link`.  
+For developing Toolbox we are using `yalc` and not `npm link`. See more about ***Yalc***  [here](https://github.com/wclr/yalc)  
 
 Using `link` will create problem for resolving the correct `node_modules` on the linked project that `yalc` bypass.
 
