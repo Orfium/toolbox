@@ -2,10 +2,19 @@
 sidebar_label: 'Routing'
 sidebar_position: 1
 ---
+
 # Overview
 
 Routing is about getting all the pieces of your Application together. In order to avoid application having their own route system
 toolbox is providing all the necessary system to accomplish routing on your application through a simple configuration.
+
+## Structure
+
+Is important to take a look on the structure to understand how the routing works.
+
+The structure consists of two things: [`routes`](/docs/api/modules#routeitem) and [`fallbackPaths`](/docs/api/modules#fallbackpath)
+
+For each fallbackPath you provide there must be a defined route otherwise it will redirect to a dead page.
 
 ## Usage
 
@@ -48,6 +57,7 @@ const Routes: React.FC = () => {
 ```
 
 Out put should look like the below on the App
+
 ```jsx title="/src/App.tsx"
 const App: React.FC = () => {
   return (
