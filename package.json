@@ -50,10 +50,11 @@
     "react-query": "^3.10.0"
   },
   "scripts": {
+    "heroku-postbuild": "yarn documentation:build",
     "prebuild": "rimraf dist",
     "prepare": "yarn build && husky install",
     "documentation": "cd documentation && yarn start",
-    "documentation:build": "cd documentation && yarn install && yarn build",
+    "documentation:build": "cd documentation && yarn install && yarn build && mv build ../build",
     "build": "rollup -c",
     "yalc:push": "yalc publish --push",
     "watch": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"yarn yalc:push\"",
