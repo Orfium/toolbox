@@ -5,7 +5,11 @@
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.21.4",
+    "axios-mock-adapter": "^1.19.0",
+    "react-router-dom": "^5.3.1"
+  },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
     "@commitlint/config-conventional": "^16.2.4",
@@ -21,13 +25,13 @@
     "axios": "^0.26.1",
     "axios-mock-adapter": "^1.20.0",
     "cross-env": "^7.0.3",
-    "husky": "^7.0.4",
+    "husky": "^8.0.0",
     "jest": "^27.5.1",
+    "lint-staged": "^12.4.1",
     "prettier": "^2.6.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "react-query": "^3.22.0",
-    "react-router-dom": "^5.2.0",
     "rollup": "^2.72.0",
     "rollup-plugin-dts": "^4.2.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
@@ -41,18 +45,15 @@
     "yalc": "^1.0.0-pre.53"
   },
   "peerDependencies": {
-    "axios": "^0.21.4",
-    "axios-mock-adapter": "^1.19.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-query": "^3.10.0",
-    "react-router-dom": "^5.2.0"
+    "react-query": "^3.10.0"
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "prepare": "yarn build && husky install",
+    "prepare": "yarn build && yarn documentation:build && husky install",
     "documentation": "cd documentation && yarn start",
-    "documentation:build": "cd documentation && yarn install && yarn build",
+    "documentation:build": "cd documentation && yarn install && yarn build && mv build ../build",
     "build": "rollup -c",
     "yalc:push": "yalc publish --push",
     "watch": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"yarn yalc:push\"",

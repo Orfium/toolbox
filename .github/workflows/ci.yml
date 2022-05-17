@@ -1,34 +1,34 @@
-#name: CI
-#on:
-#  push:
-#    branches:
-#      - 'master'
-#      - 'next'
-#      - 'v3.x'
-#
-#jobs:
-#  deploy:
-#    name: Deploya
-#    runs-on: ubuntu-latest
-#    env:
-#      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-#
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#        with:
-#          fetch-depth: 0
-#
-#      - uses: actions/setup-node@v1
-#        with:
-#          node-version: '14.17'
-#
-#      - name: Push to Production
-#        if: (github.ref == 'refs/heads/master')
-#        run: git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/toolbox.git HEAD:master
-#
-#      - name: Install dependencies
-#        run: yarn install
+name: CI
+on:
+  push:
+    branches:
+      - 'master'
+      - 'next'
+      - 'v3.x'
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    env:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.17'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Push to Production
+        if: (github.ref == 'refs/heads/master')
+        run: git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/orfium-toolbox.git HEAD:master
 #
 #      - name: Release
 #        env:
@@ -38,44 +38,45 @@
 #          PUBLIC_NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #        run: npx semantic-release
-#
-#  deploy-docs:
-#    if: github.ref == 'refs/heads/master'
-#    name: Deploy Docs
-#    runs-on: ubuntu-latest
-#    needs: deploy
-#
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#        with:
-#          fetch-depth: 0
-#
-#      - uses: actions/setup-node@v1
-#        with:
-#          node-version: '12.18.3'
-#      - name: Install dependencies
-#        run: yarn install
-#
-#      - name: Generate docs
-#        run: yarn documentation:generate
-#
-#      - name: Clone docs repo
-#        uses: actions/checkout@v2
-#        with:
-#          fetch-depth: 0
-#          repository: Orfium/docs
-#          path: docs-repo
-#          ssh-key: ${{ secrets.DOCS_DEPLOY_KEY }}
-#
-#      - name: Copy and commit docs
-#        run: |
-#          rm -rf $GITHUB_WORKSPACE/docs-repo/${GITHUB_REPOSITORY#*/}
-#          mkdir -p $GITHUB_WORKSPACE/docs-repo/${GITHUB_REPOSITORY#*/}
-#          cp -r typeDocs/* $GITHUB_WORKSPACE/docs-repo/${GITHUB_REPOSITORY#*/}/
-#          cd $GITHUB_WORKSPACE/docs-repo/
-#          git config --global user.email "github-service-account@orfium.com"
-#          git config --global user.name "orfium-org"
-#          git add .
-#          git commit -m "Update ${GITHUB_REPOSITORY#*/} docs"
-#          git push origin master
+
+  deploy-docs:
+    if: github.ref == 'refs/heads/master'
+    name: Deploy Docs
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.17'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Generate docs
+        run: yarn documentation:generate
+
+      - name: Clone docs repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          repository: Orfium/docs
+          path: docs-repo
+          ssh-key: ${{ secrets.DOCS_DEPLOY_KEY }}
+
+      - name: Copy and commit docs
+        run: |
+          rm -rf $GITHUB_WORKSPACE/docs-repo/${GITHUB_REPOSITORY#*/}
+          mkdir -p $GITHUB_WORKSPACE/docs-repo/${GITHUB_REPOSITORY#*/}
+          cp -r typeDocs/* $GITHUB_WORKSPACE/docs-repo/${GITHUB_REPOSITORY#*/}/
+          cd $GITHUB_WORKSPACE/docs-repo/
+          git config --global user.email "github-service-account@orfium.com"
+          git config --global user.name "orfium-org"
+          git add .
+          git commit -m "Update ${GITHUB_REPOSITORY#*/} docs"
+          git push origin master

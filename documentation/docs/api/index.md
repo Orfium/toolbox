@@ -1,3 +1,11 @@
+---
+id: "index"
+title: "@orfium/toolbox"
+sidebar_label: "Readme"
+sidebar_position: 0
+custom_edit_url: null
+---
+
 # Toolbox 🧰
 
 An internal library from FrontEnd team that provides all the necessary tools and functionalities for any library or application.

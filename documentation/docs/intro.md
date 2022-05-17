@@ -1,8 +1,9 @@
 ---
+sidebar_label: 'Introduction'
 sidebar_position: 1
 ---
 
-# Intro
+# Introduction
 
 Toolbox focus into bringing together several common functionalities in one place for reusability.
 
