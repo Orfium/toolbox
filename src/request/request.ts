@@ -10,7 +10,8 @@ export const request =
     { params }: any,
     withoutBase = false,
     headers = {},
-    onUploadProgress?: (progressEvent: any) => void
+    onUploadProgress?: (progressEvent: any) => void,
+    onDownloadProgress?: (progressEvent: any) => void
   ) => {
     const cancelTokenSource = axios.CancelToken.source();
     const config = {
@@ -21,6 +22,7 @@ export const request =
       params: method === METHODS.GET ? params : undefined,
       headers: { ...baseHeaders, ...headers }, //adding base headers based on initialization
       ...(onUploadProgress && { onUploadProgress }),
+      ...(onDownloadProgress && { onDownloadProgress }),
     };
 
     const request = () =>
