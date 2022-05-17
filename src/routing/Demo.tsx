@@ -1,6 +1,7 @@
-import { generateRoutes, RoutingStructure } from './Routing';
-import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
+import { generateRoutes, RoutingStructure } from './Routing';
 
 /**
  * ** THIS IS A DEMO PAGE **
@@ -8,7 +9,8 @@ import React from 'react';
  * We try to implement all the options of the routing but some information that needed like authorization has to come
  * from the application.
  */
-const TestAppNavigation = ({ auth }: any) => {
+// eslint-disable-next-line
+const __TestAppNavigation = ({ auth }: any) => {
   const structure: RoutingStructure = {
     fallbackPaths: {
       unauthorized: '/unauthorized-redirect',

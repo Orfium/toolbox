@@ -19,7 +19,6 @@ export const axiosPromiseResult = <T>(axiosPromise: AxiosPromise<T>): Promise<T>
       throw error;
     });
 
-
 // export const logout = () => {
 //   clearCookieItem(__TOKEN__);
 //   clearCookieItem(__GROUP__);

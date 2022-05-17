@@ -1,5 +1,6 @@
-import { useQueryClient, UseQueryOptions } from 'react-query';
 import { useEffect, useState } from 'react';
+import { useQueryClient, UseQueryOptions } from 'react-query';
+
 import { createQueryKey } from '../../utils';
 import { useData } from './useData';
 
@@ -52,6 +53,7 @@ export const useDataPagination = <
           (createQueryKey(dataType, nextPageSettings) as string[]).flat(),
           () => {
             setIsFetchingNextPage(!query.isPreviousData);
+
             return fetchData(nextPageSettings);
           },
           {

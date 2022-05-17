@@ -2,17 +2,12 @@
   "extends": [
     "eslint:recommended",
     "prettier",
-    "prettier/react",
-    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
     "plugin:react/recommended"
   ],
-  "plugins": [
-    "react",
-    "@typescript-eslint",
-    "import"
-  ],
+  "plugins": ["react", "@typescript-eslint", "import"],
   "env": {
     "node": true,
     "browser": true,
@@ -66,17 +61,7 @@
     "import/order": [
       "error",
       {
-        "groups": [
-          "builtin",
-          "external",
-          [
-            "internal",
-            "parent",
-            "sibling",
-            "index",
-            "object"
-          ]
-        ],
+        "groups": ["builtin", "external", ["internal", "parent", "sibling", "index", "object"]],
         "pathGroups": [
           {
             "pattern": "react",
@@ -87,9 +72,7 @@
             "group": "internal"
           }
         ],
-        "pathGroupsExcludedImportTypes": [
-          "react"
-        ],
+        "pathGroupsExcludedImportTypes": ["react"],
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true

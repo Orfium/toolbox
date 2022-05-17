@@ -1,15 +1,18 @@
 import axios, { AxiosInstance, Method } from 'axios';
-import { axiosPromiseResult } from './utils';
+
 import { METHODS } from './index';
+import { axiosPromiseResult } from './utils';
 
 export const request =
   (orfiumAxios: AxiosInstance, baseHeaders: Record<string, string>) =>
   <T>(
     method: string,
     url: string,
+    // eslint-disable-next-line
     { params }: any,
     withoutBase = false,
     headers = {},
+    // eslint-disable-next-line
     onUploadProgress?: (progressEvent: any) => void
   ) => {
     const cancelTokenSource = axios.CancelToken.source();
@@ -27,6 +30,7 @@ export const request =
       withoutBase
         ? axiosPromiseResult<T>(axios(config))
         : axiosPromiseResult<T>(orfiumAxios(config));
+
     return { request, cancelTokenSource };
   };
 

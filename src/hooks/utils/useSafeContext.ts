@@ -5,5 +5,6 @@ export function useSafeContext<T>(Context: Context<T>, hookName: string) {
   if (!context) {
     throw new Error(`use${hookName} must be used within a ${hookName}Provider`);
   }
+
   return context;
 }
