@@ -50,9 +50,8 @@
     "react-query": "^3.10.0"
   },
   "scripts": {
-    "heroku-postbuild": "yarn documentation:build",
     "prebuild": "rimraf dist",
-    "prepare": "yarn build && husky install",
+    "prepare": "yarn build && documentation:build && husky install",
     "documentation": "cd documentation && yarn start",
     "documentation:build": "cd documentation && yarn install && yarn build && mv build ../build",
     "build": "rollup -c",
