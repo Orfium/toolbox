@@ -51,7 +51,7 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "prepare": "yarn build && documentation:build && husky install",
+    "prepare": "yarn build && yarn documentation:build && husky install",
     "documentation": "cd documentation && yarn start",
     "documentation:build": "cd documentation && yarn install && yarn build && mv build ../build",
     "build": "rollup -c",
