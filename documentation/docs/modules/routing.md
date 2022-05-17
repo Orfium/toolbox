@@ -12,9 +12,20 @@ toolbox is providing all the necessary system to accomplish routing on your appl
 
 Is important to take a look on the structure to understand how the routing works.
 
-The structure consists of two things: [`routes`](/docs/api/modules#routeitem) and [`fallbackPaths`](/docs/api/modules#fallbackpath)
+The structure consists of three things:
 
-For each fallbackPath you provide there must be a defined route otherwise it will redirect to a dead page.
+[`routes`](/docs/api/modules#routeitem)
+`isAuthenticated`
+[`fallbackPaths`](/docs/api/modules#fallbackpath)
+
+Routes definition requires two things to work, a `component` to render when the url is selected and a `path` that will be the url path which when it matches it will render.
+Authorization defaults to `anonymous` if not defined, which is the state that any user can access. You can see [here](/docs/api/modules#authorization) about what authorization supports.
+
+`isAuthenticated` provides the routing system the information from the App if the user is logged in or not. Then based on the information provided
+on each route about `authorization` it will define the restrictions.
+
+Routing by default if a user is unauthenticated or unauthorized will redirect him to default paths/routes. With `fallbackPaths` you can **overwrite**
+the default logic and define your own paths. **_Important_** - For each `fallbackPath` you provide there must be a defined route otherwise it will redirect to a dead page. See cases [here](/docs/api/modules#fallbackpath)
 
 ## Usage
 

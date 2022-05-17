@@ -64,11 +64,11 @@ export const generateRoutes = ({
   structure,
   fallbackComponent = () => <div>Page not found</div>,
 }: {
-  /** Defines from the parent if the user is authenticated or not **/
+  /** A boolean that are passed from the parent Application to let the generation of routes know the state of the user **/
   isAuthenticated: boolean;
-  /** The {Array} of Routes that needs to render with authorization level and extra props. **/
+  /** The component that will render if none of the routes match the url location - @default Page not found **/
   fallbackComponent?: ComponentType;
-  /** The component that will render if none of the routes match the url location **/
+  /** A list of Routes that needs to render with authorization level and extra props. **/
   structure: RoutingStructure;
 }) => {
   return (
