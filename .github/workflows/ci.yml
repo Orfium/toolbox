@@ -1,8 +1,7 @@
 name: CI
-on:
-  push:
-    branches:
-       - "*"
+on: [push, pull_request]
+#  push:
+#    branches:
 #      - 'master'
 #      - 'next'
 #      - 'v3.x'
