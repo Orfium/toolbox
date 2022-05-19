@@ -14,7 +14,7 @@ custom_edit_url: null
 
 ## component Functions
 
-- [generateRoutes](modules.md#generateroutes)
+- [generateRoutes](modules.md#generateroutes-6)
 
 ## Type aliases
 
@@ -30,7 +30,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/routing/Routing.tsx:14](https://github.com/Orfium/toolbox/blob/25c0a99/src/routing/Routing.tsx#L14)
+[src/routing/Routing.tsx:14](https://github.com/Orfium/toolbox/blob/86c1428/src/routing/Routing.tsx#L14)
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 #### Defined in
 
-[src/routing/Routing.tsx:22](https://github.com/Orfium/toolbox/blob/25c0a99/src/routing/Routing.tsx#L22)
+[src/routing/Routing.tsx:22](https://github.com/Orfium/toolbox/blob/86c1428/src/routing/Routing.tsx#L22)
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 #### Defined in
 
-[src/request/mock.ts:3](https://github.com/Orfium/toolbox/blob/25c0a99/src/request/mock.ts#L3)
+[src/request/mock.ts:3](https://github.com/Orfium/toolbox/blob/86c1428/src/request/mock.ts#L3)
 
 ___
 
@@ -76,7 +76,7 @@ Is being used to the route component to extend its functionality on types
 
 #### Defined in
 
-[src/routing/Routing.tsx:35](https://github.com/Orfium/toolbox/blob/25c0a99/src/routing/Routing.tsx#L35)
+[src/routing/Routing.tsx:35](https://github.com/Orfium/toolbox/blob/86c1428/src/routing/Routing.tsx#L35)
 
 ___
 
@@ -86,16 +86,16 @@ ___
 
 #### Type declaration
 
-| Name             | Type                                                                                | Description                                                                                                                        |
-| :--------------- | :---------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
-| `authorization?` | [`Authorization`](modules.md#authorization)                                         | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' - **`defaultvalue:`** 'anonymous' |
-| `component?`     | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route              |
-| `extraProps?`    | `unknown`                                                                           | Any custom/extra props that are going to be available on the component                                                             |
-| `path`           | `string` \| `string`[]                                                              | The url path or paths of the route that will listen to in order to render                                                          |
+| Name             | Type                                                                                  | Description                                                                                                                        |
+| :--------------- | :------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------- |
+| `authorization?` | [`Authorization`](modules.md#authorization-6)                                         | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' - **`defaultvalue:`** 'anonymous' |
+| `component?`     | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-6)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route              |
+| `extraProps?`    | `unknown`                                                                             | Any custom/extra props that are going to be available on the component                                                             |
+| `path`           | `string` \| `string`[]                                                                | The url path or paths of the route that will listen to in order to render                                                          |
 
 #### Defined in
 
-[src/routing/Routing.tsx:41](https://github.com/Orfium/toolbox/blob/25c0a99/src/routing/Routing.tsx#L41)
+[src/routing/Routing.tsx:41](https://github.com/Orfium/toolbox/blob/86c1428/src/routing/Routing.tsx#L41)
 
 ___
 
@@ -112,7 +112,7 @@ ___
 
 #### Defined in
 
-[src/routing/Routing.tsx:24](https://github.com/Orfium/toolbox/blob/25c0a99/src/routing/Routing.tsx#L24)
+[src/routing/Routing.tsx:24](https://github.com/Orfium/toolbox/blob/86c1428/src/routing/Routing.tsx#L24)
 
 ## Variables
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-[src/request/index.ts:12](https://github.com/Orfium/toolbox/blob/25c0a99/src/request/index.ts#L12)
+[src/request/index.ts:12](https://github.com/Orfium/toolbox/blob/86c1428/src/request/index.ts#L12)
 
 ___
 
@@ -142,7 +142,7 @@ ___
 
 #### Defined in
 
-[src/request/mock.ts:4](https://github.com/Orfium/toolbox/blob/25c0a99/src/request/mock.ts#L4)
+[src/request/mock.ts:4](https://github.com/Orfium/toolbox/blob/86c1428/src/request/mock.ts#L4)
 
 ## component Functions
 
@@ -169,4 +169,4 @@ If the fallbacks are defined then those will be used instead.
 
 #### Defined in
 
-[src/routing/Routing.tsx:62](https://github.com/Orfium/toolbox/blob/25c0a99/src/routing/Routing.tsx#L62)
+[src/routing/Routing.tsx:62](https://github.com/Orfium/toolbox/blob/86c1428/src/routing/Routing.tsx#L62)
