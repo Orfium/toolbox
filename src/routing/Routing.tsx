@@ -1,20 +1,24 @@
 import React, { ComponentType } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import { RouteComponentProps as ReactRouterRouteComponentProps } from 'react-router';
+import {
+  Redirect,
+  Route,
+  Switch,
+  RouteComponentProps as ReactRouterRouteComponentProps,
+} from 'react-router-dom';
 
 /**
- * anonymous: general users that can view only public pages - default for all routes without authorization
- * unauthorized: only users that are logged in but not authorized to view those routes
- * authorized: only users that are logged in and also authorized for these routes
+ * @anonymous: general users that can view only public pages - default for all routes without authorization
+ * @unauthorized: only users that are logged in but not authorized to view those routes
+ * @authorized: only users that are logged in and also authorized for these routes
  */
 export type Authorization = 'anonymous' | 'authorized' | 'unauthorized';
 
 /**
- * unauthenticated: in case a user visits a path and has no authentication
- * unauthorized: when a user visits a path without authorization
- * authenticatedButAnonymous: when a user has authentication but tries to visit an anonymous path
- // @TODO remove 'authenticatedButAnonymous' when SSO is implemented because there will be no public anonymous path for any of our products
+ * @unauthenticated: in case a user visits a path and has no authentication
+ * @unauthorized: when a user visits a path without authorization
+ * @authenticatedButAnonymous: when a user has authentication but tries to visit an anonymous path
  */
+// @TODO remove 'authenticatedButAnonymous' when SSO is implemented because there will be no public anonymous path for any of our products
 export type FallbackPath = 'unauthenticated' | 'unauthorized' | 'authenticatedButAnonymous';
 
 export type RoutingStructure = {
@@ -27,7 +31,8 @@ export type RoutingStructure = {
 /** This is actual part of the library so you can skip it.
  * An extension of the React Router Component props to be used with the extra props.
  * Is being used to the route component to extend its functionality on types **/
-export type RouteComponentProps<T = any> = ReactRouterRouteComponentProps<any> & {
+// eslint-disable-next-line
+export type RouteComponentProps<T = unknown> = ReactRouterRouteComponentProps<any> & {
   extraProps: T;
 };
 
@@ -42,7 +47,7 @@ export type RouteItem = {
    * **/
   authorization?: Authorization;
   /** Any custom/extra props that are going to be available on the component **/
-  extraProps?: any;
+  extraProps?: unknown;
   /** A component that the route renders as page. This has all the props and extraProps that have been passed to that route **/
   component?: React.FunctionComponent<RouteComponentProps>;
 };
@@ -68,72 +73,71 @@ export const generateRoutes = ({
 }) => {
   return (
     <Switch>
-      {structure.routes.map(
-        ({ authorization = 'anonymous', component: Component, ...route }, index) => {
-          if (!isAuthenticated && authorization !== 'anonymous') {
-            return (
-              <Route
-                key={`${route?.path}_${index}`}
-                path={route?.path}
-                render={(__props: ReactRouterRouteComponentProps) => (
-                  <Redirect
-                    key={`${route?.path}_${index}`}
-                    to={structure.fallbackPaths?.unauthenticated || UNAUTHORIZED_URL}
-                  />
-                )}
-              />
-            );
-          }
-
-          if (isAuthenticated && authorization === 'unauthorized') {
-            return (
-              <Route
-                key={`${route?.path}_${index}`}
-                path={route?.path}
-                render={(__props: ReactRouterRouteComponentProps) => (
-                  <Redirect
-                    key={`${route?.path}_${index}`}
-                    to={structure.fallbackPaths?.unauthorized || UNAUTHORIZED_URL}
-                  />
-                )}
-              />
-            );
-          }
-
-          // if the user is logged in and tries to go to an anonymous route then redirect him to 'home'
-          // e.g authenticated user tries to go to login redirect him to /
-          if (isAuthenticated && authorization === 'anonymous') {
-            return (
-              <Route
-                key={`${route?.path}_${index}`}
-                path={route?.path}
-                render={(__props: ReactRouterRouteComponentProps) => (
-                  <Redirect
-                    key={`${route?.path}_${index}`}
-                    to={structure.fallbackPaths?.authenticatedButAnonymous || '/'}
-                  />
-                )}
-              />
-            );
-          }
-
+      {structure.routes.map(({ authorization = 'anonymous', component: Component, ...route }) => {
+        if (!isAuthenticated && authorization !== 'anonymous') {
           return (
             <Route
-              exact
-              key={`${route?.path}_${index}`}
-              render={
-                typeof Component === 'function'
-                  ? (props: ReactRouterRouteComponentProps) => (
-                      <Component {...props} extraProps={route?.extraProps} />
-                    )
-                  : undefined
-              }
-              {...route}
+              key={Array.isArray(route?.path) ? route.path.join(',') : route?.path}
+              path={route?.path}
+              render={(__props: ReactRouterRouteComponentProps) => (
+                <Redirect
+                  key={Array.isArray(route?.path) ? route.path.join(',') : route?.path}
+                  to={structure.fallbackPaths?.unauthenticated || UNAUTHORIZED_URL}
+                />
+              )}
             />
           );
         }
-      )}
+
+        if (isAuthenticated && authorization === 'unauthorized') {
+          return (
+            <Route
+              key={Array.isArray(route?.path) ? route.path.join(',') : route?.path}
+              path={route?.path}
+              render={(__props: ReactRouterRouteComponentProps) => (
+                <Redirect
+                  key={Array.isArray(route?.path) ? route.path.join(',') : route?.path}
+                  to={structure.fallbackPaths?.unauthorized || UNAUTHORIZED_URL}
+                />
+              )}
+            />
+          );
+        }
+
+        // if the user is logged in and tries to go to an anonymous route then redirect him to 'home'
+        // e.g authenticated user tries to go to login redirect him to /
+        if (isAuthenticated && authorization === 'anonymous') {
+          return (
+            <Route
+              key={Array.isArray(route?.path) ? route.path.join(',') : route?.path}
+              path={route?.path}
+              render={(__props: ReactRouterRouteComponentProps) => (
+                <Redirect
+                  key={Array.isArray(route?.path) ? route.path.join(',') : route?.path}
+                  to={structure.fallbackPaths?.authenticatedButAnonymous || '/'}
+                />
+              )}
+            />
+          );
+        }
+
+        return (
+          <Route
+            exact
+            key={Array.isArray(route?.path) ? route.path.join(',') : route?.path}
+            render={
+              typeof Component === 'function'
+                ? (props: ReactRouterRouteComponentProps) => (
+                    <Component {...props} extraProps={route?.extraProps} />
+                  )
+                : undefined
+            }
+            {...route}
+          />
+        );
+      })}
       {/* // @TODO consider showing our own pages for each fallback path */}
+      {/* eslint-disable-next-line react/no-children-prop */}
       {fallbackComponent && <Route children={fallbackComponent} />}
     </Switch>
   );
