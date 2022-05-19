@@ -51,9 +51,9 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "prepare": "yarn build && yarn documentation:build && husky install",
+    "prepare": "yarn build && husky install",
     "documentation": "cd documentation && yarn start",
-    "documentation:build": "cd documentation && yarn install && yarn build && mv build ../build",
+    "documentation:build": "cd documentation && yarn install && yarn build",
     "build": "rollup -c",
     "yalc:push": "yalc publish --push",
     "watch": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"yarn yalc:push\"",
