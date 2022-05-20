@@ -12,6 +12,27 @@ custom_edit_url: null
 - [Redirect](classes/Redirect.md)
 - [Route](classes/Route.md)
 
+## Interfaces
+
+- [AxiosAdapter](interfaces/AxiosAdapter.md)
+- [AxiosBasicCredentials](interfaces/AxiosBasicCredentials.md)
+- [AxiosError](interfaces/AxiosError.md)
+- [AxiosInstance](interfaces/AxiosInstance.md)
+- [AxiosInterceptorManager](interfaces/AxiosInterceptorManager.md)
+- [AxiosPromise](interfaces/AxiosPromise.md)
+- [AxiosProxyConfig](interfaces/AxiosProxyConfig.md)
+- [AxiosRequestConfig](interfaces/AxiosRequestConfig.md)
+- [AxiosResponse](interfaces/AxiosResponse.md)
+- [AxiosStatic](interfaces/AxiosStatic.md)
+- [AxiosTransformer](interfaces/AxiosTransformer.md)
+- [Cancel](interfaces/Cancel.md)
+- [CancelStatic](interfaces/CancelStatic.md)
+- [CancelToken](interfaces/CancelToken.md)
+- [CancelTokenSource](interfaces/CancelTokenSource.md)
+- [CancelTokenStatic](interfaces/CancelTokenStatic.md)
+- [Canceler](interfaces/Canceler.md)
+- [TransitionalOptions](interfaces/TransitionalOptions.md)
+
 ## component Functions
 
 - [generateRoutes](modules.md#generateroutes)
@@ -22,13 +43,15 @@ custom_edit_url: null
 
 Ƭ **Authorization**: ``"anonymous"`` \| ``"authorized"`` \| ``"unauthorized"``
 
-anonymous: general users that can view only public pages - default for all routes without authorization
-unauthorized: only users that are logged in but not authorized to view those routes
-authorized: only users that are logged in and also authorized for these routes
+**`anonymous:`** general users that can view only public pages - default for all routes without authorization
+
+**`unauthorized:`** only users that are logged in but not authorized to view those routes
+
+**`authorized:`** only users that are logged in and also authorized for these routes
 
 #### Defined in
 
-[src/routing/Routing.tsx:10](https://github.com/Orfium/toolbox/blob/53be9e7/src/routing/Routing.tsx#L10)
+[src/routing/Routing.tsx:14](https://github.com/Orfium/toolbox/blob/41afb2f/src/routing/Routing.tsx#L14)
 
 ___
 
@@ -36,14 +59,25 @@ ___
 
 Ƭ **FallbackPath**: ``"unauthenticated"`` \| ``"unauthorized"`` \| ``"authenticatedButAnonymous"``
 
-unauthenticated: in case a user visits a path and has no authentication
-unauthorized: when a user visits a path without authorization
-authenticatedButAnonymous: when a user has authentication but tries to visit an anonymous path
-// @TODO remove 'authenticatedButAnonymous' when SSO is implemented because there will be no public anonymous path for any of our products
+**`unauthenticated:`** in case a user visits a path and has no authentication
+
+**`unauthorized:`** when a user visits a path without authorization
+
+**`authenticatedbutanonymous:`** when a user has authentication but tries to visit an anonymous path
 
 #### Defined in
 
-[src/routing/Routing.tsx:18](https://github.com/Orfium/toolbox/blob/53be9e7/src/routing/Routing.tsx#L18)
+[src/routing/Routing.tsx:22](https://github.com/Orfium/toolbox/blob/41afb2f/src/routing/Routing.tsx#L22)
+
+___
+
+### Method
+
+Ƭ **Method**: ``"get"`` \| ``"GET"`` \| ``"delete"`` \| ``"DELETE"`` \| ``"head"`` \| ``"HEAD"`` \| ``"options"`` \| ``"OPTIONS"`` \| ``"post"`` \| ``"POST"`` \| ``"put"`` \| ``"PUT"`` \| ``"patch"`` \| ``"PATCH"`` \| ``"purge"`` \| ``"PURGE"`` \| ``"link"`` \| ``"LINK"`` \| ``"unlink"`` \| ``"UNLINK"``
+
+#### Defined in
+
+node_modules/axios/index.d.ts:24
 
 ___
 
@@ -53,7 +87,17 @@ ___
 
 #### Defined in
 
-[src/request/mock.ts:3](https://github.com/Orfium/toolbox/blob/53be9e7/src/request/mock.ts#L3)
+[src/request/mock.ts:3](https://github.com/Orfium/toolbox/blob/41afb2f/src/request/mock.ts#L3)
+
+___
+
+### ResponseType
+
+Ƭ **ResponseType**: ``"arraybuffer"`` \| ``"blob"`` \| ``"document"`` \| ``"json"`` \| ``"text"`` \| ``"stream"``
+
+#### Defined in
+
+node_modules/axios/index.d.ts:36
 
 ___
 
@@ -69,11 +113,11 @@ Is being used to the route component to extend its functionality on types
 
 | Name | Type |
 | :------ | :------ |
-| `T` | `any` |
+| `T` | `unknown` |
 
 #### Defined in
 
-[src/routing/Routing.tsx:30](https://github.com/Orfium/toolbox/blob/53be9e7/src/routing/Routing.tsx#L30)
+[src/routing/Routing.tsx:35](https://github.com/Orfium/toolbox/blob/41afb2f/src/routing/Routing.tsx#L35)
 
 ___
 
@@ -87,12 +131,12 @@ ___
 | :------ | :------ | :------ |
 | `authorization?` | [`Authorization`](modules.md#authorization) | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' -  **`defaultvalue:`** 'anonymous' |
 | `component?` | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route |
-| `extraProps?` | `any` | Any custom/extra props that are going to be available on the component |
+| `extraProps?` | `unknown` | Any custom/extra props that are going to be available on the component |
 | `path` | `string` \| `string`[] | The url path or paths of the route that will listen to in order to render |
 
 #### Defined in
 
-[src/routing/Routing.tsx:36](https://github.com/Orfium/toolbox/blob/53be9e7/src/routing/Routing.tsx#L36)
+[src/routing/Routing.tsx:41](https://github.com/Orfium/toolbox/blob/41afb2f/src/routing/Routing.tsx#L41)
 
 ___
 
@@ -109,7 +153,7 @@ ___
 
 #### Defined in
 
-[src/routing/Routing.tsx:20](https://github.com/Orfium/toolbox/blob/53be9e7/src/routing/Routing.tsx#L20)
+[src/routing/Routing.tsx:24](https://github.com/Orfium/toolbox/blob/41afb2f/src/routing/Routing.tsx#L24)
 
 ## Variables
 
@@ -129,7 +173,7 @@ ___
 
 #### Defined in
 
-[src/request/index.ts:11](https://github.com/Orfium/toolbox/blob/53be9e7/src/request/index.ts#L11)
+[src/request/index.ts:12](https://github.com/Orfium/toolbox/blob/41afb2f/src/request/index.ts#L12)
 
 ___
 
@@ -139,7 +183,7 @@ ___
 
 #### Defined in
 
-[src/request/mock.ts:4](https://github.com/Orfium/toolbox/blob/53be9e7/src/request/mock.ts#L4)
+[src/request/mock.ts:4](https://github.com/Orfium/toolbox/blob/41afb2f/src/request/mock.ts#L4)
 
 ## component Functions
 
@@ -166,4 +210,4 @@ If the fallbacks are defined then those will be used instead.
 
 #### Defined in
 
-[src/routing/Routing.tsx:57](https://github.com/Orfium/toolbox/blob/53be9e7/src/routing/Routing.tsx#L57)
+[src/routing/Routing.tsx:62](https://github.com/Orfium/toolbox/blob/41afb2f/src/routing/Routing.tsx#L62)

@@ -1,5 +1,6 @@
-import { request, setToken } from './request';
 import axios from 'axios';
+
+import { request, setToken } from './request';
 export { default as MockRequest } from './mock';
 
 const GET = 'get';
@@ -33,3 +34,4 @@ const createAPIInstance = ({
 };
 
 export default createAPIInstance;
+export * from 'axios';

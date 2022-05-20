@@ -1,8 +1,9 @@
-import { generateRoutes, RoutingStructure } from './Routing';
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
+import React from 'react';
 import { Router } from 'react-router-dom';
+
+import { generateRoutes, RoutingStructure } from './Routing';
 
 import '@testing-library/jest-dom';
 
