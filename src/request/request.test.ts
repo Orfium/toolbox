@@ -18,10 +18,10 @@ describe('Layout', () => {
     mock = new MockRequest(apiInstance);
 
     mock.onGet('/test-api-with-orfium-base/').reply(200, {
-      hasBeenCalled: 'who the fuck knows?',
+      hasBeenCalled: true,
     });
     mock.onGet('/test-api-without-orfium-base/').reply(200, {
-      hasBeenCalled: 'who the fuck knows?',
+      hasBeenCalled: true,
     });
     mock.onPost('/test-post/').reply(
       (config) => {
@@ -33,7 +33,7 @@ describe('Layout', () => {
         });
       },
       {
-        hasBeenCalled: 'who the fuck knows?',
+        hasBeenCalled: true,
       }
     );
   });
