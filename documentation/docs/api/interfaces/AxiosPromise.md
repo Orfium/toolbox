@@ -26,7 +26,7 @@ custom_edit_url: null
 
 #### Inherited from
 
-Promise.\_\_@toStringTag@2440
+Promise.\_\_@toStringTag@2359
 
 #### Defined in
 
