@@ -1,4 +1,4 @@
 export * from 'axios';
 export * from './createAPIInstance';
-export { METHODS } from './request';
+export { METHODS, RequestProps } from './request';
 export { default as MockRequest } from './mock';
