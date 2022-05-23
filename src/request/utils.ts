@@ -8,7 +8,7 @@ import { AxiosPromise, AxiosError } from 'axios';
  * @returns {AxiosResponse | AxiosError} The API response
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const axiosPromiseResult = <T>(axiosPromise: AxiosPromise<T>): Promise<T> =>
+export const axiosPromiseResult = <T = any>(axiosPromise: AxiosPromise<T>): Promise<T> =>
   axiosPromise
     .then(({ data }) => data)
     .catch((error: AxiosError<T>) => {

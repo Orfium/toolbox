@@ -1,13 +1,12 @@
+import { cleanup } from '@testing-library/react';
 import { AxiosInstance } from 'axios';
 
-import { METHODS } from './index';
-import { cleanup } from '@testing-library/react';
-
-import createAPIInstance from './index';
+import { CreateAPIInstanceType, METHODS } from './index';
+import { createAPIInstance } from './index';
 import MockRequest from './mock';
 
 describe('Layout', () => {
-  let factory: any;
+  let factory: CreateAPIInstanceType;
   let apiInstance: AxiosInstance;
   let mock: MockRequest;
   const baseUrl = 'http://localhost/v1';
@@ -53,17 +52,26 @@ describe('Layout', () => {
   });
 
   it('correctly passes props to request', async () => {
-    let { request } = factory.createRequest(METHODS.GET, '/test-api-with-orfium-base/', {});
+    const { request } = factory.createRequest({
+      method: METHODS.GET,
+      url: '/test-api-with-orfium-base/',
+    });
 
-    let result = await request();
+    const result = await request();
 
     expect(result.hasBeenCalled).toBeTruthy();
   });
 
   it('correctly uses the params for POST requests', async () => {
-    let { request } = factory.createRequest(METHODS.POST, '/test-post/', { isOk: true });
+    const { request } = factory.createRequest({
+      method: METHODS.POST,
+      url: '/test-post/',
+      params: {
+        isOk: true,
+      },
+    });
 
-    let result = await request();
+    const result = await request();
 
     expect(result.message).toBe('its OK');
   });
