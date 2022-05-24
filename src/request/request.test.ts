@@ -76,9 +76,19 @@ describe('Layout', () => {
     expect(result.message).toBe('its OK');
   });
 
-  it('correctly uses the params for POST requests', async () => {
+  it('correctly sets token', async () => {
     factory.setToken('I am groot');
 
     expect(apiInstance.defaults.headers.common.Authorization).toBe('Token I am groot');
+  });
+
+  it('correctly removes token', async () => {
+    factory.setToken('I am groot');
+
+    expect(apiInstance.defaults.headers.common.Authorization).toBe('Token I am groot');
+
+    factory.deleteToken();
+
+    expect(apiInstance.defaults.headers.common.Authorization).not.toBeTruthy();
   });
 });
