@@ -79,7 +79,7 @@ node_modules/axios/index.d.ts:159
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[defaults](AxiosInstance.md#defaults-20)
+[AxiosInstance](AxiosInstance.md).[defaults](AxiosInstance.md#defaults)
 
 #### Defined in
 
@@ -100,7 +100,7 @@ node_modules/axios/index.d.ts:140
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[interceptors](AxiosInstance.md#interceptors-20)
+[AxiosInstance](AxiosInstance.md).[interceptors](AxiosInstance.md#interceptors)
 
 #### Defined in
 
@@ -178,7 +178,7 @@ node_modules/axios/index.d.ts:157
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[delete](AxiosInstance.md#delete-20)
+[AxiosInstance](AxiosInstance.md).[delete](AxiosInstance.md#delete)
 
 #### Defined in
 
@@ -210,7 +210,7 @@ node_modules/axios/index.d.ts:148
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[get](AxiosInstance.md#get-20)
+[AxiosInstance](AxiosInstance.md).[get](AxiosInstance.md#get)
 
 #### Defined in
 
@@ -234,7 +234,7 @@ node_modules/axios/index.d.ts:147
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[getUri](AxiosInstance.md#geturi-20)
+[AxiosInstance](AxiosInstance.md).[getUri](AxiosInstance.md#geturi)
 
 #### Defined in
 
@@ -266,7 +266,7 @@ node_modules/axios/index.d.ts:145
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[head](AxiosInstance.md#head-20)
+[AxiosInstance](AxiosInstance.md).[head](AxiosInstance.md#head)
 
 #### Defined in
 
@@ -338,7 +338,7 @@ node_modules/axios/index.d.ts:160
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[options](AxiosInstance.md#options-20)
+[AxiosInstance](AxiosInstance.md).[options](AxiosInstance.md#options)
 
 #### Defined in
 
@@ -371,7 +371,7 @@ node_modules/axios/index.d.ts:150
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[patch](AxiosInstance.md#patch-20)
+[AxiosInstance](AxiosInstance.md).[patch](AxiosInstance.md#patch)
 
 #### Defined in
 
@@ -404,7 +404,7 @@ node_modules/axios/index.d.ts:153
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[post](AxiosInstance.md#post-20)
+[AxiosInstance](AxiosInstance.md).[post](AxiosInstance.md#post)
 
 #### Defined in
 
@@ -437,7 +437,7 @@ node_modules/axios/index.d.ts:151
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[put](AxiosInstance.md#put-20)
+[AxiosInstance](AxiosInstance.md).[put](AxiosInstance.md#put)
 
 #### Defined in
 
@@ -468,7 +468,7 @@ node_modules/axios/index.d.ts:152
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[request](AxiosInstance.md#request-20)
+[AxiosInstance](AxiosInstance.md).[request](AxiosInstance.md#request)
 
 #### Defined in
 
