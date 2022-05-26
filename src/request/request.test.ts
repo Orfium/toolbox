@@ -19,9 +19,6 @@ describe('Layout', () => {
     mock.onGet('/test-api-with-orfium-base/').reply(200, {
       hasBeenCalled: true,
     });
-    mock.onGet('/test-api-without-orfium-base/').reply(200, {
-      hasBeenCalled: true,
-    });
     mock.onPost('/test-post/').reply(
       (config) => {
         return new Promise(function (resolve) {

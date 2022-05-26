@@ -8,13 +8,15 @@ const PUT = 'put';
 const PATCH = 'patch';
 const DELETE = 'delete';
 
-export const METHODS = { GET, POST, PUT, DELETE, PATCH };
+export type Methods = typeof GET | typeof POST | typeof PUT | typeof PATCH | typeof DELETE;
+export type MethodsKeys = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+export const METHODS: Record<MethodsKeys, Methods> = { GET, POST, PUT, DELETE, PATCH };
 
 export type RequestProps = {
-  method: string;
+  method: Methods;
   url: string;
   params?: Record<string, unknown>;
-  withoutBase?: boolean;
   headers?: Record<string, unknown>;
 } & Pick<AxiosRequestConfig, 'onUploadProgress' | 'onDownloadProgress' | 'responseType'>;
 
@@ -25,7 +27,6 @@ export const request =
     method,
     url,
     params = {},
-    withoutBase = false,
     headers = {},
     onUploadProgress,
     onDownloadProgress,
@@ -33,7 +34,7 @@ export const request =
   }: RequestProps) => {
     const cancelTokenSource = axios.CancelToken.source();
     const config = {
-      method: method as Method,
+      method: method,
       url,
       cancelToken: cancelTokenSource.token,
       data: params,
@@ -44,10 +45,7 @@ export const request =
       responseType,
     };
 
-    const request = () =>
-      withoutBase
-        ? axiosPromiseResult<T>(axios(config))
-        : axiosPromiseResult<T>(orfiumAxios(config));
+    const request = () => axiosPromiseResult<T>(orfiumAxios(config));
 
     return { request, cancelTokenSource };
   };

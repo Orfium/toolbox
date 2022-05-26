@@ -21,6 +21,8 @@ The [returned value](/docs/api/modules#createapiinstancetype) contains:
 
 ## Usage
 
+### Single Instance
+
 Initialization of the instance.
 
 ```jsx title="/src/providers/instance.tsx"
@@ -34,7 +36,9 @@ export const baseInstance = createAPIInstance({
 });
 ```
 
-If you need multiple instances:
+### Multiple Instances
+
+If you need to fetch data from multiple sources, then you can create multiple instances.
 
 ```jsx title="/src/providers/instance.tsx"
 import { createAPIInstance } from '@orfium/toolbox';
@@ -52,31 +56,58 @@ const instanceV2 = createAPIInstance({
 const instanceWhatevrYouWant = createAPIInstance({
   baseUrl: '/whatever-I-Want',
 });
+```
 
-import { METHODS, request } from '../axiosInstances';
+### Set/Delete Authentication Token
 
-export default {
-  login: (params = {}) => request(METHODS.POST, 'login/', { params }),
-  info: () => request(METHODS.GET, '/user/info/', {}),
+Don't forget that you have to set the token after you login and to delete it after you logout.
+
+```jsx title="/src/models/user.tsx"
+import { baseInstance } from 'src/providers/instance';
+
+export const onLoginFunction = (token: string) => {
+  //do stuff
+  baseInstance.setToken(token);
+  //do other stuff
+};
+
+export const onLogoutFunction = () => {
+  //do stuff
+  baseInstance.deleteToken();
+  //do other stuff
 };
 ```
 
-Example of creating get a request:
+### Create Request Function
 
-```jsx title="/src/providers/instance.tsx"
-import { createAPIInstance, METHODS } from '@orfium/toolbox';
+The most important thing, and the one you will interact mostly with, is the `createRequest` function
 
-const instanceWhatevrYouWant = createAPIInstance({
-  baseUrl: '/whatever-I-Want',
-});
+You can just import the created instance and use it to create a request function. [The toolbox exposes a METHODS object for your convenience](/docs/api/modules#methods). It has all the methods that
+the request function supports.
+
+```jsx title="/src/providers/someSuperFancyApiCall.tsx"
+import { METHODS } from '@orfium/toolbox';
+import { baseInstance } from 'src/providers/instance';
 
 const superAwesomeProviders = {
-  superAwesomeGeter: (params = {}) =>
-    instanceWhatevrYouWant.createRequest({ method: METHODS.POST, url: '/superAwesomeGet/' }),
+  superFancyGeter: (params = {}) =>
+    baseInstance.createRequest({ method: METHODS.POST, url: '/superFanctyGet/' }),
 };
 ```
 
-[The toolbox exposes a METHODS object for your convenience](/docs/api/modules#methods)
+Then, whenever you fetch your data (adding a React Query hook here as an example)
+
+```jsx title="/src/model/superFancyModel.tsx"
+import { useQuery } from "react-query";
+
+import { superAwesomeProviders } from '/src/providers/someSuperFancyApiCall';
+
+export const useSuperFancyModel() {
+  const { request } = superAwesomeProviders.superFancyGeter();
+
+  return useQuery("superFancy", () => request());
+}
+```
 
 ## Migration notes :warning:
 
