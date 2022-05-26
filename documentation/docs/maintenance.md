@@ -56,7 +56,17 @@ devDependencies: {
 ...
 ```
 
-4. Lastly, **(optional)** by running
+5. Make sure you have added to your `.gitignore` file the following to avoid pushing any yalc files to git.
+
+```gitignore
+....
+#yalc
+/.yalc
+yalc.lock
+....
+```
+
+6. Lastly, **(optional)** by running
 
 ```bash
 yarn watch
