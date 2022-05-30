@@ -1,35 +1,51 @@
-import axios, { AxiosInstance, Method } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios';
 
-import { METHODS } from './index';
 import { axiosPromiseResult } from './utils';
+
+const GET = 'get';
+const POST = 'post';
+const PUT = 'put';
+const PATCH = 'patch';
+const DELETE = 'delete';
+
+export type Methods = typeof GET | typeof POST | typeof PUT | typeof PATCH | typeof DELETE;
+export type MethodsKeys = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+export const METHODS: Record<MethodsKeys, Methods> = { GET, POST, PUT, DELETE, PATCH };
+
+export type RequestProps = {
+  method: Methods;
+  url: string;
+  params?: Record<string, unknown>;
+  headers?: Record<string, unknown>;
+} & Pick<AxiosRequestConfig, 'onUploadProgress' | 'onDownloadProgress' | 'responseType'>;
 
 export const request =
   (orfiumAxios: AxiosInstance, baseHeaders: Record<string, string>) =>
-  <T>(
-    method: string,
-    url: string,
-    // eslint-disable-next-line
-    { params }: any,
-    withoutBase = false,
+  // @ts-ignore
+  <T = any>({
+    method,
+    url,
+    params = {},
     headers = {},
-    // eslint-disable-next-line
-    onUploadProgress?: (progressEvent: any) => void
-  ) => {
+    onUploadProgress,
+    onDownloadProgress,
+    responseType,
+  }: RequestProps) => {
     const cancelTokenSource = axios.CancelToken.source();
     const config = {
-      method: method as Method,
+      method: method,
       url,
       cancelToken: cancelTokenSource.token,
       data: params,
       params: method === METHODS.GET ? params : undefined,
       headers: { ...baseHeaders, ...headers }, //adding base headers based on initialization
       ...(onUploadProgress && { onUploadProgress }),
+      ...(onDownloadProgress && { onDownloadProgress }),
+      responseType,
     };
 
-    const request = () =>
-      withoutBase
-        ? axiosPromiseResult<T>(axios(config))
-        : axiosPromiseResult<T>(orfiumAxios(config));
+    const request = () => axiosPromiseResult<T>(orfiumAxios(config));
 
     return { request, cancelTokenSource };
   };
@@ -40,3 +56,7 @@ export const setToken =
     const hasToken = token !== '';
     orfiumAxios.defaults.headers.common.Authorization = hasToken ? `Token ${token}` : '';
   };
+
+export const deleteToken = (orfiumAxios: AxiosInstance) => (): void => {
+  delete orfiumAxios.defaults.headers.common.Authorization;
+};
