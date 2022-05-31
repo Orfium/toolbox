@@ -1,3 +1,3 @@
-const test = 'test';
+import * as auth from "./context"
 
-export { test };
+export { auth };
