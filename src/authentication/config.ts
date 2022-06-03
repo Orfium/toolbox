@@ -1,4 +1,4 @@
 export const config = {
-  domain: 'orfium-dev.us.auth0.com',
-  clientId: 'z6pMxTNdLiQHzskEWNdQUtyIWHeZdvUd',
+  domain: process.env.DOMAIN,
+  clientId: process.env.CLIENT_ID,
 };
