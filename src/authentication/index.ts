@@ -1,3 +1,3 @@
-import * as auth from "./context"
+import { useAuthentication, AuthenticationProvider } from './context';
 
-export { auth };
+export { useAuthentication, AuthenticationProvider };

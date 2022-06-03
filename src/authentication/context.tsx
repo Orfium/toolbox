@@ -1,20 +1,9 @@
-import React, { createContext } from 'react';
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
+import { Auth0ProviderOptions } from '@auth0/auth0-react/dist/auth0-provider';
+import React, { createContext } from 'react';
 
 import { config } from './config';
-import { Auth0ProviderOptions } from '@auth0/auth0-react/dist/auth0-provider';
-
-/**
- * takes the context props and an error message and returns a proxy in case something is used
- * outside of the provider
- *
- */
-export const guardContext = <T extends object>(contextProps: T, errorMessage: string) =>
-  new Proxy(contextProps, {
-    get: () => {
-      throw new Error(errorMessage);
-    },
-  });
+import { AuthenticationContextProps, AuthenticationProviderProps } from './types';
 
 const onRedirectCallback = () => {
   return window.location.pathname;
@@ -23,16 +12,53 @@ const onRedirectCallback = () => {
 const providerConfig: Auth0ProviderOptions = {
   domain: config.domain,
   clientId: config.clientId,
-  redirectUri: 'orfium-dev.us.auth0.com',
+  redirectUri: window.location.origin,
+  onRedirectCallback,
   useRefreshTokens: true,
+  cacheLocation: 'memory',
 };
 
-const AuthenticationProvider: React.FC = ({ children }) => {
-  console.log('here');
+const AuthenticationContext = createContext<AuthenticationContextProps>({
+  isAuthenticated: false,
+  isLoading: false,
+  loginWithRedirect: () => {},
+  logout: () => {},
+  getAccessTokenSilently: () => new Promise(() => ''),
+  user: undefined,
+});
 
-  return <Auth0Provider {...providerConfig}>{children}</Auth0Provider>;
+const Provider: React.FC = ({ children }) => {
+  const { isAuthenticated, isLoading, loginWithRedirect, logout, getAccessTokenSilently, user } =
+    useAuth0();
+
+  if (!isLoading && !isAuthenticated) {
+    loginWithRedirect();
+  }
+
+  return (
+    <AuthenticationContext.Provider
+      value={{
+        isAuthenticated,
+        isLoading,
+        loginWithRedirect,
+        logout,
+        getAccessTokenSilently,
+        user,
+      }}
+    >
+      {children}
+    </AuthenticationContext.Provider>
+  );
 };
 
-const useAuthentication = () => useAuth0;
+const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({ children, overrides }) => {
+  return (
+    <Auth0Provider {...providerConfig} {...overrides}>
+      <Provider>{children}</Provider>
+    </Auth0Provider>
+  );
+};
+
+const useAuthentication = () => React.useContext(AuthenticationContext);
 
 export { AuthenticationProvider, useAuthentication };
