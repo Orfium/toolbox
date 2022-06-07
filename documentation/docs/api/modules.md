@@ -1,7 +1,7 @@
 ---
-id: "modules"
-title: "@orfium/toolbox"
-sidebar_label: "Exports"
+id: 'modules'
+title: '@orfium/toolbox'
+sidebar_label: 'Exports'
 sidebar_position: 0.5
 custom_edit_url: null
 ---
@@ -35,18 +35,55 @@ custom_edit_url: null
 
 ## Other Functions
 
-- [createAPIInstance](modules.md#createapiinstance-42)
-- [useAuthentication](modules.md#useauthentication-42)
+- [createAPIInstance](modules.md#createapiinstance)
+- [useAuthentication](modules.md#useauthentication)
 
 ## component Functions
 
-- [generateRoutes](modules.md#generateroutes-46)
+- [generateRoutes](modules.md#generateroutes)
 
 ## Type aliases
 
+### AuthenticationContextProps
+
+Ƭ **AuthenticationContextProps**: `Object`
+
+#### Type declaration
+
+| Name                      | Type                       |
+| :------------------------ | :------------------------- |
+| `isAuthenticated`         | `boolean`                  |
+| `isLoading`               | `boolean`                  |
+| `user`                    | `User` \| `undefined`      |
+| `getAccessTokenSilently?` | () => `Promise`<`string`\> |
+| `loginWithRedirect?`      | () => `void`               |
+| `logout?`                 | () => `void`               |
+
+#### Defined in
+
+[src/authentication/types.ts:4](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/authentication/types.ts#L4)
+
+---
+
+### AuthenticationProviderProps
+
+Ƭ **AuthenticationProviderProps**: `Object`
+
+#### Type declaration
+
+| Name         | Type                   |
+| :----------- | :--------------------- |
+| `overrides?` | `Auth0ProviderOptions` |
+
+#### Defined in
+
+[src/authentication/types.ts:13](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/authentication/types.ts#L13)
+
+---
+
 ### Authorization
 
-Ƭ **Authorization**: ``"anonymous"`` \| ``"authorized"`` \| ``"unauthorized"``
+Ƭ **Authorization**: `"anonymous"` \| `"authorized"` \| `"unauthorized"`
 
 **`anonymous:`** general users that can view only public pages - default for all routes without authorization
 
@@ -56,9 +93,9 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/routing/Routing.tsx:14](https://github.com/Orfium/toolbox/blob/54c4bb7/src/routing/Routing.tsx#L14)
+[src/routing/Routing.tsx:14](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/routing/Routing.tsx#L14)
 
-___
+---
 
 ### CreateAPIInstanceProps
 
@@ -66,16 +103,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name           | Type                          |
+| :------------- | :---------------------------- |
 | `baseHeaders?` | `Record`<`string`, `string`\> |
-| `baseUrl` | `string` |
+| `baseUrl`      | `string`                      |
 
 #### Defined in
 
-src/request/createAPIInstance.ts:6
+[src/request/createAPIInstance.ts:6](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/request/createAPIInstance.ts#L6)
 
-___
+---
 
 ### CreateAPIInstanceType
 
@@ -83,22 +120,22 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `instance` | [`AxiosInstance`](interfaces/AxiosInstance.md) |
-| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops-42)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\>  } |
-| `deleteToken` | () => `void` |
-| `setToken` | (`token`: `string`) => `void` |
+| Name            | Type                                                                                                                                                                           |
+| :-------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `instance`      | [`AxiosInstance`](interfaces/AxiosInstance.md)                                                                                                                                 |
+| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\> } |
+| `deleteToken`   | () => `void`                                                                                                                                                                   |
+| `setToken`      | (`token`: `string`) => `void`                                                                                                                                                  |
 
 #### Defined in
 
-src/request/createAPIInstance.ts:11
+[src/request/createAPIInstance.ts:11](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/request/createAPIInstance.ts#L11)
 
-___
+---
 
 ### FallbackPath
 
-Ƭ **FallbackPath**: ``"unauthenticated"`` \| ``"unauthorized"`` \| ``"authenticatedButAnonymous"``
+Ƭ **FallbackPath**: `"unauthenticated"` \| `"unauthorized"` \| `"authenticatedButAnonymous"`
 
 **`unauthenticated:`** in case a user visits a path and has no authentication
 
@@ -108,19 +145,19 @@ ___
 
 #### Defined in
 
-[src/routing/Routing.tsx:22](https://github.com/Orfium/toolbox/blob/54c4bb7/src/routing/Routing.tsx#L22)
+[src/routing/Routing.tsx:22](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/routing/Routing.tsx#L22)
 
-___
+---
 
 ### Method
 
-Ƭ **Method**: ``"get"`` \| ``"GET"`` \| ``"delete"`` \| ``"DELETE"`` \| ``"head"`` \| ``"HEAD"`` \| ``"options"`` \| ``"OPTIONS"`` \| ``"post"`` \| ``"POST"`` \| ``"put"`` \| ``"PUT"`` \| ``"patch"`` \| ``"PATCH"`` \| ``"purge"`` \| ``"PURGE"`` \| ``"link"`` \| ``"LINK"`` \| ``"unlink"`` \| ``"UNLINK"``
+Ƭ **Method**: `"get"` \| `"GET"` \| `"delete"` \| `"DELETE"` \| `"head"` \| `"HEAD"` \| `"options"` \| `"OPTIONS"` \| `"post"` \| `"POST"` \| `"put"` \| `"PUT"` \| `"patch"` \| `"PATCH"` \| `"purge"` \| `"PURGE"` \| `"link"` \| `"LINK"` \| `"unlink"` \| `"UNLINK"`
 
 #### Defined in
 
 node_modules/axios/index.d.ts:24
 
-___
+---
 
 ### MockRequest
 
@@ -128,33 +165,33 @@ ___
 
 #### Defined in
 
-[src/request/mock.ts:3](https://github.com/Orfium/toolbox/blob/54c4bb7/src/request/mock.ts#L3)
+[src/request/mock.ts:3](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/request/mock.ts#L3)
 
-___
+---
 
 ### RequestProps
 
-Ƭ **RequestProps**: { `headers?`: `Record`<`string`, `unknown`\> ; `method`: `Methods` ; `params?`: `Record`<`string`, `unknown`\> ; `url`: `string`  } & `Pick`<[`AxiosRequestConfig`](interfaces/AxiosRequestConfig.md), ``"onUploadProgress"`` \| ``"onDownloadProgress"`` \| ``"responseType"``\>
+Ƭ **RequestProps**: { `headers?`: `Record`<`string`, `unknown`\> ; `method`: `Methods` ; `params?`: `Record`<`string`, `unknown`\> ; `url`: `string` } & `Pick`<[`AxiosRequestConfig`](interfaces/AxiosRequestConfig.md), `"onUploadProgress"` \| `"onDownloadProgress"` \| `"responseType"`\>
 
 #### Defined in
 
-[src/request/request.ts:16](https://github.com/Orfium/toolbox/blob/54c4bb7/src/request/request.ts#L16)
+[src/request/request.ts:16](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/request/request.ts#L16)
 
-___
+---
 
 ### ResponseType
 
-Ƭ **ResponseType**: ``"arraybuffer"`` \| ``"blob"`` \| ``"document"`` \| ``"json"`` \| ``"text"`` \| ``"stream"``
+Ƭ **ResponseType**: `"arraybuffer"` \| `"blob"` \| `"document"` \| `"json"` \| `"text"` \| `"stream"`
 
 #### Defined in
 
 node_modules/axios/index.d.ts:36
 
-___
+---
 
 ### RouteComponentProps
 
-Ƭ **RouteComponentProps**<`T`\>: `ReactRouterRouteComponentProps`<`any`\> & { `extraProps`: `T`  }
+Ƭ **RouteComponentProps**<`T`\>: `ReactRouterRouteComponentProps`<`any`\> & { `extraProps`: `T` }
 
 This is actual part of the library so you can skip it.
 An extension of the React Router Component props to be used with the extra props.
@@ -162,15 +199,15 @@ Is being used to the route component to extend its functionality on types
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `unknown` |
+| Name | Type      |
+| :--- | :-------- |
+| `T`  | `unknown` |
 
 #### Defined in
 
-[src/routing/Routing.tsx:35](https://github.com/Orfium/toolbox/blob/54c4bb7/src/routing/Routing.tsx#L35)
+[src/routing/Routing.tsx:35](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/routing/Routing.tsx#L35)
 
-___
+---
 
 ### RouteItem
 
@@ -178,18 +215,18 @@ ___
 
 #### Type declaration
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `authorization?` | [`Authorization`](modules.md#authorization-46) | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' -  **`defaultvalue:`** 'anonymous' |
-| `component?` | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-46)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route |
-| `extraProps?` | `unknown` | Any custom/extra props that are going to be available on the component |
-| `path` | `string` \| `string`[] | The url path or paths of the route that will listen to in order to render |
+| Name             | Type                                                                                | Description                                                                                                                        |
+| :--------------- | :---------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
+| `authorization?` | [`Authorization`](modules.md#authorization)                                         | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' - **`defaultvalue:`** 'anonymous' |
+| `component?`     | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route              |
+| `extraProps?`    | `unknown`                                                                           | Any custom/extra props that are going to be available on the component                                                             |
+| `path`           | `string` \| `string`[]                                                              | The url path or paths of the route that will listen to in order to render                                                          |
 
 #### Defined in
 
-[src/routing/Routing.tsx:41](https://github.com/Orfium/toolbox/blob/54c4bb7/src/routing/Routing.tsx#L41)
+[src/routing/Routing.tsx:41](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/routing/Routing.tsx#L41)
 
-___
+---
 
 ### RoutingStructure
 
@@ -197,26 +234,26 @@ ___
 
 #### Type declaration
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath-46), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
-| `routes` | [`RouteItem`](modules.md#routeitem-46)[] | - |
+| Name             | Type                                                                       | Description                                                                                                                                                                               |
+| :--------------- | :------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
+| `routes`         | [`RouteItem`](modules.md#routeitem)[]                                      | -                                                                                                                                                                                         |
 
 #### Defined in
 
-[src/routing/Routing.tsx:24](https://github.com/Orfium/toolbox/blob/54c4bb7/src/routing/Routing.tsx#L24)
+[src/routing/Routing.tsx:24](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/routing/Routing.tsx#L24)
 
 ## Variables
 
 ### AuthenticationProvider
 
-• `Const` **AuthenticationProvider**: `React.FC`<`AuthenticationProviderProps`\>
+• `Const` **AuthenticationProvider**: `React.FC`<[`AuthenticationProviderProps`](modules.md#authenticationproviderprops)\>
 
 #### Defined in
 
-[src/authentication/context.tsx:53](https://github.com/Orfium/toolbox/blob/54c4bb7/src/authentication/context.tsx#L53)
+[src/authentication/context.tsx:53](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/authentication/context.tsx#L53)
 
-___
+---
 
 ### METHODS
 
@@ -224,9 +261,9 @@ ___
 
 #### Defined in
 
-[src/request/request.ts:14](https://github.com/Orfium/toolbox/blob/54c4bb7/src/request/request.ts#L14)
+[src/request/request.ts:14](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/request/request.ts#L14)
 
-___
+---
 
 ### MockRequest
 
@@ -234,43 +271,43 @@ ___
 
 #### Defined in
 
-[src/request/mock.ts:4](https://github.com/Orfium/toolbox/blob/54c4bb7/src/request/mock.ts#L4)
+[src/request/mock.ts:4](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/request/mock.ts#L4)
 
 ## Other Functions
 
 ### createAPIInstance
 
-▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype-42)
+▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops-42) |
+| Name                | Type                                                          |
+| :------------------ | :------------------------------------------------------------ |
+| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops) |
 
 #### Returns
 
-[`CreateAPIInstanceType`](modules.md#createapiinstancetype-42)
+[`CreateAPIInstanceType`](modules.md#createapiinstancetype)
 
 #### Defined in
 
-src/request/createAPIInstance.ts:28
+[src/request/createAPIInstance.ts:28](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/request/createAPIInstance.ts#L28)
 
-___
+---
 
 ### useAuthentication
 
-▸ **useAuthentication**(): `AuthenticationContextProps`
+▸ **useAuthentication**(): [`AuthenticationContextProps`](modules.md#authenticationcontextprops)
 
 #### Returns
 
-`AuthenticationContextProps`
+[`AuthenticationContextProps`](modules.md#authenticationcontextprops)
 
 #### Defined in
 
-[src/authentication/context.tsx:61](https://github.com/Orfium/toolbox/blob/54c4bb7/src/authentication/context.tsx#L61)
+[src/authentication/context.tsx:61](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/authentication/context.tsx#L61)
 
-___
+---
 
 ## component Functions
 
@@ -284,12 +321,12 @@ If the fallbacks are defined then those will be used instead.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `props` | `Object` | Component properties |
-| `props.fallbackComponent?` | `ComponentType`<{}\> | The component that will render if none of the routes match the url location - @default Page not found |
-| `props.isAuthenticated` | `boolean` | A boolean that are passed from the parent Application to let the generation of routes know the state of the user |
-| `props.structure` | [`RoutingStructure`](modules.md#routingstructure-46) | A list of Routes that needs to render with authorization level and extra props. |
+| Name                       | Type                                              | Description                                                                                                      |
+| :------------------------- | :------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------- |
+| `props`                    | `Object`                                          | Component properties                                                                                             |
+| `props.fallbackComponent?` | `ComponentType`<{}\>                              | The component that will render if none of the routes match the url location - @default Page not found            |
+| `props.isAuthenticated`    | `boolean`                                         | A boolean that are passed from the parent Application to let the generation of routes know the state of the user |
+| `props.structure`          | [`RoutingStructure`](modules.md#routingstructure) | A list of Routes that needs to render with authorization level and extra props.                                  |
 
 #### Returns
 
@@ -297,4 +334,4 @@ If the fallbacks are defined then those will be used instead.
 
 #### Defined in
 
-[src/routing/Routing.tsx:62](https://github.com/Orfium/toolbox/blob/54c4bb7/src/routing/Routing.tsx#L62)
+[src/routing/Routing.tsx:62](https://github.com/Orfium/toolbox/blob/f3c0ba5/src/routing/Routing.tsx#L62)
