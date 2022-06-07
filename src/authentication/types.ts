@@ -4,9 +4,9 @@ import { Auth0ProviderOptions } from '@auth0/auth0-react/dist/auth0-provider';
 export type AuthenticationContextProps = {
   isAuthenticated: boolean;
   isLoading: boolean;
-  loginWithRedirect: () => void;
-  logout: () => void;
-  getAccessTokenSilently: () => Promise<string>;
+  loginWithRedirect?: () => void;
+  logout?: () => void;
+  getAccessTokenSilently?: () => Promise<string>;
   user: User | undefined;
 };
 
