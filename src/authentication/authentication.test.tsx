@@ -6,7 +6,7 @@ import { AuthenticationProvider, useAuthentication } from './context';
 
 jest.spyOn(auth, 'Auth0Provider').mockImplementation(({ children }) => <div>{children}</div>);
 
-const TestCompo = () => {
+const TestComp = () => {
   const { isLoading } = useAuthentication();
 
   if (isLoading) {
@@ -30,7 +30,7 @@ describe('Authorization: ', () => {
 
     render(
       <AuthenticationProvider>
-        <TestCompo />
+        <TestComp />
       </AuthenticationProvider>
     );
   });
@@ -44,7 +44,7 @@ describe('Authorization: ', () => {
 
     const { getByTestId } = render(
       <AuthenticationProvider>
-        <TestCompo />
+        <TestComp />
       </AuthenticationProvider>
     );
 
@@ -62,7 +62,7 @@ describe('Authorization: ', () => {
 
     const { getByTestId } = render(
       <AuthenticationProvider>
-        <TestCompo />
+        <TestComp />
       </AuthenticationProvider>
     );
     expect(getByTestId('test')).toBeTruthy();
@@ -79,7 +79,7 @@ describe('Authorization: ', () => {
 
     const { getByTestId } = render(
       <AuthenticationProvider>
-        <TestCompo />
+        <TestComp />
       </AuthenticationProvider>
     );
     expect(getByTestId('test-loading')).toBeTruthy();
