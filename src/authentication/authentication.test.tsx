@@ -2,9 +2,19 @@ import * as auth from '@auth0/auth0-react';
 import { cleanup, render } from '@testing-library/react';
 import React from 'react';
 
-import { AuthenticationProvider } from './context';
+import { AuthenticationProvider, useAuthentication } from './context';
 
 jest.spyOn(auth, 'Auth0Provider').mockImplementation(({ children }) => <div>{children}</div>);
+
+const TestCompo = () => {
+  const { isLoading } = useAuthentication();
+
+  if (isLoading) {
+    return <div data-testid={'test-loading'}>Test</div>;
+  }
+
+  return <div data-testid={'test'}>Test</div>;
+};
 
 describe('Authorization: ', () => {
   afterEach(() => {
@@ -20,7 +30,7 @@ describe('Authorization: ', () => {
 
     render(
       <AuthenticationProvider>
-        <div>Test</div>
+        <TestCompo />
       </AuthenticationProvider>
     );
   });
@@ -34,7 +44,7 @@ describe('Authorization: ', () => {
 
     const { getByTestId } = render(
       <AuthenticationProvider>
-        <div data-testid={'test'}>Test</div>
+        <TestCompo />
       </AuthenticationProvider>
     );
 
@@ -52,11 +62,26 @@ describe('Authorization: ', () => {
 
     const { getByTestId } = render(
       <AuthenticationProvider>
-        <div data-testid={'test'}>Test</div>
+        <TestCompo />
       </AuthenticationProvider>
     );
     expect(getByTestId('test')).toBeTruthy();
 
     expect(loginWithRedirectFun).toHaveBeenCalled();
+  });
+
+  it('renders the loading while its authenticating', () => {
+    // @ts-ignore
+    jest.spyOn(auth, 'useAuth0').mockImplementation(() => ({
+      isAuthenticated: false,
+      isLoading: true,
+    }));
+
+    const { getByTestId } = render(
+      <AuthenticationProvider>
+        <TestCompo />
+      </AuthenticationProvider>
+    );
+    expect(getByTestId('test-loading')).toBeTruthy();
   });
 });
