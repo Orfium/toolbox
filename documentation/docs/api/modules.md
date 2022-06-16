@@ -35,11 +35,11 @@ custom_edit_url: null
 
 ## Other Functions
 
-- [createAPIInstance](modules.md#createapiinstance-20)
+- [createAPIInstance](modules.md#createapiinstance-14)
 
 ## component Functions
 
-- [generateRoutes](modules.md#generateroutes-20)
+- [generateRoutes](modules.md#generateroutes-14)
 
 ## Type aliases
 
@@ -55,7 +55,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/routing/Routing.tsx:14](https://github.com/Orfium/toolbox/blob/e592a09/src/routing/Routing.tsx#L14)
+[src/routing/Routing.tsx:14](https://github.com/Orfium/toolbox/blob/61dbc8b/src/routing/Routing.tsx#L14)
 
 ---
 
@@ -72,7 +72,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/request/createAPIInstance.ts:6](https://github.com/Orfium/toolbox/blob/e592a09/src/request/createAPIInstance.ts#L6)
+[src/request/createAPIInstance.ts:6](https://github.com/Orfium/toolbox/blob/61dbc8b/src/request/createAPIInstance.ts#L6)
 
 ---
 
@@ -85,13 +85,13 @@ custom_edit_url: null
 | Name            | Type                                                                                                                                                                              |
 | :-------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `instance`      | [`AxiosInstance`](interfaces/AxiosInstance.md)                                                                                                                                    |
-| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops-20)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\> } |
+| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops-14)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\> } |
 | `deleteToken`   | () => `void`                                                                                                                                                                      |
 | `setToken`      | (`token`: `string`) => `void`                                                                                                                                                     |
 
 #### Defined in
 
-[src/request/createAPIInstance.ts:11](https://github.com/Orfium/toolbox/blob/e592a09/src/request/createAPIInstance.ts#L11)
+[src/request/createAPIInstance.ts:11](https://github.com/Orfium/toolbox/blob/61dbc8b/src/request/createAPIInstance.ts#L11)
 
 ---
 
@@ -107,7 +107,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/routing/Routing.tsx:22](https://github.com/Orfium/toolbox/blob/e592a09/src/routing/Routing.tsx#L22)
+[src/routing/Routing.tsx:22](https://github.com/Orfium/toolbox/blob/61dbc8b/src/routing/Routing.tsx#L22)
 
 ---
 
@@ -127,7 +127,7 @@ node_modules/axios/index.d.ts:24
 
 #### Defined in
 
-[src/request/mock.ts:3](https://github.com/Orfium/toolbox/blob/e592a09/src/request/mock.ts#L3)
+[src/request/mock.ts:3](https://github.com/Orfium/toolbox/blob/61dbc8b/src/request/mock.ts#L3)
 
 ---
 
@@ -137,7 +137,7 @@ node_modules/axios/index.d.ts:24
 
 #### Defined in
 
-[src/request/request.ts:16](https://github.com/Orfium/toolbox/blob/e592a09/src/request/request.ts#L16)
+[src/request/request.ts:16](https://github.com/Orfium/toolbox/blob/61dbc8b/src/request/request.ts#L16)
 
 ---
 
@@ -167,7 +167,7 @@ Is being used to the route component to extend its functionality on types
 
 #### Defined in
 
-[src/routing/Routing.tsx:35](https://github.com/Orfium/toolbox/blob/e592a09/src/routing/Routing.tsx#L35)
+[src/routing/Routing.tsx:35](https://github.com/Orfium/toolbox/blob/61dbc8b/src/routing/Routing.tsx#L35)
 
 ---
 
@@ -179,14 +179,14 @@ Is being used to the route component to extend its functionality on types
 
 | Name             | Type                                                                                   | Description                                                                                                                        |
 | :--------------- | :------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
-| `authorization?` | [`Authorization`](modules.md#authorization-20)                                         | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' - **`defaultvalue:`** 'anonymous' |
-| `component?`     | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-20)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route              |
+| `authorization?` | [`Authorization`](modules.md#authorization-14)                                         | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' - **`defaultvalue:`** 'anonymous' |
+| `component?`     | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-14)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route              |
 | `extraProps?`    | `unknown`                                                                              | Any custom/extra props that are going to be available on the component                                                             |
 | `path`           | `string` \| `string`[]                                                                 | The url path or paths of the route that will listen to in order to render                                                          |
 
 #### Defined in
 
-[src/routing/Routing.tsx:41](https://github.com/Orfium/toolbox/blob/e592a09/src/routing/Routing.tsx#L41)
+[src/routing/Routing.tsx:41](https://github.com/Orfium/toolbox/blob/61dbc8b/src/routing/Routing.tsx#L41)
 
 ---
 
@@ -198,12 +198,12 @@ Is being used to the route component to extend its functionality on types
 
 | Name             | Type                                                                          | Description                                                                                                                                                                               |
 | :--------------- | :---------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath-20), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
-| `routes`         | [`RouteItem`](modules.md#routeitem-20)[]                                      | -                                                                                                                                                                                         |
+| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath-14), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
+| `routes`         | [`RouteItem`](modules.md#routeitem-14)[]                                      | -                                                                                                                                                                                         |
 
 #### Defined in
 
-[src/routing/Routing.tsx:24](https://github.com/Orfium/toolbox/blob/e592a09/src/routing/Routing.tsx#L24)
+[src/routing/Routing.tsx:24](https://github.com/Orfium/toolbox/blob/61dbc8b/src/routing/Routing.tsx#L24)
 
 ## Variables
 
@@ -213,7 +213,7 @@ Is being used to the route component to extend its functionality on types
 
 #### Defined in
 
-[src/request/request.ts:14](https://github.com/Orfium/toolbox/blob/e592a09/src/request/request.ts#L14)
+[src/request/request.ts:14](https://github.com/Orfium/toolbox/blob/61dbc8b/src/request/request.ts#L14)
 
 ---
 
@@ -223,27 +223,27 @@ Is being used to the route component to extend its functionality on types
 
 #### Defined in
 
-[src/request/mock.ts:4](https://github.com/Orfium/toolbox/blob/e592a09/src/request/mock.ts#L4)
+[src/request/mock.ts:4](https://github.com/Orfium/toolbox/blob/61dbc8b/src/request/mock.ts#L4)
 
 ## Other Functions
 
 ### createAPIInstance
 
-▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype-20)
+▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype-14)
 
 #### Parameters
 
 | Name                | Type                                                             |
 | :------------------ | :--------------------------------------------------------------- |
-| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops-20) |
+| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops-14) |
 
 #### Returns
 
-[`CreateAPIInstanceType`](modules.md#createapiinstancetype-20)
+[`CreateAPIInstanceType`](modules.md#createapiinstancetype-14)
 
 #### Defined in
 
-[src/request/createAPIInstance.ts:28](https://github.com/Orfium/toolbox/blob/e592a09/src/request/createAPIInstance.ts#L28)
+[src/request/createAPIInstance.ts:28](https://github.com/Orfium/toolbox/blob/61dbc8b/src/request/createAPIInstance.ts#L28)
 
 ---
 
@@ -264,7 +264,7 @@ If the fallbacks are defined then those will be used instead.
 | `props`                    | `Object`                                             | Component properties                                                                                             |
 | `props.fallbackComponent?` | `ComponentType`<{}\>                                 | The component that will render if none of the routes match the url location - @default Page not found            |
 | `props.isAuthenticated`    | `boolean`                                            | A boolean that are passed from the parent Application to let the generation of routes know the state of the user |
-| `props.structure`          | [`RoutingStructure`](modules.md#routingstructure-20) | A list of Routes that needs to render with authorization level and extra props.                                  |
+| `props.structure`          | [`RoutingStructure`](modules.md#routingstructure-14) | A list of Routes that needs to render with authorization level and extra props.                                  |
 
 #### Returns
 
@@ -272,4 +272,4 @@ If the fallbacks are defined then those will be used instead.
 
 #### Defined in
 
-[src/routing/Routing.tsx:62](https://github.com/Orfium/toolbox/blob/e592a09/src/routing/Routing.tsx#L62)
+[src/routing/Routing.tsx:62](https://github.com/Orfium/toolbox/blob/61dbc8b/src/routing/Routing.tsx#L62)
