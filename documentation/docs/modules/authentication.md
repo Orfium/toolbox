@@ -20,6 +20,9 @@ It's fairly easy to integrate with the Orfium One SSO using the Authentication p
 Ask <insert name of team/person responsible for SSO, maybe like core team or something> to provide you with the client id and domain that is created through the auth0
 applications page for your application. These will be different for each environment.
 
+You need to add these locally to a `.env` file that's ignored in order for you to develop with the authentication enabled and add the staging and production
+ones to Heroku or AWS depending on what you use.
+
 ```title=".env"
 REACT_APP_CLIENT_ID=<ClientId>
 REACT_APP_DOMAIN=<Domain>
@@ -48,11 +51,11 @@ ReactDOM.render(
 Authentication provider takes AuthenticationProviderProps in case you want to override something in the initialization of the Auth0 provider ,but you probably
 don't want to do it and most probably they will be removed in a later version.
 
-So, yeah. It's there but don't use it. If you need something more , please contact the maintainers of `toolbox` to see if it's really needed in order to add it as a default.
+So, yeah. It's there but don't use it. If you need something more ,read [here](https://auth0.github.io/auth0-react/interfaces/Auth0ProviderOptions.html) for more options and information and please contact the maintainers of `toolbox` and SSO team to see if it's really needed in order to add it as a default.
 
-### 3. Wait for it
+### 3. :warning: Wait for it :warning:
 
-It's recommended (not though the official documentation , but through the support forum of Auth0 ) to wait for the
+It's recommended ( through the [official documentation](https://auth0.com/docs/libraries/auth0-react#isloading-and-error) , but also through the support forum of Auth0 ) to wait for the
 authentication service. Make sure to add some kind of loader to the top of your application right after the AuthenticationProvider.
 
 ```jsx title="/src/App.tsx"
@@ -91,7 +94,7 @@ Or a wine. Or a tea. I don't care. You are done! :sunglasses:
 
 If you are not authenticated and the app is not loading you will be redirected to login page automatically from the toolbox.
 
-## Usage
+## Examples
 
 Let's see in depth with some examples the usage of `getAccessTokenSilently`. This is the most interesting one and the one you **WILL**and **MUST** use.
 
