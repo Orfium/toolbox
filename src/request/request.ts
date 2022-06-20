@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { axiosPromiseResult } from './utils';
 

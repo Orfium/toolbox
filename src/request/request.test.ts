@@ -5,7 +5,7 @@ import { CreateAPIInstanceType, METHODS } from './index';
 import { createAPIInstance } from './index';
 import MockRequest from './mock';
 
-describe('Layout', () => {
+describe('Request: ', () => {
   let factory: CreateAPIInstanceType;
   let apiInstance: AxiosInstance;
   let mock: MockRequest;
