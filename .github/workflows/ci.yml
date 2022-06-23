@@ -85,14 +85,14 @@ jobs:
           aws s3 sync documentation/build/ s3://${S3_BUCKET_NAME}/
           aws cloudfront wait invalidation-completed --distribution-id $DISTRIBUTION_ID --id $INVALIDATION_ID
 
-#      - name: Release
-#        env:
-#          GITHUB_NPM_CONFIG_REGISTRY: 'https://npm.pkg.github.com/'
-#          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          PUBLIC_NPM_CONFIG_REGISTRY: 'https://registry.npmjs.org'
-#          PUBLIC_NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: npx semantic-release
+      - name: Release
+        env:
+          GITHUB_NPM_CONFIG_REGISTRY: 'https://npm.pkg.github.com/'
+          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLIC_NPM_CONFIG_REGISTRY: 'https://registry.npmjs.org'
+          PUBLIC_NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
 
   deploy-docs:
     if: github.ref == 'refs/heads/master'
