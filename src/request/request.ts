@@ -54,7 +54,7 @@ export const setToken =
   (orfiumAxios: AxiosInstance) =>
   (token: string): void => {
     const hasToken = token !== '';
-    orfiumAxios.defaults.headers.common.Authorization = hasToken ? `Token ${token}` : '';
+    orfiumAxios.defaults.headers.common.Authorization = hasToken ? `${token}` : '';
   };
 
 export const deleteToken = (orfiumAxios: AxiosInstance) => (): void => {

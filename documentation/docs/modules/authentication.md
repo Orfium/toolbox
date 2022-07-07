@@ -26,6 +26,7 @@ ones to Heroku or AWS depending on what you use.
 ```title=".env"
 REACT_APP_CLIENT_ID=<ClientId>
 REACT_APP_DOMAIN=<Domain>
+REACT_APP_AUDIENCE=<Audience> // optional option - default to 'orfium'
 ```
 
 ### 2. AuthenticationProvider
