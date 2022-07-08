@@ -74,15 +74,15 @@ describe('Request: ', () => {
   });
 
   it('correctly sets token', async () => {
-    factory.setToken('I am groot');
+    factory.setToken('Bearer I am groot ');
 
-    expect(apiInstance.defaults.headers.common.Authorization).toBe('Token I am groot');
+    expect(apiInstance.defaults.headers.common.Authorization).toBe('Bearer I am groot ');
   });
 
   it('correctly removes token', async () => {
-    factory.setToken('I am groot');
+    factory.setToken('Bearer I am groot ');
 
-    expect(apiInstance.defaults.headers.common.Authorization).toBe('Token I am groot');
+    expect(apiInstance.defaults.headers.common.Authorization).toBe('Bearer I am groot ');
 
     factory.deleteToken();
 
