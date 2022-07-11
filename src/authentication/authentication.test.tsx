@@ -2,7 +2,7 @@ import * as auth from '@auth0/auth0-react';
 import { cleanup, render } from '@testing-library/react';
 import React from 'react';
 
-import { AuthenticationProvider, useAuthentication } from './context';
+import { Authentication as AuthenticationProvider, useAuthentication } from './index';
 
 jest.spyOn(auth, 'Auth0Provider').mockImplementation(({ children }) => <div>{children}</div>);
 
@@ -22,10 +22,13 @@ describe('Authorization: ', () => {
     cleanup();
   });
   it('renders without crashing', () => {
+    const getAccessTokenSilentlyFun = jest.fn();
+
     // @ts-ignore
     jest.spyOn(auth, 'useAuth0').mockImplementation(() => ({
       isAuthenticated: true,
       isLoading: false,
+      getAccessTokenSilently: getAccessTokenSilentlyFun,
     }));
 
     render(
@@ -36,10 +39,12 @@ describe('Authorization: ', () => {
   });
 
   it('renders the test component', () => {
+    const getAccessTokenSilentlyFun = jest.fn();
     // @ts-ignore
     jest.spyOn(auth, 'useAuth0').mockImplementation(() => ({
       isAuthenticated: true,
       isLoading: false,
+      getAccessTokenSilently: getAccessTokenSilentlyFun,
     }));
 
     const { getByTestId } = render(
@@ -53,10 +58,13 @@ describe('Authorization: ', () => {
 
   it('redirects to login if not authenticated', () => {
     const loginWithRedirectFun = jest.fn();
+    const getAccessTokenSilentlyFun = jest.fn();
+
     // @ts-ignore
     jest.spyOn(auth, 'useAuth0').mockImplementation(() => ({
       isAuthenticated: false,
       isLoading: false,
+      getAccessTokenSilently: getAccessTokenSilentlyFun,
       loginWithRedirect: loginWithRedirectFun,
     }));
 
@@ -71,10 +79,13 @@ describe('Authorization: ', () => {
   });
 
   it('renders the loading while its authenticating', () => {
+    const getAccessTokenSilentlyFun = jest.fn();
+
     // @ts-ignore
     jest.spyOn(auth, 'useAuth0').mockImplementation(() => ({
       isAuthenticated: false,
       isLoading: true,
+      getAccessTokenSilently: getAccessTokenSilentlyFun,
     }));
 
     const { getByTestId } = render(

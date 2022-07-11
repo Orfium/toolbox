@@ -1,10 +1,16 @@
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import { Auth0ProviderOptions } from '@auth0/auth0-react/dist/auth0-provider';
 import jwt_decode from 'jwt-decode';
-import React, { createContext, useEffect } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 import { config } from './config';
-import { AuthenticationContextProps, AuthenticationProviderProps } from './types';
+import {
+  AuthenticationContextProps,
+  AuthenticationProviderProps,
+  authStates,
+  AuthStates,
+} from './types';
+import { orfiumBaseInstance } from '../request';
 
 const onRedirectCallback = () => {
   return window.location.pathname;
@@ -43,12 +49,6 @@ const Provider: React.FC = ({ children }) => {
 
     return { token, decodedToken };
   };
-
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      loginWithRedirect();
-    }
-  }, [isLoading, isAuthenticated]);
 
   return (
     <AuthenticationContext.Provider
