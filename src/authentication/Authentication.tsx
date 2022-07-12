@@ -52,6 +52,8 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
           } else {
             setHasOrg(false);
           }
+        } else {
+          setHasOrg(true);
         }
 
         // set false at all times
