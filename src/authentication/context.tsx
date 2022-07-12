@@ -1,5 +1,6 @@
-import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
+import { Auth0Provider, useAuth0, User } from '@auth0/auth0-react';
 import { Auth0ProviderOptions } from '@auth0/auth0-react/dist/auth0-provider';
+import { GetTokenSilentlyOptions } from '@auth0/auth0-spa-js';
 import jwt_decode from 'jwt-decode';
 import React, { createContext, useEffect } from 'react';
 
@@ -25,6 +26,9 @@ const AuthenticationContext = createContext<AuthenticationContextProps>({
   isAuthenticated: false,
   isLoading: false,
   user: undefined,
+  loginWithRedirect: () => {},
+  logout: () => {},
+  getAccessTokenSilently: () => Promise.resolve({ token: '', decodedToken: {} }),
 });
 
 const Provider: React.FC = ({ children }) => {
@@ -37,8 +41,8 @@ const Provider: React.FC = ({ children }) => {
     user,
   } = useAuth0();
 
-  const getAccessTokenSilently = async () => {
-    const token = await getAccessTokenSilentlyAuth0();
+  const getAccessTokenSilently = async (opts?: GetTokenSilentlyOptions) => {
+    const token = await getAccessTokenSilentlyAuth0(opts);
     const decodedToken = jwt_decode<Record<string, unknown>>(token);
 
     return { token, decodedToken };

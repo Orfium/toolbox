@@ -26,13 +26,13 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
 
   // @TODO all this should be inside toolbox wrapper
   useEffect(() => {
-    if (getAccessTokenSilently && !systemLoading) {
+    if (!systemLoading) {
       setSystemLoading(true);
       const getTokenWithOrg = async () => {
         // @TODO in the future we must define the org_id
         const { token, decodedToken } = await getAccessTokenSilently();
-
-        orfiumBaseInstance.setToken(`Bearer ${token}`);
+        // @TODO product code
+        orfiumBaseInstance.setToken(`${token}`);
         const requestInstance = orfiumBaseInstance.createRequest({
           method: 'get',
           url: '/memberships/',
@@ -42,9 +42,6 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         // if token with organization exists do not continue
         if (!decodedToken?.org_id) {
           if (data.length) {
-            // updateSelectedOrganizationId(data[0].org_id)
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             const { token: orgToken } = await getAccessTokenSilently({
               organization: data[0].org_id,
               ignoreCache: true,
@@ -86,7 +83,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         }}
       >
         <h1>You dont have access to this Product.</h1>
-        <h3> Go back or contact your administrator for more information.</h3>
+        <h3>Go back or contact your administrator for more information.</h3>
       </div>
     );
   }
