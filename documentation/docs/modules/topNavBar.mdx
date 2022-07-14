@@ -1,0 +1,19 @@
+
+```mdx-code-block
+import Highlight from '../../../src/TopBar/index'
+import BrowserWindow from '@site/src/components/BrowserWindow';
+```
+
+### Exporting components {#exporting-components}
+
+To define any custom component within an MDX file, you have to export it: only paragraphs that start with `export` will be parsed as components instead of prose.
+
+
+
+```mdx-code-block
+<BrowserWindow minHeight={240}>
+
+<Highlight color="#25c2a0">Docusaurus green</Highlight>
+
+</BrowserWindow>
+```

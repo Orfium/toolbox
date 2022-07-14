@@ -1,6 +1,6 @@
 {
   "name": "@orfium/toolbox",
-  "version": "0.0.0",
+  "version": "1.0.0-rc.13",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
@@ -10,7 +10,8 @@
     "axios": "^0.21.4",
     "axios-mock-adapter": "^1.19.0",
     "jwt-decode": "^3.1.2",
-    "react-router-dom": "^5.3.1"
+    "react-router-dom": "^5.3.1",
+    "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "@amanda-mitchell/semantic-release-npm-multiple": "^3.5.0",
@@ -42,8 +43,6 @@
     "jest": "^27.5.1",
     "lint-staged": "^12.4.1",
     "prettier": "^2.6.2",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
     "react-query": "^3.22.0",
     "rollup": "^2.72.0",
     "rollup-plugin-dts": "^4.2.1",
@@ -58,9 +57,10 @@
     "yalc": "^1.0.0-pre.53"
   },
   "peerDependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-query": "^3.10.0"
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "react-query": "^3.10.0",
+    "@orfium/ictinus": "^4.43.0"
   },
   "scripts": {
     "prebuild": "rimraf dist",
