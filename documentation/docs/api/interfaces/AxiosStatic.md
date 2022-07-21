@@ -1,7 +1,7 @@
 ---
-id: 'AxiosStatic'
-title: 'Interface: AxiosStatic'
-sidebar_label: 'AxiosStatic'
+id: "AxiosStatic"
+title: "Interface: AxiosStatic"
+sidebar_label: "AxiosStatic"
 sidebar_position: 0
 custom_edit_url: null
 ---
@@ -20,8 +20,8 @@ custom_edit_url: null
 
 #### Parameters
 
-| Name     | Type                                          |
-| :------- | :-------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `config` | [`AxiosRequestConfig`](AxiosRequestConfig.md) |
 
 #### Returns
@@ -38,9 +38,9 @@ node_modules/axios/index.d.ts:138
 
 #### Parameters
 
-| Name      | Type                                          |
-| :-------- | :-------------------------------------------- |
-| `url`     | `string`                                      |
+| Name | Type |
+| :------ | :------ |
+| `url` | `string` |
 | `config?` | [`AxiosRequestConfig`](AxiosRequestConfig.md) |
 
 #### Returns
@@ -61,7 +61,7 @@ node_modules/axios/index.d.ts:139
 
 node_modules/axios/index.d.ts:158
 
----
+___
 
 ### CancelToken
 
@@ -71,7 +71,7 @@ node_modules/axios/index.d.ts:158
 
 node_modules/axios/index.d.ts:159
 
----
+___
 
 ### defaults
 
@@ -79,13 +79,13 @@ node_modules/axios/index.d.ts:159
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[defaults](AxiosInstance.md#defaults-8)
+[AxiosInstance](AxiosInstance.md).[defaults](AxiosInstance.md#defaults-12)
 
 #### Defined in
 
 node_modules/axios/index.d.ts:140
 
----
+___
 
 ### interceptors
 
@@ -93,14 +93,14 @@ node_modules/axios/index.d.ts:140
 
 #### Type declaration
 
-| Name       | Type                                                                                                    |
-| :--------- | :------------------------------------------------------------------------------------------------------ |
-| `request`  | [`AxiosInterceptorManager`](AxiosInterceptorManager.md)<[`AxiosRequestConfig`](AxiosRequestConfig.md)\> |
-| `response` | [`AxiosInterceptorManager`](AxiosInterceptorManager.md)<[`AxiosResponse`](AxiosResponse.md)<`any`\>\>   |
+| Name | Type |
+| :------ | :------ |
+| `request` | [`AxiosInterceptorManager`](AxiosInterceptorManager.md)<[`AxiosRequestConfig`](AxiosRequestConfig.md)\> |
+| `response` | [`AxiosInterceptorManager`](AxiosInterceptorManager.md)<[`AxiosResponse`](AxiosResponse.md)<`any`\>\> |
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[interceptors](AxiosInstance.md#interceptors-8)
+[AxiosInstance](AxiosInstance.md).[interceptors](AxiosInstance.md#interceptors-12)
 
 #### Defined in
 
@@ -115,13 +115,13 @@ node_modules/axios/index.d.ts:141
 #### Type parameters
 
 | Name |
-| :--- |
-| `T`  |
+| :------ |
+| `T` |
 
 #### Parameters
 
-| Name     | Type                       |
-| :------- | :------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `values` | (`T` \| `Promise`<`T`\>)[] |
 
 #### Returns
@@ -132,7 +132,7 @@ node_modules/axios/index.d.ts:141
 
 node_modules/axios/index.d.ts:161
 
----
+___
 
 ### create
 
@@ -140,8 +140,8 @@ node_modules/axios/index.d.ts:161
 
 #### Parameters
 
-| Name      | Type                                          |
-| :-------- | :-------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `config?` | [`AxiosRequestConfig`](AxiosRequestConfig.md) |
 
 #### Returns
@@ -152,7 +152,7 @@ node_modules/axios/index.d.ts:161
 
 node_modules/axios/index.d.ts:157
 
----
+___
 
 ### delete
 
@@ -160,16 +160,16 @@ node_modules/axios/index.d.ts:157
 
 #### Type parameters
 
-| Name | Type                                      |
-| :--- | :---------------------------------------- |
-| `T`  | `any`                                     |
-| `R`  | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+| `R` | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
 
 #### Parameters
 
-| Name      | Type                                          |
-| :-------- | :-------------------------------------------- |
-| `url`     | `string`                                      |
+| Name | Type |
+| :------ | :------ |
+| `url` | `string` |
 | `config?` | [`AxiosRequestConfig`](AxiosRequestConfig.md) |
 
 #### Returns
@@ -178,13 +178,13 @@ node_modules/axios/index.d.ts:157
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[delete](AxiosInstance.md#delete-8)
+[AxiosInstance](AxiosInstance.md).[delete](AxiosInstance.md#delete-12)
 
 #### Defined in
 
 node_modules/axios/index.d.ts:148
 
----
+___
 
 ### get
 
@@ -192,16 +192,16 @@ node_modules/axios/index.d.ts:148
 
 #### Type parameters
 
-| Name | Type                                      |
-| :--- | :---------------------------------------- |
-| `T`  | `any`                                     |
-| `R`  | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+| `R` | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
 
 #### Parameters
 
-| Name      | Type                                          |
-| :-------- | :-------------------------------------------- |
-| `url`     | `string`                                      |
+| Name | Type |
+| :------ | :------ |
+| `url` | `string` |
 | `config?` | [`AxiosRequestConfig`](AxiosRequestConfig.md) |
 
 #### Returns
@@ -210,13 +210,13 @@ node_modules/axios/index.d.ts:148
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[get](AxiosInstance.md#get-8)
+[AxiosInstance](AxiosInstance.md).[get](AxiosInstance.md#get-12)
 
 #### Defined in
 
 node_modules/axios/index.d.ts:147
 
----
+___
 
 ### getUri
 
@@ -224,8 +224,8 @@ node_modules/axios/index.d.ts:147
 
 #### Parameters
 
-| Name      | Type                                          |
-| :-------- | :-------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `config?` | [`AxiosRequestConfig`](AxiosRequestConfig.md) |
 
 #### Returns
@@ -234,13 +234,13 @@ node_modules/axios/index.d.ts:147
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[getUri](AxiosInstance.md#geturi-8)
+[AxiosInstance](AxiosInstance.md).[getUri](AxiosInstance.md#geturi-12)
 
 #### Defined in
 
 node_modules/axios/index.d.ts:145
 
----
+___
 
 ### head
 
@@ -248,16 +248,16 @@ node_modules/axios/index.d.ts:145
 
 #### Type parameters
 
-| Name | Type                                      |
-| :--- | :---------------------------------------- |
-| `T`  | `any`                                     |
-| `R`  | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+| `R` | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
 
 #### Parameters
 
-| Name      | Type                                          |
-| :-------- | :-------------------------------------------- |
-| `url`     | `string`                                      |
+| Name | Type |
+| :------ | :------ |
+| `url` | `string` |
 | `config?` | [`AxiosRequestConfig`](AxiosRequestConfig.md) |
 
 #### Returns
@@ -266,13 +266,13 @@ node_modules/axios/index.d.ts:145
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[head](AxiosInstance.md#head-8)
+[AxiosInstance](AxiosInstance.md).[head](AxiosInstance.md#head-12)
 
 #### Defined in
 
 node_modules/axios/index.d.ts:149
 
----
+___
 
 ### isAxiosError
 
@@ -280,8 +280,8 @@ node_modules/axios/index.d.ts:149
 
 #### Parameters
 
-| Name      | Type  |
-| :-------- | :---- |
+| Name | Type |
+| :------ | :------ |
 | `payload` | `any` |
 
 #### Returns
@@ -292,7 +292,7 @@ payload is AxiosError<any\>
 
 node_modules/axios/index.d.ts:163
 
----
+___
 
 ### isCancel
 
@@ -300,8 +300,8 @@ node_modules/axios/index.d.ts:163
 
 #### Parameters
 
-| Name    | Type  |
-| :------ | :---- |
+| Name | Type |
+| :------ | :------ |
 | `value` | `any` |
 
 #### Returns
@@ -312,7 +312,7 @@ node_modules/axios/index.d.ts:163
 
 node_modules/axios/index.d.ts:160
 
----
+___
 
 ### options
 
@@ -320,16 +320,16 @@ node_modules/axios/index.d.ts:160
 
 #### Type parameters
 
-| Name | Type                                      |
-| :--- | :---------------------------------------- |
-| `T`  | `any`                                     |
-| `R`  | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+| `R` | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
 
 #### Parameters
 
-| Name      | Type                                          |
-| :-------- | :-------------------------------------------- |
-| `url`     | `string`                                      |
+| Name | Type |
+| :------ | :------ |
+| `url` | `string` |
 | `config?` | [`AxiosRequestConfig`](AxiosRequestConfig.md) |
 
 #### Returns
@@ -338,13 +338,13 @@ node_modules/axios/index.d.ts:160
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[options](AxiosInstance.md#options-8)
+[AxiosInstance](AxiosInstance.md).[options](AxiosInstance.md#options-12)
 
 #### Defined in
 
 node_modules/axios/index.d.ts:150
 
----
+___
 
 ### patch
 
@@ -352,17 +352,17 @@ node_modules/axios/index.d.ts:150
 
 #### Type parameters
 
-| Name | Type                                      |
-| :--- | :---------------------------------------- |
-| `T`  | `any`                                     |
-| `R`  | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+| `R` | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
 
 #### Parameters
 
-| Name      | Type                                          |
-| :-------- | :-------------------------------------------- |
-| `url`     | `string`                                      |
-| `data?`   | `any`                                         |
+| Name | Type |
+| :------ | :------ |
+| `url` | `string` |
+| `data?` | `any` |
 | `config?` | [`AxiosRequestConfig`](AxiosRequestConfig.md) |
 
 #### Returns
@@ -371,13 +371,13 @@ node_modules/axios/index.d.ts:150
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[patch](AxiosInstance.md#patch-8)
+[AxiosInstance](AxiosInstance.md).[patch](AxiosInstance.md#patch-12)
 
 #### Defined in
 
 node_modules/axios/index.d.ts:153
 
----
+___
 
 ### post
 
@@ -385,17 +385,17 @@ node_modules/axios/index.d.ts:153
 
 #### Type parameters
 
-| Name | Type                                      |
-| :--- | :---------------------------------------- |
-| `T`  | `any`                                     |
-| `R`  | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+| `R` | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
 
 #### Parameters
 
-| Name      | Type                                          |
-| :-------- | :-------------------------------------------- |
-| `url`     | `string`                                      |
-| `data?`   | `any`                                         |
+| Name | Type |
+| :------ | :------ |
+| `url` | `string` |
+| `data?` | `any` |
 | `config?` | [`AxiosRequestConfig`](AxiosRequestConfig.md) |
 
 #### Returns
@@ -404,13 +404,13 @@ node_modules/axios/index.d.ts:153
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[post](AxiosInstance.md#post-8)
+[AxiosInstance](AxiosInstance.md).[post](AxiosInstance.md#post-12)
 
 #### Defined in
 
 node_modules/axios/index.d.ts:151
 
----
+___
 
 ### put
 
@@ -418,17 +418,17 @@ node_modules/axios/index.d.ts:151
 
 #### Type parameters
 
-| Name | Type                                      |
-| :--- | :---------------------------------------- |
-| `T`  | `any`                                     |
-| `R`  | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+| `R` | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
 
 #### Parameters
 
-| Name      | Type                                          |
-| :-------- | :-------------------------------------------- |
-| `url`     | `string`                                      |
-| `data?`   | `any`                                         |
+| Name | Type |
+| :------ | :------ |
+| `url` | `string` |
+| `data?` | `any` |
 | `config?` | [`AxiosRequestConfig`](AxiosRequestConfig.md) |
 
 #### Returns
@@ -437,13 +437,13 @@ node_modules/axios/index.d.ts:151
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[put](AxiosInstance.md#put-8)
+[AxiosInstance](AxiosInstance.md).[put](AxiosInstance.md#put-12)
 
 #### Defined in
 
 node_modules/axios/index.d.ts:152
 
----
+___
 
 ### request
 
@@ -451,15 +451,15 @@ node_modules/axios/index.d.ts:152
 
 #### Type parameters
 
-| Name | Type                                      |
-| :--- | :---------------------------------------- |
-| `T`  | `any`                                     |
-| `R`  | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+| `R` | [`AxiosResponse`](AxiosResponse.md)<`T`\> |
 
 #### Parameters
 
-| Name     | Type                                          |
-| :------- | :-------------------------------------------- |
+| Name | Type |
+| :------ | :------ |
 | `config` | [`AxiosRequestConfig`](AxiosRequestConfig.md) |
 
 #### Returns
@@ -468,13 +468,13 @@ node_modules/axios/index.d.ts:152
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[request](AxiosInstance.md#request-8)
+[AxiosInstance](AxiosInstance.md).[request](AxiosInstance.md#request-12)
 
 #### Defined in
 
 node_modules/axios/index.d.ts:146
 
----
+___
 
 ### spread
 
@@ -483,14 +483,14 @@ node_modules/axios/index.d.ts:146
 #### Type parameters
 
 | Name |
-| :--- |
-| `T`  |
-| `R`  |
+| :------ |
+| `T` |
+| `R` |
 
 #### Parameters
 
-| Name       | Type                      |
-| :--------- | :------------------------ |
+| Name | Type |
+| :------ | :------ |
 | `callback` | (...`args`: `T`[]) => `R` |
 
 #### Returns
@@ -501,8 +501,8 @@ node_modules/axios/index.d.ts:146
 
 ##### Parameters
 
-| Name    | Type  |
-| :------ | :---- |
+| Name | Type |
+| :------ | :------ |
 | `array` | `T`[] |
 
 ##### Returns

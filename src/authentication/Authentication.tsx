@@ -35,7 +35,6 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
     useOrganization();
   const [systemLoading, setSystemLoading] = useState(false);
 
-  // @TODO all this should be inside toolbox wrapper
   useEffect(() => {
     if (!systemLoading) {
       setSystemLoading(true);
@@ -75,10 +74,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
     }
   }, [getAccessTokenSilently, selectedOrganization]);
 
-  // NOTE: we need to define `Allowed Callback URLs` and `Allowed Web Origins` on auth0
-  // http://localhost:3000/
   // when loading is true before navigation this is not showing anymore
-  // NOTE: remember that you have to define connections on the organization otherwise one thousand redirects will come and find you
   if (systemLoading || isLoading || !isAuthenticated) {
     return <div data-testid={'orfium-auth-loading'}>Loading...</div>;
   }

@@ -11,6 +11,10 @@ export type TopBarProps = {
   userMenu?: UserMenuProps;
 } & Omit<TopAppBarProps, 'logoIcon' | 'userMenu'>;
 
+/*
+ * The component to represent all the information that is coming from the SSO
+ * Based on Ictinus component
+ */
 export const TopBar: React.FC<TopBarProps> = memo(
   ({ logoIcon, onMenuIconClick, additionalTools }) => {
     const { user, logout } = useAuthentication();
