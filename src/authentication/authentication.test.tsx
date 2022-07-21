@@ -2,7 +2,7 @@ import * as auth from '@auth0/auth0-react';
 import { cleanup, render, waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { orfiumBaseInstance } from '../request';
+import { orfiumIdBaseInstance } from '../request';
 import MockRequest from '../request/mock';
 import { Authentication as AuthenticationProvider } from './index';
 
@@ -28,7 +28,7 @@ const mockAuth0 = (isAuthenticated: boolean, isLoading: boolean) => {
 
 describe('Authorization: ', () => {
   let mock: MockRequest;
-  const apiInstance = orfiumBaseInstance.instance;
+  const apiInstance = orfiumIdBaseInstance.instance;
 
   beforeEach(() => {
     mock = new MockRequest(apiInstance);

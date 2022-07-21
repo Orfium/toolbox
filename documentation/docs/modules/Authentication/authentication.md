@@ -1,7 +1,9 @@
 ---
-sidebar_label: 'Authentication'
+sidebar_label: 'Overview'
 sidebar_position: 1
 ---
+
+# Authentication
 
 ## Overview
 
@@ -11,14 +13,19 @@ In order for a project to be integrated to the Orfium One suite of applications 
 
 It's in essence the Auth0 library for react but since this might change, we decided it's better to abstract it and provide it from the toolbox.
 
+Mainly Authentication is responsible for passing `Authorization` token on [Request](/docs/modules/Request/) and provide the [TopBar](/docs/modules/Authentication/TopBar) with all the necessary information like user and organizations.
+
 ## Integration
 
-It's fairly easy to integrate with the Orfium One SSO using the Authentication provider. We cover this in 5 simple steps.
+It's fairly easy to integrate with the Orfium One SSO using the Authentication. We cover this in 5 simple steps.
 
 ### 1. Set up environment variables.
 
 Ask <insert name of team/person responsible for SSO, maybe like core team or something> to provide you with the client id and domain that is created through the auth0
 applications page for your application. These will be different for each environment.
+
+On the application created the team/person responsible needs to define `Allowed Callback URLs`, `Allowed Logout URLs` and `Allowed Web Origins` for your local and live urls.
+Also they need to also define connections on the organization otherwise the application will have constant redirects.
 
 You need to add these locally to a `.env` file that's ignored in order for you to develop with the authentication enabled and add the staging and production
 ones to Heroku or AWS depending on what you use.
@@ -27,37 +34,40 @@ ones to Heroku or AWS depending on what you use.
 REACT_APP_CLIENT_ID=<ClientId>
 REACT_APP_DOMAIN=<Domain>
 REACT_APP_AUDIENCE=<Audience> // optional option - default to 'orfium'
+REACT_APP_ORFIUM_ID_DOMAIN=<Base url of the orfium for requests>
+REACT_APP_PRODUCT_CODE=<Product code provided for the project that you are using>
 ```
 
-### 2. AuthenticationProvider
+### 2. Setup Authentication
 
-Then you need to wrap your app with the Authentication provider. Make sure to add this in the top level of your app so
+Then you need to wrap your app with the Authentication. Make sure to add this in the top level of your app.
 
 ```jsx title="/src/index.tsx"
 ...
-import { AuthenticationProvider } from '@orfium/toolbox';
+// highlight-next-line
+import { Authentication } from '@orfium/toolbox';
 ...
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthenticationProvider>
+    // highlight-next-line
+    <Authentication>
       <App />
-    </AuthenticationProvider>
+      // highlight-next-line
+    </Authentication>
   </React.StrictMode>,
   document.getElementById('root')
 );
 
 ```
 
-Authentication provider takes AuthenticationProviderProps in case you want to override something in the initialization of the Auth0 provider ,but you probably
-don't want to do it and most probably they will be removed in a later version.
-
-So, yeah. It's there but don't use it. If you need something more ,read [here](https://auth0.github.io/auth0-react/interfaces/Auth0ProviderOptions.html) for more options and information and please contact the maintainers of `toolbox` and SSO team to see if it's really needed in order to add it as a default.
+Authentication has no props. It takes only children and provides all the necessary information for all the linked parts of Orfium.
 
 ### 3. :warning: Wait for it :warning:
 
 It's recommended ( through the [official documentation](https://auth0.com/docs/libraries/auth0-react#isloading-and-error) , but also through the support forum of Auth0 ) to wait for the
 authentication service. Make sure to add some kind of loader to the top of your application right after the AuthenticationProvider.
+using the Authentication provider
 
 ```jsx title="/src/App.tsx"
 ...
@@ -65,7 +75,7 @@ import { useAuthentication } from '@orfium/toolbox';
 ...
 
 ...
-const App: React.FC = () => {
+const Page: React.FC = () => {
   const { isLoading } = useAuthentication();
 
   if (isLoading) {
@@ -97,7 +107,7 @@ If you are not authenticated and the app is not loading you will be redirected t
 
 ## Examples
 
-Let's see in depth with some examples the usage of `getAccessTokenSilently`. This is the most interesting one and the one you **WILL**and **MUST** use.
+Let's see in depth with some examples the usage of `getAccessTokenSilently`. This is the most interesting one and the one you **WILL** and **MUST** use.
 
 As a default set up we use [refresh tokens](https://auth0.com/learn/refresh-tokens/). This has not been said before because it doesn't change the way you use the app.
 

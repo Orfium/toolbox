@@ -1,28 +1,36 @@
 import { Button, ThemeProvider } from '@orfium/ictinus';
 import React, { useEffect, useState } from 'react';
 
-import { orfiumBaseInstance } from '../request';
+import { orfiumIdBaseInstance } from '../request';
 import useOrganization from '../store/useOrganization';
+import useRequestToken from '../store/useRequestToken';
 import { config } from './config';
 import { AuthenticationProvider, useAuthentication } from './context';
+import { TopBar, TopBarProps } from './TopBar';
+
+type AuthenticationSubComponents = {
+  TopBar: React.FC<TopBarProps>;
+};
 
 /*
  * The component that uses the AuthenticationProvider.
  * All the logic is on the Authentication
  */
-const Authentication: React.FunctionComponent = ({ children }) => {
+const Authentication: React.FC & AuthenticationSubComponents = ({ children }) => {
   return (
     <AuthenticationProvider>
       <AuthenticationWrapper>{children}</AuthenticationWrapper>
     </AuthenticationProvider>
   );
 };
+Authentication.TopBar = TopBar;
 
 /*
  * This is the main component that is wrapped on the authentication.
  */
 const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
   const { isLoading, isAuthenticated, getAccessTokenSilently, logout } = useAuthentication();
+  const setToken = useRequestToken((state) => state.setToken);
   const { organizations, setOrganizations, setSelectedOrganization, selectedOrganization } =
     useOrganization();
   const [systemLoading, setSystemLoading] = useState(false);
@@ -34,8 +42,9 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
       (async () => {
         // @TODO in the future we must define the org_id
         const { token, decodedToken } = await getAccessTokenSilently();
-        orfiumBaseInstance.setToken(`${token}`);
-        const requestInstance = orfiumBaseInstance.createRequest({
+        orfiumIdBaseInstance.setToken(`${token}`);
+        setToken(token);
+        const requestInstance = orfiumIdBaseInstance.createRequest({
           method: 'get',
           url: '/memberships/',
           params: config.productCode ? { product_code: config.productCode } : undefined,
@@ -47,15 +56,16 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
           setSelectedOrganization(data[0]);
         }
 
-        // if token with organization exists do not continue
+        // if token doesn't have an organization set continue and set one
         if (!decodedToken?.org_id) {
           if (data.length) {
             const { token: orgToken } = await getAccessTokenSilently({
-              organization: data[0].org_id,
+              organization: selectedOrganization?.org_id || data[0].org_id,
               ignoreCache: true,
             });
 
-            orfiumBaseInstance.setToken(`Bearer ${orgToken}`);
+            orfiumIdBaseInstance.setToken(`${orgToken}`);
+            setToken(token);
           }
         }
 
@@ -65,18 +75,19 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
     }
   }, [getAccessTokenSilently, selectedOrganization]);
 
-  // we need to define `Allowed Callback URLs` and `Allowed Web Origins` on auth0
+  // NOTE: we need to define `Allowed Callback URLs` and `Allowed Web Origins` on auth0
   // http://localhost:3000/
   // when loading is true before navigation this is not showing anymore
+  // NOTE: remember that you have to define connections on the organization otherwise one thousand redirects will come and find you
   if (systemLoading || isLoading || !isAuthenticated) {
-    return <div data-testid={'auth-loading'}>Loading...</div>;
+    return <div data-testid={'orfium-auth-loading'}>Loading...</div>;
   }
 
   if (!selectedOrganization) {
     return (
       <ThemeProvider>
         <div
-          data-testid={'no-org-id'}
+          data-testid={'orfium-no-org-id'}
           style={{
             width: '100vw',
             height: '100vh',

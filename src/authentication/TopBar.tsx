@@ -1,19 +1,18 @@
 import { Button, TopNavBar, Menu } from '@orfium/ictinus';
+import { UserMenuProps } from '@orfium/ictinus/dist/components/TopAppBar/components/UserMenu/UserMenu';
+import { TopAppBarProps } from '@orfium/ictinus/dist/components/TopAppBar/TopAppBar.types';
 import React, { useState, memo } from 'react';
 
-import { useAuthentication } from '../authentication';
 import useOrganization from '../store/useOrganization';
+import { useAuthentication } from './index';
 
-export const TopBar = memo(
-  ({
-    logoIcon,
-    onMenuIconClick,
-    additionalTools,
-  }: {
-    onMenuIconClick: () => void;
-    logoIcon?: JSX.Element;
-    additionalTools?: JSX.Element | JSX.Element[];
-  }) => {
+export type TopBarProps = {
+  logoIcon: JSX.Element;
+  userMenu?: UserMenuProps;
+} & Omit<TopAppBarProps, 'logoIcon' | 'userMenu'>;
+
+export const TopBar: React.FC<TopBarProps> = memo(
+  ({ logoIcon, onMenuIconClick, additionalTools }) => {
     const { user, logout } = useAuthentication();
     const { organizations, setSelectedOrganization, selectedOrganization } = useOrganization();
 
@@ -62,5 +61,3 @@ export const TopBar = memo(
   }
 );
 TopBar.displayName = 'TopBar';
-
-// export default TopBar;

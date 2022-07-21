@@ -1,9 +1,10 @@
-import pkg from './package.json';
-import typescript from '@rollup/plugin-typescript';
-import { terser } from 'rollup-plugin-terser';
 import resolve from '@rollup/plugin-node-resolve';
-import external from 'rollup-plugin-peer-deps-external';
+import typescript from '@rollup/plugin-typescript';
 import dts from 'rollup-plugin-dts';
+import external from 'rollup-plugin-peer-deps-external';
+import { terser } from 'rollup-plugin-terser';
+
+import pkg from './package.json';
 
 export default [
   {
