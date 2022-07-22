@@ -12,6 +12,7 @@ Also TopBar is part of the process of the Authentication that is why is under th
 ## Usage
 
 In order to use the `Authentication.TopBar` you only have to import if from the toolbox and add it to your Page component or App Wrapper.
+Keep in mind that `@orfium/ictinus` must be installed in your app. Follow these [steps](https://ictinus.herokuapp.com/?path=/story/guide-getting-started--page) before proceed
 The only required field now is `logoIcon` compare to the [Ictinus Component](https://ictinus.herokuapp.com/?path=/story/design-system-topnavbar--with-logo-placeholder)
 
 ```jsx

@@ -8,7 +8,7 @@ export type Organization = {
   can_administrate: boolean;
   metadata: {
     type: string;
-    product_codes: number;
+    product_codes: string;
   };
   branding: {
     logo_url: string;

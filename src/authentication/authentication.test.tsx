@@ -38,6 +38,7 @@ describe('Authorization: ', () => {
     jest.clearAllMocks();
     cleanup();
   });
+
   it('renders without crashing', () => {
     mockAuth0(true, false);
 

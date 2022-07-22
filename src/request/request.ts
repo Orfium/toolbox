@@ -36,7 +36,7 @@ export const request =
     const config = {
       method: method,
       url,
-      cancelToken: cancelTokenSource.token,
+      // cancelToken: cancelTokenSource.token,
       data: params,
       params: method === METHODS.GET ? params : undefined,
       headers: { ...baseHeaders, ...headers }, //adding base headers based on initialization

@@ -48,15 +48,16 @@ export const TopBar: React.FC<TopBarProps> = memo(
           >
             {additionalTools}
             <Menu
+              dataTestId={'organization-picker'}
               color={'lightGrey-50'}
               onSelect={(option: string) => {
-                const foundOrg = organizations.find((org) => org.name === option);
+                const foundOrg = organizations.find((org) => org.display_name === option);
                 if (foundOrg) {
                   setSelectedOrganization(foundOrg);
                 }
               }}
-              buttonText={selectedOrganization?.name}
-              items={organizations.map((org) => org.name)}
+              buttonText={selectedOrganization?.display_name}
+              items={organizations.map((org) => org.display_name)}
             />
           </div>
         }
