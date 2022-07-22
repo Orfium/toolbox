@@ -1,11 +1,13 @@
 import axios, { AxiosInstance, CancelTokenSource } from 'axios';
 
-import { deleteToken, request, RequestProps, setToken } from './request';
+import useOrganization from '../store/useOrganization';
+import useRequestToken from '../store/useRequestToken';
+import { deleteToken, request, RequestProps, setToken, tokenFormat } from './request';
 export { default as MockRequest } from './mock';
 
 export type CreateAPIInstanceProps = {
   baseUrl: string;
-  baseHeaders?: Record<string, string>;
+  baseHeaders?: Record<string, string | undefined>;
 };
 
 export type CreateAPIInstanceType = {
@@ -27,7 +29,9 @@ export type CreateAPIInstanceType = {
  */
 export const createAPIInstance = ({
   baseUrl = '',
-  baseHeaders = {},
+  baseHeaders = {
+    Authorization: tokenFormat(useRequestToken.getState().token || ''),
+  },
 }: CreateAPIInstanceProps): CreateAPIInstanceType => {
   const orfiumAxios = axios.create({
     baseURL: baseUrl,

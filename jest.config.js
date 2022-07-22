@@ -11,4 +11,7 @@ module.exports = {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '\\.svg$': '<rootDir>/__mocks__/fileMock.tsx',
   },
+  setupFilesAfterEnv: [`<rootDir>/setup-jest.ts`],
+  collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.stories.{ts,tsx,js,jsx,mdx,md}'],
+  coveragePathIgnorePatterns: ['/node_modules/', '/test/', '/documentation/'],
 };

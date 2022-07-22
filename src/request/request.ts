@@ -21,7 +21,7 @@ export type RequestProps = {
 } & Pick<AxiosRequestConfig, 'onUploadProgress' | 'onDownloadProgress' | 'responseType'>;
 
 export const request =
-  (orfiumAxios: AxiosInstance, baseHeaders: Record<string, string>) =>
+  (orfiumAxios: AxiosInstance, baseHeaders: Record<string, string | undefined>) =>
   // @ts-ignore
   <T = any>({
     method,
@@ -36,7 +36,7 @@ export const request =
     const config = {
       method: method,
       url,
-      cancelToken: cancelTokenSource.token,
+      // cancelToken: cancelTokenSource.token,
       data: params,
       params: method === METHODS.GET ? params : undefined,
       headers: { ...baseHeaders, ...headers }, //adding base headers based on initialization
@@ -50,11 +50,13 @@ export const request =
     return { request, cancelTokenSource };
   };
 
+export const tokenFormat = (token: string) => `Bearer ${token}`;
+
 export const setToken =
   (orfiumAxios: AxiosInstance) =>
   (token: string): void => {
     const hasToken = token !== '';
-    orfiumAxios.defaults.headers.common.Authorization = hasToken ? `Token ${token}` : '';
+    orfiumAxios.defaults.headers.common.Authorization = hasToken ? tokenFormat(token) : '';
   };
 
 export const deleteToken = (orfiumAxios: AxiosInstance) => (): void => {

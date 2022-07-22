@@ -3,7 +3,9 @@ sidebar_label: 'Routing'
 sidebar_position: 2
 ---
 
-# Overview
+# Routing
+
+## Overview
 
 Routing is about getting all the pieces of your Application together. In order to avoid application having their own route system
 toolbox is providing all the necessary system to accomplish routing on your application through a simple configuration.
