@@ -30,19 +30,18 @@ Authentication.TopBar = TopBar;
  */
 const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
   const { isLoading, isAuthenticated, getAccessTokenSilently, logout } = useAuthentication();
-  const setToken = useRequestToken((state) => state.setToken);
   const { organizations, setOrganizations, setSelectedOrganization, selectedOrganization } =
     useOrganization();
   const [systemLoading, setSystemLoading] = useState(false);
 
   useEffect(() => {
-    if (!systemLoading) {
+    if (!systemLoading && !isLoading) {
       setSystemLoading(true);
       (async () => {
         // @TODO in the future we must define the org_id
+        console.log('getAccessTokenSilently WITHOUT organization');
         const { token, decodedToken } = await getAccessTokenSilently();
-        orfiumIdBaseInstance.setToken(`${token}`);
-        setToken(token);
+        // orfiumIdBaseInstance.setToken(`${token}`);
         const requestInstance = orfiumIdBaseInstance.createRequest({
           method: 'get',
           url: '/memberships/',
@@ -58,13 +57,13 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         // if token doesn't have an organization set continue and set one
         if (!decodedToken?.org_id) {
           if (data.length) {
+            console.log('getAccessTokenSilently with organization');
             const { token: orgToken } = await getAccessTokenSilently({
               organization: selectedOrganization?.org_id || data[0].org_id,
               ignoreCache: true,
             });
 
-            orfiumIdBaseInstance.setToken(`${orgToken}`);
-            setToken(token);
+            // orfiumIdBaseInstance.setToken(`${orgToken}`);
           }
         }
 
@@ -74,6 +73,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
     }
   }, [getAccessTokenSilently, selectedOrganization]);
 
+  console.log({ systemLoading, isLoading });
   // when loading is true before navigation this is not showing anymore
   if (systemLoading || isLoading || !isAuthenticated) {
     return <div data-testid={'orfium-auth-loading'}>Loading...</div>;

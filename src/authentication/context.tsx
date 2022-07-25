@@ -1,8 +1,16 @@
-import { Auth0Provider, useAuth0, User } from '@auth0/auth0-react';
-import { Auth0ProviderOptions } from '@auth0/auth0-react/dist/auth0-provider';
-import { GetTokenSilentlyOptions } from '@auth0/auth0-spa-js';
+import createAuth0Client, {
+  getIdTokenClaimsOptions,
+  GetTokenSilentlyOptions,
+  GetTokenWithPopupOptions,
+  IdToken,
+  LogoutOptions,
+  PopupLoginOptions,
+  RedirectLoginOptions,
+  Auth0ClientOptions,
+} from '@auth0/auth0-spa-js';
+import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import jwt_decode from 'jwt-decode';
-import React, { createContext, useEffect } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 
 import useOrganization from '../store/useOrganization';
 import useRequestToken from '../store/useRequestToken';
@@ -13,61 +21,178 @@ const onRedirectCallback = () => {
   return window.location.pathname;
 };
 
-const providerConfig: Auth0ProviderOptions = {
+const providerConfig: Auth0ClientOptions = {
   domain: config.domain || '',
-  clientId: config.clientId || '',
+  client_id: config.clientId || '',
   audience: config.audience || 'orfium',
-  redirectUri: window.location.origin,
+  redirect_uri: window.location.origin,
   onRedirectCallback,
   useRefreshTokens: true,
   // this way we persist the token to not refetch on reload - https://auth0.com/docs/libraries/auth0-single-page-app-sdk#change-storage-options
   cacheLocation: 'localstorage',
 };
 
-const AuthenticationContext = createContext<AuthenticationContextProps>({
+export const AuthenticationContext = createContext<AuthenticationContextProps>({
   isAuthenticated: false,
   isLoading: false,
   user: undefined,
-  loginWithRedirect: () => {},
+  loginWithRedirect: () => Promise.resolve(),
   logout: () => {},
   getAccessTokenSilently: () => Promise.resolve({ token: '', decodedToken: {} }),
 });
+export const useAuth0 = () => useContext(AuthenticationContext)!;
 
-const Provider: React.FC = ({ children }) => {
-  const {
-    isAuthenticated,
-    isLoading,
-    loginWithRedirect,
-    loginWithPopup,
-    logout: logoutAuth0,
-    getAccessTokenSilently: getAccessTokenSilentlyAuth0,
-    user,
-  } = useAuth0();
+const getAuth0Client: any = async () => {
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (resolve, reject) => {
+    const selectedOrganization = useOrganization.getState().selectedOrganization;
+    let client;
+    if (!client) {
+      try {
+        client = await createAuth0Client({
+          ...providerConfig,
+          // scope: 'openid email profile offline_access',
+          // cacheLocation: 'localstorage',
+          // useRefreshTokens: true,
+          organization: selectedOrganization?.org_id,
+        });
+        resolve(client);
+      } catch (e) {
+        reject(new Error(`getAuth0Client Error: ${e}`));
+      }
+    }
+  });
+};
+
+export const getTokenSilently = async (p?: any) => {
+  const { token: stateToken, setToken } = useRequestToken.getState();
+  const selectedOrganization = useOrganization.getState().selectedOrganization;
+  const decodedToken = stateToken ? jwt_decode<{ exp?: number }>(stateToken) : {};
+  const isExpired =
+    decodedToken && decodedToken.exp
+      ? new Date(decodedToken?.exp * 1000).getTime() < new Date().getTime()
+      : true; // has expired
+
+  if (!isExpired) {
+    return { token: stateToken, decodedToken };
+  }
+
+  const client = await getAuth0Client();
+
+  const token = await client.getTokenSilently({
+    ...p,
+    //ignoreCache: !isExpired
+    ignoreCache: true,
+    organization: selectedOrganization?.org_id,
+  });
+  setToken(token);
+
+  return { token, decodedToken };
+};
+
+export const Provider: React.FC = ({ children }): any => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<any>();
+  const [auth0Client, setAuth0] = useState<Auth0Client>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [popupOpen, setPopupOpen] = useState(false);
   const setToken = useRequestToken((state) => state.setToken);
 
-  const getAccessTokenSilently = async (opts?: GetTokenSilentlyOptions) => {
-    try {
-      const token = await getAccessTokenSilentlyAuth0(opts);
-      const decodedToken = jwt_decode<Record<string, unknown>>(token);
-
-      return { token, decodedToken };
-    } catch (e: any) {
-      if (e?.error === 'login_required' || e?.error === 'consent_required') {
-        await loginWithPopup();
+  useEffect(() => {
+    (async () => {
+      console.log('auth0 client creation');
+      const client = await getAuth0Client();
+      setAuth0(client);
+      if (window.location.search.includes('code=')) {
+        onRedirectCallback();
       }
-      throw e;
+      const isAuthenticated = await client.isAuthenticated();
+      setIsAuthenticated(isAuthenticated);
+
+      if (isAuthenticated) {
+        const user = await client.getUser();
+        setUser(user);
+      }
+
+      setIsLoading(false);
+    })();
+    // eslint-disable-next-line
+  }, []);
+
+  const loginWithPopup = async (params = {}) => {
+    setPopupOpen(true);
+    try {
+      await auth0Client!.loginWithPopup(params);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setPopupOpen(false);
     }
+    const user = await auth0Client!.getUser();
+    setUser(user);
+    setIsAuthenticated(true);
+  };
+
+  const handleRedirectCallback = async () => {
+    setIsLoading(true);
+    await auth0Client!.handleRedirectCallback();
+    const user = await auth0Client!.getUser();
+    setIsLoading(false);
+    setIsAuthenticated(true);
+    setUser(user);
+  };
+
+  const getAccessTokenSilently = async (opts?: GetTokenSilentlyOptions) => {
+    console.log('getAccessTokenSilently trigger');
+
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { token: stateToken = '', setToken } = useRequestToken.getState();
+        const decodedToken = stateToken ? jwt_decode<{ exp?: number }>(stateToken) : {};
+        const selectedOrganization = useOrganization.getState().selectedOrganization;
+        const isExpired =
+          decodedToken && decodedToken?.exp
+            ? new Date(decodedToken?.exp * 1000).getTime() < new Date().getTime()
+            : true; // has expired
+        console.log('getAccessTokenSilently start promise', decodedToken);
+
+        if (!isExpired) {
+          console.log('getAccessTokenSilently !isExpired resolve');
+
+          return resolve({ token: stateToken, decodedToken });
+        }
+
+        const token = await auth0Client?.getTokenSilently({
+          organization: selectedOrganization?.org_id,
+          ...opts,
+        });
+        console.log({ auth0Client, token });
+        setToken(token);
+
+        console.log('getAccessTokenSilently normal resolve');
+
+        return resolve({ token, decodedToken });
+      } catch (e: any) {
+        console.log('getAccessTokenSilently error', e);
+        if (e?.error === 'login_required' || e?.error === 'consent_required') {
+          await loginWithPopup();
+        }
+        reject(e);
+      }
+    });
   };
 
   const logout = () => {
     // @TODO change returnTo to orfium one when is ready
-    logoutAuth0({ returnTo: window.location.origin });
+    // allowed logout urls on auth0 application
+    auth0Client?.logout({ returnTo: window.location.origin });
     setToken(undefined);
   };
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      loginWithRedirect();
+      auth0Client!.loginWithRedirect();
     }
   }, [isLoading, isAuthenticated]);
 
@@ -76,9 +201,10 @@ const Provider: React.FC = ({ children }) => {
       value={{
         isAuthenticated,
         isLoading,
-        loginWithRedirect,
+        loginWithRedirect: (o: RedirectLoginOptions) => auth0Client!.loginWithRedirect(o),
         logout,
-        getAccessTokenSilently,
+        // @ts-ignore
+        getAccessTokenSilently: (o: RedirectLoginOptions) => getAccessTokenSilently(o),
         user,
       }}
     >
@@ -90,11 +216,7 @@ const Provider: React.FC = ({ children }) => {
 const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({ children, overrides }) => {
   const { selectedOrganization } = useOrganization();
 
-  return (
-    <Auth0Provider {...providerConfig} organization={selectedOrganization?.org_id} {...overrides}>
-      <Provider>{children}</Provider>
-    </Auth0Provider>
-  );
+  return <Provider>{children}</Provider>;
 };
 
 const useAuthentication = () => React.useContext(AuthenticationContext);
