@@ -155,7 +155,7 @@ export const Provider: React.FC = ({ children }): any => {
           decodedToken && decodedToken?.exp
             ? new Date(decodedToken?.exp * 1000).getTime() < new Date().getTime()
             : true; // has expired
-        console.log('getAccessTokenSilently start promise', decodedToken);
+        console.log('getAccessTokenSilently start promise', decodedToken, selectedOrganization);
 
         if (!isExpired) {
           console.log('getAccessTokenSilently !isExpired resolve');
@@ -163,14 +163,12 @@ export const Provider: React.FC = ({ children }): any => {
           return resolve({ token: stateToken, decodedToken });
         }
 
+        console.log('getAccessTokenSilently normal resolve', selectedOrganization);
         const token = await auth0Client?.getTokenSilently({
-          organization: selectedOrganization?.org_id,
           ...opts,
         });
         console.log({ auth0Client, token });
         setToken(token);
-
-        console.log('getAccessTokenSilently normal resolve');
 
         return resolve({ token, decodedToken });
       } catch (e: any) {
@@ -178,7 +176,8 @@ export const Provider: React.FC = ({ children }): any => {
         if (e?.error === 'login_required' || e?.error === 'consent_required') {
           await loginWithPopup();
         }
-        reject(e);
+
+        return reject(e);
       }
     });
   };
