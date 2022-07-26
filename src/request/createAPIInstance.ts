@@ -56,6 +56,8 @@ export const createAPIInstance = ({
       const { token } = await getTokenSilently();
       config.headers.Authorization = `Bearer ${token}`;
 
+      console.log('interceptors', config);
+
       return config;
     },
     (error) => {

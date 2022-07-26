@@ -52,8 +52,6 @@ const getAuth0Client: any = async () => {
         client = await createAuth0Client({
           ...providerConfig,
           // scope: 'openid email profile offline_access',
-          // cacheLocation: 'localstorage',
-          // useRefreshTokens: true,
           organization: selectedOrganization?.org_id,
         });
         resolve(client);
@@ -104,6 +102,7 @@ export const Provider: React.FC = ({ children }): any => {
       const client = await getAuth0Client();
       setAuth0(client);
       if (window.location.search.includes('code=')) {
+        await client.handleRedirectCallback();
         onRedirectCallback();
       }
       const isAuthenticated = await client.isAuthenticated();
