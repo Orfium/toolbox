@@ -46,6 +46,7 @@ const getAuth0Client: any = async () => {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     const selectedOrganization = useOrganization.getState().selectedOrganization;
+    console.log('getAuth0Client', { selectedOrganization });
     let client;
     if (!client) {
       try {
@@ -62,20 +63,24 @@ const getAuth0Client: any = async () => {
   });
 };
 
-export const getTokenSilently = async (p?: any) => {
+export const getTokenSilently = async (p?: any, auth0Client?: Auth0Client) => {
   const { token: stateToken, setToken } = useRequestToken.getState();
   const selectedOrganization = useOrganization.getState().selectedOrganization;
-  const decodedToken = stateToken ? jwt_decode<{ exp?: number }>(stateToken) : {};
+  const decodedToken = stateToken ? jwt_decode<{ exp?: number; org_id?: string }>(stateToken) : {};
   const isExpired =
     decodedToken && decodedToken.exp
       ? new Date(decodedToken?.exp * 1000).getTime() < new Date().getTime()
       : true; // has expired
 
-  if (!isExpired) {
+  // console.log({ decodedToken, selectedOrganization });
+
+  if (!isExpired && decodedToken.org_id) {
     return { token: stateToken, decodedToken };
   }
 
-  const client = await getAuth0Client();
+  const client = auth0Client || (await getAuth0Client());
+
+  // console.log({ client, url: await client.buildAuthorizeUrl() });
 
   const token = await client.getTokenSilently({
     ...p,
@@ -102,8 +107,13 @@ export const Provider: React.FC = ({ children }): any => {
       const client = await getAuth0Client();
       setAuth0(client);
       if (window.location.search.includes('code=')) {
-        await client.handleRedirectCallback();
-        onRedirectCallback();
+        try {
+          await client.handleRedirectCallback();
+          onRedirectCallback();
+        } catch (e) {
+          console.error(e);
+          // client.logout();
+        }
       }
       const isAuthenticated = await client.isAuthenticated();
       setIsAuthenticated(isAuthenticated);
@@ -147,27 +157,7 @@ export const Provider: React.FC = ({ children }): any => {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
-        const { token: stateToken = '', setToken } = useRequestToken.getState();
-        const decodedToken = stateToken ? jwt_decode<{ exp?: number }>(stateToken) : {};
-        const selectedOrganization = useOrganization.getState().selectedOrganization;
-        const isExpired =
-          decodedToken && decodedToken?.exp
-            ? new Date(decodedToken?.exp * 1000).getTime() < new Date().getTime()
-            : true; // has expired
-        console.log('getAccessTokenSilently start promise', decodedToken, selectedOrganization);
-
-        if (!isExpired) {
-          console.log('getAccessTokenSilently !isExpired resolve');
-
-          return resolve({ token: stateToken, decodedToken });
-        }
-
-        console.log('getAccessTokenSilently normal resolve', selectedOrganization);
-        const token = await auth0Client?.getTokenSilently({
-          ...opts,
-        });
-        console.log({ auth0Client, token });
-        setToken(token);
+        const { token, decodedToken } = await getTokenSilently(opts, auth0Client);
 
         return resolve({ token, decodedToken });
       } catch (e: any) {

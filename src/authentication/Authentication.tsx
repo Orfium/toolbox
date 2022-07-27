@@ -38,10 +38,10 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
     if (!systemLoading && !isLoading) {
       setSystemLoading(true);
       (async () => {
+        // moving this will affect the app. If this is moved below when clearing the storage the app constantly refresh
+        const { decodedToken } = await getAccessTokenSilently();
         // @TODO in the future we must define the org_id
         console.log('getAccessTokenSilently WITHOUT organization');
-        const { token, decodedToken } = await getAccessTokenSilently();
-        // orfiumIdBaseInstance.setToken(`${token}`);
         const requestInstance = orfiumIdBaseInstance.createRequest({
           method: 'get',
           url: '/memberships/',
@@ -57,13 +57,13 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         // if token doesn't have an organization set continue and set one
         if (!decodedToken?.org_id) {
           if (data.length) {
-            console.log('getAccessTokenSilently with organization');
+            console.log('getAccessTokenSilently with organization', {
+              orgid: selectedOrganization?.org_id || data[0].org_id,
+            });
             const { token: orgToken } = await getAccessTokenSilently({
               organization: selectedOrganization?.org_id || data[0].org_id,
               ignoreCache: true,
             });
-
-            // orfiumIdBaseInstance.setToken(`${orgToken}`);
           }
         }
 
