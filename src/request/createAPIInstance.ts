@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, CancelTokenSource } from 'axios';
 
-import { getTokenSilently } from '../authentication/context';
+import { getTokenSilently, logoutAuth } from '../authentication/context';
 import useOrganization from '../store/useOrganization';
 import useRequestToken from '../store/useRequestToken';
 import { deleteToken, request, RequestProps, setToken, tokenFormat } from './request';
@@ -39,24 +39,23 @@ export const createAPIInstance = ({
   });
 
   // note Allow Offline Access on API of auth0 must be set for refresh tokens
-  // orfiumAxios.interceptors.response.use(
-  //   (response) => {
-  //     return response;
-  //   },
-  //   (error) => {
-  //     if (error.response.status === 401) {
-  //       console.log({ error });
-  //     }
-  //
-  //     return error;
-  //   }
-  // );
+  orfiumAxios.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error.response.status === 401) {
+        console.log({ error });
+        logoutAuth();
+      }
+
+      return error;
+    }
+  );
   orfiumAxios.interceptors.request.use(
     async (config) => {
       const { token } = await getTokenSilently();
       config.headers.Authorization = `Bearer ${token}`;
-
-      console.log('interceptors', config);
 
       return config;
     },

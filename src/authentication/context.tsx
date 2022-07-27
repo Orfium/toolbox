@@ -42,29 +42,39 @@ export const AuthenticationContext = createContext<AuthenticationContextProps>({
 });
 export const useAuth0 = () => useContext(AuthenticationContext)!;
 
+let client: any;
 const getAuth0Client: any = async () => {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     const selectedOrganization = useOrganization.getState().selectedOrganization;
-    console.log('getAuth0Client', { selectedOrganization });
-    let client;
-    if (!client) {
+    if (!client || selectedOrganization?.org_id) {
       try {
         client = await createAuth0Client({
           ...providerConfig,
           // scope: 'openid email profile offline_access',
           organization: selectedOrganization?.org_id,
         });
-        resolve(client);
       } catch (e) {
         reject(new Error(`getAuth0Client Error: ${e}`));
       }
     }
+
+    resolve(client);
   });
 };
 
-export const getTokenSilently = async (p?: any, auth0Client?: Auth0Client) => {
-  const { token: stateToken, setToken } = useRequestToken.getState();
+export const logoutAuth = async () => {
+  const setToken = useRequestToken.getState().setToken;
+  const resetOrganizationState = useOrganization.getState().reset;
+  const client = await getAuth0Client();
+  // allowed logout urls on auth0 application
+  client?.logout({ returnTo: window.location.origin });
+  setToken(undefined);
+  resetOrganizationState();
+};
+
+export const getTokenSilently = async (p?: any) => {
+  const { token: stateToken, setToken } = useRequestToken.getState(); // my storage
   const selectedOrganization = useOrganization.getState().selectedOrganization;
   const decodedToken = stateToken ? jwt_decode<{ exp?: number; org_id?: string }>(stateToken) : {};
   const isExpired =
@@ -72,25 +82,20 @@ export const getTokenSilently = async (p?: any, auth0Client?: Auth0Client) => {
       ? new Date(decodedToken?.exp * 1000).getTime() < new Date().getTime()
       : true; // has expired
 
-  // console.log({ decodedToken, selectedOrganization });
-
   if (!isExpired && decodedToken.org_id) {
     return { token: stateToken, decodedToken };
   }
 
-  const client = auth0Client || (await getAuth0Client());
-
-  // console.log({ client, url: await client.buildAuthorizeUrl() });
+  const client = await getAuth0Client();
 
   const token = await client.getTokenSilently({
     ...p,
-    //ignoreCache: !isExpired
-    ignoreCache: true,
+    // ignoreCache: true,
     organization: selectedOrganization?.org_id,
   });
   setToken(token);
 
-  return { token, decodedToken };
+  return { token, decodedToken: jwt_decode(token) };
 };
 
 export const Provider: React.FC = ({ children }): any => {
@@ -103,13 +108,12 @@ export const Provider: React.FC = ({ children }): any => {
 
   useEffect(() => {
     (async () => {
-      console.log('auth0 client creation');
       const client = await getAuth0Client();
       setAuth0(client);
       if (window.location.search.includes('code=')) {
         try {
           await client.handleRedirectCallback();
-          onRedirectCallback();
+          // onRedirectCallback();
         } catch (e) {
           console.error(e);
           // client.logout();
@@ -152,30 +156,20 @@ export const Provider: React.FC = ({ children }): any => {
   };
 
   const getAccessTokenSilently = async (opts?: GetTokenSilentlyOptions) => {
-    console.log('getAccessTokenSilently trigger');
-
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async (resolve, reject) => {
-      try {
-        const { token, decodedToken } = await getTokenSilently(opts, auth0Client);
-
-        return resolve({ token, decodedToken });
-      } catch (e: any) {
-        console.log('getAccessTokenSilently error', e);
-        if (e?.error === 'login_required' || e?.error === 'consent_required') {
-          await loginWithPopup();
-        }
-
-        return reject(e);
+    try {
+      return getTokenSilently(opts);
+    } catch (e: any) {
+      if (e?.error === 'login_required' || e?.error === 'consent_required') {
+        await loginWithPopup();
       }
-    });
+
+      throw e;
+    }
   };
 
   const logout = () => {
     // @TODO change returnTo to orfium one when is ready
-    // allowed logout urls on auth0 application
-    auth0Client?.logout({ returnTo: window.location.origin });
-    setToken(undefined);
+    logoutAuth();
   };
 
   useEffect(() => {

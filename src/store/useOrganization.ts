@@ -20,15 +20,23 @@ type Store = {
   selectedOrganization: Organization | undefined;
   setOrganizations: (organizations: Organization[]) => void;
   setSelectedOrganization: (organizations: Organization) => void;
+  reset: () => void;
+};
+
+const initialState = {
+  organizations: [],
+  selectedOrganization: undefined,
 };
 const useOrganization = create(
   persist<Store>(
     (set, get) => ({
-      organizations: [],
-      selectedOrganization: undefined,
+      ...initialState,
       setOrganizations: (organizations: Organization[]) => set(() => ({ organizations })),
       setSelectedOrganization: (organization: Organization) => {
         set({ selectedOrganization: organization });
+      },
+      reset: () => {
+        set({ ...initialState });
       },
     }),
     {
