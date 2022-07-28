@@ -17,8 +17,12 @@ import useRequestToken from '../store/useRequestToken';
 import { config } from './config';
 import { AuthenticationContextProps, AuthenticationProviderProps } from './types';
 
-const onRedirectCallback = () => {
-  return window.location.pathname;
+const onRedirectCallback = (appState: { targetUrl: string }) => {
+  window.history.replaceState(
+    {},
+    document.title,
+    appState && appState.targetUrl ? appState.targetUrl : window.location.pathname
+  );
 };
 
 const providerConfig: Auth0ClientOptions = {
@@ -111,13 +115,8 @@ export const Provider: React.FC = ({ children }): any => {
       const client = await getAuth0Client();
       setAuth0(client);
       if (window.location.search.includes('code=')) {
-        try {
-          await client.handleRedirectCallback();
-          // onRedirectCallback();
-        } catch (e) {
-          console.error(e);
-          // client.logout();
-        }
+        const { appState } = await client.handleRedirectCallback();
+        onRedirectCallback(appState);
       }
       const isAuthenticated = await client.isAuthenticated();
       setIsAuthenticated(isAuthenticated);
@@ -144,15 +143,6 @@ export const Provider: React.FC = ({ children }): any => {
     const user = await auth0Client!.getUser();
     setUser(user);
     setIsAuthenticated(true);
-  };
-
-  const handleRedirectCallback = async () => {
-    setIsLoading(true);
-    await auth0Client!.handleRedirectCallback();
-    const user = await auth0Client!.getUser();
-    setIsLoading(false);
-    setIsAuthenticated(true);
-    setUser(user);
   };
 
   const getAccessTokenSilently = async (opts?: GetTokenSilentlyOptions) => {

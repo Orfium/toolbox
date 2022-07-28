@@ -33,7 +33,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
     useAuthentication();
   const { organizations, setOrganizations, setSelectedOrganization, selectedOrganization } =
     useOrganization();
-  const [systemLoading, setSystemLoading] = useState(false);
+  const [systemLoading, setSystemLoading] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
     if (!systemLoading && !isLoading) {
@@ -50,7 +50,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         const data = await requestInstance.request();
 
         setOrganizations(data);
-        if (!selectedOrganization) {
+        if (!selectedOrganization?.org_id) {
           setSelectedOrganization(data[0]);
         }
 
@@ -67,10 +67,10 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         }
       })();
     }
-  }, [getAccessTokenSilently, selectedOrganization]);
+  }, [getAccessTokenSilently, selectedOrganization?.org_id]);
 
   // when loading is true before navigation this is not showing anymore
-  if (systemLoading || isLoading || !isAuthenticated) {
+  if (systemLoading === undefined || systemLoading || isLoading || !isAuthenticated) {
     return <div data-testid={'orfium-auth-loading'}>Loading...</div>;
   }
 
