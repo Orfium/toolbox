@@ -1,29 +1,18 @@
-import * as auth from '@auth0/auth0-react';
 import { cleanup, render, waitFor } from '@testing-library/react';
 import React from 'react';
 
+import {
+  getTokenSilently,
+  isAuthenticated,
+  loginWithRedirect,
+  // @ts-ignore
+} from '../../__mocks__/@auth0/auth0-spa-js';
 import { orfiumIdBaseInstance } from '../request';
 import MockRequest from '../request/mock';
 import { Authentication as AuthenticationProvider } from './index';
 
-jest.spyOn(auth, 'Auth0Provider').mockImplementation(({ children }) => <div>{children}</div>);
-
 const TestComp = () => {
   return <div data-testid={'test'}>Test</div>;
-};
-const mockAuth0 = (isAuthenticated: boolean, isLoading: boolean) => {
-  const loginWithRedirectFun = jest.fn();
-  const getAccessTokenSilentlyFun = jest.fn();
-
-  // @ts-ignore
-  jest.spyOn(auth, 'useAuth0').mockImplementation(() => ({
-    isAuthenticated: isAuthenticated,
-    isLoading: isLoading,
-    loginWithRedirect: loginWithRedirectFun,
-    getAccessTokenSilently: getAccessTokenSilentlyFun,
-  }));
-
-  return { loginWithRedirectFun, getAccessTokenSilentlyFun };
 };
 
 describe('Authorization: ', () => {
@@ -40,8 +29,6 @@ describe('Authorization: ', () => {
   });
 
   it('renders without crashing', () => {
-    mockAuth0(true, false);
-
     render(
       <AuthenticationProvider>
         <TestComp />
@@ -51,8 +38,6 @@ describe('Authorization: ', () => {
 
   it('renders the test component', async () => {
     mock.onGet('/memberships/').reply(200, [{ org_id: 'a' }]);
-
-    mockAuth0(true, false);
 
     const { findByTestId } = render(
       <AuthenticationProvider>
@@ -67,7 +52,7 @@ describe('Authorization: ', () => {
   });
 
   it('redirects to login if not authenticated', async () => {
-    const { loginWithRedirectFun } = mockAuth0(false, false);
+    isAuthenticated.mockResolvedValue(false);
 
     render(
       <AuthenticationProvider>
@@ -75,12 +60,10 @@ describe('Authorization: ', () => {
       </AuthenticationProvider>
     );
 
-    await waitFor(() => expect(loginWithRedirectFun).toHaveBeenCalled());
+    await waitFor(() => expect(loginWithRedirect).toHaveBeenCalled());
   });
 
   it('renders the loading while its authenticating', async () => {
-    mockAuth0(false, true);
-
     const { findByTestId } = render(
       <AuthenticationProvider>
         <TestComp />
@@ -91,8 +74,6 @@ describe('Authorization: ', () => {
 
   it('renders the no organization message when it should', async () => {
     mock.onGet('/memberships/').replyOnce(200, []);
-
-    mockAuth0(true, false);
 
     const { findByTestId } = render(
       <AuthenticationProvider>

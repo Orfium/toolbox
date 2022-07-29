@@ -50,13 +50,13 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         const data = await requestInstance.request();
 
         setOrganizations(data);
-        if (!selectedOrganization?.org_id) {
+        if (!selectedOrganization?.org_id && data?.length > 0) {
           setSelectedOrganization(data[0]);
         }
 
         // if token doesn't have an organization set continue and set one
         if (!decodedToken?.org_id) {
-          if (data.length) {
+          if (data?.length) {
             await loginWithRedirect({
               organization: selectedOrganization?.org_id || data[0].org_id,
             });

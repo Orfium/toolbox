@@ -7,8 +7,8 @@ import createAuth0Client, {
   PopupLoginOptions,
   RedirectLoginOptions,
   Auth0ClientOptions,
+  Auth0Client,
 } from '@auth0/auth0-spa-js';
-import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import jwt_decode from 'jwt-decode';
 import React, { useState, useEffect, useContext, createContext } from 'react';
 
@@ -48,23 +48,20 @@ export const useAuth0 = () => useContext(AuthenticationContext)!;
 
 let client: any;
 const getAuth0Client: any = async () => {
-  // eslint-disable-next-line no-async-promise-executor
-  return new Promise(async (resolve, reject) => {
-    const selectedOrganization = useOrganization.getState().selectedOrganization;
-    if (!client || selectedOrganization?.org_id) {
-      try {
-        client = await createAuth0Client({
-          ...providerConfig,
-          // scope: 'openid email profile offline_access',
-          organization: selectedOrganization?.org_id,
-        });
-      } catch (e) {
-        reject(new Error(`getAuth0Client Error: ${e}`));
-      }
+  const selectedOrganization = useOrganization.getState().selectedOrganization;
+  if (!client || selectedOrganization?.org_id) {
+    try {
+      client = await createAuth0Client({
+        ...providerConfig,
+        // scope: 'openid email profile offline_access',
+        organization: selectedOrganization?.org_id,
+      });
+    } catch (e) {
+      throw new Error(`getAuth0Client Error: ${e}`);
     }
+  }
 
-    resolve(client);
-  });
+  return client;
 };
 
 export const logoutAuth = async () => {
@@ -102,7 +99,7 @@ export const getTokenSilently = async (p?: any) => {
   return { token, decodedToken: jwt_decode(token) };
 };
 
-export const Provider: React.FC = ({ children }): any => {
+const AuthenticationProvider: React.FC = ({ children }): any => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>();
   const [auth0Client, setAuth0] = useState<Auth0Client>();
@@ -128,7 +125,6 @@ export const Provider: React.FC = ({ children }): any => {
 
       setIsLoading(false);
     })();
-    // eslint-disable-next-line
   }, []);
 
   const loginWithPopup = async (params = {}) => {
@@ -183,12 +179,6 @@ export const Provider: React.FC = ({ children }): any => {
       {children}
     </AuthenticationContext.Provider>
   );
-};
-
-const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({ children, overrides }) => {
-  const { selectedOrganization } = useOrganization();
-
-  return <Provider>{children}</Provider>;
 };
 
 const useAuthentication = () => React.useContext(AuthenticationContext);

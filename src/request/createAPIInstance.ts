@@ -44,8 +44,7 @@ export const createAPIInstance = ({
       return response;
     },
     (error) => {
-      if (error.response.status === 401) {
-        console.log({ error });
+      if (error?.response?.status === 401) {
         logoutAuth();
       }
 

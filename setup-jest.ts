@@ -3,8 +3,18 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+import crypto from 'crypto';
 
 beforeAll(() => {
+  Object.defineProperty(global.self, 'crypto', {
+    value: {
+      getRandomValues: (arr: any) => crypto.randomBytes(arr.length),
+      subtle: {
+        digest: () => {},
+      },
+    },
+  });
+
   window.matchMedia = (query) => ({
     matches: false,
     media: query,
