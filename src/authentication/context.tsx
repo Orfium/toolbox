@@ -1,21 +1,16 @@
 import createAuth0Client, {
-  getIdTokenClaimsOptions,
   GetTokenSilentlyOptions,
-  GetTokenWithPopupOptions,
-  IdToken,
-  LogoutOptions,
-  PopupLoginOptions,
   RedirectLoginOptions,
   Auth0ClientOptions,
   Auth0Client,
 } from '@auth0/auth0-spa-js';
 import jwt_decode from 'jwt-decode';
-import React, { useState, useEffect, useContext, createContext } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 
 import useOrganization from '../store/useOrganization';
 import useRequestToken from '../store/useRequestToken';
 import { config } from './config';
-import { AuthenticationContextProps, AuthenticationProviderProps } from './types';
+import { AuthenticationContextProps } from './types';
 
 const onRedirectCallback = (appState: { targetUrl: string }) => {
   window.history.replaceState(
@@ -44,10 +39,9 @@ export const AuthenticationContext = createContext<AuthenticationContextProps>({
   logout: () => {},
   getAccessTokenSilently: () => Promise.resolve({ token: '', decodedToken: {} }),
 });
-export const useAuth0 = () => useContext(AuthenticationContext)!;
 
-let client: any;
-const getAuth0Client: any = async () => {
+let client: Auth0Client | undefined;
+const getAuth0Client = async () => {
   const selectedOrganization = useOrganization.getState().selectedOrganization;
   if (!client || selectedOrganization?.org_id) {
     try {
@@ -89,7 +83,7 @@ export const logoutAuth = async () => {
  *  @returns {Promise} Promise that resolves to token and decodedToken for the authorization
  */
 export const getTokenSilently = async (
-  params?: any
+  params?: Record<string, unknown>
 ): Promise<{ token: string; decodedToken: { exp?: number; org_id?: string } }> => {
   const { token: stateToken = '', setToken } = useRequestToken.getState();
   const selectedOrganization = useOrganization.getState().selectedOrganization;
@@ -116,11 +110,10 @@ export const getTokenSilently = async (
 
 const AuthenticationProvider: React.FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<Record<string, unknown>>();
   const [auth0Client, setAuth0] = useState<Auth0Client>();
   const [isLoading, setIsLoading] = useState(true);
-  const [popupOpen, setPopupOpen] = useState(false);
-  const setToken = useRequestToken((state) => state.setToken);
+  const [__popupOpen, setPopupOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -172,7 +165,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     if (!isLoading && !isAuthenticated) {
       auth0Client!.loginWithRedirect();
     }
-  }, [isLoading, isAuthenticated]);
+  }, [auth0Client, isLoading, isAuthenticated]);
 
   return (
     <AuthenticationContext.Provider
