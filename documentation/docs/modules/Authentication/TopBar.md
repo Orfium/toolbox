@@ -1,5 +1,5 @@
 ---
-sidebar_label: 'TopBar'
+sidebar_label: 'TopBar Addition'
 sidebar_position: 2
 ---
 

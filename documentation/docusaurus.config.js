@@ -1,8 +1,12 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const simplePlantUML = require('@akebifiky/remark-simple-plantuml');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const lightCodeTheme = require('prism-react-renderer/themes/github');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -35,6 +39,7 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
+          remarkPlugins: [simplePlantUML],
           // Please change this to your repo.
           editCurrentVersion: false,
           editUrl:

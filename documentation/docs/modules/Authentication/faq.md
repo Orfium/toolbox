@@ -9,6 +9,10 @@ sidebar_position: 3
 
 Make sure you have a `.env` or `.env.local` on your project and you set up the enviroments correctly on the first step.
 
+### Refresh tokens doesn't seem to work.
+
+Something has been missed on the configuration of the application by the person/team responsible. They have to make sure that your API settings has `Allow Offline Access` and `Refresh Token` enabled.
+
 ### I see redirects/refresh one after the other, what's wrong?
 
 Something has been missed on the configuration of the application by the person/team responsible. Get in touch with them and emphasize to check connections of the organizations provided for the application.

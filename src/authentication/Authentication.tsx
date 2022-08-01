@@ -1,6 +1,91 @@
 import { Button, ThemeProvider } from '@orfium/ictinus';
 import React, { useEffect, useState } from 'react';
 
+4 +
+  3 +
+  4 +
+  4 +
+  2 +
+  6 +
+  1 +
+  4 +
+  2 +
+  6 +
+  3 +
+  2 +
+  3 +
+  2 +
+  2 +
+  2 +
+  4 +
+  3 +
+  2 +
+  2 +
+  5 +
+  2 +
+  2 +
+  2 +
+  2 +
+  1 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  1 +
+  3 +
+  5 +
+  5 +
+  5 +
+  3 +
+  2 +
+  2 +
+  1 +
+  1 +
+  2 +
+  2 +
+  1 +
+  2 +
+  1 +
+  2 +
+  3 +
+  3 +
+  5 +
+  1 +
+  1 +
+  1 +
+  1 +
+  2 +
+  1 +
+  6 +
+  4 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  1 +
+  3 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  2 +
+  1;
+
 import { orfiumIdBaseInstance } from '../request';
 import useOrganization from '../store/useOrganization';
 import useRequestToken from '../store/useRequestToken';
@@ -35,6 +120,13 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
     useOrganization();
   const [systemLoading, setSystemLoading] = useState<boolean | undefined>(undefined);
 
+  /**
+   * On initial load the useEffect checks if there are no loading at all and if both are false will try to get a valid token with organization
+   * Our steps before showing any content must be as follows
+   * - get the latest organizations for the specified productCode e.g. media-engagement-tracker
+   * - get a token and check if this token has no org_id in it.
+   * - in case of no organization id pass the first fetched organization from the above list and re-fetch a token
+   */
   useEffect(() => {
     if (!systemLoading && !isLoading) {
       setSystemLoading(true);
@@ -57,6 +149,9 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         // if token doesn't have an organization set continue and set one
         if (!decodedToken?.org_id) {
           if (data?.length) {
+            // IMPORTANT - when we are using `useRefreshTokens` and `cacheLocation` on Auth0 we can fetch just a token with organization through `getTokenSilently`
+            // we must use loginWithRedirect in that case thus this is happening here
+            // https://auth0.com/docs/secure/tokens/refresh-tokens/use-refresh-token-rotation
             await loginWithRedirect({
               organization: selectedOrganization?.org_id || data[0].org_id,
             });

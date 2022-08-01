@@ -53,7 +53,6 @@ const getAuth0Client: any = async () => {
     try {
       client = await createAuth0Client({
         ...providerConfig,
-        // scope: 'openid email profile offline_access',
         organization: selectedOrganization?.org_id,
       });
     } catch (e) {
@@ -64,18 +63,35 @@ const getAuth0Client: any = async () => {
   return client;
 };
 
+/**
+ * Here we clear out all the stored information on logout of the user.
+ * Stored information that we clear out is
+ *  - tokens
+ *  - organizations, selectedOrganization
+ */
 export const logoutAuth = async () => {
   const setToken = useRequestToken.getState().setToken;
   const resetOrganizationState = useOrganization.getState().reset;
   const client = await getAuth0Client();
-  // allowed logout urls on auth0 application
+  // @TODO change returnTo to orfium one when is ready
   client?.logout({ returnTo: window.location.origin });
   setToken(undefined);
   resetOrganizationState();
 };
 
-export const getTokenSilently = async (p?: any) => {
-  const { token: stateToken, setToken } = useRequestToken.getState(); // my storage
+/**
+ *  This function determine the latest token of the user and returns it encoded and decoded.
+ *  We keep the latest token in the memory and in every call of the function we check if that token has expired in order to call the auth0 API
+ *  This way we prevent unnecessary new calls for the current token to the auth0 and we avoid hitting the hard limit on their API.
+ *
+ *  @param params - Params that are passed as configuration to the getTokenSilently function. These params can configure cache, organization etc
+ *
+ *  @returns {Promise} Promise that resolves to token and decodedToken for the authorization
+ */
+export const getTokenSilently = async (
+  params?: any
+): Promise<{ token: string; decodedToken: { exp?: number; org_id?: string } }> => {
+  const { token: stateToken = '', setToken } = useRequestToken.getState();
   const selectedOrganization = useOrganization.getState().selectedOrganization;
   const decodedToken = stateToken ? jwt_decode<{ exp?: number; org_id?: string }>(stateToken) : {};
   const isExpired =
@@ -90,8 +106,7 @@ export const getTokenSilently = async (p?: any) => {
   const client = await getAuth0Client();
 
   const token = await client.getTokenSilently({
-    ...p,
-    // ignoreCache: true,
+    ...params,
     organization: selectedOrganization?.org_id,
   });
   setToken(token);
@@ -99,7 +114,7 @@ export const getTokenSilently = async (p?: any) => {
   return { token, decodedToken: jwt_decode(token) };
 };
 
-const AuthenticationProvider: React.FC = ({ children }): any => {
+const AuthenticationProvider: React.FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>();
   const [auth0Client, setAuth0] = useState<Auth0Client>();
@@ -153,11 +168,6 @@ const AuthenticationProvider: React.FC = ({ children }): any => {
     }
   };
 
-  const logout = () => {
-    // @TODO change returnTo to orfium one when is ready
-    logoutAuth();
-  };
-
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       auth0Client!.loginWithRedirect();
@@ -170,9 +180,8 @@ const AuthenticationProvider: React.FC = ({ children }): any => {
         isAuthenticated,
         isLoading,
         loginWithRedirect: (o: RedirectLoginOptions) => auth0Client!.loginWithRedirect(o),
-        logout,
-        // @ts-ignore
-        getAccessTokenSilently: (o: RedirectLoginOptions) => getAccessTokenSilently(o),
+        logout: logoutAuth,
+        getAccessTokenSilently: (o?: GetTokenSilentlyOptions) => getAccessTokenSilently(o),
         user,
       }}
     >

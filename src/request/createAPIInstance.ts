@@ -38,11 +38,9 @@ export const createAPIInstance = ({
     baseURL: baseUrl,
   });
 
-  // note Allow Offline Access on API of auth0 must be set for refresh tokens
+  // These are the two interceptors to detect if there is a 401 error to logout the user because 401 is unauthorized
   orfiumAxios.interceptors.response.use(
-    (response) => {
-      return response;
-    },
+    (response) => response,
     (error) => {
       if (error?.response?.status === 401) {
         logoutAuth();
@@ -51,6 +49,9 @@ export const createAPIInstance = ({
       return error;
     }
   );
+  // On every request we get the latest token in order to pass it as authorization
+  // if this fails then the user will be redirected to the response interceptor
+  // Fetching latest token is mandatory for all the request to have up-to-date information
   orfiumAxios.interceptors.request.use(
     async (config) => {
       const { token } = await getTokenSilently();
