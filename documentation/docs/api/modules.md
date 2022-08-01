@@ -39,12 +39,12 @@ custom_edit_url: null
 
 ## Other Functions
 
-- [createAPIInstance](modules.md#createapiinstance-2)
-- [useAuthentication](modules.md#useauthentication-2)
+- [createAPIInstance](modules.md#createapiinstance-4)
+- [useAuthentication](modules.md#useauthentication-4)
 
 ## component Functions
 
-- [generateRoutes](modules.md#generateroutes-2)
+- [generateRoutes](modules.md#generateroutes-4)
 
 ## Type aliases
 
@@ -127,7 +127,7 @@ custom_edit_url: null
 | Name            | Type                                                                                                                                                                             |
 | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `instance`      | [`AxiosInstance`](interfaces/AxiosInstance.md)                                                                                                                                   |
-| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops-2)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\> } |
+| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops-4)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\> } |
 | `deleteToken`   | () => `void`                                                                                                                                                                     |
 | `setToken`      | (`token`: `string`) => `void`                                                                                                                                                    |
 
@@ -221,8 +221,8 @@ Is being used to the route component to extend its functionality on types
 
 | Name             | Type                                                                                  | Description                                                                                                                        |
 | :--------------- | :------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------- |
-| `authorization?` | [`Authorization`](modules.md#authorization-2)                                         | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' - **`defaultvalue:`** 'anonymous' |
-| `component?`     | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-2)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route              |
+| `authorization?` | [`Authorization`](modules.md#authorization-4)                                         | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' - **`defaultvalue:`** 'anonymous' |
+| `component?`     | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-4)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route              |
 | `extraProps?`    | `unknown`                                                                             | Any custom/extra props that are going to be available on the component                                                             |
 | `path`           | `string` \| `string`[]                                                                | The url path or paths of the route that will listen to in order to render                                                          |
 
@@ -240,8 +240,8 @@ Is being used to the route component to extend its functionality on types
 
 | Name             | Type                                                                         | Description                                                                                                                                                                               |
 | :--------------- | :--------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath-2), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
-| `routes`         | [`RouteItem`](modules.md#routeitem-2)[]                                      | -                                                                                                                                                                                         |
+| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath-4), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
+| `routes`         | [`RouteItem`](modules.md#routeitem-4)[]                                      | -                                                                                                                                                                                         |
 
 #### Defined in
 
@@ -255,7 +255,7 @@ Is being used to the route component to extend its functionality on types
 
 #### Defined in
 
-[src/authentication/Authentication.tsx:104](https://github.com/Orfium/toolbox/blob/0612518/src/authentication/Authentication.tsx#L104)
+[src/authentication/Authentication.tsx:19](https://github.com/Orfium/toolbox/blob/0612518/src/authentication/Authentication.tsx#L19)
 
 ---
 
@@ -291,7 +291,7 @@ Is being used to the route component to extend its functionality on types
 
 ### orfiumIdBaseInstance
 
-• `Const` **orfiumIdBaseInstance**: [`CreateAPIInstanceType`](modules.md#createapiinstancetype-2)
+• `Const` **orfiumIdBaseInstance**: [`CreateAPIInstanceType`](modules.md#createapiinstancetype-4)
 
 #### Defined in
 
@@ -301,17 +301,17 @@ Is being used to the route component to extend its functionality on types
 
 ### createAPIInstance
 
-▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype-2)
+▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype-4)
 
 #### Parameters
 
 | Name                | Type                                                            |
 | :------------------ | :-------------------------------------------------------------- |
-| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops-2) |
+| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops-4) |
 
 #### Returns
 
-[`CreateAPIInstanceType`](modules.md#createapiinstancetype-2)
+[`CreateAPIInstanceType`](modules.md#createapiinstancetype-4)
 
 #### Defined in
 
@@ -321,11 +321,11 @@ Is being used to the route component to extend its functionality on types
 
 ### useAuthentication
 
-▸ **useAuthentication**(): [`AuthenticationContextProps`](modules.md#authenticationcontextprops-2)
+▸ **useAuthentication**(): [`AuthenticationContextProps`](modules.md#authenticationcontextprops-4)
 
 #### Returns
 
-[`AuthenticationContextProps`](modules.md#authenticationcontextprops-2)
+[`AuthenticationContextProps`](modules.md#authenticationcontextprops-4)
 
 #### Defined in
 
@@ -350,7 +350,7 @@ If the fallbacks are defined then those will be used instead.
 | `props`                    | `Object`                                            | Component properties                                                                                             |
 | `props.fallbackComponent?` | `ComponentType`<{}\>                                | The component that will render if none of the routes match the url location - @default Page not found            |
 | `props.isAuthenticated`    | `boolean`                                           | A boolean that are passed from the parent Application to let the generation of routes know the state of the user |
-| `props.structure`          | [`RoutingStructure`](modules.md#routingstructure-2) | A list of Routes that needs to render with authorization level and extra props.                                  |
+| `props.structure`          | [`RoutingStructure`](modules.md#routingstructure-4) | A list of Routes that needs to render with authorization level and extra props.                                  |
 
 #### Returns
 
