@@ -39,12 +39,12 @@ custom_edit_url: null
 
 ## Other Functions
 
-- [createAPIInstance](modules.md#createapiinstance-12)
-- [useAuthentication](modules.md#useauthentication-12)
+- [createAPIInstance](modules.md#createapiinstance-38)
+- [useAuthentication](modules.md#useauthentication-38)
 
 ## component Functions
 
-- [generateRoutes](modules.md#generateroutes-12)
+- [generateRoutes](modules.md#generateroutes-38)
 
 ## Type aliases
 
@@ -65,7 +65,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/authentication/types.ts:4](https://github.com/Orfium/toolbox/blob/0612518/src/authentication/types.ts#L4)
+[src/authentication/types.ts:8](https://github.com/Orfium/toolbox/blob/0612518/src/authentication/types.ts#L8)
 
 ---
 
@@ -81,7 +81,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/authentication/types.ts:15](https://github.com/Orfium/toolbox/blob/0612518/src/authentication/types.ts#L15)
+[src/authentication/types.ts:19](https://github.com/Orfium/toolbox/blob/0612518/src/authentication/types.ts#L19)
 
 ---
 
@@ -114,7 +114,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/request/createAPIInstance.ts:9](https://github.com/Orfium/toolbox/blob/0612518/src/request/createAPIInstance.ts#L9)
+[src/request/createAPIInstance.ts:8](https://github.com/Orfium/toolbox/blob/0612518/src/request/createAPIInstance.ts#L8)
 
 ---
 
@@ -127,13 +127,13 @@ custom_edit_url: null
 | Name            | Type                                                                                                                                                                              |
 | :-------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `instance`      | [`AxiosInstance`](interfaces/AxiosInstance.md)                                                                                                                                    |
-| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops-12)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\> } |
+| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops-38)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\> } |
 | `deleteToken`   | () => `void`                                                                                                                                                                      |
 | `setToken`      | (`token`: `string`) => `void`                                                                                                                                                     |
 
 #### Defined in
 
-[src/request/createAPIInstance.ts:14](https://github.com/Orfium/toolbox/blob/0612518/src/request/createAPIInstance.ts#L14)
+[src/request/createAPIInstance.ts:13](https://github.com/Orfium/toolbox/blob/0612518/src/request/createAPIInstance.ts#L13)
 
 ---
 
@@ -221,8 +221,8 @@ Is being used to the route component to extend its functionality on types
 
 | Name             | Type                                                                                   | Description                                                                                                                        |
 | :--------------- | :------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
-| `authorization?` | [`Authorization`](modules.md#authorization-12)                                         | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' - **`defaultvalue:`** 'anonymous' |
-| `component?`     | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-12)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route              |
+| `authorization?` | [`Authorization`](modules.md#authorization-38)                                         | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' - **`defaultvalue:`** 'anonymous' |
+| `component?`     | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-38)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route              |
 | `extraProps?`    | `unknown`                                                                              | Any custom/extra props that are going to be available on the component                                                             |
 | `path`           | `string` \| `string`[]                                                                 | The url path or paths of the route that will listen to in order to render                                                          |
 
@@ -240,12 +240,22 @@ Is being used to the route component to extend its functionality on types
 
 | Name             | Type                                                                          | Description                                                                                                                                                                               |
 | :--------------- | :---------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath-12), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
-| `routes`         | [`RouteItem`](modules.md#routeitem-12)[]                                      | -                                                                                                                                                                                         |
+| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath-38), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
+| `routes`         | [`RouteItem`](modules.md#routeitem-38)[]                                      | -                                                                                                                                                                                         |
 
 #### Defined in
 
 [src/routing/Routing.tsx:24](https://github.com/Orfium/toolbox/blob/0612518/src/routing/Routing.tsx#L24)
+
+---
+
+### TopBarProps
+
+Ƭ **TopBarProps**: { `logoIcon`: `JSX.Element` ; `userMenu?`: `UserMenuProps` } & `Omit`<`TopAppBarProps`, `"logoIcon"` \| `"userMenu"`\>
+
+#### Defined in
+
+[src/authentication/TopBar.tsx:9](https://github.com/Orfium/toolbox/blob/0612518/src/authentication/TopBar.tsx#L9)
 
 ## Variables
 
@@ -255,7 +265,7 @@ Is being used to the route component to extend its functionality on types
 
 #### Defined in
 
-[src/authentication/Authentication.tsx:19](https://github.com/Orfium/toolbox/blob/0612518/src/authentication/Authentication.tsx#L19)
+[src/authentication/Authentication.tsx:18](https://github.com/Orfium/toolbox/blob/0612518/src/authentication/Authentication.tsx#L18)
 
 ---
 
@@ -291,7 +301,7 @@ Is being used to the route component to extend its functionality on types
 
 ### orfiumIdBaseInstance
 
-• `Const` **orfiumIdBaseInstance**: [`CreateAPIInstanceType`](modules.md#createapiinstancetype-12)
+• `Const` **orfiumIdBaseInstance**: [`CreateAPIInstanceType`](modules.md#createapiinstancetype-38)
 
 #### Defined in
 
@@ -301,31 +311,31 @@ Is being used to the route component to extend its functionality on types
 
 ### createAPIInstance
 
-▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype-12)
+▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype-38)
 
 #### Parameters
 
 | Name                | Type                                                             |
 | :------------------ | :--------------------------------------------------------------- |
-| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops-12) |
+| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops-38) |
 
 #### Returns
 
-[`CreateAPIInstanceType`](modules.md#createapiinstancetype-12)
+[`CreateAPIInstanceType`](modules.md#createapiinstancetype-38)
 
 #### Defined in
 
-[src/request/createAPIInstance.ts:31](https://github.com/Orfium/toolbox/blob/0612518/src/request/createAPIInstance.ts#L31)
+[src/request/createAPIInstance.ts:30](https://github.com/Orfium/toolbox/blob/0612518/src/request/createAPIInstance.ts#L30)
 
 ---
 
 ### useAuthentication
 
-▸ **useAuthentication**(): [`AuthenticationContextProps`](modules.md#authenticationcontextprops-12)
+▸ **useAuthentication**(): [`AuthenticationContextProps`](modules.md#authenticationcontextprops-38)
 
 #### Returns
 
-[`AuthenticationContextProps`](modules.md#authenticationcontextprops-12)
+[`AuthenticationContextProps`](modules.md#authenticationcontextprops-38)
 
 #### Defined in
 
@@ -350,7 +360,7 @@ If the fallbacks are defined then those will be used instead.
 | `props`                    | `Object`                                             | Component properties                                                                                             |
 | `props.fallbackComponent?` | `ComponentType`<{}\>                                 | The component that will render if none of the routes match the url location - @default Page not found            |
 | `props.isAuthenticated`    | `boolean`                                            | A boolean that are passed from the parent Application to let the generation of routes know the state of the user |
-| `props.structure`          | [`RoutingStructure`](modules.md#routingstructure-12) | A list of Routes that needs to render with authorization level and extra props.                                  |
+| `props.structure`          | [`RoutingStructure`](modules.md#routingstructure-38) | A list of Routes that needs to render with authorization level and extra props.                                  |
 
 #### Returns
 

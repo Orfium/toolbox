@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 
 import { orfiumIdBaseInstance } from '../request';
 import useOrganization from '../store/useOrganization';
-import useRequestToken from '../store/useRequestToken';
 import { config } from './config';
 import { AuthenticationProvider, useAuthentication } from './context';
 import { TopBar, TopBarProps } from './TopBar';
@@ -31,8 +30,13 @@ Authentication.TopBar = TopBar;
 const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
   const { isLoading, isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } =
     useAuthentication();
-  const { organizations, setOrganizations, setSelectedOrganization, selectedOrganization } =
-    useOrganization();
+  const { setOrganizations, setSelectedOrganization, selectedOrganization } = useOrganization(
+    ({ setOrganizations, setSelectedOrganization, selectedOrganization }) => ({
+      setOrganizations,
+      setSelectedOrganization,
+      selectedOrganization,
+    })
+  );
   const [systemLoading, setSystemLoading] = useState<boolean | undefined>(undefined);
 
   /**

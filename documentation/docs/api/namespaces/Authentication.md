@@ -1,7 +1,7 @@
 ---
-id: "Authentication"
-title: "Namespace: Authentication"
-sidebar_label: "Authentication"
+id: 'Authentication'
+title: 'Namespace: Authentication'
+sidebar_label: 'Authentication'
 sidebar_position: 0
 custom_edit_url: null
 ---
@@ -10,4 +10,4 @@ custom_edit_url: null
 
 ### TopBar
 
-• **TopBar**: `FC`<`TopBarProps`\>
+• **TopBar**: `FC`<[`TopBarProps`](../modules.md#topbarprops-6)\>

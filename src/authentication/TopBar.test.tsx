@@ -1,9 +1,8 @@
 import { ThemeProvider } from '@orfium/ictinus';
-import { render, screen, fireEvent, cleanup, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import { Organization } from '../store/useOrganization';
-import { useAuthentication } from './context';
 import { Authentication } from './index';
 
 const mockOrganizations: Organization[] = [
@@ -43,8 +42,6 @@ const mockedUser = {
 };
 const mockSetSelectedOrganization = jest.fn();
 const mockLogout = jest.fn();
-let mockUseAuthentication;
-let useOrganization;
 
 jest.mock('../store/useOrganization', () =>
   jest.fn(() => ({
@@ -99,7 +96,7 @@ describe('TopBar', () => {
   });
 
   it('Logout the user when press logout', async () => {
-    const { getByText, getByTestId, debug } = render(
+    const { getByText, getByTestId } = render(
       <ThemeProvider>
         <Authentication.TopBar logoIcon={<img />} onMenuIconClick={() => {}} />
       </ThemeProvider>

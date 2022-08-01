@@ -1,5 +1,9 @@
-import { User, Auth0ClientOptions } from '@auth0/auth0-spa-js';
-import { GetTokenSilentlyOptions, RedirectLoginOptions } from '@auth0/auth0-spa-js';
+import {
+  User,
+  Auth0ClientOptions,
+  GetTokenSilentlyOptions,
+  RedirectLoginOptions,
+} from '@auth0/auth0-spa-js';
 
 export type AuthenticationContextProps = {
   isAuthenticated: boolean;

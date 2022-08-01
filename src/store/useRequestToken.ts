@@ -7,7 +7,7 @@ type Store = {
 };
 const useRequestToken = create(
   persist<Store>(
-    (set, get) => ({
+    (set, __get) => ({
       token: undefined,
       setToken: (token) => set(() => ({ token })),
     }),

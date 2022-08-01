@@ -29,7 +29,7 @@ const initialState = {
 };
 const useOrganization = create(
   persist<Store>(
-    (set, get) => ({
+    (set, __get) => ({
       ...initialState,
       setOrganizations: (organizations: Organization[]) => set(() => ({ organizations })),
       setSelectedOrganization: (organization: Organization) => {

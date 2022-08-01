@@ -2,7 +2,6 @@ import { cleanup, render, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import {
-  getTokenSilently,
   isAuthenticated,
   loginWithRedirect,
   // @ts-ignore

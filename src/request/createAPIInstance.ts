@@ -1,7 +1,6 @@
 import axios, { AxiosInstance, CancelTokenSource } from 'axios';
 
 import { getTokenSilently, logoutAuth } from '../authentication/context';
-import useOrganization from '../store/useOrganization';
 import useRequestToken from '../store/useRequestToken';
 import { deleteToken, request, RequestProps, setToken, tokenFormat } from './request';
 export { default as MockRequest } from './mock';
