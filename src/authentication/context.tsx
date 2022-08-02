@@ -12,7 +12,7 @@ import useRequestToken from '../store/useRequestToken';
 import { config } from './config';
 import { AuthenticationContextProps } from './types';
 
-const onRedirectCallback = (appState: { targetUrl: string }) => {
+export const onRedirectCallback = (appState: { targetUrl?: string }) => {
   window.history.replaceState(
     {},
     document.title,
@@ -41,7 +41,7 @@ export const AuthenticationContext = createContext<AuthenticationContextProps>({
 });
 
 let client: Auth0Client | undefined;
-const getAuth0Client = async () => {
+export const getAuth0Client = async () => {
   const selectedOrganization = useOrganization.getState().selectedOrganization;
   if (!client || selectedOrganization?.org_id) {
     try {

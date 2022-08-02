@@ -7,11 +7,13 @@ export const loginWithRedirect = jest.fn();
 export const getUser = jest.fn();
 export const handleRedirectCallback = jest.fn();
 export const isAuthenticated = jest.fn();
+export const logout = jest.fn();
 
 export default (options: any) => ({
   getTokenSilently: getTokenSilently.mockResolvedValue(FAKE_TOKEN),
   loginWithRedirect,
   getUser,
+  logout,
   handleRedirectCallback,
   isAuthenticated,
   options: {

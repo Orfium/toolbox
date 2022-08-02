@@ -20,7 +20,7 @@ export default [
       },
     ],
     external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})],
-    plugins: [external(), resolve(), typescript({ tsconfig: './tsconfig.json' })],
+    plugins: [external(), resolve(), typescript({ tsconfig: './tsconfig.json' }), terser()],
   },
   {
     input: './src/index.ts',
