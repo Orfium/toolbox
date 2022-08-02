@@ -7,7 +7,7 @@ sidebar_position: 2
 
 For orfium we use a predefined instance called `orfiumIdBaseInstance` that is being automatically created for you and exported.
 
-This instance gets all the headers like tokens etc automatically when `Authentication` wraps you application. You can ([see more here](docs/modules/authentication)) about `Authentication`
+This instance gets all the headers like tokens etc automatically when `Authentication` wraps you application. You can ([see more here](/docs/modules/Request/docs/modules/authentication)) about `Authentication`
 
 ## Use Orfium instance
 
