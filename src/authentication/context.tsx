@@ -36,7 +36,7 @@ export const AuthenticationContext = createContext<AuthenticationContextProps>({
   isLoading: false,
   user: undefined,
   loginWithRedirect: () => Promise.resolve(),
-  logout: () => {},
+  logout: () => Promise.resolve(),
   getAccessTokenSilently: () => Promise.resolve({ token: '', decodedToken: {} }),
 });
 
@@ -123,12 +123,12 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         const { appState } = await client.handleRedirectCallback();
         onRedirectCallback(appState);
       }
-      const isAuthenticated = await client.isAuthenticated();
-      setIsAuthenticated(isAuthenticated);
+      const clientIsAuthenticated = await client.isAuthenticated();
+      setIsAuthenticated(clientIsAuthenticated);
 
-      if (isAuthenticated) {
-        const user = await client.getUser();
-        setUser(user);
+      if (clientIsAuthenticated) {
+        const clientUser = await client.getUser();
+        setUser(clientUser);
       }
 
       setIsLoading(false);
@@ -144,14 +144,16 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     } finally {
       setPopupOpen(false);
     }
-    const user = await auth0Client!.getUser();
-    setUser(user);
+    const clientUser = await auth0Client!.getUser();
+    setUser(clientUser);
     setIsAuthenticated(true);
   };
 
   const getAccessTokenSilently = async (opts?: GetTokenSilentlyOptions) => {
     try {
-      return getTokenSilently(opts);
+      const result = await getTokenSilently(opts);
+
+      return result;
     } catch (e: any) {
       if (e?.error === 'login_required' || e?.error === 'consent_required') {
         await loginWithPopup();
