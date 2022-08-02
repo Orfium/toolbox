@@ -1,9 +1,17 @@
 import { cleanup, findByText, getByTestId, render, waitFor } from '@testing-library/react';
 import jwtDecode from 'jwt-decode';
-import React from 'react';
+import React, { useEffect } from 'react';
 
-// @ts-ignore
-import { FAKE_TOKEN, getUser, isAuthenticated } from '../../__mocks__/@auth0/auth0-spa-js';
+import {
+  FAKE_TOKEN,
+  getUser,
+  isAuthenticated,
+  getTokenSilently as mockedGetTokenSilently,
+  loginWithPopup as mockedLoginWithPopup,
+  getNewFakeToken,
+  fakeTokenData,
+  // @ts-ignore
+} from '../../__mocks__/@auth0/auth0-spa-js';
 import useOrganization from '../store/useOrganization';
 import useRequestToken from '../store/useRequestToken';
 import {
@@ -72,6 +80,7 @@ describe('Context', () => {
 
   describe('getTokenSilently', () => {
     test('without cached results', async () => {
+      mockedGetTokenSilently.mockResolvedValue(FAKE_TOKEN);
       const { token, decodedToken } = await getTokenSilently();
 
       expect(token).toBe(FAKE_TOKEN);
@@ -79,8 +88,7 @@ describe('Context', () => {
     });
 
     test('with cached results', async () => {
-      const NEW_FAKE_EXPIRED_TOKEN =
-        'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im9GR1BkeG56dVVNUXAyQkNWVjR3QSJ9.eyJodHRwczovL3Nzby5vcmZpdW0uY29tL3JvbGVzIjpbIm5iY3U6YmFzZSJdLCJpc3MiOiJodHRwczovL3Nzby5zdGFnaW5nLm9yZml1bS54eXovIiwic3ViIjoiYXV0aDB8NjJkYThlYWE1ODZkOGNkNjdkMTc0NmI2IiwiYXVkIjpbIm9yZml1bSIsImh0dHBzOi8vb3JmaXVtLXN0YWdpbmcudXMuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTY1OTQyNTYxNiwiZXhwIjoxNjU5NDMyODE2LCJhenAiOiIxZVdhRmhRSnBIUzN4TURRUndyWkphaTNrSXJGMDRlSSIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwgb2ZmbGluZV9hY2Nlc3MiLCJvcmdfaWQiOiJvcmdfV1laTEVNeVRtMnhFYm5ibiIsInBlcm1pc3Npb25zIjpbIm1lZGlhLWVuZ2FnZW1lbnQtdHJhY2tlcjp1c2VyIl19.cddI6DJ2rR6sdVfwWOJSfaf-bjmd6LMAKTwv8PGNfiRuRAX1UQIme7XUFfAO-j6fIt3h2Uo43mmuf7F73cANVZL8b8FvQRewxGH5cZ8uEj7_Y_u-b02Fl2GbNcXtiYkOqEAUXJKRCbLFUPnRbp-9Ee-FxSHp0RXDYVLxgvk8cJNmAxFpSt4d8eDmBIxGbyggUE6GadGuIXc0pv1cSD8VhRetxlLHYArTpWhKivTNe9n-C97R3bkkX-VU04ksrEbAgPQKy9l0E8O7ebB6_66X64edrxKagN3d10u_Ij88vEa4e6QRRE8AesSk3HcG-Wdu70b2TQSRgpbg2hAt91_-Lg';
+      const NEW_FAKE_EXPIRED_TOKEN = getNewFakeToken();
       const setToken = useRequestToken.getState().setToken;
       setToken(NEW_FAKE_EXPIRED_TOKEN);
 
@@ -88,7 +96,7 @@ describe('Context', () => {
 
       expect(token).toBe(NEW_FAKE_EXPIRED_TOKEN);
       expect(decodedToken).toEqual(jwtDecode(token));
-      expect(decodedToken.org_id).toEqual('org_WYZLEMyTm2xEbnbn'); // the org_id of the token
+      expect(decodedToken.org_id).toEqual(fakeTokenData.org_id); // the org_id of the token
     });
   });
 
@@ -118,4 +126,38 @@ describe('Context', () => {
     await waitFor(() => expect(findByText('John Doe')).toBeTruthy());
     await waitFor(() => expect(getByTestId('isAuthenticated').innerHTML).toBe('true'));
   });
+
+  test('AuthenticationProvider calls loginWithPopup when access token fails', async () => {
+    const TestingComponent = () => {
+      const { user, isAuthenticated, getAccessTokenSilently, isLoading } = useAuthentication();
+
+      useEffect(() => {
+        if (!isLoading) {
+          getAccessTokenSilently();
+        }
+      }, [isLoading]);
+
+      return (
+        <>
+          <p>{user?.name}</p>
+          <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
+        </>
+      );
+    };
+
+    mockedGetTokenSilently.mockRejectedValue({ error: 'login_required' });
+    getUser.mockResolvedValue({
+      name: 'John Doe',
+    });
+
+    const { findByText, getByTestId } = render(
+      <AuthenticationProvider>
+        <TestingComponent />
+      </AuthenticationProvider>
+    );
+
+    await waitFor(() => expect(findByText('John Doe')).toBeTruthy());
+    await waitFor(() => expect(getByTestId('isAuthenticated').innerHTML).toBe('true'));
+    await waitFor(() => expect(mockedLoginWithPopup).toBeCalledTimes(1));
+  }, 10000);
 });

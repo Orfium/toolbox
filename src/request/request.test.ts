@@ -1,6 +1,8 @@
 import { cleanup } from '@testing-library/react';
 import { AxiosInstance } from 'axios';
 
+// @ts-ignore
+import { FAKE_TOKEN, getTokenSilently } from '../../__mocks__/@auth0/auth0-spa-js';
 import { CreateAPIInstanceType, METHODS } from './index';
 import { createAPIInstance } from './index';
 import MockRequest from './mock';
@@ -10,6 +12,7 @@ describe('Request: ', () => {
   let apiInstance: AxiosInstance;
   let mock: MockRequest;
   const baseUrl = 'http://localhost/v1';
+  getTokenSilently.mockResolvedValue(FAKE_TOKEN);
 
   beforeEach(() => {
     factory = createAPIInstance({ baseUrl });

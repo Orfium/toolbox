@@ -1,5 +1,24 @@
+import sign from 'jwt-encode';
+
 export const FAKE_TOKEN =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+
+export const fakeTokenData = {
+  'https://sso.orfium.com/roles': ['nbcu:base'],
+  iss: 'https://sso.staging.orfium.xyz/',
+  sub: 'auth0|62da8eaa586d8cd67d1746b6',
+  aud: ['orfium', 'https://orfium-staging.us.auth0.com/userinfo'],
+  iat: new Date().getTime(),
+  exp: new Date().getTime() + 30000,
+  azp: '1eWaFhQJpHS3xMDQRwrZJai3kIrF04eI',
+  scope: 'openid profile email offline_access',
+  org_id: 'org_WYZLEMyTm2xEbnbn',
+  permissions: ['media-engagement-tracker:user'],
+};
+
+export const getNewFakeToken = () => {
+  return sign(fakeTokenData, 'secret');
+};
 
 export const onRedirectCallback = jest.fn();
 export const getTokenSilently = jest.fn();
@@ -8,10 +27,12 @@ export const getUser = jest.fn();
 export const handleRedirectCallback = jest.fn();
 export const isAuthenticated = jest.fn();
 export const logout = jest.fn();
+export const loginWithPopup = jest.fn();
 
 export default (options: any) => ({
-  getTokenSilently: getTokenSilently.mockResolvedValue(FAKE_TOKEN),
+  getTokenSilently,
   loginWithRedirect,
+  loginWithPopup,
   getUser,
   logout,
   handleRedirectCallback,

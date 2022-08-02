@@ -111,14 +111,14 @@ export const getTokenSilently = async (
 const AuthenticationProvider: React.FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<Record<string, unknown>>();
-  const [auth0Client, setAuth0] = useState<Auth0Client>();
+  const [auth0Client, setAuth0Client] = useState<Auth0Client>();
   const [isLoading, setIsLoading] = useState(true);
   const [__popupOpen, setPopupOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
       const client = await getAuth0Client();
-      setAuth0(client);
+      setAuth0Client(client);
       if (window.location.search.includes('code=')) {
         const { appState } = await client.handleRedirectCallback();
         onRedirectCallback(appState);
@@ -159,7 +159,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         await loginWithPopup();
       }
 
-      throw e;
+      return e;
     }
   };
 
