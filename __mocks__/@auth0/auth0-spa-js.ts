@@ -1,8 +1,13 @@
 import sign from 'jwt-encode';
 
+// A fake token with no org_id based on jwt.io
 export const FAKE_TOKEN =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 
+/*
+ * Pre-made fake token data that sets new creation and expiration time for that token
+ * Creation time is `now` and expiration time is `now + 30seconds`
+ */
 export const fakeTokenData = {
   'https://sso.orfium.com/roles': ['nbcu:base'],
   iss: 'https://sso.staging.orfium.xyz/',
@@ -20,6 +25,9 @@ export const getNewFakeToken = () => {
   return sign(fakeTokenData, 'secret');
 };
 
+/*
+ * Mocked functions that can be imported to any test for mockResolve or mockReject values
+ */
 export const onRedirectCallback = jest.fn();
 export const getTokenSilently = jest.fn();
 export const loginWithRedirect = jest.fn();
@@ -29,6 +37,10 @@ export const isAuthenticated = jest.fn();
 export const logout = jest.fn();
 export const loginWithPopup = jest.fn();
 
+/*
+ * Mock auth0 client with predefined values
+ * All necessary functions are mocked jest.fn() that can be used to run tests internally.
+ */
 export default (options: any) => ({
   getTokenSilently,
   loginWithRedirect,
