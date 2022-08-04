@@ -5,15 +5,15 @@ sidebar_position: 2
 
 ## Overview
 
-TopBar is an essential tool for every Orfium application. Is a Component that is showing all of Orfium's products per organization and the user.
-TopBar is based on the [Ictinus Component](https://ictinus.herokuapp.com/?path=/story/design-system-topnavbar--with-logo-placeholder) as the UI part and put all the logic here.
-Also TopBar is part of the process of the Authentication that is why is under the Authentication module.
+TopBar is an essential tool for every Orfium application. It's a Component that shows all of Orfium's products per organization, as well as the current user.
+The TopBar's UI is based on the [Ictinus Component](https://ictinus.herokuapp.com/?path=/story/design-system-topnavbar--with-logo-placeholder) and its logic has been put here.
+Also, TopBar is part of the Authentication process, which is why it is under the Authentication module.
 
 ## Usage
 
-In order to use the `Authentication.TopBar` you only have to import if from the toolbox and add it to your Page component or App Wrapper.
-Keep in mind that `@orfium/ictinus` must be installed in your app. Follow these [steps](https://ictinus.herokuapp.com/?path=/story/guide-getting-started--page) before proceed
-The only required field now is `logoIcon` compare to the [Ictinus Component](https://ictinus.herokuapp.com/?path=/story/design-system-topnavbar--with-logo-placeholder)
+In order to use the `Authentication.TopBar` you only have to import it from the toolbox and add it to your Page component or App Wrapper.
+Keep in mind that `@orfium/ictinus` must be installed in your app. Follow these [steps](https://ictinus.herokuapp.com/?path=/story/guide-getting-started--page) before proceeding.
+The only required field is `logoIcon`, compared to the [Ictinus Component](https://ictinus.herokuapp.com/?path=/story/design-system-topnavbar--with-logo-placeholder)
 
 ```jsx
 ...
@@ -38,6 +38,6 @@ const Page: React.FC = () => {
 
 ## Final outcome
 
-The final outcome should be like the below.
+The final outcome should be like this:
 
 ![What Contains](/img/TopBarExample.png)

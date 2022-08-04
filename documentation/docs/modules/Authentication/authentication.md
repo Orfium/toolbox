@@ -9,26 +9,26 @@ sidebar_position: 1
 
 Being part of the Orfium One suite has it's benefits but it comes [with great responsibilities](https://www.youtube.com/watch?v=guuYU74wU70).
 
-In order for a project to be integrated to the Orfium One suite of applications it **MUST** be using the Orfium SSO that is provided here.
+In order for a project to be integrated into the Orfium One suite of applications it **MUST** use the Orfium One SSO that is provided here.
 
-It's in essence the Auth0 library for react but since this might change, we decided it's better to abstract it and provide it from the toolbox.
+In essence, it's the Auth0 library for react, but since this might change in the future, we decided it's better to abstract it and provide it from the toolbox library.
 
-Mainly Authentication is responsible for passing `Authorization` token on [Request](/docs/modules/Request/) and provide the [TopBar](/docs/modules/Authentication/TopBar) with all the necessary information like user and organizations.
+Authentication is mainly responsible for passing the `Authorization` token in [Request](/docs/modules/Request/) and provide the [TopBar](/docs/modules/Authentication/TopBar) with all the necessary information, like the user and the available organizations.
 
 ## Integration
 
-It's fairly easy to integrate with the Orfium One SSO using the Authentication. We cover this in 5 simple steps.
+It's fairly easy to integrate the Orfium One SSO using the Authentication. We will cover this in 5 simple steps.
 
 ### 1. Set up environment variables.
 
-Ask <insert name of team/person responsible for SSO, maybe like core team or something> to provide you with the client id and domain that is created through the auth0
-applications page for your application. These will be different for each environment.
+Ask <insert name of team/person responsible for SSO, maybe like core team or something> to provide you with the client id and domain, that is created through the auth0
+applications page, for your application. These will be different for each environment.
 
-On the application created the team/person responsible needs to define `Allowed Callback URLs`, `Allowed Logout URLs` and `Allowed Web Origins` for your local and live urls.
-Also they need to also define connections on the organization otherwise the application will have constant redirects.
+On the created application, the team/person responsible needs to define `Allowed Callback URLs`, `Allowed Logout URLs` and `Allowed Web Origins` for your local and live urls.
+They need to also define connections in the organization otherwise the application will have constant redirects.
 
-You need to add these locally to a `.env` file that's ignored in order for you to develop with the authentication enabled and add the staging and production
-ones to Heroku or AWS depending on what you use.
+You need to add these locally to a `.env` file that's ignored in Version Control, in order for you to develop with the authentication enabled, adding the staging and production
+ones directly to Heroku or AWS, depending on what you use.
 
 ```title=".env"
 REACT_APP_CLIENT_ID=<ClientId>
@@ -40,7 +40,7 @@ REACT_APP_PRODUCT_CODE=<Product code provided for the project that you are using
 
 ### 2. Setup Authentication
 
-Then you need to wrap your app with the Authentication. Make sure to add this in the top level of your app.
+After the initial setup, you need to wrap your app with the Authentication provider. Make sure to add this in the top level of your app.
 
 ```jsx title="/src/index.tsx"
 ...
@@ -61,20 +61,19 @@ ReactDOM.render(
 
 ```
 
-Authentication has no props. It takes only children and provides all the necessary information for all the linked parts of Orfium.
+Authentication has no props. It only takes children and provides all the necessary information for all the linked parts of Orfium.
 
 ### 3. :warning: Wait for it :warning:
 
-It's recommended ( through the [official documentation](https://auth0.com/docs/libraries/auth0-react#isloading-and-error) , but also through the support forum of Auth0 ) to wait for the
+It's recommended (through the [official documentation](https://auth0.com/docs/libraries/auth0-react#isloading-and-error), but also through the support forum of Auth0) to wait for the
 authentication service. Make sure to add some kind of loader to the top of your application right after the AuthenticationProvider.
-using the Authentication provider
+
+Example:
 
 ```jsx title="/src/App.tsx"
 ...
 import { useAuthentication } from '@orfium/toolbox';
-...
 
-...
 const Page: React.FC = () => {
   const { isLoading } = useAuthentication();
 
@@ -87,14 +86,13 @@ const Page: React.FC = () => {
 
 ### 4. Use the values and function provided
 
-The hook `useAuthentication` provides with the expected function to handle the authentication of a user. Some namings are kept as the Auth0 provides them ,
-since the naming is really self-explanatory.
+The hook `useAuthentication` provides all the necessary information and functions to handle the authentication of a user. Some original auth0 namings are also used in our naming scheme, since they were self-explanatory.
 
 | prop                     | usage                                                    |
 | ------------------------ | -------------------------------------------------------- |
-| `isAuthenticated`        | true if is authenticated                                 |
+| `isAuthenticated`        | true if user is authenticated                            |
 | `isLoading`              | true if provider is still checking authentication status |
-| `user`                   | user info                                                |
+| `user`                   | User information                                         |
 | `loginWithRedirect`      | Redirects to the Orfium SSO login page                   |
 | `logout`                 | Handles the logout functionality                         |
 | `getAccessTokenSilently` | Returns a promise containing the token                   |
@@ -103,34 +101,18 @@ since the naming is really self-explanatory.
 
 Or a wine. Or a tea. I don't care. You are done! :sunglasses:
 
-If you are not authenticated and the app is not loading you will be redirected to login page automatically from the toolbox.
+If you are not authenticated and the app is not loading, the toolbox will automatically redirect you to the Login page.
 
-## Examples
+## Appendix
 
-Let's see in depth with some examples the usage of `getAccessTokenSilently`. This is the most interesting one and the one you **WILL** and **MUST** use.
+### Refresh Tokens
 
-As a default set up we use [refresh tokens](https://auth0.com/learn/refresh-tokens/). This has not been said before because it doesn't change the way you use the app.
+Let's deep-dive into the `getAccessTokenSilently` function and how it used under the hood. This is the most important function and the one that you **WILL** and **MUST** use.
 
-One interesting thing though is that, at some point you might make an API call to your BE using the token provided , and the request will fail by being unauthorized.
+By default, we use [refresh tokens](https://auth0.com/learn/refresh-tokens/). This doesn't change the way you use the app, so it wasn't mentioned before.
 
-This is because the access token has expired. At this point you need to use the function `getAccessTokenSilently` to get a new one using your refresh token.
+One interesting thing about it though, is that at some point you might make an API call to your BE using the token provided and the request will fail as unauthorized.
 
-If this also fails then you need to `loginWithRedirect`.
+This is because the access token has expired. That's when you need to call the `getAccessTokenSilently` function to get a new one, by using your refresh token.
 
-```typescript jsx
-...
-request()
-  .then((data) => happyPath())
-  .catch((error) => {
-      if (error.code === 401 && getAccessTokenSilently) {
-        getAccessTokenSilently()
-          .then((token: string) => {
-            cookies.set(__TOKEN__, token);
-          })
-          .catch((error) => {
-            loginWithRedirect();
-        });
-    }
-})
-...
-```
+The toolbox handles all of this logic <b>under the hood</b>, meaning that it's not required to use this function in a specific product.
