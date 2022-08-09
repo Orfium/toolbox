@@ -15,7 +15,6 @@ For a smoother and seamless experience in all of our products, the plan is to br
 * Navigation Bar
 * Request - HTTP requests made through one tool
 * Authentication - A function that easily provide access for each user
-* Yggdrasil - Our SSO
 
 Excuse my drawing 🙃
 ![What Contains](/img/Toolbox-graph.jpeg)

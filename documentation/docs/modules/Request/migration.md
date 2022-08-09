@@ -59,7 +59,7 @@ The `setToken` function takes a token input as a string and then sets it in the 
 }
 ```
 
-This is because its purpose is to work only with the OrfiumSSO and yggdrasil.
+This is because its purpose is to work only with the OrfiumSSO.
 
 If you are using the toolbox outside of the Orfium One ecosystem, then _shame on you_.
 You can use the code below until you come to your senses. Just replace `token` with whatever you are using
