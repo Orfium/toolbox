@@ -5,8 +5,8 @@ sidebar_position: 4
 
 # Authorization Flow
 
-When you login in any application user must consent to the application he is trying to access. Orfium after that grants and _authorization code_ that contains the user information and specified scopes.
-After that step there is a specific flow that is happening in the background that will be covered below.
+When you log in any application, the user must consent to the application he is trying to access. Orfium One SSO grants an _authorization code_ that contains the user information and their specified scopes.
+After that, there is a specific flow that is happening in the background, that will be covered below.
 
 ## The actual flow
 
@@ -49,8 +49,8 @@ stop
 
 ## Refresh Tokens
 
-When you login you get an access token, the access token is returned along with a refresh token, which you can use to renew the access token for the associated user.
-A refresh token request gets an access token that contains the same authorization properties as the original access token.
+When you login you get an access token. The access token is returned along with a refresh token, which you can use to renew the access token for the associated user.
+A refresh token request returns a renewed access token that contains the same authorization properties as the original access token.
 
 ```plantuml
 title "Refresh Tokens - Sequence Diagram"

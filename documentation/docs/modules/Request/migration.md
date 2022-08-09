@@ -7,9 +7,9 @@ sidebar_position: 3
 
 ### Request
 
-The `request` function returned from `createRequest` take the props as object to help with readability.
+The `request` function returned from `createRequest` takes its props as an object, in order to help with readability.
 
-In order to avoid the diff in the migration to toolbox to be too big. You can use the code below to migrate the request function in a separate PR.
+For your convenience, you can use the code below to migrate the request function in a separate PR:
 
 ```jsx title="/src/providers/instance.tsx"
 import { createAPIInstance } from '@orfium/toolbox';
@@ -23,7 +23,7 @@ export const instanceV1 = createAPIInstance({
 export const request = <T = any>(
   method: string,
   url: string,
-  { params }: Anything,
+  { params }: any,
   withoutBase = false,
   headers = {},
   onDownloadProgress?: (e: Anything) => void,
@@ -31,9 +31,8 @@ export const request = <T = any>(
   responseType?: 'arraybuffer' | 'document' | 'json' | 'text' | 'stream'
 ) => {
   const { request: req, cancelTokenSource: canc } =
-    instanceV1.createRequest <
-    T >
-    {
+    instanceV1.createRequest<T>
+    ({
       method,
       url,
       params,
@@ -42,7 +41,7 @@ export const request = <T = any>(
       onDownloadProgress,
       onUploadProgress,
       responseType,
-    };
+    });
 
   return { request: req, cancelTokenSource: canc };
 };
@@ -50,7 +49,7 @@ export const request = <T = any>(
 
 ### setToken
 
-The `setToken` function takes a string and sets a token in the header `Authorization` in the format:
+The `setToken` function takes a token input as a string and then sets it in the `Authorization` header, like so:
 
 ```json
 {
@@ -60,10 +59,10 @@ The `setToken` function takes a string and sets a token in the header `Authoriza
 }
 ```
 
-This is because it's purpose is to work only with the OrfiumSSO and yggdrasil.
+This is because its purpose is to work only with the OrfiumSSO and yggdrasil.
 
-If you are using toolbox outside of the OrfiumOne ecosystem then _shame on you_ and
-you can use the code below until you come to your senses. Just replace Token with whatever you are using
+If you are using the toolbox outside of the Orfium One ecosystem, then _shame on you_.
+You can use the code below until you come to your senses. Just replace `token` with whatever you are using
 
 ```jsx title="/src/providers/instance.tsx"
 import { createAPIInstance } from '@orfium/toolbox';

@@ -8,7 +8,7 @@ sidebar_position: 1
 ## Overview
 
 Request is about getting all the data from and to your server. In order to avoid applications having to implement and
-maintain their own solution, toolbox provides a tried and tested instance generator for generating request handlers.
+maintain their own solution, toolbox provides a tried and tested instance generator for request handlers.
 
 All you need to pass is the base URL and your base headers.
 
@@ -21,8 +21,8 @@ The [returned value](/docs/api/modules#createapiinstancetype) contains:
 - `setToken` , for setting the token in the `Authorization` header as `Token XXXX` and
 - `deleteToken` , for deleting the token from the header `Authorization`
 
-**_Important Note_** it is important to mention that `Request` module when is being used alongside with `Authentication` it will automatically have `Authorization` token for all requests based on the Orfium Authentication system.
-If you need to pass another token for any other calls like 3rd party S3, google etc you only have to [define it](/docs/modules/Request/#setdelete-authentication-token) and it will be overwritten.
+**_Important Note_** it is important to mention that the when the `Request` module is used alongside the `Authentication` module, it will automatically have the `Authorization` token header for all requests based on the Orfium Authentication system.
+If you need to pass another token for any other calls (3rd party S3, Google etc.) you only have to [define it](/docs/modules/Request/#setdelete-authentication-token) and it will be overwritten.
 
 ## Usage
 
@@ -65,7 +65,7 @@ const instanceWhatevrYouWant = createAPIInstance({
 
 ### Set/Delete Authentication Token
 
-Don't forget that you have to set the token after you login and to delete it after you logout.
+Don't forget that you have to set the token after you login and delete it after you logout.
 
 ```jsx title="/src/models/user.tsx"
 import { baseInstance } from 'src/providers/instance';
