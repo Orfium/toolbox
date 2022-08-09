@@ -64,3 +64,8 @@ Application <-- AA : Granted access token
 Application -> API : Request with access token
 Application <-- API : Response
 ```
+
+If you want to learn more about refresh tokens in general, you can check out the references bellow:
+
+- https://www.oauth.com/oauth2-servers/access-tokens/refreshing-access-tokens/
+- https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
