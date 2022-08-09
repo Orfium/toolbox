@@ -8,7 +8,7 @@ import { useAuthentication } from './index';
 
 export type TopBarProps = {
   logoIcon: JSX.Element;
-  userMenu?: UserMenuProps;
+  userMenu?: never;
 } & Omit<TopAppBarProps, 'logoIcon' | 'userMenu'>;
 
 /*
