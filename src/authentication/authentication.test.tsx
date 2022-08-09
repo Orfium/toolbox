@@ -1,33 +1,36 @@
-import * as auth from '@auth0/auth0-react';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { AuthenticationProvider, useAuthentication } from './context';
-
-jest.spyOn(auth, 'Auth0Provider').mockImplementation(({ children }) => <div>{children}</div>);
+import {
+  FAKE_TOKEN,
+  getNewFakeToken,
+  getTokenSilently,
+  isAuthenticated,
+  loginWithRedirect,
+  // @ts-ignore
+} from '../../__mocks__/@auth0/auth0-spa-js';
+import { orfiumIdBaseInstance } from '../request';
+import MockRequest from '../request/mock';
+import { Authentication as AuthenticationProvider } from './index';
 
 const TestComp = () => {
-  const { isLoading } = useAuthentication();
-
-  if (isLoading) {
-    return <div data-testid={'test-loading'}>Test</div>;
-  }
-
   return <div data-testid={'test'}>Test</div>;
 };
 
 describe('Authorization: ', () => {
+  let mock: MockRequest;
+  const apiInstance = orfiumIdBaseInstance.instance;
+
+  beforeEach(() => {
+    mock = new MockRequest(apiInstance);
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
     cleanup();
   });
-  it('renders without crashing', () => {
-    // @ts-ignore
-    jest.spyOn(auth, 'useAuth0').mockImplementation(() => ({
-      isAuthenticated: true,
-      isLoading: false,
-    }));
 
+  it('renders without crashing', () => {
     render(
       <AuthenticationProvider>
         <TestComp />
@@ -35,12 +38,10 @@ describe('Authorization: ', () => {
     );
   });
 
-  it('renders the test component', () => {
-    // @ts-ignore
-    jest.spyOn(auth, 'useAuth0').mockImplementation(() => ({
-      isAuthenticated: true,
-      isLoading: false,
-    }));
+  it('renders the test component', async () => {
+    getTokenSilently.mockResolvedValue(getNewFakeToken());
+    isAuthenticated.mockResolvedValue(true);
+    mock.onGet('/memberships/').reply(200, [{ org_id: 'a' }]);
 
     const { getByTestId } = render(
       <AuthenticationProvider>
@@ -48,40 +49,47 @@ describe('Authorization: ', () => {
       </AuthenticationProvider>
     );
 
-    expect(getByTestId('test')).toBeTruthy();
+    await waitFor(() => expect(getByTestId('orfium-auth-loading')).toBeTruthy());
+
+    await waitFor(() => expect(getByTestId('test')).toBeTruthy());
   });
 
-  it('redirects to login if not authenticated', () => {
-    const loginWithRedirectFun = jest.fn();
-    // @ts-ignore
-    jest.spyOn(auth, 'useAuth0').mockImplementation(() => ({
-      isAuthenticated: false,
-      isLoading: false,
-      loginWithRedirect: loginWithRedirectFun,
-    }));
+  it('redirects to login if not authenticated', async () => {
+    isAuthenticated.mockResolvedValue(false);
 
-    const { getByTestId } = render(
+    render(
       <AuthenticationProvider>
         <TestComp />
       </AuthenticationProvider>
     );
-    expect(getByTestId('test')).toBeTruthy();
 
-    expect(loginWithRedirectFun).toHaveBeenCalled();
+    await waitFor(() => expect(loginWithRedirect).toHaveBeenCalled());
   });
 
-  it('renders the loading while its authenticating', () => {
-    // @ts-ignore
-    jest.spyOn(auth, 'useAuth0').mockImplementation(() => ({
-      isAuthenticated: false,
-      isLoading: true,
-    }));
+  it('renders the loading while its authenticating', async () => {
+    getTokenSilently.mockResolvedValue(getNewFakeToken());
+    isAuthenticated.mockResolvedValue(true);
+    const { getByTestId } = render(
+      <AuthenticationProvider>
+        <TestComp />
+      </AuthenticationProvider>
+    );
+    await waitFor(() => expect(getByTestId('orfium-auth-loading')).toBeTruthy());
+  });
+
+  it('renders the no organization message when it should', async () => {
+    getTokenSilently.mockResolvedValue(getNewFakeToken());
+    isAuthenticated.mockResolvedValue(true);
+    mock.onGet('/memberships/').replyOnce(200, []);
 
     const { getByTestId } = render(
       <AuthenticationProvider>
         <TestComp />
       </AuthenticationProvider>
     );
-    expect(getByTestId('test-loading')).toBeTruthy();
+
+    await waitFor(() => expect(getByTestId('orfium-auth-loading')).toBeTruthy());
+
+    await waitFor(() => expect(getByTestId('orfium-no-organizations')).toBeTruthy());
   });
 });

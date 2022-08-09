@@ -1,12 +1,14 @@
 ---
-sidebar_label: 'Request'
-sidebar_position: 3
+sidebar_label: 'Installation'
+sidebar_position: 1
 ---
+
+# Request
 
 ## Overview
 
 Request is about getting all the data from and to your server. In order to avoid applications having to implement and
-maintain their own solution, toolbox provides a tried and tested instance generator for generating request handlers.
+maintain their own solution, toolbox provides a tried and tested instance generator for request handlers.
 
 All you need to pass is the base URL and your base headers.
 
@@ -19,11 +21,15 @@ The [returned value](/docs/api/modules#createapiinstancetype) contains:
 - `setToken` , for setting the token in the `Authorization` header as `Token XXXX` and
 - `deleteToken` , for deleting the token from the header `Authorization`
 
+**_Important Note_** it is important to mention that the when the `Request` module is used alongside the `Authentication` module, it will automatically have the `Authorization` token header for all requests based on the Orfium Authentication system.
+If you need to pass another token for any other calls (3rd party S3, Google etc.) you only have to [define it](/docs/modules/Request/#setdelete-authentication-token) and it will be overwritten.
+
 ## Usage
 
 ### Single Instance
 
-Initialization of the instance.
+Initialization of the instance. Each instance can be set with a new base url that will be used to call different endpoints.
+You can set if you want on the instance to **use** or **not** the `Authentication` token automatically. This is set to TRUE by default, but you can define it `hasAutomaticToken: false` on the configuration.
 
 ```jsx title="/src/providers/instance.tsx"
 import { createAPIInstance } from '@orfium/toolbox';
@@ -32,7 +38,8 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 
 export const baseInstance = createAPIInstance({
   baseUrl: baseURL,
-  baseHeaders: {},
+  baseHeaders: {}, // optional
+  hasAutomaticToken: true // optional, default to true
 });
 ```
 
@@ -60,7 +67,7 @@ const instanceWhatevrYouWant = createAPIInstance({
 
 ### Set/Delete Authentication Token
 
-Don't forget that you have to set the token after you login and to delete it after you logout.
+Don't forget that you have to set the token after you login and delete it after you logout.
 
 ```jsx title="/src/models/user.tsx"
 import { baseInstance } from 'src/providers/instance';
@@ -107,84 +114,4 @@ export const useSuperFancyModel() {
 
   return useQuery("superFancy", () => request());
 }
-```
-
-## Migration notes :warning:
-
-### Request
-
-The `request` function returned from `createRequest` take the props as object to help with readability.
-
-In order to avoid the diff in the migration to toolbox to be too big. You can use the code below to migrate the request function in a separate PR.
-
-```jsx title="/src/providers/instance.tsx"
-import { createAPIInstance } from '@orfium/toolbox';
-
-const baseURL = process.env.REACT_APP_BASE_URL;
-
-export const instanceV1 = createAPIInstance({
-  baseUrl: baseURL + '/v1',
-});
-
-export const request = <T = any>(
-  method: string,
-  url: string,
-  { params }: Anything,
-  withoutBase = false,
-  headers = {},
-  onDownloadProgress?: (e: Anything) => void,
-  onUploadProgress?: (e: Anything) => void,
-  responseType?: 'arraybuffer' | 'document' | 'json' | 'text' | 'stream'
-) => {
-  const { request: req, cancelTokenSource: canc } =
-    instanceV1.createRequest <
-    T >
-    {
-      method,
-      url,
-      params,
-      withoutBase,
-      headers,
-      onDownloadProgress,
-      onUploadProgress,
-      responseType,
-    };
-
-  return { request: req, cancelTokenSource: canc };
-};
-```
-
-### setToken
-
-The `setToken` function takes a string and sets a token in the header `Authorization` in the format:
-
-```json
-{
-  ...
-  "Authorization": "Token XXXXXXX",
-  ...
-}
-```
-
-This is because it's purpose is to work only with the OrfiumSSO and yggdrasil.
-
-If you are using toolbox outside of the OrfiumOne ecosystem then _shame on you_ and
-you can use the code below until you come to your senses. Just replace Token with whatever you are using
-
-```jsx title="/src/providers/instance.tsx"
-import { createAPIInstance } from '@orfium/toolbox';
-
-const baseURL = process.env.REACT_APP_BASE_URL;
-
-export const instance = createAPIInstance({
-  baseUrl: baseURL,
-});
-
-export const setAxiosToken = (token: string) => {
-  instance.instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-
-export const deleteAxiosHeaders = () => {
-  delete instance.instance.defaults.headers.common.Authorization;
-};
 ```

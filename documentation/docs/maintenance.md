@@ -4,45 +4,45 @@ sidebar_position: 2
 
 # Developer Maintenance
 
-Our main focus is DevExp of this tool on the applications that is going to be used. We want fluent integrations and that is why we spent
-quite some time to fine tune the process and documentation for this to happen. So please read the following carefully before proceeding
+Our main focus of this tool is better Developer Experience on the applications that it is going to be used. We want fluent integrations and that is why we spent
+quite some time to fine tune the process and documentation for this to happen. So please read the following carefully before proceeding:
 
 ## Developing Tools
 
 For developing Toolbox we are using `yalc` and not `npm link`. See more about **_Yalc_** [here](https://github.com/wclr/yalc)
 
-Using `link` will create problem for resolving the correct `node_modules` on the linked project that `yalc` bypass.
+Using `link` will create problems when resolving the correct `node_modules` on the linked project that `yalc` can bypass.
 
-Using `yalc` tool help us define a fake registry locally like a fake `npm` and add our package to that registry.
-This way you will be able to see exactly the same output of the built tool just like `npm` does but this will be soft linked with the local version.
+Using `yalc` tool helps us define a fake registry locally like a fake `npm` and add our package to that registry.
+This way you will be able to see exactly the same output of the built tool just like `npm` does, but it will be soft-linked with the local version.
 
 Last step is to define the tool on the application you want and start playing around.
 
-**Hot reload and auto publishing works out-of-the-box.**
+**Hot reload and auto-publishing works out-of-the-box.**
 
 ## Step by step
 
-1. in order to develop Toolbox you must have `yalc` installed. Using yarn:
+1. In order to develop Toolbox you must have `yalc` installed. Using yarn:
 
 ```bash
 yarn global add yalc
 ```
 
-2. Run the bellow on the Toolbox.
+2. Run the below on the Toolbox.
 
 ```bash
 yarn yalc:push
 ```
 
-This will create a fake publish on the registry and push latest changes.
+This will create a fake publish on the registry and push the latest changes.
 
-4. Now, run on your local application to link the package from the registry.
+4. Now, run the following on your application, to link the package from the registry.
 
 ```bash
 yalc add @orfium/toolbox
 ```
 
-This will copy the current version from the registry and inject the `file:.yalc/@orfium/toolbox` dependecy on your `package.json`
+This will copy the current version from the registry and inject the `file:.yalc/@orfium/toolbox` dependency on your `package.json`
 
 Your `package.json` should look like this.
 
@@ -56,7 +56,7 @@ devDependencies: {
 ...
 ```
 
-5. Make sure you have added to your `.gitignore` file the following to avoid pushing any yalc files to git.
+5. Make sure you have added the following to your `.gitignore` file, to avoid pushing any yalc files to git.
 
 ```gitignore
 ....
@@ -72,6 +72,6 @@ yalc.lock
 yarn watch
 ```
 
-on the Toolbox any change that you do it will automatically reload the linked applications when they are running
+on the Toolbox, any change that you do will automatically reload the linked applications when they are running
 
-**Congrats! 🎉 &nbsp;Now you are ready.**
+**Congrats! Now you are ready! &nbsp;🎉**

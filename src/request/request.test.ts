@@ -1,6 +1,8 @@
 import { cleanup } from '@testing-library/react';
 import { AxiosInstance } from 'axios';
 
+// @ts-ignore
+import { FAKE_TOKEN, getTokenSilently } from '../../__mocks__/@auth0/auth0-spa-js';
 import { CreateAPIInstanceType, METHODS } from './index';
 import { createAPIInstance } from './index';
 import MockRequest from './mock';
@@ -10,6 +12,7 @@ describe('Request: ', () => {
   let apiInstance: AxiosInstance;
   let mock: MockRequest;
   const baseUrl = 'http://localhost/v1';
+  getTokenSilently.mockResolvedValue(FAKE_TOKEN);
 
   beforeEach(() => {
     factory = createAPIInstance({ baseUrl });
@@ -74,15 +77,15 @@ describe('Request: ', () => {
   });
 
   it('correctly sets token', async () => {
-    factory.setToken('I am groot');
+    factory.setToken('I am groot ');
 
-    expect(apiInstance.defaults.headers.common.Authorization).toBe('Token I am groot');
+    expect(apiInstance.defaults.headers.common.Authorization).toBe('Bearer I am groot ');
   });
 
   it('correctly removes token', async () => {
-    factory.setToken('I am groot');
+    factory.setToken('I am groot ');
 
-    expect(apiInstance.defaults.headers.common.Authorization).toBe('Token I am groot');
+    expect(apiInstance.defaults.headers.common.Authorization).toBe('Bearer I am groot ');
 
     factory.deleteToken();
 
