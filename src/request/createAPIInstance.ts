@@ -8,6 +8,7 @@ export { default as MockRequest } from './mock';
 export type CreateAPIInstanceProps = {
   baseUrl: string;
   baseHeaders?: Record<string, string | undefined>;
+  hasAutomaticToken?: boolean;
 };
 
 export type CreateAPIInstanceType = {
@@ -32,6 +33,7 @@ export const createAPIInstance = ({
   baseHeaders = {
     Authorization: tokenFormat(useRequestToken.getState().token || ''),
   },
+  hasAutomaticToken = true,
 }: CreateAPIInstanceProps): CreateAPIInstanceType => {
   const orfiumAxios = axios.create({
     baseURL: baseUrl,
@@ -42,7 +44,9 @@ export const createAPIInstance = ({
     (response) => response,
     (error) => {
       if (error?.response?.status === 401) {
-        logoutAuth();
+        if (hasAutomaticToken) {
+          logoutAuth();
+        }
       }
 
       return error;
@@ -53,8 +57,10 @@ export const createAPIInstance = ({
   // Fetching latest token is mandatory for all the request to have up-to-date information
   orfiumAxios.interceptors.request.use(
     async (config) => {
-      const { token } = await getTokenSilently();
-      config.headers.Authorization = `Bearer ${token}`;
+      if (hasAutomaticToken) {
+        const { token } = await getTokenSilently();
+        config.headers.Authorization = `Bearer ${token}`;
+      }
 
       return config;
     },

@@ -28,7 +28,8 @@ If you need to pass another token for any other calls (3rd party S3, Google etc.
 
 ### Single Instance
 
-Initialization of the instance.
+Initialization of the instance. Each instance can be set with a new base url that will be used to call different endpoints.
+You can set if you want on the instance to **use** or **not** the `Authentication` token automatically. This is set to TRUE by default, but you can define it `hasAutomaticToken: false` on the configuration.
 
 ```jsx title="/src/providers/instance.tsx"
 import { createAPIInstance } from '@orfium/toolbox';
@@ -37,7 +38,8 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 
 export const baseInstance = createAPIInstance({
   baseUrl: baseURL,
-  baseHeaders: {},
+  baseHeaders: {}, // optional
+  hasAutomaticToken: true // optional, default to true
 });
 ```
 
