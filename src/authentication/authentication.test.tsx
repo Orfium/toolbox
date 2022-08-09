@@ -90,6 +90,6 @@ describe('Authorization: ', () => {
 
     await waitFor(() => expect(getByTestId('orfium-auth-loading')).toBeTruthy());
 
-    await waitFor(() => expect(getByTestId('orfium-no-org-id')).toBeTruthy());
+    await waitFor(() => expect(getByTestId('orfium-no-organizations')).toBeTruthy());
   });
 });

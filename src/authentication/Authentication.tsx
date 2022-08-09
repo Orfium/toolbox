@@ -30,13 +30,8 @@ Authentication.TopBar = TopBar;
 const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
   const { isLoading, isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } =
     useAuthentication();
-  const { setOrganizations, setSelectedOrganization, selectedOrganization } = useOrganization(
-    ({ setOrganizations, setSelectedOrganization, selectedOrganization }) => ({
-      setOrganizations,
-      setSelectedOrganization,
-      selectedOrganization,
-    })
-  );
+  const { organizations, setOrganizations, setSelectedOrganization, selectedOrganization } =
+    useOrganization();
   const [systemLoading, setSystemLoading] = useState<boolean | undefined>(undefined);
 
   /**
@@ -86,6 +81,31 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
   // when loading is true before navigation this is not showing anymore
   if (systemLoading === undefined || systemLoading || isLoading || !isAuthenticated) {
     return <div data-testid={'orfium-auth-loading'}>Loading...</div>;
+  }
+
+  if (organizations.length === 0) {
+    return (
+      <ThemeProvider>
+        <div
+          data-testid={'orfium-no-organizations'}
+          style={{
+            width: '100vw',
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <h1>There are no organizations to pick.</h1>
+          <h3>Go back or contact your administrator for more information.</h3>
+          <h4>or</h4>
+          <Button onClick={logout} type={'primary'}>
+            logout
+          </Button>
+        </div>
+      </ThemeProvider>
+    );
   }
 
   if (!selectedOrganization) {
