@@ -107,12 +107,10 @@ If you are not authenticated and the app is not loading, the toolbox will automa
 
 ### Refresh Tokens
 
-Let's deep-dive into the `getAccessTokenSilently` function and how it used under the hood. This is the most important function and the one that you **WILL** and **MUST** use.
+_The toolbox handles all of this logic <b>under the hood</b>, meaning that it's not required to use this function in a specific product._
 
-By default, we use [refresh tokens](https://auth0.com/learn/refresh-tokens/). This doesn't change the way you use the app, so it wasn't mentioned before.
+By default, we use [refresh tokens](/docs/modules/Authentication/flow#refresh-tokens). This doesn't change the way you use the app, so it wasn't mentioned before.
 
-One interesting thing about it though, is that at some point you might make an API call to your BE using the token provided and the request will fail as unauthorized.
-
-This is because the access token has expired. That's when you need to call the `getAccessTokenSilently` function to get a new one, by using your refresh token.
-
-The toolbox handles all of this logic <b>under the hood</b>, meaning that it's not required to use this function in a specific product.
+Let's deep-dive into the `getAccessTokenSilently` function and how it can be used in special cases.
+`Authorization` goes hand in hand with the `Request` of the toolbox. Furthermore, everytime a user authenticate all the requests are automatically handling the token as their authorization bearer token.
+If at some point you might make an API call to your BE using the token provided and the request will fail as unauthorized you can call the `getAccessTokenSilently` function to get a new token, this is going to be created by your refresh token _automatically_ again.
