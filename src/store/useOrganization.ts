@@ -16,7 +16,9 @@ export type Organization = {
 };
 
 type Store = {
+  // list of organizations that fetched and stored
   organizations: Organization[];
+  // the selected organization for the current session
   selectedOrganization: Organization | undefined;
   setOrganizations: (organizations: Organization[]) => void;
   setSelectedOrganization: (organizations: Organization) => void;
