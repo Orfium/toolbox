@@ -1,5 +1,9 @@
 import { default as useOrganizationModule, Organization } from './store/useOrganization';
 
+/*
+ * Eliminate any other information from the useOrganization zustand state coming out
+ * The only information needed to export is `read` data
+ */
 // eslint-disable-next-line react-hooks/rules-of-hooks
 const useOrganization = () =>
   useOrganizationModule(({ organizations, selectedOrganization }) => ({
