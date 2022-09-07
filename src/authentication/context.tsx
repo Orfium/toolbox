@@ -27,8 +27,6 @@ const providerConfig: Auth0ClientOptions = {
   redirect_uri: window.location.origin,
   onRedirectCallback,
   useRefreshTokens: true,
-  // this way we persist the token to not refetch on reload - https://auth0.com/docs/libraries/auth0-single-page-app-sdk#change-storage-options
-  cacheLocation: 'localstorage',
 };
 
 export const AuthenticationContext = createContext<AuthenticationContextProps>({
