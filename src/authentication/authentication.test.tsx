@@ -56,6 +56,8 @@ describe('Authorization: ', () => {
 
   it('redirects to login if not authenticated', async () => {
     isAuthenticated.mockResolvedValue(false);
+    getTokenSilently.mockResolvedValue(getNewFakeToken());
+    mock.onGet('/memberships/').replyOnce(200, []);
 
     render(
       <AuthenticationProvider>
