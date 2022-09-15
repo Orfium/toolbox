@@ -2,6 +2,7 @@ import { act, findByText, getByTestId, render, waitFor, screen } from '@testing-
 import jwtDecode from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 
+// Auth0 custom error simulator. This extends a regular Error to match Auth0 Error.
 class CustomError extends Error {
   constructor(public error: string, public error_description: string) {
     super(error_description);
@@ -34,6 +35,7 @@ import {
 
 describe('Context', () => {
   beforeEach(() => {
+    // clear all mocks and mocked values
     jest.clearAllMocks();
     mockedGetTokenSilently.mockReset();
     getUser.mockReset();
