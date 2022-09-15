@@ -164,7 +164,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         await loginWithPopup();
       }
 
-      return e;
+      throw e;
     }
   };
 
