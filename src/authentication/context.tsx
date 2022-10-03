@@ -116,6 +116,9 @@ const AuthenticationProvider: React.FC = ({ children }) => {
   const [auth0Client, setAuth0Client] = useState<Auth0Client>();
   const [isLoading, setIsLoading] = useState(true);
   const [__popupOpen, setPopupOpen] = useState(false);
+  const params = new URLSearchParams(window.location.search);
+  const organization = params.get('organization');
+  const invitation = params.get('invitation');
 
   useEffect(() => {
     (async () => {
@@ -161,13 +164,16 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         await loginWithPopup();
       }
 
-      return e;
+      throw e;
     }
   };
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      auth0Client!.loginWithRedirect();
+      auth0Client!.loginWithRedirect({
+        organization: organization || undefined,
+        invitation: invitation || undefined,
+      });
     }
   }, [auth0Client, isLoading, isAuthenticated]);
 

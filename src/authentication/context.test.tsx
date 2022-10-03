@@ -1,6 +1,15 @@
-import { cleanup, findByText, getByTestId, render, waitFor } from '@testing-library/react';
+import { act, findByText, getByTestId, render, waitFor, screen } from '@testing-library/react';
 import jwtDecode from 'jwt-decode';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
+// Auth0 custom error simulator. This extends a regular Error to match Auth0 Error.
+class CustomError extends Error {
+  constructor(public error: string, public error_description: string) {
+    super(error_description);
+    this.error = error;
+    this.error_description = error_description;
+  }
+}
 
 import {
   FAKE_TOKEN,
@@ -10,6 +19,7 @@ import {
   loginWithPopup as mockedLoginWithPopup,
   getNewFakeToken,
   fakeTokenData,
+  loginWithRedirect,
   // @ts-ignore
 } from '../../__mocks__/@auth0/auth0-spa-js';
 import useOrganization from '../store/useOrganization';
@@ -24,6 +34,14 @@ import {
 } from './context';
 
 describe('Context', () => {
+  beforeEach(() => {
+    // clear all mocks and mocked values
+    jest.clearAllMocks();
+    mockedGetTokenSilently.mockReset();
+    getUser.mockReset();
+    loginWithRedirect.mockReset();
+  });
+
   describe('global methods that used on both context and outside', () => {
     const oldWindowLocation = { ...window.location };
 
@@ -128,24 +146,37 @@ describe('Context', () => {
   });
 
   test('AuthenticationProvider calls loginWithPopup when access token fails', async () => {
+    const errorMsg = 'login_required';
     const TestingComponent = () => {
       const { user, isAuthenticated, getAccessTokenSilently, isLoading } = useAuthentication();
+      const [result, setResult] = useState('');
 
       useEffect(() => {
-        if (!isLoading) {
-          getAccessTokenSilently();
-        }
+        (async () => {
+          if (!isLoading) {
+            try {
+              const res = await getAccessTokenSilently();
+
+              setResult(res.token);
+            } catch (err: any) {
+              console.log(err);
+              console.log(err.error);
+              setResult(err.error);
+            }
+          }
+        })();
       }, [isLoading]);
 
       return (
         <>
           <p>{user?.name}</p>
           <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
+          <p data-testid="result">{result}</p>
         </>
       );
     };
 
-    mockedGetTokenSilently.mockRejectedValue({ error: 'login_required' });
+    mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, 'login_require'));
     getUser.mockResolvedValue({
       name: 'John Doe',
     });
@@ -159,5 +190,43 @@ describe('Context', () => {
     await waitFor(() => expect(findByText('John Doe')).toBeTruthy());
     await waitFor(() => expect(getByTestId('isAuthenticated').innerHTML).toBe('true'));
     await waitFor(() => expect(mockedLoginWithPopup).toBeCalledTimes(1));
+    await waitFor(() => expect(getByTestId('result').innerHTML).toBe(errorMsg));
   }, 10000);
+
+  test('invitation redirect', async () => {
+    const invitation = 'wkhLzqInxdaXipRfBPyBtzcxs3wmoUDg';
+    const organization = 'org_lWF9avilXAry9Aid';
+
+    Object.defineProperty(window, 'location', {
+      value: {
+        search: `?invitation=${invitation}&organization=${organization}`,
+      },
+    });
+
+    isAuthenticated.mockResolvedValue(false);
+
+    await act(async () => {
+      const TestingComponent = () => {
+        const { user, isAuthenticated, isLoading } = useAuthentication();
+
+        return (
+          <>
+            <p>{user?.name}</p>
+            <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
+            <p data-testid="isLoading">{isLoading?.toString()}</p>
+          </>
+        );
+      };
+
+      render(
+        <AuthenticationProvider>
+          <TestingComponent />
+        </AuthenticationProvider>
+      );
+    });
+
+    await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('false'));
+    await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+    expect(loginWithRedirect).toBeCalledWith({ invitation, organization });
+  });
 });

@@ -59,17 +59,15 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         if (!selectedOrganization?.org_id && data?.length > 0) {
           setSelectedOrganization(data[0]);
         }
-
-        // if token doesn't have an organization set continue and set one
-        if (!decodedToken?.org_id) {
-          if (data?.length) {
-            // IMPORTANT - when we are using `useRefreshTokens` and `cacheLocation` on Auth0 we can fetch just a token with organization through `getTokenSilently`
-            // we must use loginWithRedirect in that case thus this is happening here
-            // https://auth0.com/docs/secure/tokens/refresh-tokens/use-refresh-token-rotation
-            await loginWithRedirect({
-              organization: selectedOrganization?.org_id || data[0].org_id,
-            });
-          }
+        // if token doesn't have an organization and the user has available organizations
+        // set continue and set one
+        if (!decodedToken?.org_id && data?.length) {
+          // IMPORTANT - when we are using `useRefreshTokens` and `cacheLocation` on Auth0 we can fetch just a token with organization through `getTokenSilently`
+          // we must use loginWithRedirect in that case thus this is happening here
+          // https://auth0.com/docs/secure/tokens/refresh-tokens/use-refresh-token-rotation
+          await loginWithRedirect({
+            organization: selectedOrganization?.org_id || data[0].org_id,
+          });
         } else {
           // set false at all times
           setSystemLoading(false);
