@@ -95,7 +95,7 @@ export const getTokenSilently = async (
       ? new Date(decodedToken?.exp * 1000).getTime() < new Date().getTime()
       : true; // has expired
 
-  if (!isExpired && decodedToken.org_id) {
+  if (!isExpired && decodedToken.org_id && decodedToken.org_id === selectedOrganization?.org_id) {
     return { token: stateToken, decodedToken };
   }
 
