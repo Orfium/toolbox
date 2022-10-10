@@ -108,7 +108,21 @@ describe('Context', () => {
     test('with cached results', async () => {
       const NEW_FAKE_EXPIRED_TOKEN = getNewFakeToken();
       const setToken = useRequestToken.getState().setToken;
+      const setSelectedOrganization = useOrganization.getState().setSelectedOrganization;
       setToken(NEW_FAKE_EXPIRED_TOKEN);
+      setSelectedOrganization({
+        org_id: 'org_WYZLEMyTm2xEbnbn',
+        display_name: 'test',
+        name: 'test',
+        can_administrate: true,
+        metadata: {
+          type: 'test',
+          product_codes: 'test',
+        },
+        branding: {
+          logo_url: 'test',
+        },
+      });
 
       const { token, decodedToken } = await getTokenSilently();
 
