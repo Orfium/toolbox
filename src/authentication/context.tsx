@@ -6,6 +6,7 @@ import createAuth0Client, {
 } from '@auth0/auth0-spa-js';
 import jwt_decode from 'jwt-decode';
 import React, { useState, useEffect, createContext } from 'react';
+import { useErrorHandler } from 'react-error-boundary';
 
 import useOrganization from '../store/useOrganization';
 import useRequestToken from '../store/useRequestToken';
@@ -68,11 +69,17 @@ export const getAuth0Client = async () => {
 export const logoutAuth = async () => {
   const setToken = useRequestToken.getState().setToken;
   const resetOrganizationState = useOrganization.getState().reset;
-  const client = await getAuth0Client();
-  // @TODO change returnTo to orfium one when is ready
-  client?.logout({ returnTo: window.location.origin });
-  setToken(undefined);
-  resetOrganizationState();
+  try {
+    const client = await getAuth0Client();
+    // @TODO change returnTo to orfium one when is ready
+    client?.logout({ returnTo: window.location.origin });
+    setToken(undefined);
+    resetOrganizationState();
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      throw e;
+    }
+  }
 };
 
 /**
@@ -86,6 +93,7 @@ export const logoutAuth = async () => {
  */
 export const getTokenSilently = async (
   params?: Record<string, unknown>
+  // @ts-ignore
 ): Promise<{ token: string; decodedToken: { exp?: number; org_id?: string } }> => {
   const { token: stateToken = '', setToken } = useRequestToken.getState();
   const selectedOrganization = useOrganization.getState().selectedOrganization;
@@ -98,16 +106,21 @@ export const getTokenSilently = async (
   if (!isExpired && decodedToken.org_id) {
     return { token: stateToken, decodedToken };
   }
+  try {
+    const client = await getAuth0Client();
 
-  const client = await getAuth0Client();
+    const token = await client.getTokenSilently({
+      ...params,
+      organization: selectedOrganization?.org_id,
+    });
+    setToken(token);
 
-  const token = await client.getTokenSilently({
-    ...params,
-    organization: selectedOrganization?.org_id,
-  });
-  setToken(token);
-
-  return { token, decodedToken: jwt_decode(token) };
+    return { token, decodedToken: jwt_decode(token) };
+  } catch (e) {
+    if (e instanceof Error) {
+      throw e;
+    }
+  }
 };
 
 const AuthenticationProvider: React.FC = ({ children }) => {
@@ -116,27 +129,41 @@ const AuthenticationProvider: React.FC = ({ children }) => {
   const [auth0Client, setAuth0Client] = useState<Auth0Client>();
   const [isLoading, setIsLoading] = useState(true);
   const [__popupOpen, setPopupOpen] = useState(false);
+  const handleError = useErrorHandler();
   const params = new URLSearchParams(window.location.search);
   const organization = params.get('organization');
   const invitation = params.get('invitation');
 
   useEffect(() => {
     (async () => {
-      const client = await getAuth0Client();
-      setAuth0Client(client);
-      if (window.location.search.includes('code=')) {
-        const { appState } = await client.handleRedirectCallback();
-        onRedirectCallback(appState);
-      }
-      const clientIsAuthenticated = await client.isAuthenticated();
-      setIsAuthenticated(clientIsAuthenticated);
+      try {
+        const client = await getAuth0Client();
+        setAuth0Client(client);
+        if (window.location.search.includes('code=')) {
+          const { appState } = await client.handleRedirectCallback();
+          onRedirectCallback(appState);
+        }
+        const clientIsAuthenticated = await client.isAuthenticated();
+        setIsAuthenticated(clientIsAuthenticated);
 
-      if (clientIsAuthenticated) {
-        const clientUser = await client.getUser();
-        setUser(clientUser);
-      }
+        if (clientIsAuthenticated) {
+          const clientUser = await client.getUser();
+          setUser(clientUser);
+        }
 
-      setIsLoading(false);
+        setIsLoading(false);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          if (error.message === 'Invalid state') {
+            return client!.loginWithRedirect({
+              organization: organization || undefined,
+              invitation: invitation || undefined,
+            });
+          }
+        }
+
+        handleError(error);
+      }
     })();
   }, []);
 
@@ -145,7 +172,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     try {
       await auth0Client!.loginWithPopup(params);
     } catch (error) {
-      console.error(error);
+      handleError(error);
     } finally {
       setPopupOpen(false);
     }
@@ -159,12 +186,14 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       const result = await getTokenSilently(opts);
 
       return result;
-    } catch (e: any) {
-      if (e?.error === 'login_required' || e?.error === 'consent_required') {
+    } catch (error: any) {
+      if (error?.error === 'login_required' || error?.error === 'consent_required') {
         await loginWithPopup();
       }
 
-      throw e;
+      handleError(error);
+
+      return error;
     }
   };
 

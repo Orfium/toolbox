@@ -1,5 +1,14 @@
-import { act, findByText, getByTestId, render, waitFor, screen } from '@testing-library/react';
+import {
+  act,
+  findByText,
+  getByTestId,
+  render,
+  waitFor,
+  screen,
+  findByTestId,
+} from '@testing-library/react';
 import jwtDecode from 'jwt-decode';
+// eslint-disable-next-line import/order
 import React, { useEffect, useState } from 'react';
 
 // Auth0 custom error simulator. This extends a regular Error to match Auth0 Error.
@@ -10,6 +19,8 @@ class CustomError extends Error {
     this.error_description = error_description;
   }
 }
+
+import { ErrorBoundary, useErrorHandler } from 'react-error-boundary';
 
 import {
   FAKE_TOKEN,
@@ -24,6 +35,7 @@ import {
 } from '../../__mocks__/@auth0/auth0-spa-js';
 import useOrganization from '../store/useOrganization';
 import useRequestToken from '../store/useRequestToken';
+import ErrorFallback from './components/ErrorFallback/ErrorFallback';
 import {
   AuthenticationProvider,
   getAuth0Client,
@@ -150,6 +162,7 @@ describe('Context', () => {
     const TestingComponent = () => {
       const { user, isAuthenticated, getAccessTokenSilently, isLoading } = useAuthentication();
       const [result, setResult] = useState('');
+      const handleError = useErrorHandler();
 
       useEffect(() => {
         (async () => {
@@ -159,9 +172,8 @@ describe('Context', () => {
 
               setResult(res.token);
             } catch (err: any) {
-              console.log(err);
-              console.log(err.error);
-              setResult(err.error);
+              handleError(err);
+              throw err;
             }
           }
         })();
@@ -176,21 +188,23 @@ describe('Context', () => {
       );
     };
 
-    mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, 'login_require'));
-    getUser.mockResolvedValue({
-      name: 'John Doe',
-    });
+    mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, errorMsg));
 
-    const { findByText, getByTestId } = render(
-      <AuthenticationProvider>
-        <TestingComponent />
-      </AuthenticationProvider>
+    render(
+      // @ts-ignore
+      <ErrorBoundary
+        FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
+      >
+        <AuthenticationProvider>
+          <TestingComponent />
+        </AuthenticationProvider>
+      </ErrorBoundary>
     );
 
-    await waitFor(() => expect(findByText('John Doe')).toBeTruthy());
-    await waitFor(() => expect(getByTestId('isAuthenticated').innerHTML).toBe('true'));
     await waitFor(() => expect(mockedLoginWithPopup).toBeCalledTimes(1));
-    await waitFor(() => expect(getByTestId('result').innerHTML).toBe(errorMsg));
+
+    await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
+    await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
   }, 10000);
 
   test('invitation redirect', async () => {

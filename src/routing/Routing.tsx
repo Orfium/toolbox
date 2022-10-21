@@ -137,8 +137,14 @@ export const generateRoutes = ({
         );
       })}
       {/* // @TODO consider showing our own pages for each fallback path */}
-      {/* eslint-disable-next-line react/no-children-prop */}
-      {fallbackComponent && <Route children={fallbackComponent} />}
+      {fallbackComponent && (
+        <Route
+          /* eslint-disable react/no-children-prop */
+          // @ts-ignore
+          children={fallbackComponent}
+          /* eslint-enable react/no-children-prop */
+        />
+      )}
     </Switch>
   );
 };

@@ -2,8 +2,8 @@ import { ThemeProvider } from '@orfium/ictinus';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { Organization } from '../store/useOrganization';
-import { Authentication } from './index';
+import { Organization } from '../../../store/useOrganization';
+import { Authentication } from '../../index';
 
 const mockOrganizations: Organization[] = [
   {
@@ -43,7 +43,7 @@ const mockedUser = {
 const mockSetSelectedOrganization = jest.fn();
 const mockLogout = jest.fn();
 
-jest.mock('../store/useOrganization', () =>
+jest.mock('../../../store/useOrganization', () =>
   jest.fn(() => ({
     organizations: mockOrganizations,
     setSelectedOrganization: mockSetSelectedOrganization,
@@ -51,7 +51,7 @@ jest.mock('../store/useOrganization', () =>
   }))
 );
 
-jest.mock('./context', () => ({
+jest.mock('../../context', () => ({
   useAuthentication: () => ({
     user: mockedUser,
     logout: mockLogout,

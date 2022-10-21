@@ -1,5 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
+import svgr from '@svgr/rollup';
 import dts from 'rollup-plugin-dts';
 import external from 'rollup-plugin-peer-deps-external';
 import { terser } from 'rollup-plugin-terser';
@@ -20,7 +21,7 @@ export default [
       },
     ],
     external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})],
-    plugins: [external(), resolve(), typescript({ tsconfig: './tsconfig.json' }), terser()],
+    plugins: [external(), resolve(), typescript({ tsconfig: './tsconfig.json' }), svgr(), terser()],
   },
   {
     input: './src/index.ts',
