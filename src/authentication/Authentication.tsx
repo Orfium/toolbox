@@ -1,4 +1,4 @@
-import { Button, ExpandCollapse, Loader, ThemeProvider, useTheme } from '@orfium/ictinus';
+import { Button, Loader, ThemeProvider } from '@orfium/ictinus';
 import React, { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 

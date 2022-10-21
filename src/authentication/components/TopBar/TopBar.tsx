@@ -1,5 +1,4 @@
 import { TopNavBar, Menu } from '@orfium/ictinus';
-import { UserMenuProps } from '@orfium/ictinus/dist/components/TopAppBar/components/UserMenu/UserMenu';
 import { TopAppBarProps } from '@orfium/ictinus/dist/components/TopAppBar/TopAppBar.types';
 import React, { memo } from 'react';
 

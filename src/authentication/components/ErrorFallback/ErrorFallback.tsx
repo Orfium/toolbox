@@ -1,4 +1,4 @@
-import { Button, ExpandCollapse, useTheme } from '@orfium/ictinus';
+import { Button } from '@orfium/ictinus';
 import React from 'react';
 
 //* using logoutAuth because error fallback is outside of providers */
@@ -14,8 +14,6 @@ import {
 } from './ErrorFallback.style';
 
 const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
-  const theme = useTheme();
-
   return (
     <Wrapper role="alert">
       <ErrorCover />
