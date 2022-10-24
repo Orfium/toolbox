@@ -43,6 +43,7 @@ import {
   logoutAuth,
   onRedirectCallback,
   useAuthentication,
+  defaultContextValues,
 } from './context';
 
 describe('Context', () => {
@@ -283,5 +284,14 @@ describe('Context', () => {
     await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('false'));
     await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
     expect(loginWithRedirect).toBeCalledWith({ invitation, organization });
+  });
+
+  test('Context default functions', async () => {
+    expect(await defaultContextValues.getAccessTokenSilently()).toEqual({
+      token: '',
+      decodedToken: {},
+    });
+    expect(await defaultContextValues.logout()).toBe('logged out');
+    expect(await defaultContextValues.loginWithRedirect()).toBe(undefined);
   });
 });

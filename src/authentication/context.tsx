@@ -30,14 +30,17 @@ const providerConfig: Auth0ClientOptions = {
   useRefreshTokens: true,
 };
 
-export const AuthenticationContext = createContext<AuthenticationContextProps>({
+export const defaultContextValues: AuthenticationContextProps = {
   isAuthenticated: false,
   isLoading: false,
   user: undefined,
   loginWithRedirect: () => Promise.resolve(),
-  logout: () => Promise.resolve(),
+  logout: () => Promise.resolve('logged out'),
   getAccessTokenSilently: () => Promise.resolve({ token: '', decodedToken: {} }),
-});
+};
+
+export const AuthenticationContext =
+  createContext<AuthenticationContextProps>(defaultContextValues);
 
 /*
  * This function get an auth0 client and store it globally as a singleton.
