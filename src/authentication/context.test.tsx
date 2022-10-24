@@ -31,6 +31,7 @@ import {
   getNewFakeToken,
   fakeTokenData,
   loginWithRedirect,
+  createAuth0 as mockedCreateAuth0,
   // @ts-ignore
 } from '../../__mocks__/@auth0/auth0-spa-js';
 import useOrganization from '../store/useOrganization';
@@ -293,5 +294,17 @@ describe('Context', () => {
     });
     expect(await defaultContextValues.logout()).toBe('logged out');
     expect(await defaultContextValues.loginWithRedirect()).toBe(undefined);
+  });
+
+  test('getAuth0Client failed process', async () => {
+    mockedCreateAuth0.mockImplementation(() => {
+      throw new Error();
+    });
+
+    try {
+      await getAuth0Client();
+    } catch (e) {
+      expect(e).toEqual(new Error(`getAuth0Client Error: Error`));
+    }
   });
 });
