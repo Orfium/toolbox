@@ -172,7 +172,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     try {
       await auth0Client!.loginWithPopup(params);
     } catch (error) {
-      handleError(error);
+      return handleError(error);
     } finally {
       setPopupOpen(false);
     }
@@ -187,18 +187,18 @@ const AuthenticationProvider: React.FC = ({ children }) => {
 
       return result;
     } catch (error: any) {
-      if (error?.error === 'login_required' || error?.error === 'consent_required') {
-        await loginWithPopup();
-      }
-
       handleError(error);
+
+      if (error?.error === 'login_required' || error?.error === 'consent_required') {
+        return await loginWithPopup();
+      }
 
       return error;
     }
   };
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!isLoading && !isAuthenticated && isAuthenticated !== undefined) {
       auth0Client!.loginWithRedirect({
         organization: organization || undefined,
         invitation: invitation || undefined,
