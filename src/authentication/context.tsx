@@ -193,7 +193,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       handleError(error);
 
       if (error?.error === 'login_required' || error?.error === 'consent_required') {
-        return await loginWithPopup();
+        return loginWithPopup();
       }
 
       return error;

@@ -32,7 +32,9 @@ export const onRedirectCallback = jest.fn();
 export const getTokenSilently = jest.fn();
 export const loginWithRedirect = jest.fn();
 export const getUser = jest.fn();
-export const handleRedirectCallback = jest.fn();
+export const handleRedirectCallback = jest.fn(() => {
+  return { appState: '' };
+});
 export const isAuthenticated = jest.fn();
 export const logout = jest.fn();
 export const loginWithPopup = jest.fn();

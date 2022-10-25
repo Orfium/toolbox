@@ -32,6 +32,8 @@ import {
   fakeTokenData,
   loginWithRedirect,
   createAuth0 as mockedCreateAuth0,
+  onRedirectCallback as mockedOnRedirectCallback,
+  handleRedirectCallback as mockedHandleRedirectCallback,
   // @ts-ignore
 } from '../../__mocks__/@auth0/auth0-spa-js';
 import useOrganization from '../store/useOrganization';
@@ -47,6 +49,49 @@ import {
   defaultContextValues,
   client,
 } from './context';
+
+const TestingComponentSimple = () => {
+  const { user, isAuthenticated, isLoading } = useAuthentication();
+
+  return (
+    <>
+      <p>{user?.name}</p>
+      <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
+      <p data-testid="isLoading">{isLoading?.toString()}</p>
+    </>
+  );
+};
+
+const TestingComponent = () => {
+  const { user, isAuthenticated, getAccessTokenSilently, isLoading } = useAuthentication();
+  const [result, setResult] = useState('');
+  const handleError = useErrorHandler();
+
+  useEffect(() => {
+    (async () => {
+      if (!isLoading) {
+        try {
+          const res = await getAccessTokenSilently();
+
+          if (res?.token) {
+            setResult(res.token);
+          }
+        } catch (err: any) {
+          handleError(err);
+          throw err;
+        }
+      }
+    })();
+  }, [isLoading]);
+
+  return (
+    <>
+      <p>{user?.name}</p>
+      <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
+      <p data-testid="result">{result}</p>
+    </>
+  );
+};
 
 describe('Context', () => {
   beforeEach(() => {
@@ -75,6 +120,62 @@ describe('Context', () => {
       onRedirectCallback({});
       expect(window.location.pathname).toBe(`/`);
     });
+
+    test('handleRedirectCallback being called if code exists on url', async () => {
+      window.history.pushState({}, '', '?code=test');
+
+      render(
+        <AuthenticationProvider>
+          <></>
+        </AuthenticationProvider>
+      );
+
+      await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1));
+    });
+
+    test('handleRedirectCallback that triggers invalid state error', async () => {
+      window.history.pushState({}, '', '?code=test');
+
+      // @ts-ignore
+      mockedHandleRedirectCallback.mockRejectedValue(new Error('Invalid state'));
+
+      render(
+        // @ts-ignore
+        <ErrorBoundary
+          FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
+        >
+          <AuthenticationProvider>
+            <TestingComponent />
+          </AuthenticationProvider>
+        </ErrorBoundary>
+      );
+
+      await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1));
+      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+    });
+
+    test('handleRedirectCallback that triggers error', async () => {
+      window.history.pushState({}, '', '?code=test');
+      const errorMsg = 'Invalid';
+
+      // @ts-ignore
+      mockedHandleRedirectCallback.mockRejectedValue(new Error(errorMsg));
+
+      render(
+        // @ts-ignore
+        <ErrorBoundary
+          FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
+        >
+          <AuthenticationProvider>
+            <TestingComponent />
+          </AuthenticationProvider>
+        </ErrorBoundary>
+      );
+
+      await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1));
+      await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
+      await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
+    }, 10000);
 
     test('logoutAuth clears out data', async () => {
       const { setToken } = useRequestToken.getState();
@@ -145,17 +246,6 @@ describe('Context', () => {
   });
 
   test('AuthenticationProvider contents', async () => {
-    const TestingComponent = () => {
-      const { user, isAuthenticated } = useAuthentication();
-
-      return (
-        <>
-          <p>{user?.name}</p>
-          <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
-        </>
-      );
-    };
-
     isAuthenticated.mockResolvedValue(true);
     getUser.mockResolvedValue({
       name: 'John Doe',
@@ -163,7 +253,7 @@ describe('Context', () => {
 
     const { findByText, getByTestId } = render(
       <AuthenticationProvider>
-        <TestingComponent />
+        <TestingComponentSimple />
       </AuthenticationProvider>
     );
 
@@ -172,37 +262,6 @@ describe('Context', () => {
   });
 
   describe('AuthenticationProvider calls loginWithPopup success/error', () => {
-    const TestingComponent = () => {
-      const { user, isAuthenticated, getAccessTokenSilently, isLoading } = useAuthentication();
-      const [result, setResult] = useState('');
-      const handleError = useErrorHandler();
-
-      useEffect(() => {
-        (async () => {
-          if (!isLoading) {
-            try {
-              const res = await getAccessTokenSilently();
-
-              if (res?.token) {
-                setResult(res.token);
-              }
-            } catch (err: any) {
-              handleError(err);
-              throw err;
-            }
-          }
-        })();
-      }, [isLoading]);
-
-      return (
-        <>
-          <p>{user?.name}</p>
-          <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
-          <p data-testid="result">{result}</p>
-        </>
-      );
-    };
-
     test('loginWithPopup when access token fails', async () => {
       const errorMsg = 'login_required';
 
@@ -264,21 +323,9 @@ describe('Context', () => {
     isAuthenticated.mockResolvedValue(false);
 
     await act(async () => {
-      const TestingComponent = () => {
-        const { user, isAuthenticated, isLoading } = useAuthentication();
-
-        return (
-          <>
-            <p>{user?.name}</p>
-            <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
-            <p data-testid="isLoading">{isLoading?.toString()}</p>
-          </>
-        );
-      };
-
       render(
         <AuthenticationProvider>
-          <TestingComponent />
+          <TestingComponentSimple />
         </AuthenticationProvider>
       );
     });
