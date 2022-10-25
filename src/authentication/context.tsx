@@ -46,7 +46,7 @@ export const AuthenticationContext =
  * This function get an auth0 client and store it globally as a singleton.
  * Auth0 creation requires a call to auth0 for token which by define it once we prevent other unintended calls to the service.
  */
-let client: Auth0Client | undefined;
+export let client: Auth0Client | undefined;
 export const getAuth0Client = async () => {
   const selectedOrganization = useOrganization.getState().selectedOrganization;
   if (!client || selectedOrganization?.org_id) {

@@ -45,6 +45,7 @@ import {
   onRedirectCallback,
   useAuthentication,
   defaultContextValues,
+  client,
 } from './context';
 
 describe('Context', () => {
@@ -297,14 +298,33 @@ describe('Context', () => {
   });
 
   test('getAuth0Client failed process', async () => {
+    expect.assertions(1);
     mockedCreateAuth0.mockImplementation(() => {
       throw new Error();
     });
-
+    // @ts-ignore
+    client = undefined;
     try {
       await getAuth0Client();
     } catch (e) {
       expect(e).toEqual(new Error(`getAuth0Client Error: Error`));
+    }
+  });
+
+  test('logoutAuth failed process', async () => {
+    expect.assertions(1);
+
+    // @ts-ignore
+    client = undefined;
+    // @ts-ignore make logout fail with no .logout property on client
+    mockedCreateAuth0.mockImplementation(() => {
+      return {};
+    });
+
+    try {
+      await logoutAuth();
+    } catch (e) {
+      expect(e).toEqual(new Error(`client_1.logout is not a function`));
     }
   });
 });

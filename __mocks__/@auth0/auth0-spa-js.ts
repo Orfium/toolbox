@@ -36,7 +36,7 @@ export const handleRedirectCallback = jest.fn();
 export const isAuthenticated = jest.fn();
 export const logout = jest.fn();
 export const loginWithPopup = jest.fn();
-export const createAuth0 = jest.fn((options: any) =>
+export const createAuth0 = jest.fn().mockImplementation((options: any) =>
   Promise.resolve({
     getTokenSilently,
     loginWithRedirect,
