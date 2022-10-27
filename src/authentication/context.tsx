@@ -160,8 +160,6 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       } catch (error: unknown) {
         if (error instanceof Error) {
           if (error.message === 'Invalid state') {
-            console.log('loginWithRedirect 2');
-
             return client!.loginWithRedirect({
               organization: organization || undefined,
               invitation: invitation || undefined,
@@ -197,8 +195,6 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       handleError(error);
 
       if (error?.error === 'login_required' || error?.error === 'consent_required') {
-        console.log('loginWithPopup');
-
         return loginWithPopup({
           organization: organization || undefined,
           invitation: invitation || undefined,
@@ -211,7 +207,6 @@ const AuthenticationProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated && isAuthenticated !== undefined) {
-      console.log('loginWithRedirect 1');
       auth0Client!.loginWithRedirect({
         organization: organization || undefined,
         invitation: invitation || undefined,
