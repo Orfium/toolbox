@@ -1,5 +1,14 @@
-import { act, findByText, getByTestId, render, waitFor, screen } from '@testing-library/react';
+import {
+  act,
+  findByText,
+  getByTestId,
+  render,
+  waitFor,
+  screen,
+  findByTestId,
+} from '@testing-library/react';
 import jwtDecode from 'jwt-decode';
+// eslint-disable-next-line import/order
 import React, { useEffect, useState } from 'react';
 
 // Auth0 custom error simulator. This extends a regular Error to match Auth0 Error.
@@ -11,6 +20,8 @@ class CustomError extends Error {
   }
 }
 
+import { ErrorBoundary, useErrorHandler } from 'react-error-boundary';
+
 import {
   FAKE_TOKEN,
   getUser,
@@ -20,10 +31,14 @@ import {
   getNewFakeToken,
   fakeTokenData,
   loginWithRedirect,
+  createAuth0 as mockedCreateAuth0,
+  onRedirectCallback as mockedOnRedirectCallback,
+  handleRedirectCallback as mockedHandleRedirectCallback,
   // @ts-ignore
 } from '../../__mocks__/@auth0/auth0-spa-js';
 import useOrganization from '../store/useOrganization';
 import useRequestToken from '../store/useRequestToken';
+import ErrorFallback from './components/ErrorFallback/ErrorFallback';
 import {
   AuthenticationProvider,
   getAuth0Client,
@@ -31,7 +46,52 @@ import {
   logoutAuth,
   onRedirectCallback,
   useAuthentication,
+  defaultContextValues,
+  client,
 } from './context';
+
+const TestingComponentSimple = () => {
+  const { user, isAuthenticated, isLoading } = useAuthentication();
+
+  return (
+    <>
+      <p>{user?.name}</p>
+      <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
+      <p data-testid="isLoading">{isLoading?.toString()}</p>
+    </>
+  );
+};
+
+const TestingComponent = () => {
+  const { user, isAuthenticated, getAccessTokenSilently, isLoading } = useAuthentication();
+  const [result, setResult] = useState('');
+  const handleError = useErrorHandler();
+
+  useEffect(() => {
+    (async () => {
+      if (!isLoading) {
+        try {
+          const res = await getAccessTokenSilently();
+
+          if (res?.token) {
+            setResult(res.token);
+          }
+        } catch (err: any) {
+          handleError(err);
+          throw err;
+        }
+      }
+    })();
+  }, [isLoading]);
+
+  return (
+    <>
+      <p>{user?.name}</p>
+      <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
+      <p data-testid="result">{result}</p>
+    </>
+  );
+};
 
 describe('Context', () => {
   beforeEach(() => {
@@ -60,6 +120,62 @@ describe('Context', () => {
       onRedirectCallback({});
       expect(window.location.pathname).toBe(`/`);
     });
+
+    test('handleRedirectCallback being called if code exists on url', async () => {
+      window.history.pushState({}, '', '?code=test');
+
+      render(
+        <AuthenticationProvider>
+          <></>
+        </AuthenticationProvider>
+      );
+
+      await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1));
+    });
+
+    test('handleRedirectCallback that triggers invalid state error', async () => {
+      window.history.pushState({}, '', '?code=test');
+
+      // @ts-ignore
+      mockedHandleRedirectCallback.mockRejectedValue(new Error('Invalid state'));
+
+      render(
+        // @ts-ignore
+        <ErrorBoundary
+          FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
+        >
+          <AuthenticationProvider>
+            <TestingComponent />
+          </AuthenticationProvider>
+        </ErrorBoundary>
+      );
+
+      await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1));
+      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+    });
+
+    test('handleRedirectCallback that triggers error', async () => {
+      window.history.pushState({}, '', '?code=test');
+      const errorMsg = 'Invalid';
+
+      // @ts-ignore
+      mockedHandleRedirectCallback.mockRejectedValue(new Error(errorMsg));
+
+      render(
+        // @ts-ignore
+        <ErrorBoundary
+          FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
+        >
+          <AuthenticationProvider>
+            <TestingComponent />
+          </AuthenticationProvider>
+        </ErrorBoundary>
+      );
+
+      await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1));
+      await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
+      await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
+    }, 10000);
 
     test('logoutAuth clears out data', async () => {
       const { setToken } = useRequestToken.getState();
@@ -130,20 +246,20 @@ describe('Context', () => {
       expect(decodedToken).toEqual(jwtDecode(token));
       expect(decodedToken.org_id).toEqual(fakeTokenData.org_id); // the org_id of the token
     });
+
+    test('that throws error and handles it outside exclusion of login_required', async () => {
+      const errorThrown = new CustomError('error', 'error');
+      mockedGetTokenSilently.mockRejectedValue(errorThrown);
+
+      try {
+        await getTokenSilently();
+      } catch (e) {
+        expect(e).toBe(errorThrown);
+      }
+    });
   });
 
   test('AuthenticationProvider contents', async () => {
-    const TestingComponent = () => {
-      const { user, isAuthenticated } = useAuthentication();
-
-      return (
-        <>
-          <p>{user?.name}</p>
-          <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
-        </>
-      );
-    };
-
     isAuthenticated.mockResolvedValue(true);
     getUser.mockResolvedValue({
       name: 'John Doe',
@@ -151,7 +267,7 @@ describe('Context', () => {
 
     const { findByText, getByTestId } = render(
       <AuthenticationProvider>
-        <TestingComponent />
+        <TestingComponentSimple />
       </AuthenticationProvider>
     );
 
@@ -159,53 +275,54 @@ describe('Context', () => {
     await waitFor(() => expect(getByTestId('isAuthenticated').innerHTML).toBe('true'));
   });
 
-  test('AuthenticationProvider calls loginWithPopup when access token fails', async () => {
-    const errorMsg = 'login_required';
-    const TestingComponent = () => {
-      const { user, isAuthenticated, getAccessTokenSilently, isLoading } = useAuthentication();
-      const [result, setResult] = useState('');
+  describe('AuthenticationProvider calls loginWithPopup success/error', () => {
+    test('loginWithPopup when access token fails', async () => {
+      const errorMsg = 'login_required';
 
-      useEffect(() => {
-        (async () => {
-          if (!isLoading) {
-            try {
-              const res = await getAccessTokenSilently();
+      mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, errorMsg));
 
-              setResult(res.token);
-            } catch (err: any) {
-              console.log(err);
-              console.log(err.error);
-              setResult(err.error);
-            }
-          }
-        })();
-      }, [isLoading]);
-
-      return (
-        <>
-          <p>{user?.name}</p>
-          <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
-          <p data-testid="result">{result}</p>
-        </>
+      render(
+        // @ts-ignore
+        <ErrorBoundary
+          FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
+        >
+          <AuthenticationProvider>
+            <TestingComponent />
+          </AuthenticationProvider>
+        </ErrorBoundary>
       );
-    };
 
-    mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, 'login_require'));
-    getUser.mockResolvedValue({
-      name: 'John Doe',
-    });
+      await waitFor(() => expect(mockedLoginWithPopup).toBeCalledTimes(1));
 
-    const { findByText, getByTestId } = render(
-      <AuthenticationProvider>
-        <TestingComponent />
-      </AuthenticationProvider>
-    );
+      await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
+      await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
+    }, 10000);
 
-    await waitFor(() => expect(findByText('John Doe')).toBeTruthy());
-    await waitFor(() => expect(getByTestId('isAuthenticated').innerHTML).toBe('true'));
-    await waitFor(() => expect(mockedLoginWithPopup).toBeCalledTimes(1));
-    await waitFor(() => expect(getByTestId('result').innerHTML).toBe(errorMsg));
-  }, 10000);
+    test('loginWithPopup when access token fails and handle an error', async () => {
+      const errorMsg = 'login_with_popup_failed';
+
+      mockedGetTokenSilently.mockRejectedValue(new CustomError('login_required', 'login_required'));
+      mockedLoginWithPopup.mockImplementation(() => {
+        throw new Error(errorMsg);
+      });
+
+      render(
+        // @ts-ignore
+        <ErrorBoundary
+          FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
+        >
+          <AuthenticationProvider>
+            <TestingComponent />
+          </AuthenticationProvider>
+        </ErrorBoundary>
+      );
+
+      await waitFor(() => expect(mockedLoginWithPopup).toBeCalledTimes(1));
+
+      await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
+      await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
+    }, 10000);
+  });
 
   test('invitation redirect', async () => {
     const invitation = 'wkhLzqInxdaXipRfBPyBtzcxs3wmoUDg';
@@ -220,21 +337,9 @@ describe('Context', () => {
     isAuthenticated.mockResolvedValue(false);
 
     await act(async () => {
-      const TestingComponent = () => {
-        const { user, isAuthenticated, isLoading } = useAuthentication();
-
-        return (
-          <>
-            <p>{user?.name}</p>
-            <p data-testid="isAuthenticated">{isAuthenticated?.toString()}</p>
-            <p data-testid="isLoading">{isLoading?.toString()}</p>
-          </>
-        );
-      };
-
       render(
         <AuthenticationProvider>
-          <TestingComponent />
+          <TestingComponentSimple />
         </AuthenticationProvider>
       );
     });
@@ -242,5 +347,45 @@ describe('Context', () => {
     await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('false'));
     await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
     expect(loginWithRedirect).toBeCalledWith({ invitation, organization });
+  });
+
+  test('Context default functions', async () => {
+    expect(await defaultContextValues.getAccessTokenSilently()).toEqual({
+      token: '',
+      decodedToken: {},
+    });
+    expect(await defaultContextValues.logout()).toBe('logged out');
+    expect(await defaultContextValues.loginWithRedirect()).toBe(undefined);
+  });
+
+  test('getAuth0Client failed process', async () => {
+    expect.assertions(1);
+    mockedCreateAuth0.mockImplementation(() => {
+      throw new Error();
+    });
+    // @ts-ignore
+    client = undefined;
+    try {
+      await getAuth0Client();
+    } catch (e) {
+      expect(e).toEqual(new Error(`getAuth0Client Error: Error`));
+    }
+  });
+
+  test('logoutAuth failed process', async () => {
+    expect.assertions(1);
+
+    // @ts-ignore
+    client = undefined;
+    // @ts-ignore make logout fail with no .logout property on client
+    mockedCreateAuth0.mockImplementation(() => {
+      return {};
+    });
+
+    try {
+      await logoutAuth();
+    } catch (e) {
+      expect(e).toEqual(new Error(`client_1.logout is not a function`));
+    }
   });
 });

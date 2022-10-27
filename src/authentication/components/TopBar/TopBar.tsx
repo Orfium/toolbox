@@ -1,10 +1,9 @@
 import { TopNavBar, Menu } from '@orfium/ictinus';
-import { UserMenuProps } from '@orfium/ictinus/dist/components/TopAppBar/components/UserMenu/UserMenu';
 import { TopAppBarProps } from '@orfium/ictinus/dist/components/TopAppBar/TopAppBar.types';
 import React, { memo } from 'react';
 
-import useOrganization from '../store/useOrganization';
-import { useAuthentication } from './index';
+import useOrganization from '../../../store/useOrganization';
+import { useAuthentication } from '../../index';
 
 export type TopBarProps = {
   logoIcon: JSX.Element;

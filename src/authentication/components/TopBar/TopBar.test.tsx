@@ -2,8 +2,8 @@ import { ThemeProvider } from '@orfium/ictinus';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { Organization } from '../store/useOrganization';
-import { Authentication } from './index';
+import { Organization } from '../../../store/useOrganization';
+import { Authentication } from '../../index';
 
 const mockOrganizations: Organization[] = [
   {
@@ -40,10 +40,13 @@ const mockedUser = {
   given_name: 'Joe',
   family_name: 'Doe',
 };
+const mockedUserFn = jest
+  .fn<{ name: string; picture: string; given_name: string; family_name: string } | undefined, []>()
+  .mockReturnValue(mockedUser);
 const mockSetSelectedOrganization = jest.fn();
 const mockLogout = jest.fn();
 
-jest.mock('../store/useOrganization', () =>
+jest.mock('../../../store/useOrganization', () =>
   jest.fn(() => ({
     organizations: mockOrganizations,
     setSelectedOrganization: mockSetSelectedOrganization,
@@ -51,14 +54,18 @@ jest.mock('../store/useOrganization', () =>
   }))
 );
 
-jest.mock('./context', () => ({
+jest.mock('../../context', () => ({
   useAuthentication: () => ({
-    user: mockedUser,
+    user: mockedUserFn(),
     logout: mockLogout,
   }),
 }));
 
 describe('TopBar', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Renders TopBar with organization selected', () => {
     const { getByText } = render(
       <ThemeProvider>
@@ -82,17 +89,31 @@ describe('TopBar', () => {
     await waitFor(() => expect(mockSetSelectedOrganization).toBeCalledTimes(1));
   });
 
-  it('Renders TopBar user from the data given', () => {
-    const { getByText } = render(
-      <ThemeProvider>
-        <Authentication.TopBar logoIcon={<img />} onMenuIconClick={() => {}} />
-      </ThemeProvider>
-    );
+  describe('user data', function () {
+    it('Renders TopBar user from the data given', () => {
+      const { getByText } = render(
+        <ThemeProvider>
+          <Authentication.TopBar logoIcon={<img />} onMenuIconClick={() => {}} />
+        </ThemeProvider>
+      );
 
-    expect(getByText(mockedUser.name)).toBeTruthy();
-    expect(
-      getByText(`${mockedUser?.given_name?.charAt(0)}${mockedUser?.family_name?.charAt(0)}`)
-    ).toBeTruthy();
+      expect(getByText(mockedUser.name)).toBeTruthy();
+      expect(
+        getByText(`${mockedUser?.given_name?.charAt(0)}${mockedUser?.family_name?.charAt(0)}`)
+      ).toBeTruthy();
+    });
+
+    it('Renders TopBar user from the undefined data', () => {
+      mockedUserFn.mockReturnValue(undefined);
+
+      const { getByText } = render(
+        <ThemeProvider>
+          <Authentication.TopBar logoIcon={<img />} onMenuIconClick={() => {}} />
+        </ThemeProvider>
+      );
+
+      expect(getByText('undefined')).toBeTruthy();
+    });
   });
 
   it('Logout the user when press logout', async () => {

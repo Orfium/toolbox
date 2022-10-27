@@ -1,11 +1,14 @@
-import { Button, ThemeProvider } from '@orfium/ictinus';
+import { Button, Loader, ThemeProvider } from '@orfium/ictinus';
 import React, { useEffect, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
 import { orfiumIdBaseInstance } from '../request';
 import useOrganization from '../store/useOrganization';
+import { LoadingContent, Wrapper, Box } from './Authentication.style';
+import ErrorFallback from './components/ErrorFallback/ErrorFallback';
+import { TopBar, TopBarProps } from './components/TopBar/TopBar';
 import { config } from './config';
 import { AuthenticationProvider, useAuthentication } from './context';
-import { TopBar, TopBarProps } from './TopBar';
 
 type AuthenticationSubComponents = {
   TopBar: React.FC<TopBarProps>;
@@ -17,9 +20,15 @@ type AuthenticationSubComponents = {
  */
 const Authentication: React.FC & AuthenticationSubComponents = ({ children }) => {
   return (
-    <AuthenticationProvider>
-      <AuthenticationWrapper>{children}</AuthenticationWrapper>
-    </AuthenticationProvider>
+    <ThemeProvider>
+      {/*
+      // @ts-ignore @TODO when react type will go to 18 this will be fixed */}
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <AuthenticationProvider>
+          <AuthenticationWrapper>{children}</AuthenticationWrapper>
+        </AuthenticationProvider>
+      </ErrorBoundary>
+    </ThemeProvider>
   );
 };
 Authentication.TopBar = TopBar;
@@ -78,30 +87,28 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
 
   // when loading is true before navigation this is not showing anymore
   if (systemLoading === undefined || systemLoading || isLoading || !isAuthenticated) {
-    return <div data-testid={'orfium-auth-loading'}>Loading...</div>;
+    return (
+      <Wrapper data-testid={'orfium-auth-loading'}>
+        <LoadingContent>
+          Loading... <Loader type={'spinner'} />
+        </LoadingContent>
+      </Wrapper>
+    );
   }
 
   if (organizations.length === 0) {
     return (
       <ThemeProvider>
-        <div
-          data-testid={'orfium-no-organizations'}
-          style={{
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <h1>There are no organizations to pick.</h1>
-          <h3>Go back or contact your administrator for more information.</h3>
-          <h4>or</h4>
+        <Wrapper data-testid={'orfium-no-organizations'}>
+          <h2>There are no organizations to pick.</h2>
+          <div>Go back or contact your administrator for more information.</div>
+          <Box>
+            <div>OR</div>
+          </Box>
           <Button onClick={logout} type={'primary'}>
-            logout
+            Logout
           </Button>
-        </div>
+        </Wrapper>
       </ThemeProvider>
     );
   }
@@ -109,24 +116,16 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
   if (!selectedOrganization) {
     return (
       <ThemeProvider>
-        <div
-          data-testid={'orfium-no-org-id'}
-          style={{
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <h1>You dont have access to this Product.</h1>
-          <h3>Go back or contact your administrator for more information.</h3>
-          <h4>or</h4>
+        <Wrapper data-testid={'orfium-no-org-id'}>
+          <h2>You dont have access to this Product.</h2>
+          <div>Go back or contact your administrator for more information.</div>
+          <Box>
+            <div>OR</div>
+          </Box>
           <Button onClick={logout} type={'primary'}>
-            logout
+            Logout
           </Button>
-        </div>
+        </Wrapper>
       </ThemeProvider>
     );
   }
