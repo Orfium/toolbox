@@ -134,7 +134,9 @@ const AuthenticationProvider: React.FC = ({ children }) => {
   const [__popupOpen, setPopupOpen] = useState(false);
   const handleError = useErrorHandler();
   const params = new URLSearchParams(window.location.search);
-  const organization = params.get('organization');
+
+  const selectedOrganization = useOrganization((state) => state.selectedOrganization);
+  const organization = params.get('organization') || selectedOrganization?.org_id;
   const invitation = params.get('invitation');
 
   useEffect(() => {
@@ -158,6 +160,8 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       } catch (error: unknown) {
         if (error instanceof Error) {
           if (error.message === 'Invalid state') {
+            console.log('loginWithRedirect 2');
+
             return client!.loginWithRedirect({
               organization: organization || undefined,
               invitation: invitation || undefined,
@@ -193,7 +197,12 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       handleError(error);
 
       if (error?.error === 'login_required' || error?.error === 'consent_required') {
-        return loginWithPopup();
+        console.log('loginWithPopup');
+
+        return loginWithPopup({
+          organization: organization || undefined,
+          invitation: invitation || undefined,
+        });
       }
 
       return error;
@@ -202,6 +211,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated && isAuthenticated !== undefined) {
+      console.log('loginWithRedirect 1');
       auth0Client!.loginWithRedirect({
         organization: organization || undefined,
         invitation: invitation || undefined,
