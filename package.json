@@ -1,6 +1,6 @@
 {
   "name": "@orfium/toolbox",
-  "version": "1.8.0-rc.1",
+  "version": "0.0.0",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
