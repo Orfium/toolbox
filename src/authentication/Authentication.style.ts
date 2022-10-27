@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { rem } from '@orfium/ictinus/dist/theme/utils';
 
 export const Wrapper = styled.div`
   width: 100vw;
@@ -15,10 +16,10 @@ export const LoadingContent = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
-  column-gap: 10px;
+  column-gap: ${rem(10)};
   font-size: ${({ theme }) => theme.typography.fontSizes['16']};
 `;
 
 export const Box = styled.div`
-  margin: 20px;
+  margin: ${rem(20)};
 `;
