@@ -1,6 +1,6 @@
 {
   "name": "@orfium/toolbox",
-  "version": "0.0.0",
+  "version": "1.8.0-rc.1",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
@@ -9,6 +9,8 @@
     "@auth0/auth0-spa-js": "^1.22.2",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "@sentry/browser": "^7.17.0",
+    "@sentry/tracing": "^7.17.0",
     "axios": "^0.21.4",
     "axios-mock-adapter": "^1.19.0",
     "jwt-decode": "^3.1.2",
