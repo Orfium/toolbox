@@ -2022,7 +2022,7 @@
   dependencies:
     "@sentry/core" "7.17.0"
     "@sentry/types" "7.17.0"
-    "@sentry/utils" "7.17.0"
+    "@sentry/utils" "7.16.0"
     tslib "^1.9.3"
 
 "@sentry/core@7.17.0":
@@ -2031,7 +2031,7 @@
   integrity sha512-TEmYvjjeX9ggLkyxmuSm6txaWPW5FY/mkn61/o4qekN3v27oIp3rQ8mnHvhg8qMVpOl5RXuX7XWIGACkHloPfw==
   dependencies:
     "@sentry/types" "7.17.0"
-    "@sentry/utils" "7.17.0"
+    "@sentry/utils" "7.16.0"
     tslib "^1.9.3"
 
 "@sentry/tracing@^7.17.0":
@@ -2041,7 +2041,7 @@
   dependencies:
     "@sentry/core" "7.17.0"
     "@sentry/types" "7.17.0"
-    "@sentry/utils" "7.17.0"
+    "@sentry/utils" "7.16.0"
     tslib "^1.9.3"
 
 "@sentry/types@7.16.0":
