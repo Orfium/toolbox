@@ -1,4 +1,5 @@
 import { Button, Loader, ThemeProvider } from '@orfium/ictinus';
+import * as Sentry from '@sentry/browser';
 import React, { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -23,7 +24,12 @@ const Authentication: React.FC & AuthenticationSubComponents = ({ children }) =>
     <ThemeProvider>
       {/*
       // @ts-ignore @TODO when react type will go to 18 this will be fixed */}
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <ErrorBoundary
+        FallbackComponent={ErrorFallback}
+        onError={(error) => {
+          Sentry.captureException(error);
+        }}
+      >
         <AuthenticationProvider>
           <AuthenticationWrapper>{children}</AuthenticationWrapper>
         </AuthenticationProvider>
