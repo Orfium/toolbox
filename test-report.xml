@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testExecutions version="1">
+  <file path="/Users/panagiotisvourtsis/Documents/orfium/toolbox/src/request/request.test.ts">
+    <testCase name="Request:  correctly sets the adapter on the axios instance" duration="5"/>
+    <testCase name="Request:  correctly sets the base url based on instance factory" duration="1"/>
+    <testCase name="Request:  correctly passes props to request" duration="7"/>
+    <testCase name="Request:  correctly uses the params for POST requests" duration="3"/>
+    <testCase name="Request:  correctly sets token" duration="1"/>
+    <testCase name="Request:  correctly removes token" duration="2"/>
+  </file>
   <file path="/Users/panagiotisvourtsis/Documents/orfium/toolbox/src/routing/Routing.test.tsx">
-    <testCase name="authorized url access while authenticated" duration="79"/>
-    <testCase name="unauthorized access with redirection to unauthorized fallback while authenticated" duration="9"/>
-    <testCase name="anonymous access while authenticated. Redirection to authenticated but anonymous fallback" duration="9"/>
+    <testCase name="authorized url access while authenticated" duration="67"/>
+    <testCase name="unauthorized access with redirection to unauthorized fallback while authenticated" duration="18"/>
+    <testCase name="anonymous access while authenticated. Redirection to authenticated but anonymous fallback" duration="10"/>
     <testCase name="access to unknown path. Redirection to not found" duration="6"/>
     <testCase name="unauthenticated access with redirection to unauthenticated fallback while NOT authenticated" duration="7"/>
   </file>
-  <file path="/Users/panagiotisvourtsis/Documents/orfium/toolbox/src/request/request.test.ts">
-    <testCase name="Request:  correctly sets the adapter on the axios instance" duration="7"/>
-    <testCase name="Request:  correctly sets the base url based on instance factory" duration="3"/>
-    <testCase name="Request:  correctly passes props to request" duration="8"/>
-    <testCase name="Request:  correctly uses the params for POST requests" duration="4"/>
-    <testCase name="Request:  correctly sets token" duration="2"/>
-    <testCase name="Request:  correctly removes token" duration="1"/>
-  </file>
-  <file path="/Users/panagiotisvourtsis/Documents/orfium/toolbox/src/authentication/context.test.tsx">
-    <testCase name="Context global methods that used on both context and outside onRedirectCallback changes the url based on AppState passed" duration="15"/>
-    <testCase name="Context global methods that used on both context and outside onRedirectCallback changes url without AppState targetUrl" duration="2"/>
-    <testCase name="Context global methods that used on both context and outside handleRedirectCallback being called if code exists on url" duration="80"/>
-    <testCase name="Context global methods that used on both context and outside handleRedirectCallback that triggers invalid state error" duration="68"/>
-    <testCase name="Context global methods that used on both context and outside handleRedirectCallback that triggers error" duration="133"/>
-    <testCase name="Context global methods that used on both context and outside logoutAuth clears out data" duration="12"/>
-    <testCase name="Context getTokenSilently without cached results" duration="5"/>
-    <testCase name="Context getTokenSilently with cached results" duration="12"/>
-    <testCase name="Context getTokenSilently that throws error and handles it outside exclusion of login_required" duration="7"/>
-    <testCase name="Context AuthenticationProvider contents" duration="30"/>
-    <testCase name="Context AuthenticationProvider calls loginWithPopup success/error loginWithPopup when access token fails" duration="202"/>
-    <testCase name="Context AuthenticationProvider calls loginWithPopup success/error loginWithPopup when access token fails and handle an error" duration="133"/>
-    <testCase name="Context invitation redirect" duration="7"/>
-    <testCase name="Context Context default functions" duration="1"/>
-    <testCase name="Context getAuth0Client failed process" duration="0"/>
-    <testCase name="Context logoutAuth failed process" duration="1"/>
-  </file>
   <file path="/Users/panagiotisvourtsis/Documents/orfium/toolbox/src/authentication/authentication.test.tsx">
-    <testCase name="Authorization:  renders without crashing" duration="146"/>
-    <testCase name="Authorization:  renders the test component" duration="106"/>
-    <testCase name="Authorization:  redirects to login if not authenticated" duration="106"/>
-    <testCase name="Authorization:  renders the loading while its authenticating" duration="38"/>
-    <testCase name="Authorization:  renders the no organization message when it should" duration="97"/>
+    <testCase name="Authorization:  renders without crashing" duration="189"/>
+    <testCase name="Authorization:  renders the test component" duration="102"/>
+    <testCase name="Authorization:  redirects to login if not authenticated" duration="99"/>
+    <testCase name="Authorization:  renders the loading while its authenticating" duration="90"/>
+    <testCase name="Authorization:  renders the no organization message when it should" duration="118"/>
   </file>
   <file path="/Users/panagiotisvourtsis/Documents/orfium/toolbox/src/authentication/components/TopBar/TopBar.test.tsx">
-    <testCase name="TopBar Renders TopBar with organization selected" duration="212"/>
-    <testCase name="TopBar Change οrganization will trigger on select" duration="129"/>
-    <testCase name="TopBar user data Renders TopBar user from the data given" duration="70"/>
-    <testCase name="TopBar user data Renders TopBar user from the undefined data" duration="60"/>
-    <testCase name="TopBar Logout the user when press logout" duration="79"/>
+    <testCase name="TopBar Renders TopBar with organization selected" duration="240"/>
+    <testCase name="TopBar Change οrganization will trigger on select" duration="165"/>
+    <testCase name="TopBar user data Renders TopBar user from the data given" duration="77"/>
+    <testCase name="TopBar user data Renders TopBar user from the undefined data" duration="66"/>
+    <testCase name="TopBar Logout the user when press logout" duration="87"/>
+  </file>
+  <file path="/Users/panagiotisvourtsis/Documents/orfium/toolbox/src/authentication/context.test.tsx">
+    <testCase name="Context global methods that used on both context and outside onRedirectCallback changes the url based on AppState passed" duration="35"/>
+    <testCase name="Context global methods that used on both context and outside onRedirectCallback changes url without AppState targetUrl" duration="3"/>
+    <testCase name="Context global methods that used on both context and outside handleRedirectCallback being called if code exists on url" duration="89"/>
+    <testCase name="Context global methods that used on both context and outside handleRedirectCallback that triggers invalid state error" duration="111"/>
+    <testCase name="Context global methods that used on both context and outside handleRedirectCallback that triggers error" duration="303"/>
+    <testCase name="Context global methods that used on both context and outside logoutAuth clears out data" duration="3"/>
+    <testCase name="Context getTokenSilently without cached results" duration="2"/>
+    <testCase name="Context getTokenSilently with cached results" duration="5"/>
+    <testCase name="Context getTokenSilently that throws error and handles it outside exclusion of login_required" duration="1"/>
+    <testCase name="Context AuthenticationProvider contents" duration="20"/>
+    <testCase name="Context AuthenticationProvider calls loginWithPopup success/error loginWithRedirect when access token fails" duration="56"/>
+    <testCase name="Context AuthenticationProvider calls loginWithPopup success/error loginWithRedirect when access token fails and handle an error" duration="29"/>
+    <testCase name="Context invitation redirect" duration="8"/>
+    <testCase name="Context Context default functions" duration="0"/>
+    <testCase name="Context getAuth0Client failed process" duration="1"/>
+    <testCase name="Context logoutAuth failed process" duration="1"/>
   </file>
 </testExecutions>

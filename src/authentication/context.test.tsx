@@ -276,7 +276,7 @@ describe('Context', () => {
   });
 
   describe('AuthenticationProvider calls loginWithPopup success/error', () => {
-    test('loginWithPopup when access token fails', async () => {
+    test('loginWithRedirect when access token fails', async () => {
       const errorMsg = 'login_required';
 
       mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, errorMsg));
@@ -292,17 +292,14 @@ describe('Context', () => {
         </ErrorBoundary>
       );
 
-      await waitFor(() => expect(mockedLoginWithPopup).toBeCalledTimes(1));
+      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+    });
 
-      await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
-      await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
-    }, 10000);
-
-    test('loginWithPopup when access token fails and handle an error', async () => {
+    test('loginWithRedirect when access token fails and handle an error', async () => {
       const errorMsg = 'login_with_popup_failed';
 
       mockedGetTokenSilently.mockRejectedValue(new CustomError('login_required', 'login_required'));
-      mockedLoginWithPopup.mockImplementation(() => {
+      loginWithRedirect.mockImplementation(() => {
         throw new Error(errorMsg);
       });
 
@@ -317,7 +314,7 @@ describe('Context', () => {
         </ErrorBoundary>
       );
 
-      await waitFor(() => expect(mockedLoginWithPopup).toBeCalledTimes(1));
+      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
 
       await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
       await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
@@ -331,6 +328,7 @@ describe('Context', () => {
     Object.defineProperty(window, 'location', {
       value: {
         search: `?invitation=${invitation}&organization=${organization}`,
+        href: `http://localhost:3000/?invitation=${invitation}&organization=${organization}`,
       },
     });
 
@@ -344,7 +342,6 @@ describe('Context', () => {
       );
     });
 
-    await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('false'));
     await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
     expect(loginWithRedirect).toBeCalledWith({ invitation, organization });
   });

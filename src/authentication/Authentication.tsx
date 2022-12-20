@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { orfiumIdBaseInstance } from '../request';
-import useOrganization from '../store/useOrganization';
+import useOrganization, { Organization } from '../store/useOrganization';
 import { LoadingContent, Wrapper, Box } from './Authentication.style';
 import ErrorFallback from './components/ErrorFallback/ErrorFallback';
 import { TopBar, TopBarProps } from './components/TopBar/TopBar';
@@ -63,7 +63,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         // moving this will affect the app. If this is moved below when clearing the storage the app constantly refresh
         const { decodedToken } = await getAccessTokenSilently();
         // @TODO in the future we must define the org_id
-        const requestInstance = orfiumIdBaseInstance.createRequest({
+        const requestInstance = orfiumIdBaseInstance.createRequest<Organization[]>({
           method: 'get',
           url: '/memberships/',
           params: config.productCode ? { product_code: config.productCode } : undefined,
