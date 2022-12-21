@@ -275,8 +275,8 @@ describe('Context', () => {
     await waitFor(() => expect(getByTestId('isAuthenticated').innerHTML).toBe('true'));
   });
 
-  describe('AuthenticationProvider calls loginWithPopup success/error', () => {
-    test('loginWithPopup when access token fails', async () => {
+  describe('AuthenticationProvider calls loginWithRedirect success/error', () => {
+    test('loginWithRedirect when access token fails', async () => {
       const errorMsg = 'login_required';
 
       mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, errorMsg));
@@ -292,17 +292,14 @@ describe('Context', () => {
         </ErrorBoundary>
       );
 
-      await waitFor(() => expect(mockedLoginWithPopup).toBeCalledTimes(1));
+      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+    });
 
-      await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
-      await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
-    }, 10000);
-
-    test('loginWithPopup when access token fails and handle an error', async () => {
+    test('loginWithRedirect when access token fails and handle an error', async () => {
       const errorMsg = 'login_with_popup_failed';
 
       mockedGetTokenSilently.mockRejectedValue(new CustomError('login_required', 'login_required'));
-      mockedLoginWithPopup.mockImplementation(() => {
+      loginWithRedirect.mockImplementation(() => {
         throw new Error(errorMsg);
       });
 
@@ -317,7 +314,7 @@ describe('Context', () => {
         </ErrorBoundary>
       );
 
-      await waitFor(() => expect(mockedLoginWithPopup).toBeCalledTimes(1));
+      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
 
       await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
       await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
@@ -329,9 +326,63 @@ describe('Context', () => {
     const organization = 'org_lWF9avilXAry9Aid';
 
     Object.defineProperty(window, 'location', {
-      value: {
-        search: `?invitation=${invitation}&organization=${organization}`,
+      value: new URL(
+        `http://localhost:3000/?invitation=${invitation}&organization=${organization}`
+      ),
+      writable: true,
+    });
+
+    isAuthenticated.mockResolvedValue(false);
+
+    await act(async () => {
+      render(
+        <AuthenticationProvider>
+          <TestingComponentSimple />
+        </AuthenticationProvider>
+      );
+    });
+
+    await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+    expect(loginWithRedirect).toBeCalledWith({ invitation, organization });
+  });
+
+  test('if error exists on the url with access_denied', async () => {
+    const { setOrganizations, setSelectedOrganization } = useOrganization.getState();
+    const organizationList = [
+      {
+        org_id: 'testOrgId1',
+        display_name: 'testOrgId1',
+        name: 'testOrgId1',
+        can_administrate: false,
+        metadata: {
+          type: 'testOrgId1',
+          product_codes: 'testOrgId1',
+        },
+        branding: {
+          logo_url: 'testOrgId1',
+        },
       },
+      {
+        org_id: 'testOrgId2',
+        display_name: 'testOrgId2',
+        name: 'testOrgId2',
+        can_administrate: false,
+        metadata: {
+          type: 'testOrgId2',
+          product_codes: 'testOrgId2',
+        },
+        branding: {
+          logo_url: 'testOrgId2',
+        },
+      },
+    ];
+
+    // implement testing data
+    setOrganizations(organizationList);
+    setSelectedOrganization(organizationList[1]);
+    Object.defineProperty(window, 'location', {
+      value: new URL(`http://localhost:3000/?error=access_denied&error_description=whatever`),
+      writable: true,
     });
 
     isAuthenticated.mockResolvedValue(false);
@@ -346,8 +397,11 @@ describe('Context', () => {
 
     await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('false'));
     await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
-    expect(loginWithRedirect).toBeCalledWith({ invitation, organization });
-  });
+    expect(loginWithRedirect).toBeCalledWith({
+      organization: organizationList[0].org_id,
+      invitation: undefined,
+    });
+  }, 10000);
 
   test('Context default functions', async () => {
     expect(await defaultContextValues.getAccessTokenSilently()).toEqual({

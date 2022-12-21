@@ -74,10 +74,11 @@ export const logoutAuth = async () => {
   const resetOrganizationState = useOrganization.getState().reset;
   try {
     const client = await getAuth0Client();
-    // @TODO change returnTo to orfium one when is ready
-    client?.logout({ returnTo: window.location.origin });
+
     setToken(undefined);
     resetOrganizationState();
+    // @TODO change returnTo to orfium one when is ready
+    client?.logout({ returnTo: window.location.origin });
   } catch (e: unknown) {
     if (e instanceof Error) {
       throw e;
@@ -131,11 +132,12 @@ const AuthenticationProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<Record<string, unknown>>();
   const [auth0Client, setAuth0Client] = useState<Auth0Client>();
   const [isLoading, setIsLoading] = useState(true);
-  const [__popupOpen, setPopupOpen] = useState(false);
   const handleError = useErrorHandler();
   const params = new URLSearchParams(window.location.search);
 
   const selectedOrganization = useOrganization((state) => state.selectedOrganization);
+  const setSelectedOrganization = useOrganization((state) => state.setSelectedOrganization);
+  const organizations = useOrganization((state) => state.organizations);
   const organization = params.get('organization') || selectedOrganization?.org_id;
   const invitation = params.get('invitation');
 
@@ -147,6 +149,12 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         if (window.location.search.includes('code=')) {
           const { appState } = await client.handleRedirectCallback();
           onRedirectCallback(appState);
+        }
+        if (window.location.search.includes('invitation=')) {
+          return loginWithRedirect({
+            organization: organization || undefined,
+            invitation: invitation || undefined,
+          });
         }
         const clientIsAuthenticated = await client.isAuthenticated();
         setIsAuthenticated(clientIsAuthenticated);
@@ -160,7 +168,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       } catch (error: unknown) {
         if (error instanceof Error) {
           if (error.message === 'Invalid state') {
-            return client!.loginWithRedirect({
+            return loginWithRedirect({
               organization: organization || undefined,
               invitation: invitation || undefined,
             });
@@ -172,18 +180,13 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     })();
   }, []);
 
-  const loginWithPopup = async (params = {}) => {
-    setPopupOpen(true);
+  const loginWithRedirect = async (o: RedirectLoginOptions) => {
     try {
-      await auth0Client!.loginWithPopup(params);
+      const client = await getAuth0Client();
+      await client.loginWithRedirect(o);
     } catch (error) {
       return handleError(error);
-    } finally {
-      setPopupOpen(false);
     }
-    const clientUser = await auth0Client!.getUser();
-    setUser(clientUser);
-    setIsAuthenticated(true);
   };
 
   const getAccessTokenSilently = async (opts?: GetTokenSilentlyOptions) => {
@@ -192,25 +195,37 @@ const AuthenticationProvider: React.FC = ({ children }) => {
 
       return result;
     } catch (error: any) {
-      handleError(error);
-
       if (error?.error === 'login_required' || error?.error === 'consent_required') {
-        return loginWithPopup({
+        return loginWithRedirect({
           organization: organization || undefined,
           invitation: invitation || undefined,
         });
       }
+
+      handleError(error);
 
       return error;
     }
   };
 
   useEffect(() => {
+    const searchParams = new URL(window.location.href).searchParams;
     if (!isLoading && !isAuthenticated && isAuthenticated !== undefined) {
-      auth0Client!.loginWithRedirect({
-        organization: organization || undefined,
-        invitation: invitation || undefined,
-      });
+      const error = searchParams.get('error');
+
+      if (error === 'access_denied') {
+        const org = organizations[0];
+        setSelectedOrganization(org);
+        loginWithRedirect({
+          organization: org?.org_id || undefined,
+          invitation: invitation || undefined,
+        });
+      } else {
+        loginWithRedirect({
+          organization: organization || undefined,
+          invitation: invitation || undefined,
+        });
+      }
     }
   }, [auth0Client, isLoading, isAuthenticated]);
 
@@ -219,7 +234,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       value={{
         isAuthenticated,
         isLoading,
-        loginWithRedirect: (o: RedirectLoginOptions) => auth0Client!.loginWithRedirect(o),
+        loginWithRedirect,
         logout: logoutAuth,
         getAccessTokenSilently: (o?: GetTokenSilentlyOptions) => getAccessTokenSilently(o),
         user,
