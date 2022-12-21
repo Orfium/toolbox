@@ -326,10 +326,10 @@ describe('Context', () => {
     const organization = 'org_lWF9avilXAry9Aid';
 
     Object.defineProperty(window, 'location', {
-      value: {
-        search: `?invitation=${invitation}&organization=${organization}`,
-        href: `http://localhost:3000/?invitation=${invitation}&organization=${organization}`,
-      },
+      value: new URL(
+        `http://localhost:3000/?invitation=${invitation}&organization=${organization}`
+      ),
+      writable: true,
     });
 
     isAuthenticated.mockResolvedValue(false);
@@ -381,10 +381,8 @@ describe('Context', () => {
     setOrganizations(organizationList);
     setSelectedOrganization(organizationList[1]);
     Object.defineProperty(window, 'location', {
-      value: {
-        search: `?error=access_denied&error_description=whatever`,
-        href: `http://localhost:3000/?error=access_denied&error_description=whatever`,
-      },
+      value: new URL(`http://localhost:3000/?error=access_denied&error_description=whatever`),
+      writable: true,
     });
 
     isAuthenticated.mockResolvedValue(false);
@@ -397,12 +395,13 @@ describe('Context', () => {
       );
     });
 
+    await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('false'));
     await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
     expect(loginWithRedirect).toBeCalledWith({
       organization: organizationList[0].org_id,
       invitation: undefined,
     });
-  });
+  }, 10000);
 
   test('Context default functions', async () => {
     expect(await defaultContextValues.getAccessTokenSilently()).toEqual({
