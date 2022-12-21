@@ -180,21 +180,10 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     })();
   }, []);
 
-  const loginWithPopup = async (params = {}) => {
-    try {
-      await auth0Client!.loginWithPopup(params);
-    } catch (error) {
-      return handleError(error);
-    }
-    const clientUser = await auth0Client!.getUser();
-    setUser(clientUser);
-    setIsAuthenticated(true);
-  };
-
   const loginWithRedirect = async (o: RedirectLoginOptions) => {
     try {
       const client = await getAuth0Client();
-      await client!.loginWithRedirect(o);
+      await client.loginWithRedirect(o);
     } catch (error) {
       return handleError(error);
     }
@@ -228,7 +217,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         const org = organizations[0];
         setSelectedOrganization(org);
         loginWithRedirect({
-          organization: org.org_id || undefined,
+          organization: org?.org_id || undefined,
           invitation: invitation || undefined,
         });
       } else {
