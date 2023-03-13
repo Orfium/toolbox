@@ -10,7 +10,7 @@ export const FAKE_TOKEN =
  */
 export const fakeTokenData = {
   'https://sso.orfium.com/roles': ['nbcu:base'],
-  iss: 'https://sso.staging.orfium.xyz/',
+  iss: 'https://sso.orfium-staging.com/',
   sub: 'auth0|62da8eaa586d8cd67d1746b6',
   aud: ['orfium', 'https://orfium-staging.us.auth0.com/userinfo'],
   iat: new Date().getTime(),
