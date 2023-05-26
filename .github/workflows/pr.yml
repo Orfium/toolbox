@@ -53,9 +53,9 @@ jobs:
         id: check-stack-existence
         run: |
           if aws cloudformation describe-stacks --stack-name ${{ env.PRODUCT }}-pr-${{ github.event.pull_request.number }}; then
-            echo "::set-output name=stack_exists::1";
+            echo "stack_exists=1" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=stack_exists::0";
+            echo "stack_exists=0" >> $GITHUB_OUTPUT
           fi
       - name: Set up S3-Cloudfront
         if: steps.check-stack-existence.outputs.stack_exists == '0'
