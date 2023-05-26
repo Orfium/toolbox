@@ -53,7 +53,7 @@ jobs:
         id: check-stack-existence
         run: |
           if aws cloudformation describe-stacks --stack-name ${{ env.PRODUCT }}-pr-${{ github.event.pull_request.number }}; then
-            echo "name=stack_exists::1";
+            echo "stack_exists=1" >> $GITHUB_OUTPUT
           else
             echo "name=stack_exists::0";
           fi
