@@ -77,7 +77,7 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "postinstall": "husky install",
+    "prepare": "husky install",
     "prepublishOnly": "yarn build",
     "documentation": "cd documentation && yarn start",
     "documentation:build": "cd documentation && yarn install && yarn build",
