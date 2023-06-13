@@ -82,7 +82,7 @@
     "prepublishOnly": "yarn build",
     "documentation": "cd documentation && yarn start",
     "documentation:build": "cd documentation && yarn install && yarn build",
-    "build": "rimraf ./dist/types && npm run build:esm & npm run build:cjs",
+    "build": "rimraf ./dist/types && npm run build:esm && npm run build:cjs",
     "build:esm": "rimraf ./dist/esm && tsc --module esnext --outDir dist/esm && copyfiles -f ./src/assets/* ./dist/esm/assets/",
     "build:cjs": "rimraf ./dist/cjs && tsc --module commonjs --outDir dist/cjs && copyfiles -f ./src/assets/* ./dist/cjs/assets/",
     "yalc:push": "yalc publish --push",
