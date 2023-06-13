@@ -77,7 +77,8 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "prepare": "yarn build && husky install",
+    "postinstall": "husky install",
+    "prepublishOnly": "yarn build",
     "documentation": "cd documentation && yarn start",
     "documentation:build": "cd documentation && yarn install && yarn build",
     "build": "rimraf ./dist/types && npm run build:esm & npm run build:cjs",
