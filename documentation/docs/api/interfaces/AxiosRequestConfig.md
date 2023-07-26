@@ -130,7 +130,7 @@ node_modules/axios/index.d.ts:73
 
 ### method
 
-• `Optional` **method**: [`Method`](../modules.md#method-4)
+• `Optional` **method**: [`Method`](../modules.md#method-2)
 
 #### Defined in
 
@@ -160,7 +160,7 @@ node_modules/axios/index.d.ts:77
 
 ### responseType
 
-• `Optional` **responseType**: [`ResponseType`](../modules.md#responsetype-4)
+• `Optional` **responseType**: [`ResponseType`](../modules.md#responsetype-2)
 
 #### Defined in
 

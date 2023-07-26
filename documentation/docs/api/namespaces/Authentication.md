@@ -10,4 +10,4 @@ custom_edit_url: null
 
 ### TopBar
 
-• **TopBar**: `FC`<[`TopBarProps`](../modules.md#topbarprops-4)\>
+• **TopBar**: `FC`<[`TopBarProps`](../modules.md#topbarprops-2)\>

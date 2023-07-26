@@ -1,7 +1,7 @@
 ---
-id: "Redirect"
-title: "Class: Redirect"
-sidebar_label: "Redirect"
+id: 'Redirect'
+title: 'Class: Redirect'
+sidebar_label: 'Redirect'
 sidebar_position: 0
 custom_edit_url: null
 ---
@@ -20,8 +20,8 @@ custom_edit_url: null
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                            |
+| :------ | :---------------------------------------------- |
 | `props` | `RedirectProps` \| `Readonly`<`RedirectProps`\> |
 
 #### Inherited from
@@ -30,7 +30,7 @@ React.Component<RedirectProps, any\>.constructor
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:482
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:472
 
 • **new Redirect**(`props`, `context`)
 
@@ -40,10 +40,10 @@ node_modules/@types/react-router/node_modules/@types/react/index.d.ts:482
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | `RedirectProps` |
-| `context` | `any` |
+| Name      | Type            |
+| :-------- | :-------------- |
+| `props`   | `RedirectProps` |
+| `context` | `any`           |
 
 #### Inherited from
 
@@ -51,13 +51,13 @@ React.Component<RedirectProps, any\>.constructor
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:487
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:477
 
 ## Properties
 
 ### context
 
-• **context**: `any`
+• **context**: `unknown`
 
 If using the new style context, re-declare this in your class to be the
 `React.ContextType` of your `static contextType`.
@@ -79,13 +79,13 @@ React.Component.context
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:480
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:470
 
-___
+---
 
 ### props
 
-• `Readonly` **props**: `Readonly`<`RedirectProps`\> & `Readonly`<{ `children?`: `ReactNode`  }\>
+• `Readonly` **props**: `Readonly`<`RedirectProps`\>
 
 #### Inherited from
 
@@ -93,9 +93,9 @@ React.Component.props
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:505
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:490
 
-___
+---
 
 ### refs
 
@@ -114,9 +114,9 @@ React.Component.refs
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:511
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:496
 
-___
+---
 
 ### state
 
@@ -128,9 +128,9 @@ React.Component.state
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:506
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:491
 
-___
+---
 
 ### contextType
 
@@ -141,13 +141,13 @@ If set, `this.context` will be set at runtime to the current value of the given 
 Usage:
 
 ```ts
-type MyContext = number
-const Ctx = React.createContext<MyContext>(0)
+type MyContext = number;
+const Ctx = React.createContext<MyContext>(0);
 
 class Foo extends React.Component {
-  static contextType = Ctx
-  context!: React.ContextType<typeof Ctx>
-  render () {
+  static contextType = Ctx;
+  context!: React.ContextType<typeof Ctx>;
+  render() {
     return <>My context's value: {this.context}</>;
   }
 }
@@ -161,11 +161,11 @@ React.Component.contextType
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:462
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:453
 
 ## Methods
 
-### UNSAFE\_componentWillMount
+### UNSAFE_componentWillMount
 
 ▸ `Optional` **UNSAFE_componentWillMount**(): `void`
 
@@ -189,15 +189,15 @@ prevents this from being invoked.
 
 #### Inherited from
 
-React.Component.UNSAFE\_componentWillMount
+React.Component.UNSAFE_componentWillMount
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:718
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:687
 
-___
+---
 
-### UNSAFE\_componentWillReceiveProps
+### UNSAFE_componentWillReceiveProps
 
 ▸ `Optional` **UNSAFE_componentWillReceiveProps**(`nextProps`, `nextContext`): `void`
 
@@ -220,10 +220,10 @@ prevents this from being invoked.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `nextProps` | `Readonly`<`RedirectProps`\> |
-| `nextContext` | `any` |
+| Name          | Type                         |
+| :------------ | :--------------------------- |
+| `nextProps`   | `Readonly`<`RedirectProps`\> |
+| `nextContext` | `any`                        |
 
 #### Returns
 
@@ -231,15 +231,15 @@ prevents this from being invoked.
 
 #### Inherited from
 
-React.Component.UNSAFE\_componentWillReceiveProps
+React.Component.UNSAFE_componentWillReceiveProps
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:750
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:719
 
-___
+---
 
-### UNSAFE\_componentWillUpdate
+### UNSAFE_componentWillUpdate
 
 ▸ `Optional` **UNSAFE_componentWillUpdate**(`nextProps`, `nextState`, `nextContext`): `void`
 
@@ -260,11 +260,11 @@ prevents this from being invoked.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `nextProps` | `Readonly`<`RedirectProps`\> |
-| `nextState` | `Readonly`<`any`\> |
-| `nextContext` | `any` |
+| Name          | Type                         |
+| :------------ | :--------------------------- |
+| `nextProps`   | `Readonly`<`RedirectProps`\> |
+| `nextState`   | `Readonly`<`any`\>           |
+| `nextContext` | `any`                        |
 
 #### Returns
 
@@ -272,13 +272,13 @@ prevents this from being invoked.
 
 #### Inherited from
 
-React.Component.UNSAFE\_componentWillUpdate
+React.Component.UNSAFE_componentWillUpdate
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:778
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:747
 
-___
+---
 
 ### componentDidCatch
 
@@ -289,9 +289,9 @@ the entire component tree to unmount.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `error` | `Error` |
+| Name        | Type        |
+| :---------- | :---------- |
+| `error`     | `Error`     |
 | `errorInfo` | `ErrorInfo` |
 
 #### Returns
@@ -304,9 +304,9 @@ React.Component.componentDidCatch
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:647
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:616
 
-___
+---
 
 ### componentDidMount
 
@@ -324,9 +324,9 @@ React.Component.componentDidMount
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:626
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:595
 
-___
+---
 
 ### componentDidUpdate
 
@@ -338,11 +338,11 @@ The snapshot is only present if getSnapshotBeforeUpdate is present and returns n
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name        | Type                         |
+| :---------- | :--------------------------- |
 | `prevProps` | `Readonly`<`RedirectProps`\> |
-| `prevState` | `Readonly`<`any`\> |
-| `snapshot?` | `any` |
+| `prevState` | `Readonly`<`any`\>           |
+| `snapshot?` | `any`                        |
 
 #### Returns
 
@@ -354,9 +354,9 @@ React.Component.componentDidUpdate
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:689
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:658
 
-___
+---
 
 ### componentWillMount
 
@@ -384,9 +384,9 @@ React.Component.componentWillMount
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:704
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:673
 
-___
+---
 
 ### componentWillReceiveProps
 
@@ -409,10 +409,10 @@ prevents this from being invoked.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `nextProps` | `Readonly`<`RedirectProps`\> |
-| `nextContext` | `any` |
+| Name          | Type                         |
+| :------------ | :--------------------------- |
+| `nextProps`   | `Readonly`<`RedirectProps`\> |
+| `nextContext` | `any`                        |
 
 #### Returns
 
@@ -424,9 +424,9 @@ React.Component.componentWillReceiveProps
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:733
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:702
 
-___
+---
 
 ### componentWillUnmount
 
@@ -445,9 +445,9 @@ React.Component.componentWillUnmount
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:642
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:611
 
-___
+---
 
 ### componentWillUpdate
 
@@ -468,11 +468,11 @@ prevents this from being invoked.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `nextProps` | `Readonly`<`RedirectProps`\> |
-| `nextState` | `Readonly`<`any`\> |
-| `nextContext` | `any` |
+| Name          | Type                         |
+| :------------ | :--------------------------- |
+| `nextProps`   | `Readonly`<`RedirectProps`\> |
+| `nextState`   | `Readonly`<`any`\>           |
+| `nextContext` | `any`                        |
 
 #### Returns
 
@@ -484,9 +484,9 @@ React.Component.componentWillUpdate
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:763
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:732
 
-___
+---
 
 ### forceUpdate
 
@@ -494,8 +494,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name        | Type         |
+| :---------- | :----------- |
 | `callback?` | () => `void` |
 
 #### Returns
@@ -508,9 +508,9 @@ React.Component.forceUpdate
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:497
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:487
 
-___
+---
 
 ### getSnapshotBeforeUpdate
 
@@ -525,10 +525,10 @@ lifecycle events from running.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name        | Type                         |
+| :---------- | :--------------------------- |
 | `prevProps` | `Readonly`<`RedirectProps`\> |
-| `prevState` | `Readonly`<`any`\> |
+| `prevState` | `Readonly`<`any`\>           |
 
 #### Returns
 
@@ -540,9 +540,9 @@ React.Component.getSnapshotBeforeUpdate
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:683
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:652
 
-___
+---
 
 ### render
 
@@ -558,9 +558,9 @@ React.Component.render
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:498
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:488
 
-___
+---
 
 ### setState
 
@@ -568,15 +568,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends `string` \| `number` \| `symbol` |
+| Name | Type                                     |
+| :--- | :--------------------------------------- |
+| `K`  | extends `string` \| `number` \| `symbol` |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `state` | `any` |
+| Name        | Type         |
+| :---------- | :----------- |
+| `state`     | `any`        |
 | `callback?` | () => `void` |
 
 #### Returns
@@ -589,9 +589,9 @@ React.Component.setState
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:492
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:482
 
-___
+---
 
 ### shouldComponentUpdate
 
@@ -608,11 +608,11 @@ and `componentDidUpdate` will not be called.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `nextProps` | `Readonly`<`RedirectProps`\> |
-| `nextState` | `Readonly`<`any`\> |
-| `nextContext` | `any` |
+| Name          | Type                         |
+| :------------ | :--------------------------- |
+| `nextProps`   | `Readonly`<`RedirectProps`\> |
+| `nextState`   | `Readonly`<`any`\>           |
+| `nextContext` | `any`                        |
 
 #### Returns
 
@@ -624,4 +624,4 @@ React.Component.shouldComponentUpdate
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:637
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:606
