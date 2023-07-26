@@ -12,7 +12,9 @@ export type DecodedTokenResponse = {
   exp?: number;
   azp?: string;
   scope?: string;
+  /** the organization id of the user currently selected **/
   org_id?: string;
+  /** the permissions defined on the user for more info visit https://orfium.atlassian.net/wiki/spaces/OPS/pages/2554134739/Roles+and+Permissions#Organization-Roles **/
   permissions?: string[];
 };
 
