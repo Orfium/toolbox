@@ -1,6 +1,6 @@
 module.exports = {
   preset: 'ts-jest',
-  workerIdleMemoryLimit: 0.5,
+  workerIdleMemoryLimit: 0.75,
   testEnvironment: 'jsdom',
   testRegex: '(\\.(test|spec))\\.(ts|tsx|js)$',
   transform: {
