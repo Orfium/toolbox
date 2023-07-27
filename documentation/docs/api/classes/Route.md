@@ -47,7 +47,7 @@ React.Component<
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:482
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:472
 
 • **new Route**<`T`, `Path`\>(`props`, `context`)
 
@@ -78,13 +78,13 @@ React.Component<
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:487
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:477
 
 ## Properties
 
 ### context
 
-• **context**: `any`
+• **context**: `unknown`
 
 If using the new style context, re-declare this in your class to be the
 `React.ContextType` of your `static contextType`.
@@ -106,13 +106,13 @@ React.Component.context
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:480
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:470
 
 ___
 
 ### props
 
-• `Readonly` **props**: `Readonly`<`RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\>\> & `Readonly`<{ `children?`: `ReactNode`  }\>
+• `Readonly` **props**: `Readonly`<`RouteProps`<`Path`, `ExtractRouteParams`<`Path`, `string`\>\> & `OmitNative`<`T`, keyof `RouteProps`<`string`, {}\>\>\>
 
 #### Inherited from
 
@@ -120,7 +120,7 @@ React.Component.props
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:505
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:490
 
 ___
 
@@ -141,7 +141,7 @@ React.Component.refs
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:511
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:496
 
 ___
 
@@ -155,7 +155,7 @@ React.Component.state
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:506
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:491
 
 ___
 
@@ -188,7 +188,7 @@ React.Component.contextType
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:462
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:453
 
 ## Methods
 
@@ -220,7 +220,7 @@ React.Component.UNSAFE\_componentWillMount
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:718
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:687
 
 ___
 
@@ -262,7 +262,7 @@ React.Component.UNSAFE\_componentWillReceiveProps
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:750
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:719
 
 ___
 
@@ -303,7 +303,7 @@ React.Component.UNSAFE\_componentWillUpdate
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:778
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:747
 
 ___
 
@@ -331,7 +331,7 @@ React.Component.componentDidCatch
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:647
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:616
 
 ___
 
@@ -351,7 +351,7 @@ React.Component.componentDidMount
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:626
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:595
 
 ___
 
@@ -381,7 +381,7 @@ React.Component.componentDidUpdate
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:689
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:658
 
 ___
 
@@ -411,7 +411,7 @@ React.Component.componentWillMount
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:704
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:673
 
 ___
 
@@ -451,7 +451,7 @@ React.Component.componentWillReceiveProps
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:733
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:702
 
 ___
 
@@ -472,7 +472,7 @@ React.Component.componentWillUnmount
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:642
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:611
 
 ___
 
@@ -511,7 +511,7 @@ React.Component.componentWillUpdate
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:763
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:732
 
 ___
 
@@ -535,7 +535,7 @@ React.Component.forceUpdate
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:497
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:487
 
 ___
 
@@ -567,7 +567,7 @@ React.Component.getSnapshotBeforeUpdate
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:683
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:652
 
 ___
 
@@ -585,7 +585,7 @@ React.Component.render
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:498
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:488
 
 ___
 
@@ -616,7 +616,7 @@ React.Component.setState
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:492
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:482
 
 ___
 
@@ -651,4 +651,4 @@ React.Component.shouldComponentUpdate
 
 #### Defined in
 
-node_modules/@types/react-router/node_modules/@types/react/index.d.ts:637
+node_modules/@types/react-router/node_modules/@types/react/index.d.ts:606

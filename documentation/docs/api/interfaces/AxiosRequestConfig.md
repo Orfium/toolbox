@@ -1,7 +1,7 @@
 ---
-id: 'AxiosRequestConfig'
-title: 'Interface: AxiosRequestConfig'
-sidebar_label: 'AxiosRequestConfig'
+id: "AxiosRequestConfig"
+title: "Interface: AxiosRequestConfig"
+sidebar_label: "AxiosRequestConfig"
 sidebar_position: 0
 custom_edit_url: null
 ---
@@ -16,7 +16,7 @@ custom_edit_url: null
 
 node_modules/axios/index.d.ts:63
 
----
+___
 
 ### auth
 
@@ -26,7 +26,7 @@ node_modules/axios/index.d.ts:63
 
 node_modules/axios/index.d.ts:64
 
----
+___
 
 ### baseURL
 
@@ -36,7 +36,7 @@ node_modules/axios/index.d.ts:64
 
 node_modules/axios/index.d.ts:53
 
----
+___
 
 ### cancelToken
 
@@ -46,7 +46,7 @@ node_modules/axios/index.d.ts:53
 
 node_modules/axios/index.d.ts:78
 
----
+___
 
 ### data
 
@@ -56,7 +56,7 @@ node_modules/axios/index.d.ts:78
 
 node_modules/axios/index.d.ts:59
 
----
+___
 
 ### decompress
 
@@ -66,7 +66,7 @@ node_modules/axios/index.d.ts:59
 
 node_modules/axios/index.d.ts:79
 
----
+___
 
 ### headers
 
@@ -76,7 +76,7 @@ node_modules/axios/index.d.ts:79
 
 node_modules/axios/index.d.ts:56
 
----
+___
 
 ### httpAgent
 
@@ -86,7 +86,7 @@ node_modules/axios/index.d.ts:56
 
 node_modules/axios/index.d.ts:75
 
----
+___
 
 ### httpsAgent
 
@@ -96,7 +96,7 @@ node_modules/axios/index.d.ts:75
 
 node_modules/axios/index.d.ts:76
 
----
+___
 
 ### maxBodyLength
 
@@ -106,7 +106,7 @@ node_modules/axios/index.d.ts:76
 
 node_modules/axios/index.d.ts:72
 
----
+___
 
 ### maxContentLength
 
@@ -116,7 +116,7 @@ node_modules/axios/index.d.ts:72
 
 node_modules/axios/index.d.ts:70
 
----
+___
 
 ### maxRedirects
 
@@ -126,7 +126,7 @@ node_modules/axios/index.d.ts:70
 
 node_modules/axios/index.d.ts:73
 
----
+___
 
 ### method
 
@@ -136,7 +136,7 @@ node_modules/axios/index.d.ts:73
 
 node_modules/axios/index.d.ts:52
 
----
+___
 
 ### params
 
@@ -146,17 +146,17 @@ node_modules/axios/index.d.ts:52
 
 node_modules/axios/index.d.ts:57
 
----
+___
 
 ### proxy
 
-• `Optional` **proxy**: `false` \| [`AxiosProxyConfig`](AxiosProxyConfig.md)
+• `Optional` **proxy**: ``false`` \| [`AxiosProxyConfig`](AxiosProxyConfig.md)
 
 #### Defined in
 
 node_modules/axios/index.d.ts:77
 
----
+___
 
 ### responseType
 
@@ -166,17 +166,17 @@ node_modules/axios/index.d.ts:77
 
 node_modules/axios/index.d.ts:65
 
----
+___
 
 ### socketPath
 
-• `Optional` **socketPath**: `null` \| `string`
+• `Optional` **socketPath**: ``null`` \| `string`
 
 #### Defined in
 
 node_modules/axios/index.d.ts:74
 
----
+___
 
 ### timeout
 
@@ -186,7 +186,7 @@ node_modules/axios/index.d.ts:74
 
 node_modules/axios/index.d.ts:60
 
----
+___
 
 ### timeoutErrorMessage
 
@@ -196,7 +196,7 @@ node_modules/axios/index.d.ts:60
 
 node_modules/axios/index.d.ts:61
 
----
+___
 
 ### transformRequest
 
@@ -206,7 +206,7 @@ node_modules/axios/index.d.ts:61
 
 node_modules/axios/index.d.ts:54
 
----
+___
 
 ### transformResponse
 
@@ -216,7 +216,7 @@ node_modules/axios/index.d.ts:54
 
 node_modules/axios/index.d.ts:55
 
----
+___
 
 ### transitional
 
@@ -226,7 +226,7 @@ node_modules/axios/index.d.ts:55
 
 node_modules/axios/index.d.ts:80
 
----
+___
 
 ### url
 
@@ -236,17 +236,17 @@ node_modules/axios/index.d.ts:80
 
 node_modules/axios/index.d.ts:51
 
----
+___
 
 ### validateStatus
 
-• `Optional` **validateStatus**: `null` \| (`status`: `number`) => `boolean`
+• `Optional` **validateStatus**: ``null`` \| (`status`: `number`) => `boolean`
 
 #### Defined in
 
 node_modules/axios/index.d.ts:71
 
----
+___
 
 ### withCredentials
 
@@ -256,7 +256,7 @@ node_modules/axios/index.d.ts:71
 
 node_modules/axios/index.d.ts:62
 
----
+___
 
 ### xsrfCookieName
 
@@ -266,7 +266,7 @@ node_modules/axios/index.d.ts:62
 
 node_modules/axios/index.d.ts:66
 
----
+___
 
 ### xsrfHeaderName
 
@@ -284,8 +284,8 @@ node_modules/axios/index.d.ts:67
 
 #### Parameters
 
-| Name            | Type  |
-| :-------------- | :---- |
+| Name | Type |
+| :------ | :------ |
 | `progressEvent` | `any` |
 
 #### Returns
@@ -296,7 +296,7 @@ node_modules/axios/index.d.ts:67
 
 node_modules/axios/index.d.ts:69
 
----
+___
 
 ### onUploadProgress
 
@@ -304,8 +304,8 @@ node_modules/axios/index.d.ts:69
 
 #### Parameters
 
-| Name            | Type  |
-| :-------------- | :---- |
+| Name | Type |
+| :------ | :------ |
 | `progressEvent` | `any` |
 
 #### Returns
@@ -316,7 +316,7 @@ node_modules/axios/index.d.ts:69
 
 node_modules/axios/index.d.ts:68
 
----
+___
 
 ### paramsSerializer
 
@@ -324,8 +324,8 @@ node_modules/axios/index.d.ts:68
 
 #### Parameters
 
-| Name     | Type  |
-| :------- | :---- |
+| Name | Type |
+| :------ | :------ |
 | `params` | `any` |
 
 #### Returns
