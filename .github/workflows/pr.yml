@@ -37,7 +37,7 @@ jobs:
           yarn documentation:build
 
       - name: Run Tests
-        run: yarn test --maxWorkers=50%
+        run: yarn test
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
