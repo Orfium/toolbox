@@ -11,7 +11,7 @@ Make sure you have a `.env` or `.env.local` on your project and you set up the e
 
 ### How i can filter based on user permissions?
 
-To use the current user permissions you must use the `decodedToken` returned by the `getAccessTokenSilently` function. The `decodedToken` returns the permissions that based on those you will do the decision-making.
+To use the current user permissions you must use the `decodedToken` returned by the `getAccessTokenSilently` function. The `decodedToken` returns the permissions that based on those you will do the decision-making from the application level.
 
 ### Refresh tokens don't seem to work.
 
