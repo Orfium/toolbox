@@ -86,6 +86,7 @@ export const createAuth0 = jest.fn().mockImplementation((options: any) =>
       organization: undefined,
     },
     useRefreshTokensFallback: true,
+    useRefreshTokens: true,
   })
 );
 

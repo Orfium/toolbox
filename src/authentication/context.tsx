@@ -1,11 +1,11 @@
 import createAuth0Client, {
+  Auth0Client,
+  Auth0ClientOptions,
   GetTokenSilentlyOptions,
   RedirectLoginOptions,
-  Auth0ClientOptions,
-  Auth0Client,
 } from '@auth0/auth0-spa-js';
 import jwt_decode from 'jwt-decode';
-import React, { useState, useEffect, createContext } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { useErrorHandler } from 'react-error-boundary';
 
 import useOrganization from '../store/useOrganization';
@@ -28,6 +28,7 @@ const providerConfig: Auth0ClientOptions = {
   redirect_uri: window.location.origin,
   onRedirectCallback,
   useRefreshTokens: true,
+  cacheLocation: 'localstorage',
 };
 
 export const defaultContextValues: AuthenticationContextProps = {
