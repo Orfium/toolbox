@@ -56,7 +56,7 @@ export const TopBar: React.FC<TopBarProps> = memo(
                 }
               }}
               buttonText={selectedOrganization?.display_name}
-              items={organizations.map((org) => org.display_name)}
+              items={organizations.filter((org) => org.display_name != selectedOrganization?.display_name).map((org) => org.display_name)}
             />
           </div>
         }
