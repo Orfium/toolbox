@@ -84,7 +84,7 @@ describe('TopBar', () => {
     );
 
     fireEvent.click(getByText(mockOrganizations[0].display_name));
-    fireEvent.click(getByTestId('ictinus_list_item_1'));
+    fireEvent.click(getByTestId('ictinus_list_item_0'));
 
     await waitFor(() => expect(mockSetSelectedOrganization).toBeCalledTimes(1));
   });
