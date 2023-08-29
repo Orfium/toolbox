@@ -1,6 +1,7 @@
-import createAuth0Client, {
+import {
   Auth0Client,
   Auth0ClientOptions,
+  createAuth0Client,
   GetTokenSilentlyOptions,
   RedirectLoginOptions,
 } from '@auth0/auth0-spa-js';
@@ -21,12 +22,14 @@ export const onRedirectCallback = (appState: { targetUrl?: string }) => {
   );
 };
 
-const providerConfig: Auth0ClientOptions = {
+export const providerConfig: Auth0ClientOptions = {
   domain: config.domain || '',
-  client_id: config.clientId || '',
-  audience: config.audience || 'orfium',
-  redirect_uri: window.location.origin,
-  onRedirectCallback,
+  clientId: config.clientId || '',
+  authorizationParams: {
+    audience: config.audience || 'orfium',
+    redirect_uri: window.location.origin,
+    onRedirectCallback,
+  },
   useRefreshTokens: true,
   cacheLocation: 'localstorage',
 };
@@ -54,7 +57,10 @@ export const getAuth0Client = async () => {
     try {
       client = await createAuth0Client({
         ...providerConfig,
-        organization: selectedOrganization?.org_id,
+        authorizationParams: {
+          ...providerConfig.authorizationParams,
+          organization: selectedOrganization?.org_id,
+        },
       });
     } catch (e) {
       throw new Error(`getAuth0Client Error: ${e}`);
@@ -79,7 +85,7 @@ export const logoutAuth = async () => {
     setToken(undefined);
     resetOrganizationState();
     // @TODO change returnTo to orfium one when is ready
-    client?.logout({ returnTo: window.location.origin });
+    client?.logout({ logoutParams: { returnTo: window.location.origin } });
   } catch (e: unknown) {
     if (e instanceof Error) {
       throw e;
@@ -97,7 +103,7 @@ export const logoutAuth = async () => {
  *  @returns {Promise} Promise that resolves to token and decodedToken for the authorization
  */
 export const getTokenSilently = async (
-  params?: Record<string, unknown>
+  params?: GetTokenSilentlyOptions
   // @ts-ignore
 ): Promise<{ token: string; decodedToken: { exp?: number; org_id?: string } }> => {
   const { token: stateToken = '', setToken } = useRequestToken.getState();
@@ -111,12 +117,15 @@ export const getTokenSilently = async (
   if (!isExpired && decodedToken.org_id && decodedToken.org_id === selectedOrganization?.org_id) {
     return { token: stateToken, decodedToken };
   }
+
   try {
     const client = await getAuth0Client();
-
     const token = await client.getTokenSilently({
       ...params,
-      organization: selectedOrganization?.org_id,
+      authorizationParams: {
+        ...params?.authorizationParams,
+        organization: selectedOrganization?.org_id,
+      },
     });
     setToken(token);
 
@@ -153,8 +162,10 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         }
         if (window.location.search.includes('invitation=')) {
           return loginWithRedirect({
-            organization: organization || undefined,
-            invitation: invitation || undefined,
+            authorizationParams: {
+              organization: organization || undefined,
+              invitation: invitation || undefined,
+            },
           });
         }
         const clientIsAuthenticated = await client.isAuthenticated();
@@ -170,8 +181,10 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         if (error instanceof Error) {
           if (error.message === 'Invalid state') {
             return loginWithRedirect({
-              organization: organization || undefined,
-              invitation: invitation || undefined,
+              authorizationParams: {
+                organization: organization || undefined,
+                invitation: invitation || undefined,
+              },
             });
           }
         }
@@ -198,8 +211,10 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     } catch (error: any) {
       if (error?.error === 'login_required' || error?.error === 'consent_required') {
         return loginWithRedirect({
-          organization: organization || undefined,
-          invitation: invitation || undefined,
+          authorizationParams: {
+            organization: organization || undefined,
+            invitation: invitation || undefined,
+          },
         });
       }
 
@@ -218,13 +233,17 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         const org = organizations[0];
         setSelectedOrganization(org);
         loginWithRedirect({
-          organization: org?.org_id || undefined,
-          invitation: invitation || undefined,
+          authorizationParams: {
+            organization: org?.org_id || undefined,
+            invitation: invitation || undefined,
+          },
         });
       } else {
         loginWithRedirect({
-          organization: organization || undefined,
-          invitation: invitation || undefined,
+          authorizationParams: {
+            organization: organization || undefined,
+            invitation: invitation || undefined,
+          },
         });
       }
     }

@@ -1,10 +1,11 @@
 import { ThemeProvider } from '@orfium/ictinus';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
 
+// @ts-ignore
+import { createAuth0Client as mockedCreateAuth0 } from '../../../../__mocks__/@auth0/auth0-spa-js';
 import { Organization } from '../../../store/useOrganization';
 import { Authentication } from '../../index';
-
 const mockOrganizations: Organization[] = [
   {
     org_id: 'org_cEVFmcCb0XYz1ZPf',
@@ -59,6 +60,7 @@ jest.mock('../../context', () => ({
     user: mockedUserFn(),
     logout: mockLogout,
   }),
+  getAuth0Client: mockedCreateAuth0,
 }));
 
 describe('TopBar', () => {

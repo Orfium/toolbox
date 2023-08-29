@@ -2,7 +2,6 @@ import { cleanup, render, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import {
-  FAKE_TOKEN,
   getNewFakeToken,
   getTokenSilently,
   isAuthenticated,
@@ -12,12 +11,11 @@ import {
 import { orfiumIdBaseInstance } from '../request';
 import MockRequest from '../request/mock';
 import { Authentication as AuthenticationProvider } from './index';
-
 const TestComp = () => {
   return <div data-testid={'test'}>Test</div>;
 };
 
-describe('Authorization: ', () => {
+describe('Authentication: ', () => {
   let mock: MockRequest;
   const apiInstance = orfiumIdBaseInstance.instance;
 
@@ -43,15 +41,15 @@ describe('Authorization: ', () => {
     isAuthenticated.mockResolvedValue(true);
     mock.onGet('/memberships/').reply(200, [{ org_id: 'a' }]);
 
-    const { getByTestId } = render(
+    const { findByTestId } = render(
       <AuthenticationProvider>
         <TestComp />
       </AuthenticationProvider>
     );
 
-    await waitFor(() => expect(getByTestId('orfium-auth-loading')).toBeTruthy());
+    expect(await findByTestId('orfium-auth-loading')).toBeTruthy();
 
-    await waitFor(() => expect(getByTestId('test')).toBeTruthy());
+    expect(await findByTestId('test')).toBeTruthy();
   });
 
   it('redirects to login if not authenticated', async () => {
@@ -71,12 +69,12 @@ describe('Authorization: ', () => {
   it('renders the loading while its authenticating', async () => {
     getTokenSilently.mockResolvedValue(getNewFakeToken());
     isAuthenticated.mockResolvedValue(true);
-    const { getByTestId } = render(
+    const { findByTestId } = render(
       <AuthenticationProvider>
         <TestComp />
       </AuthenticationProvider>
     );
-    await waitFor(() => expect(getByTestId('orfium-auth-loading')).toBeTruthy());
+    expect(await findByTestId('orfium-auth-loading')).toBeTruthy();
   });
 
   it('renders the no organization message when it should', async () => {
@@ -84,14 +82,13 @@ describe('Authorization: ', () => {
     isAuthenticated.mockResolvedValue(true);
     mock.onGet('/memberships/').replyOnce(200, []);
 
-    const { getByTestId } = render(
+    const { findByTestId } = render(
       <AuthenticationProvider>
         <TestComp />
       </AuthenticationProvider>
     );
 
-    await waitFor(() => expect(getByTestId('orfium-auth-loading')).toBeTruthy());
-
-    await waitFor(() => expect(getByTestId('orfium-no-organizations')).toBeTruthy());
+    expect(await findByTestId('orfium-auth-loading')).toBeTruthy();
+    expect(await findByTestId('orfium-no-organizations')).toBeTruthy();
   });
 });

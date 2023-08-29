@@ -7,7 +7,5 @@
   "semi": true,
   "endOfLine": "lf",
   "arrowParens": "always",
-  "bracketSpacing": true,
-  "plugins": ["prettier-plugin-organize-imports"],
-  "organizeImportsSkipDestructiveCodeActions": false
+  "bracketSpacing": true
 }

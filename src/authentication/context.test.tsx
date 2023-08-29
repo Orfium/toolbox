@@ -1,14 +1,5 @@
-import {
-  act,
-  findByText,
-  getByTestId,
-  render,
-  waitFor,
-  screen,
-  findByTestId,
-} from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import jwtDecode from 'jwt-decode';
-// eslint-disable-next-line import/order
 import React, { useEffect, useState } from 'react';
 
 // Auth0 custom error simulator. This extends a regular Error to match Auth0 Error.
@@ -23,31 +14,28 @@ class CustomError extends Error {
 import { ErrorBoundary, useErrorHandler } from 'react-error-boundary';
 
 import {
-  FAKE_TOKEN,
-  getUser,
-  isAuthenticated,
-  getTokenSilently as mockedGetTokenSilently,
-  loginWithPopup as mockedLoginWithPopup,
-  getNewFakeToken,
+  createAuth0Client as mockedCreateAuth0,
   fakeTokenData,
-  loginWithRedirect,
-  createAuth0 as mockedCreateAuth0,
-  onRedirectCallback as mockedOnRedirectCallback,
+  FAKE_TOKEN,
+  getNewFakeToken,
+  getTokenSilently as mockedGetTokenSilently,
+  getUser,
   handleRedirectCallback as mockedHandleRedirectCallback,
+  isAuthenticated,
+  loginWithRedirect,
   // @ts-ignore
 } from '../../__mocks__/@auth0/auth0-spa-js';
 import useOrganization from '../store/useOrganization';
 import useRequestToken from '../store/useRequestToken';
-import ErrorFallback from './components/ErrorFallback/ErrorFallback';
 import {
   AuthenticationProvider,
+  client,
+  defaultContextValues,
   getAuth0Client,
   getTokenSilently,
   logoutAuth,
   onRedirectCallback,
   useAuthentication,
-  defaultContextValues,
-  client,
 } from './context';
 
 const TestingComponentSimple = () => {
@@ -343,7 +331,12 @@ describe('Context', () => {
     });
 
     await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
-    expect(loginWithRedirect).toBeCalledWith({ invitation, organization });
+    expect(loginWithRedirect).toBeCalledWith({
+      authorizationParams: {
+        invitation,
+        organization,
+      },
+    });
   });
 
   test('if error exists on the url with access_denied', async () => {
@@ -398,8 +391,10 @@ describe('Context', () => {
     await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('false'));
     await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
     expect(loginWithRedirect).toBeCalledWith({
-      organization: organizationList[0].org_id,
-      invitation: undefined,
+      authorizationParams: {
+        organization: organizationList[0].org_id,
+        invitation: undefined,
+      },
     });
   }, 10000);
 
