@@ -220,8 +220,6 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       }
 
       handleError(error);
-
-      return error;
     }
   };
 
