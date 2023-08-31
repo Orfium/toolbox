@@ -47,9 +47,10 @@ export type AuthenticationContextProps = {
   isLoading: boolean;
   loginWithRedirect(o?: RedirectLoginOptions): Promise<void>;
   logout: () => void;
-  getAccessTokenSilently: (
-    opts?: GetTokenSilentlyOptions
-  ) => Promise<{ token: string; decodedToken: DecodedTokenResponse | Record<string, never> }>;
+  getAccessTokenSilently: (opts?: GetTokenSilentlyOptions) => Promise<{
+    token: string;
+    decodedToken: DecodedTokenResponse | Record<string, never>;
+  } | void>;
   user: User | undefined;
 };
 

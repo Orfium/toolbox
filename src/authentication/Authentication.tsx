@@ -61,7 +61,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
       setSystemLoading(true);
       (async () => {
         // moving this will affect the app. If this is moved below when clearing the storage the app constantly refresh
-        const { decodedToken } = await getAccessTokenSilently();
+        const response = await getAccessTokenSilently();
         // @TODO in the future we must define the org_id
         const requestInstance = orfiumIdBaseInstance.createRequest<Organization[]>({
           method: 'get',
@@ -76,7 +76,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         }
         // if token doesn't have an organization and the user has available organizations
         // set continue and set one
-        if (!decodedToken?.org_id && data?.length) {
+        if (!response?.decodedToken?.org_id && data?.length) {
           // IMPORTANT - when we are using `useRefreshTokens` and `cacheLocation` on Auth0 we can fetch just a token with organization through `getTokenSilently`
           // we must use loginWithRedirect in that case thus this is happening here
           // https://auth0.com/docs/secure/tokens/refresh-tokens/use-refresh-token-rotation
@@ -91,7 +91,9 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         }
       })();
     }
-  }, [getAccessTokenSilently, selectedOrganization?.org_id]);
+    // @NOTE selectedOrganization?.org_id, isLoading, systemLoading
+    // are missing on purpose from the deps as these are being updated from places where the organization id is being handled with refresh from auth0
+  }, [getAccessTokenSilently, loginWithRedirect, setOrganizations, setSelectedOrganization]);
 
   // when loading is true before navigation this is not showing anymore
   if (systemLoading === undefined || systemLoading || isLoading || !isAuthenticated) {

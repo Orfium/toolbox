@@ -53,6 +53,7 @@ export const TopBar: React.FC<TopBarProps> = memo(
                 const foundOrg = organizations.find((org) => org.display_name === option);
                 if (foundOrg) {
                   const client = await getAuth0Client();
+                  await client.logout({ openUrl: false });
                   await client.loginWithRedirect({
                     authorizationParams: {
                       organization: foundOrg.org_id,
