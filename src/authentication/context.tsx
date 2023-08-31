@@ -32,6 +32,7 @@ export const providerConfig: Auth0ClientOptions = {
   },
   useRefreshTokens: true,
   cacheLocation: 'localstorage',
+  useRefreshTokensFallback: true, // fix issue with logout https://community.auth0.com/t/auth0-spa-2-x-returning-missing-refresh-token/98999/18
 };
 
 export const defaultContextValues: AuthenticationContextProps = {

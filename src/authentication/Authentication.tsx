@@ -91,7 +91,9 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         }
       })();
     }
-  }, [getAccessTokenSilently, selectedOrganization?.org_id]);
+    // @NOTE selectedOrganization?.org_id, isLoading, systemLoading
+    // are missing on purpose from the deps as these are being updated from places where the organization id is being handled with refresh from auth0
+  }, [getAccessTokenSilently, loginWithRedirect, setOrganizations, setSelectedOrganization]);
 
   // when loading is true before navigation this is not showing anymore
   if (systemLoading === undefined || systemLoading || isLoading || !isAuthenticated) {
