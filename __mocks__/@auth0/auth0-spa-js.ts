@@ -38,7 +38,7 @@ export const handleRedirectCallback = jest.fn(() => {
 export const isAuthenticated = jest.fn();
 export const logout = jest.fn();
 export const loginWithPopup = jest.fn();
-export const createAuth0 = jest.fn().mockImplementation((options: any) =>
+export const createAuth0Client = jest.fn().mockImplementation((options: any) =>
   Promise.resolve({
     getTokenSilently,
     loginWithRedirect,
@@ -94,4 +94,3 @@ export const createAuth0 = jest.fn().mockImplementation((options: any) =>
  * Mock auth0 client with predefined values
  * All necessary functions are mocked jest.fn() that can be used to run tests internally.
  */
-export default createAuth0;

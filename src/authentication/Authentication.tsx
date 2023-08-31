@@ -5,7 +5,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { orfiumIdBaseInstance } from '../request';
 import useOrganization, { Organization } from '../store/useOrganization';
-import { LoadingContent, Wrapper, Box } from './Authentication.style';
+import { Box, LoadingContent, Wrapper } from './Authentication.style';
 import ErrorFallback from './components/ErrorFallback/ErrorFallback';
 import { TopBar, TopBarProps } from './components/TopBar/TopBar';
 import { config } from './config';
@@ -81,7 +81,9 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
           // we must use loginWithRedirect in that case thus this is happening here
           // https://auth0.com/docs/secure/tokens/refresh-tokens/use-refresh-token-rotation
           await loginWithRedirect({
-            organization: selectedOrganization?.org_id || data[0].org_id,
+            authorizationParams: {
+              organization: selectedOrganization?.org_id || data[0].org_id,
+            },
           });
         } else {
           // set false at all times

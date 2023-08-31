@@ -30,7 +30,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: '18.13.0' # Replace with your node version
 
@@ -40,6 +40,8 @@ jobs:
           yarn documentation:build
 
       - name: Run Tests
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
         run: yarn test
 
       - name: Configure AWS credentials

@@ -3,7 +3,7 @@ import { TopAppBarProps } from '@orfium/ictinus/dist/components/TopAppBar/TopApp
 import React, { memo } from 'react';
 
 import useOrganization from '../../../store/useOrganization';
-import { useAuthentication } from '../../context';
+import { getAuth0Client, useAuthentication } from '../../context';
 
 export type TopBarProps = {
   logoIcon: JSX.Element;
@@ -49,14 +49,22 @@ export const TopBar: React.FC<TopBarProps> = memo(
             <Menu
               dataTestId={'organization-picker'}
               color={'lightGrey-50'}
-              onSelect={(option: string) => {
+              onSelect={async (option: string) => {
                 const foundOrg = organizations.find((org) => org.display_name === option);
                 if (foundOrg) {
+                  const client = await getAuth0Client();
+                  await client.loginWithRedirect({
+                    authorizationParams: {
+                      organization: foundOrg.org_id,
+                    },
+                  });
                   setSelectedOrganization(foundOrg);
                 }
               }}
               buttonText={selectedOrganization?.display_name}
-              items={organizations.filter((org) => org.display_name !== selectedOrganization?.display_name).map((org) => org.display_name)}
+              items={organizations
+                .filter((org) => org.display_name !== selectedOrganization?.display_name)
+                .map((org) => org.display_name)}
             />
           </div>
         }
