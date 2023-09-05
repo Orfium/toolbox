@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 import { rem } from '@orfium/ictinus/dist/theme/utils';
 
-import ErrorCoverImg from '../../../assets/error_cover.svg';
-
-export const ErrorCover = styled(ErrorCoverImg)`
+export const ErrorCover = styled.img`
   margin: ${rem(30)};
 `;
 

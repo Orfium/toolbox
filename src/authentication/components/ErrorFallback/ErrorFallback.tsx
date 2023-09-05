@@ -1,22 +1,22 @@
 import { Button } from '@orfium/ictinus';
-import React from 'react';
 
 //* using logoutAuth because error fallback is outside of providers */
+import ErrorCoverImg from '../../../assets/error_cover.svg';
 import { logoutAuth } from '../../context';
 import {
-  ErrorContainer,
-  Wrapper,
-  ContentWrapper,
   Box,
+  ContentWrapper,
+  ErrorContainer,
   ErrorCover,
   TechInfoTitle,
   TechInfoWrapper,
+  Wrapper,
 } from './ErrorFallback.style';
 
 const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
   return (
     <Wrapper role="alert">
-      <ErrorCover />
+      <ErrorCover src={ErrorCoverImg} alt="error fallback cover" />
       <ContentWrapper>
         <div style={{ textAlign: 'center' }}>
           <Box>
