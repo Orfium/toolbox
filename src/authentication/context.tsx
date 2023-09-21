@@ -81,6 +81,8 @@ export const logoutAuth = async () => {
   const setToken = useRequestToken.getState().setToken;
   const resetOrganizationState = useOrganization.getState().reset;
   try {
+    console.log('YOLO9999');
+
     const client = await getAuth0Client();
 
     setToken(undefined);
@@ -153,15 +155,24 @@ const AuthenticationProvider: React.FC = ({ children }) => {
   const invitation = params.get('invitation');
 
   useEffect(() => {
+    console.log('entered effect');
+
     (async () => {
       try {
+        console.log('-1');
         const client = await getAuth0Client();
+        console.log('-2');
         setAuth0Client(client);
+        console.log('-3');
         if (window.location.search.includes('code=')) {
+          console.log('-4');
           const { appState } = await client.handleRedirectCallback();
           onRedirectCallback(appState);
+          console.log('-4.5');
         }
         if (window.location.search.includes('invitation=')) {
+          console.log('YOLO1');
+
           return loginWithRedirect({
             authorizationParams: {
               organization: organization || undefined,
@@ -169,18 +180,24 @@ const AuthenticationProvider: React.FC = ({ children }) => {
             },
           });
         }
+        console.log('-5');
         const clientIsAuthenticated = await client.isAuthenticated();
         setIsAuthenticated(clientIsAuthenticated);
+        console.log('-6');
 
         if (clientIsAuthenticated) {
+          console.log('-7');
           const clientUser = await client.getUser();
           setUser(clientUser);
         }
 
+        console.log('-8');
         setIsLoading(false);
       } catch (error: unknown) {
         if (error instanceof Error) {
           if (error.message === 'Invalid state') {
+            console.log('YOLO2');
+
             return loginWithRedirect({
               authorizationParams: {
                 organization: organization || undefined,
@@ -197,6 +214,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
 
   const loginWithRedirect = async (o: RedirectLoginOptions) => {
     try {
+      console.log('MASTER YOLO');
       const client = await getAuth0Client();
       await client.loginWithRedirect(o);
     } catch (error) {
@@ -211,6 +229,8 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       return result;
     } catch (error: any) {
       if (error?.error === 'login_required' || error?.error === 'consent_required') {
+        console.log('YOLO3');
+
         return loginWithRedirect({
           authorizationParams: {
             organization: organization || undefined,
@@ -231,6 +251,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       if (error === 'access_denied') {
         const org = organizations[0];
         setSelectedOrganization(org);
+        console.log('YOLO4');
         loginWithRedirect({
           authorizationParams: {
             organization: org?.org_id || undefined,
@@ -238,6 +259,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
           },
         });
       } else {
+        console.log('YOLO5');
         loginWithRedirect({
           authorizationParams: {
             organization: organization || undefined,

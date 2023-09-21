@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { Button, Loader, ThemeProvider } from '@orfium/ictinus';
 import * as Sentry from '@sentry/browser';
 import React, { useEffect, useState } from 'react';
@@ -60,32 +62,37 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
     if (!systemLoading && !isLoading) {
       setSystemLoading(true);
       (async () => {
-        // moving this will affect the app. If this is moved below when clearing the storage the app constantly refresh
-        const response = await getAccessTokenSilently();
-        // @TODO in the future we must define the org_id
-        const requestInstance = orfiumIdBaseInstance.createRequest<Organization[]>({
-          method: 'get',
-          url: '/memberships/',
-          params: config.productCode ? { product_code: config.productCode } : undefined,
-        });
-        const data = await requestInstance.request();
-
-        setOrganizations(data);
-        if (!selectedOrganization?.org_id && data?.length > 0) {
-          setSelectedOrganization(data[0]);
-        }
-        // if token doesn't have an organization and the user has available organizations
-        // set continue and set one
-        if (!response?.decodedToken?.org_id && data?.length) {
-          // IMPORTANT - when we are using `useRefreshTokens` and `cacheLocation` on Auth0 we can fetch just a token with organization through `getTokenSilently`
-          // we must use loginWithRedirect in that case thus this is happening here
-          // https://auth0.com/docs/secure/tokens/refresh-tokens/use-refresh-token-rotation
-          await loginWithRedirect({
-            authorizationParams: {
-              organization: selectedOrganization?.org_id || data[0].org_id,
-            },
+        try {
+          console.log('try block');
+          // moving this will affect the app. If this is moved below when clearing the storage the app constantly refresh
+          const response = await getAccessTokenSilently();
+          // @TODO in the future we must define the org_id
+          const requestInstance = orfiumIdBaseInstance.createRequest<Organization[]>({
+            method: 'get',
+            url: '/memberships/',
+            params: config.productCode ? { product_code: config.productCode } : undefined,
           });
-        } else {
+          const data = await requestInstance.request();
+
+          setOrganizations(data);
+          if (!selectedOrganization?.org_id && data?.length > 0) {
+            setSelectedOrganization(data[0]);
+          }
+          // if token doesn't have an organization and the user has available organizations
+          // set continue and set one
+          if (!response?.decodedToken?.org_id && data?.length) {
+            // IMPORTANT - when we are using `useRefreshTokens` and `cacheLocation` on Auth0 we can fetch just a token with organization through `getTokenSilently`
+            // we must use loginWithRedirect in that case thus this is happening here
+            // https://auth0.com/docs/secure/tokens/refresh-tokens/use-refresh-token-rotation
+            console.log('YOLO100');
+            await loginWithRedirect({
+              authorizationParams: {
+                organization: selectedOrganization?.org_id || data[0].org_id,
+              },
+            });
+          }
+        } finally {
+          console.log('finally block');
           // set false at all times
           setSystemLoading(false);
         }
