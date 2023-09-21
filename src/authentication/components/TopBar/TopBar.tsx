@@ -3,7 +3,7 @@ import { TopAppBarProps } from '@orfium/ictinus/dist/components/TopAppBar/TopApp
 import React, { memo } from 'react';
 
 import useOrganization from '../../../store/useOrganization';
-import { getAuth0Client, useAuthentication } from '../../context';
+import { useAuthentication } from '../../context';
 
 export type TopBarProps = {
   logoIcon: JSX.Element;
@@ -16,7 +16,7 @@ export type TopBarProps = {
  */
 export const TopBar: React.FC<TopBarProps> = memo(
   ({ logoIcon, onMenuIconClick, additionalTools }) => {
-    const { user, logout } = useAuthentication();
+    const { user, logout, loginWithRedirect } = useAuthentication();
     const { organizations, setSelectedOrganization, selectedOrganization } = useOrganization();
 
     const userConfig = {
@@ -52,9 +52,8 @@ export const TopBar: React.FC<TopBarProps> = memo(
               onSelect={async (option: string) => {
                 const foundOrg = organizations.find((org) => org.display_name === option);
                 if (foundOrg) {
-                  const client = await getAuth0Client();
-                  await client.logout({ openUrl: false });
-                  await client.loginWithRedirect({
+                  await logout({ openUrl: false });
+                  await loginWithRedirect({
                     authorizationParams: {
                       organization: foundOrg.org_id,
                     },

@@ -1,8 +1,8 @@
 import { Button } from '@orfium/ictinus';
+import { useAuthentication } from '../../context';
 
 //* using logoutAuth because error fallback is outside of providers */
 import ErrorCoverImg from '../../../assets/error_cover.svg';
-import { logoutAuth } from '../../context';
 import {
   Box,
   ContentWrapper,
@@ -14,6 +14,8 @@ import {
 } from './ErrorFallback.style';
 
 const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
+  const { logout } = useAuthentication();
+
   return (
     <Wrapper role="alert">
       <ErrorCover src={ErrorCoverImg} alt="error fallback cover" />
@@ -36,7 +38,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
           <div>OR</div>
 
           <Box>
-            <Button onClick={logoutAuth} type={'link'}>
+            <Button onClick={logout} type={'link'}>
               Logout
             </Button>
           </Box>

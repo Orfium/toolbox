@@ -1,25 +1,32 @@
+import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import { Button, Loader, ThemeProvider } from '@orfium/ictinus';
 import * as Sentry from '@sentry/browser';
-import React, { useEffect, useState } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
-
-import { orfiumIdBaseInstance } from '../request';
+import jwt_decode from 'jwt-decode';
+import React, { useEffect } from 'react';
+import { ErrorBoundary, useErrorHandler } from 'react-error-boundary';
 import useOrganization, { Organization } from '../store/useOrganization';
+import { APIProvider, useAPI } from './api-context';
 import { Box, LoadingContent, Wrapper } from './Authentication.style';
 import ErrorFallback from './components/ErrorFallback/ErrorFallback';
-import { TopBar, TopBarProps } from './components/TopBar/TopBar';
+import { TopBar } from './components/TopBar/TopBar';
 import { config } from './config';
-import { AuthenticationProvider, useAuthentication } from './context';
+import { AuthenticationProvider } from './context';
 
-type AuthenticationSubComponents = {
-  TopBar: React.FC<TopBarProps>;
+export type Props = {
+  children: React.ReactNode;
 };
 
-/*
- * The component that uses the AuthenticationProvider.
- * All the logic is on the Authentication
- */
-const Authentication: React.FC & AuthenticationSubComponents = ({ children }) => {
+export const onRedirectCallback = (appState: { targetUrl?: string }) => {
+  window.history.replaceState(
+    {},
+    document.title,
+    appState && appState.targetUrl ? appState.targetUrl : window.location.pathname
+  );
+};
+
+function Authentication(props: Props) {
+  const { selectedOrganization } = useOrganization();
+
   return (
     <ThemeProvider>
       {/*
@@ -30,73 +37,191 @@ const Authentication: React.FC & AuthenticationSubComponents = ({ children }) =>
           Sentry.captureException(error);
         }}
       >
-        <AuthenticationProvider>
-          <AuthenticationWrapper>{children}</AuthenticationWrapper>
-        </AuthenticationProvider>
+        <Auth0Provider
+          domain={config.domain || ''}
+          clientId={config.clientId || ''}
+          useRefreshTokens
+          cacheLocation={'localstorage'}
+          useRefreshTokensFallback
+          authorizationParams={{
+            audience: config.audience || 'orfium',
+            redirect_uri: window.location.origin,
+            organization: selectedOrganization?.org_id,
+            onRedirectCallback,
+          }}
+        >
+          <APIProvider>
+            <AuthenticationProvider>
+              <Auth0TopLevelSetup>{props.children}</Auth0TopLevelSetup>
+            </AuthenticationProvider>
+          </APIProvider>
+        </Auth0Provider>
       </ErrorBoundary>
     </ThemeProvider>
   );
-};
+}
+
 Authentication.TopBar = TopBar;
 
-/*
- * This is the main component that is wrapped on the authentication.
- */
-const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
-  const { isLoading, isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } =
-    useAuthentication();
+function Auth0TopLevelSetup(props: Props) {
+  const api = useAPI();
   const { organizations, setOrganizations, setSelectedOrganization, selectedOrganization } =
     useOrganization();
-  const [systemLoading, setSystemLoading] = useState<boolean | undefined>(undefined);
+  const {
+    isLoading,
+    isAuthenticated,
+    logout,
+    getAccessTokenSilently,
+    loginWithRedirect,
+    handleRedirectCallback,
+  } = useAuth0();
+  const handleError = useErrorHandler();
 
-  /**
-   * On initial load the useEffect checks if there are no loading at all and if both are false will try to get a valid token with organization
-   * Our steps before showing any content must be as follows
-   * - get the latest organizations for the specified productCode e.g. media-engagement-tracker
-   * - get a token and check if this token has no org_id in it.
-   * - in case of no organization id pass the first fetched organization from the above list and re-fetch a token
-   */
+  const params = new URLSearchParams(window.location.search);
+  const organization = params.get('organization') || selectedOrganization?.org_id;
+  const invitation = params.get('invitation');
+
   useEffect(() => {
-    if (!systemLoading && !isLoading) {
-      setSystemLoading(true);
-      (async () => {
-        // moving this will affect the app. If this is moved below when clearing the storage the app constantly refresh
-        const response = await getAccessTokenSilently();
-        // @TODO in the future we must define the org_id
-        const requestInstance = orfiumIdBaseInstance.createRequest<Organization[]>({
-          method: 'get',
-          url: '/memberships/',
-          params: config.productCode ? { product_code: config.productCode } : undefined,
-        });
-        const data = await requestInstance.request();
+    console.log('entered effect');
 
-        setOrganizations(data);
-        if (!selectedOrganization?.org_id && data?.length > 0) {
-          setSelectedOrganization(data[0]);
+    (async () => {
+      try {
+        console.log('start try');
+        if (window.location.search.includes('code=')) {
+          const { appState } = await handleRedirectCallback();
+          onRedirectCallback(appState);
         }
-        // if token doesn't have an organization and the user has available organizations
-        // set continue and set one
-        if (!response?.decodedToken?.org_id && data?.length) {
-          // IMPORTANT - when we are using `useRefreshTokens` and `cacheLocation` on Auth0 we can fetch just a token with organization through `getTokenSilently`
-          // we must use loginWithRedirect in that case thus this is happening here
-          // https://auth0.com/docs/secure/tokens/refresh-tokens/use-refresh-token-rotation
-          await loginWithRedirect({
+        if (window.location.search.includes('invitation=')) {
+          loginWithRedirect({
             authorizationParams: {
-              organization: selectedOrganization?.org_id || data[0].org_id,
+              organization: organization || undefined,
+              invitation: invitation || undefined,
             },
           });
-        } else {
-          // set false at all times
-          setSystemLoading(false);
+        }
+        console.log('end try');
+      } catch (error: unknown) {
+        console.log('start catch');
+        if (error instanceof Error) {
+          if (error.message === 'Invalid state') {
+            console.log('YOLO2');
+
+            loginWithRedirect({
+              authorizationParams: {
+                organization: organization || undefined,
+                invitation: invitation || undefined,
+              },
+            });
+          }
+        }
+
+        console.log('end catch');
+        handleError(error);
+      }
+    })();
+  }, [handleError, handleRedirectCallback, invitation, loginWithRedirect, organization]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      (async () => {
+        try {
+          console.log('try block');
+
+          console.log('before');
+          // moving this will affect the app. If this is moved below when clearing the storage the app constantly refresh
+          const token = await getAccessTokenSilently({
+            authorizationParams: {
+              organization: selectedOrganization?.org_id,
+            },
+          });
+          console.log('after');
+          const decodedToken = jwt_decode<{ org_id: string }>(token);
+
+          console.log({ decodedToken });
+
+          // @TODO in the future we must define the org_id
+          const organizations = api.createRequest<Organization[]>({
+            method: 'get',
+            url: '/memberships/',
+            params: config.productCode ? { product_code: config.productCode } : undefined,
+          });
+          const data = await organizations.request();
+          console.log(data);
+
+          setOrganizations(data);
+
+          // Store it in a temp var, because I am not sure if zustand sets synchronously
+          let selectedOrg = selectedOrganization;
+
+          if (!selectedOrg?.org_id && data?.length > 0) {
+            selectedOrg = data[0];
+            setSelectedOrganization(selectedOrg);
+          }
+          // if token doesn't have an organization and the user has available organizations
+          // set continue and set one
+          if (!decodedToken?.org_id && data?.length && selectedOrg) {
+            // IMPORTANT - when we are using `useRefreshTokens` and `cacheLocation` on Auth0 we can fetch just a token with organization through `getTokenSilently`
+            // we must use loginWithRedirect in that case thus this is happening here
+            // https://auth0.com/docs/secure/tokens/refresh-tokens/use-refresh-token-rotation
+            console.log('YOLO100');
+            await loginWithRedirect({
+              authorizationParams: {
+                organization: selectedOrg.org_id,
+              },
+            });
+          }
+          console.log('end try block');
+        } finally {
+          console.log('finally block');
         }
       })();
     }
-    // @NOTE selectedOrganization?.org_id, isLoading, systemLoading
-    // are missing on purpose from the deps as these are being updated from places where the organization id is being handled with refresh from auth0
-  }, [getAccessTokenSilently, loginWithRedirect, setOrganizations, setSelectedOrganization]);
+  }, [
+    api,
+    getAccessTokenSilently,
+    isLoading,
+    loginWithRedirect,
+    selectedOrganization,
+    setOrganizations,
+    setSelectedOrganization,
+  ]);
 
-  // when loading is true before navigation this is not showing anymore
-  if (systemLoading === undefined || systemLoading || isLoading || !isAuthenticated) {
+  useEffect(() => {
+    console.log('start 3rd effect');
+    const searchParams = new URL(window.location.href).searchParams;
+    if (!isLoading && !isAuthenticated && isAuthenticated !== undefined) {
+      const error = searchParams.get('error');
+
+      if (error === 'access_denied') {
+        const org = organizations[0];
+        setSelectedOrganization(org);
+        loginWithRedirect({
+          authorizationParams: {
+            organization: org?.org_id || undefined,
+            invitation: invitation || undefined,
+          },
+        });
+      } else {
+        loginWithRedirect({
+          authorizationParams: {
+            organization: organization || undefined,
+            invitation: invitation || undefined,
+          },
+        });
+      }
+    }
+    console.log('end 3rd effect');
+  }, [
+    isLoading,
+    isAuthenticated,
+    organizations,
+    setSelectedOrganization,
+    loginWithRedirect,
+    invitation,
+    organization,
+  ]);
+
+  if (isLoading) {
     return (
       <Wrapper data-testid={'orfium-auth-loading'}>
         <LoadingContent>
@@ -104,6 +229,10 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         </LoadingContent>
       </Wrapper>
     );
+  }
+
+  if (!isAuthenticated) {
+    throw Error('Not authenticated');
   }
 
   if (organizations.length === 0) {
@@ -140,7 +269,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
     );
   }
 
-  return <>{children}</>;
-};
+  return <>{props.children}</>;
+}
 
 export default Authentication;
