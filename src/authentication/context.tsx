@@ -6,7 +6,7 @@ import {
   RedirectLoginOptions,
 } from '@auth0/auth0-spa-js';
 import jwt_decode from 'jwt-decode';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { useErrorHandler } from 'react-error-boundary';
 
 import useOrganization from '../store/useOrganization';
@@ -143,6 +143,8 @@ const AuthenticationProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<Record<string, unknown>>();
   const [auth0Client, setAuth0Client] = useState<Auth0Client>();
   const [isLoading, setIsLoading] = useState(true);
+  // handleError is referentially stable, so it's safe to use as a dep in dep array
+  // https://github.com/bvaughn/react-error-boundary/blob/v3.1.4/src/index.tsx#L165C10-L165C18
   const handleError = useErrorHandler();
   const params = new URLSearchParams(window.location.search);
 
@@ -195,33 +197,39 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     })();
   }, []);
 
-  const loginWithRedirect = async (o: RedirectLoginOptions) => {
-    try {
-      const client = await getAuth0Client();
-      await client.loginWithRedirect(o);
-    } catch (error) {
-      return handleError(error);
-    }
-  };
-
-  const getAccessTokenSilently = async (opts?: GetTokenSilentlyOptions) => {
-    try {
-      const result = await getTokenSilently(opts);
-
-      return result;
-    } catch (error: any) {
-      if (error?.error === 'login_required' || error?.error === 'consent_required') {
-        return loginWithRedirect({
-          authorizationParams: {
-            organization: organization || undefined,
-            invitation: invitation || undefined,
-          },
-        });
+  const loginWithRedirect = useCallback(
+    async (o: RedirectLoginOptions) => {
+      try {
+        const client = await getAuth0Client();
+        await client.loginWithRedirect(o);
+      } catch (error) {
+        return handleError(error);
       }
+    },
+    [handleError]
+  );
 
-      handleError(error);
-    }
-  };
+  const getAccessTokenSilently = useCallback(
+    async (opts?: GetTokenSilentlyOptions) => {
+      try {
+        const result = await getTokenSilently(opts);
+
+        return result;
+      } catch (error: any) {
+        if (error?.error === 'login_required' || error?.error === 'consent_required') {
+          return loginWithRedirect({
+            authorizationParams: {
+              organization: organization || undefined,
+              invitation: invitation || undefined,
+            },
+          });
+        }
+
+        handleError(error);
+      }
+    },
+    [handleError, invitation, loginWithRedirect, organization]
+  );
 
   useEffect(() => {
     const searchParams = new URL(window.location.href).searchParams;
