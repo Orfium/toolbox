@@ -1,4 +1,4 @@
-import {
+import type {
   Auth0ClientOptions,
   GetTokenSilentlyOptions,
   RedirectLoginOptions,
@@ -53,7 +53,11 @@ export type AuthenticationContextProps = {
     token: string;
     decodedToken: DecodedTokenResponse | Record<string, never>;
   } | void>;
+  orfiumProducts: Product[] | null;
   user: User | undefined;
+  organizations: Organization[];
+  selectedOrganization: Organization | null;
+  switchOrganization: (organisation: Organization['org_id']) => void;
 };
 
 export type AuthenticationProviderProps = { overrides?: Auth0ClientOptions };

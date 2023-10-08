@@ -11,8 +11,8 @@ const useOrganization = () =>
     selectedOrganization,
   }));
 
+export * from './authentication';
 export * from './request';
 export * from './routing';
-export * from './authentication';
 export type { Organization };
 export { useOrganization };
