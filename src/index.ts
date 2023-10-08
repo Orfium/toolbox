@@ -1,4 +1,4 @@
-import { default as useOrganizationModule, Organization } from './store/useOrganization';
+import { default as useOrganizationModule, Organization } from './store/organizations';
 
 /*
  * Eliminate any other information from the useOrganization zustand state coming out

@@ -3,6 +3,8 @@ import {
   GetTokenSilentlyOptions,
   RedirectLoginOptions,
 } from '@auth0/auth0-spa-js';
+import type { Product } from '../hooks/useOrfiumProducts/types';
+import { Organization } from '../store/organizations';
 
 export type DecodedTokenResponse = {
   iss?: string;

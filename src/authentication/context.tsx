@@ -9,8 +9,9 @@ import jwt_decode from 'jwt-decode';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { useErrorHandler } from 'react-error-boundary';
 
-import useOrganization from '../store/useOrganization';
-import useRequestToken from '../store/useRequestToken';
+import { useOrfiumProducts } from '../hooks/useOrfiumProducts';
+import useOrganization from '../store/organizations';
+import useRequestToken from '../store/requestToken';
 import { config } from './config';
 import { AuthenticationContextProps } from './types';
 

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { orfiumIdBaseInstance } from '../request';
-import useOrganization, { Organization } from '../store/useOrganization';
+import useOrganization, { Organization } from '../store/organizations';
 import { Box, LoadingContent, Wrapper } from './Authentication.style';
 import ErrorFallback from './components/ErrorFallback/ErrorFallback';
 import { TopBar, TopBarProps } from './components/TopBar/TopBar';
