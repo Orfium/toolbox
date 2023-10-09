@@ -1,0 +1,23 @@
+---
+id: 'formatToGBP'
+title: 'formatToGBP'
+sidebar_label: 'formatToGBP'
+sidebar_position: 0
+---
+
+```ts
+import { formatToGBP } from '@orfium/toolbox';
+```
+
+## Description
+
+A function for formatting a number or number-formatted string specifically to GBP.
+
+## Parameters
+
+- `value: string | number` - If it's a string it must be expressing a number, otherwise you will get a runtime error
+- `options?: Omit<Intl.NumberFormatOptions, 'currency' | 'style'>` - An [`options`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#options) compliant object, excluding the properties `currency` and `style`
+
+## Return value
+
+Ƭ `string`

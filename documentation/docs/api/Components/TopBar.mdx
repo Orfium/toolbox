@@ -1,0 +1,27 @@
+---
+id: 'TopBar'
+title: 'TopBar'
+sidebar_label: 'TopBar'
+sidebar_position: 2
+---
+
+import Type from '../_type-definitions/TopBarProps.md';
+
+```ts
+import { TopBar } from '@orfium/toolbox';
+```
+
+## Description
+
+A UI component that holds other UI elements such as the user menu on the right and an optional utility section on the
+left. Read more [here](/docs/tutorials/Installation%20and%20Usage/UI/Top%20Bar%20Component).
+
+The component will display whatever you pass down as a value to the `utilitySection` prop, unless some other component
+is making use of the [`useTopBarUtilitySection`](../hooks/useTopBarUtilitySection) hook at the same time. In that case
+the value passed to the hook will take precedence over the value of the `utilitySection` prop.
+
+## Props
+
+Ƭ [`TopBarProps`](../types/TopBarProps)
+
+<Type />

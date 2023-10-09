@@ -14,7 +14,7 @@ class CustomError extends Error {
 import { ErrorBoundary, useErrorHandler } from 'react-error-boundary';
 
 import {
-  Auth0Client as mockedCreateAuth0,
+  createAuth0Client as mockedCreateAuth0,
   fakeTokenData,
   FAKE_TOKEN,
   getNewFakeToken,
@@ -23,14 +23,15 @@ import {
   handleRedirectCallback as mockedHandleRedirectCallback,
   isAuthenticated,
   loginWithRedirect,
-  logout,
 } from '../../__mocks__/@auth0/auth0-spa-js';
-import useOrganization from '../store/useOrganization';
-import useRequestToken from '../store/useRequestToken';
+import { orfiumIdBaseInstance } from '../request';
+import MockRequest from '../request/mock';
+import useOrganization from '../store/organizations';
+import useRequestToken from '../store/requestToken';
 import {
   AuthenticationProvider,
   client,
-  defaultContextValues,
+  defaultAuthenticationContextValues,
   getAuth0Client,
   getTokenSilently,
   logoutAuth,
@@ -82,9 +83,28 @@ const TestingComponent = () => {
 };
 
 describe('Context', () => {
+  const apiInstance = orfiumIdBaseInstance.instance;
+  const mock: MockRequest = new MockRequest(apiInstance);
+
   beforeEach(() => {
+    mock.onGet('/products/').reply(200, [
+      {
+        name: 'string',
+        organization_usage: 'string',
+        client_metadata: {
+          product_code: 'string',
+        },
+        logo_url: 'string',
+        login_url: 'string',
+      },
+    ]);
+    mockedGetTokenSilently.mockReset();
+  });
+
+  afterEach(() => {
     // clear all mocks and mocked values
     jest.clearAllMocks();
+    mock.reset();
     mockedGetTokenSilently.mockReset();
     getUser.mockReset();
     loginWithRedirect.mockReset();
@@ -188,15 +208,16 @@ describe('Context', () => {
       // implement testing data
       setToken(testToken);
       setOrganizations(organizationList);
-      setSelectedOrganization(organizationList[0]);
+      setSelectedOrganization(organizationList[0].org_id);
       await logoutAuth();
 
       const token = useRequestToken.getState().token;
-      const { organizations, selectedOrganization } = useOrganization.getState();
+      const { organizations, organizationsList, selectedOrganization } = useOrganization.getState();
 
       expect(token).toBe(undefined);
       expect(organizations).toStrictEqual(null);
-      expect(selectedOrganization).toStrictEqual(null);
+      expect(organizationsList).toStrictEqual(null);
+      expect(selectedOrganization).toBe(null);
     });
   });
 
@@ -212,21 +233,25 @@ describe('Context', () => {
     test('with cached results', async () => {
       const NEW_FAKE_EXPIRED_TOKEN = getNewFakeToken();
       const setToken = useRequestToken.getState().setToken;
+      const setOrganizations = useOrganization.getState().setOrganizations;
       const setSelectedOrganization = useOrganization.getState().setSelectedOrganization;
       setToken(NEW_FAKE_EXPIRED_TOKEN);
-      setSelectedOrganization({
-        org_id: 'org_WYZLEMyTm2xEbnbn',
-        display_name: 'test',
-        name: 'test',
-        can_administrate: true,
-        metadata: {
-          type: 'test',
-          product_codes: 'test',
+      setOrganizations([
+        {
+          org_id: 'org_WYZLEMyTm2xEbnbn',
+          display_name: 'test',
+          name: 'test',
+          can_administrate: true,
+          metadata: {
+            type: 'test',
+            product_codes: 'test',
+          },
+          branding: {
+            logo_url: 'test',
+          },
         },
-        branding: {
-          logo_url: 'test',
-        },
-      });
+      ]);
+      setSelectedOrganization('org_WYZLEMyTm2xEbnbn');
 
       const { token, decodedToken } = await getTokenSilently();
 
@@ -251,7 +276,6 @@ describe('Context', () => {
     isAuthenticated.mockResolvedValue(true);
     getUser.mockResolvedValue({
       name: 'John Doe',
-      updated_at: new Date().toDateString(),
     });
 
     const { findByText, getByTestId } = render(
@@ -264,23 +288,50 @@ describe('Context', () => {
     await waitFor(() => expect(getByTestId('isAuthenticated').innerHTML).toBe('true'));
   });
 
-  test('logout when access token fails', async () => {
-    const errorMsg = 'login_required';
+  describe('AuthenticationProvider calls loginWithRedirect success/error', () => {
+    test('loginWithRedirect when access token fails', async () => {
+      const errorMsg = 'login_required';
 
-    mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, errorMsg));
+      mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, errorMsg));
 
-    render(
-      // @ts-ignore
-      <ErrorBoundary
-        FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
-      >
-        <AuthenticationProvider>
-          <TestingComponent />
-        </AuthenticationProvider>
-      </ErrorBoundary>
-    );
+      render(
+        // @ts-ignore
+        <ErrorBoundary
+          FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
+        >
+          <AuthenticationProvider>
+            <TestingComponent />
+          </AuthenticationProvider>
+        </ErrorBoundary>
+      );
 
-    await waitFor(() => expect(logout).toBeCalledTimes(1));
+      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+    });
+
+    test('loginWithRedirect when access token fails and handle an error', async () => {
+      const errorMsg = 'login_with_popup_failed';
+
+      mockedGetTokenSilently.mockRejectedValue(new CustomError('login_required', 'login_required'));
+      loginWithRedirect.mockImplementation(() => {
+        throw new Error(errorMsg);
+      });
+
+      render(
+        // @ts-ignore
+        <ErrorBoundary
+          FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
+        >
+          <AuthenticationProvider>
+            <TestingComponent />
+          </AuthenticationProvider>
+        </ErrorBoundary>
+      );
+
+      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+
+      await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
+      await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
+    }, 10000);
   });
 
   test('invitation redirect', async () => {
@@ -346,7 +397,7 @@ describe('Context', () => {
 
     // implement testing data
     setOrganizations(organizationList);
-    setSelectedOrganization(organizationList[1]);
+    setSelectedOrganization(organizationList[1].org_id);
     Object.defineProperty(window, 'location', {
       value: new URL(`http://localhost:3000/?error=access_denied&error_description=whatever`),
       writable: true,
@@ -362,17 +413,23 @@ describe('Context', () => {
       );
     });
 
-    await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('true'));
-    await waitFor(() => expect(logout).toBeCalledTimes(1));
+    await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('false'));
+    await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+    expect(loginWithRedirect).toBeCalledWith({
+      authorizationParams: {
+        organization: organizationList[0].org_id,
+        invitation: undefined,
+      },
+    });
   }, 10000);
 
   test('Context default functions', async () => {
-    expect(await defaultContextValues.getAccessTokenSilently()).toEqual({
+    expect(await defaultAuthenticationContextValues.getAccessTokenSilently()).toEqual({
       token: '',
       decodedToken: {},
     });
-    expect(await defaultContextValues.logout()).toBe('logged out');
-    expect(await defaultContextValues.loginWithRedirect()).toBe(undefined);
+    expect(await defaultAuthenticationContextValues.logout()).toBe('logged out');
+    expect(await defaultAuthenticationContextValues.loginWithRedirect()).toBe(undefined);
   });
 
   test('getAuth0Client failed process', async () => {
@@ -383,7 +440,7 @@ describe('Context', () => {
     // @ts-ignore
     client = undefined;
     try {
-      getAuth0Client();
+      await getAuth0Client();
     } catch (e) {
       expect(e).toEqual(new Error(`getAuth0Client Error: Error`));
     }
@@ -402,7 +459,7 @@ describe('Context', () => {
     try {
       await logoutAuth();
     } catch (e) {
-      expect(e).toEqual(new Error(`logoutAuth Error: client is not defined`));
+      expect(e).toEqual(new Error(`client_1.logout is not a function`));
     }
   });
 });
