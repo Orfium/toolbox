@@ -1,6 +1,6 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import jwtDecode from 'jwt-decode';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Auth0 custom error simulator. This extends a regular Error to match Auth0 Error.
 class CustomError extends Error {
@@ -13,6 +13,7 @@ class CustomError extends Error {
 
 import { ErrorBoundary, useErrorHandler } from 'react-error-boundary';
 
+import { QueryClient, QueryClientProvider } from 'react-query';
 import {
   createAuth0Client as mockedCreateAuth0,
   fakeTokenData,
@@ -23,10 +24,11 @@ import {
   handleRedirectCallback as mockedHandleRedirectCallback,
   isAuthenticated,
   loginWithRedirect,
-  // @ts-ignore
 } from '../../__mocks__/@auth0/auth0-spa-js';
-import useOrganization from '../store/useOrganization';
-import useRequestToken from '../store/useRequestToken';
+import { orfiumIdBaseInstance } from '../request';
+import MockRequest from '../request/mock';
+import useOrganization from '../store/organizations';
+import useRequestToken from '../store/requestToken';
 import {
   AuthenticationProvider,
   client,
@@ -82,9 +84,30 @@ const TestingComponent = () => {
 };
 
 describe('Context', () => {
+  const apiInstance = orfiumIdBaseInstance.instance;
+  const mock: MockRequest = new MockRequest(apiInstance);
+  let queryClient: QueryClient;
+
   beforeEach(() => {
+    queryClient = new QueryClient();
+    mock.onGet('/products/').reply(200, [
+      {
+        name: 'string',
+        organization_usage: 'string',
+        client_metadata: {
+          product_code: 'string',
+        },
+        logo_url: 'string',
+        login_url: 'string',
+      },
+    ]);
+    mockedGetTokenSilently.mockReset();
+  });
+
+  afterEach(() => {
     // clear all mocks and mocked values
     jest.clearAllMocks();
+    mock.reset();
     mockedGetTokenSilently.mockReset();
     getUser.mockReset();
     loginWithRedirect.mockReset();
@@ -113,9 +136,11 @@ describe('Context', () => {
       window.history.pushState({}, '', '?code=test');
 
       render(
-        <AuthenticationProvider>
-          <></>
-        </AuthenticationProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthenticationProvider>
+            <></>
+          </AuthenticationProvider>
+        </QueryClientProvider>
       );
 
       await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1));
@@ -132,9 +157,11 @@ describe('Context', () => {
         <ErrorBoundary
           FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
         >
-          <AuthenticationProvider>
-            <TestingComponent />
-          </AuthenticationProvider>
+          <QueryClientProvider client={queryClient}>
+            <AuthenticationProvider>
+              <TestingComponent />
+            </AuthenticationProvider>
+          </QueryClientProvider>
         </ErrorBoundary>
       );
 
@@ -154,9 +181,11 @@ describe('Context', () => {
         <ErrorBoundary
           FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
         >
-          <AuthenticationProvider>
-            <TestingComponent />
-          </AuthenticationProvider>
+          <QueryClientProvider client={queryClient}>
+            <AuthenticationProvider>
+              <TestingComponent />
+            </AuthenticationProvider>
+          </QueryClientProvider>
         </ErrorBoundary>
       );
 
@@ -188,15 +217,16 @@ describe('Context', () => {
       // implement testing data
       setToken(testToken);
       setOrganizations(organizationList);
-      setSelectedOrganization(organizationList[0]);
+      setSelectedOrganization(organizationList[0].org_id);
       await logoutAuth();
 
       const token = useRequestToken.getState().token;
-      const { organizations, selectedOrganization } = useOrganization.getState();
+      const { organizations, organizationsList, selectedOrganization } = useOrganization.getState();
 
       expect(token).toBe(undefined);
-      expect(organizations).toStrictEqual([]);
-      expect(selectedOrganization).toBe(undefined);
+      expect(organizations).toStrictEqual(null);
+      expect(organizationsList).toStrictEqual(null);
+      expect(selectedOrganization).toBe(null);
     });
   });
 
@@ -212,21 +242,25 @@ describe('Context', () => {
     test('with cached results', async () => {
       const NEW_FAKE_EXPIRED_TOKEN = getNewFakeToken();
       const setToken = useRequestToken.getState().setToken;
+      const setOrganizations = useOrganization.getState().setOrganizations;
       const setSelectedOrganization = useOrganization.getState().setSelectedOrganization;
       setToken(NEW_FAKE_EXPIRED_TOKEN);
-      setSelectedOrganization({
-        org_id: 'org_WYZLEMyTm2xEbnbn',
-        display_name: 'test',
-        name: 'test',
-        can_administrate: true,
-        metadata: {
-          type: 'test',
-          product_codes: 'test',
+      setOrganizations([
+        {
+          org_id: 'org_WYZLEMyTm2xEbnbn',
+          display_name: 'test',
+          name: 'test',
+          can_administrate: true,
+          metadata: {
+            type: 'test',
+            product_codes: 'test',
+          },
+          branding: {
+            logo_url: 'test',
+          },
         },
-        branding: {
-          logo_url: 'test',
-        },
-      });
+      ]);
+      setSelectedOrganization('org_WYZLEMyTm2xEbnbn');
 
       const { token, decodedToken } = await getTokenSilently();
 
@@ -254,9 +288,11 @@ describe('Context', () => {
     });
 
     const { findByText, getByTestId } = render(
-      <AuthenticationProvider>
-        <TestingComponentSimple />
-      </AuthenticationProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthenticationProvider>
+          <TestingComponentSimple />
+        </AuthenticationProvider>
+      </QueryClientProvider>
     );
 
     await waitFor(() => expect(findByText('John Doe')).toBeTruthy());
@@ -274,9 +310,11 @@ describe('Context', () => {
         <ErrorBoundary
           FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
         >
-          <AuthenticationProvider>
-            <TestingComponent />
-          </AuthenticationProvider>
+          <QueryClientProvider client={queryClient}>
+            <AuthenticationProvider>
+              <TestingComponent />
+            </AuthenticationProvider>
+          </QueryClientProvider>
         </ErrorBoundary>
       );
 
@@ -296,9 +334,11 @@ describe('Context', () => {
         <ErrorBoundary
           FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
         >
-          <AuthenticationProvider>
-            <TestingComponent />
-          </AuthenticationProvider>
+          <QueryClientProvider client={queryClient}>
+            <AuthenticationProvider>
+              <TestingComponent />
+            </AuthenticationProvider>
+          </QueryClientProvider>
         </ErrorBoundary>
       );
 
@@ -324,9 +364,11 @@ describe('Context', () => {
 
     await act(async () => {
       render(
-        <AuthenticationProvider>
-          <TestingComponentSimple />
-        </AuthenticationProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthenticationProvider>
+            <TestingComponentSimple />
+          </AuthenticationProvider>
+        </QueryClientProvider>
       );
     });
 
@@ -372,7 +414,7 @@ describe('Context', () => {
 
     // implement testing data
     setOrganizations(organizationList);
-    setSelectedOrganization(organizationList[1]);
+    setSelectedOrganization(organizationList[1].org_id);
     Object.defineProperty(window, 'location', {
       value: new URL(`http://localhost:3000/?error=access_denied&error_description=whatever`),
       writable: true,
@@ -382,9 +424,11 @@ describe('Context', () => {
 
     await act(async () => {
       render(
-        <AuthenticationProvider>
-          <TestingComponentSimple />
-        </AuthenticationProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthenticationProvider>
+            <TestingComponentSimple />
+          </AuthenticationProvider>
+        </QueryClientProvider>
       );
     });
 

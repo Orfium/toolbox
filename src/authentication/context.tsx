@@ -6,11 +6,12 @@ import {
   RedirectLoginOptions,
 } from '@auth0/auth0-spa-js';
 import jwt_decode from 'jwt-decode';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { useErrorHandler } from 'react-error-boundary';
 
-import useOrganization from '../store/useOrganization';
-import useRequestToken from '../store/useRequestToken';
+import { useOrfiumProducts } from '../hooks/useOrfiumProducts';
+import useOrganization from '../store/organizations';
+import useRequestToken from '../store/requestToken';
 import { config } from './config';
 import { AuthenticationContextProps } from './types';
 
@@ -39,6 +40,10 @@ export const defaultContextValues: AuthenticationContextProps = {
   isAuthenticated: false,
   isLoading: false,
   user: undefined,
+  orfiumProducts: null,
+  organizations: [],
+  selectedOrganization: null,
+  switchOrganization: (__x) => {},
   loginWithRedirect: () => Promise.resolve(),
   logout: () => Promise.resolve('logged out'),
   getAccessTokenSilently: () => Promise.resolve({ token: '', decodedToken: {} }),
@@ -143,14 +148,26 @@ const AuthenticationProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<Record<string, unknown>>();
   const [auth0Client, setAuth0Client] = useState<Auth0Client>();
   const [isLoading, setIsLoading] = useState(true);
+  // const [products, setProducts] = useState<Product[] | null>(null);
+  // handleError is referentially stable, so it's safe to use as a dep in dep array
+  // https://github.com/bvaughn/react-error-boundary/blob/v3.1.4/src/index.tsx#L165C10-L165C18
   const handleError = useErrorHandler();
   const params = new URLSearchParams(window.location.search);
 
   const selectedOrganization = useOrganization((state) => state.selectedOrganization);
   const setSelectedOrganization = useOrganization((state) => state.setSelectedOrganization);
-  const organizations = useOrganization((state) => state.organizations);
+  const organizationsDict = useOrganization((state) => state.organizations);
+  const organizationsList = useOrganization((state) => state.organizationsList);
   const organization = params.get('organization') || selectedOrganization?.org_id;
   const invitation = params.get('invitation');
+
+  const organizations = useMemo(() => {
+    if (organizationsDict && organizationsList) {
+      return organizationsList.map((x) => organizationsDict[x]);
+    }
+
+    return [];
+  }, [organizationsDict, organizationsList]);
 
   useEffect(() => {
     (async () => {
@@ -195,33 +212,39 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     })();
   }, []);
 
-  const loginWithRedirect = async (o: RedirectLoginOptions) => {
-    try {
-      const client = await getAuth0Client();
-      await client.loginWithRedirect(o);
-    } catch (error) {
-      return handleError(error);
-    }
-  };
-
-  const getAccessTokenSilently = async (opts?: GetTokenSilentlyOptions) => {
-    try {
-      const result = await getTokenSilently(opts);
-
-      return result;
-    } catch (error: any) {
-      if (error?.error === 'login_required' || error?.error === 'consent_required') {
-        return loginWithRedirect({
-          authorizationParams: {
-            organization: organization || undefined,
-            invitation: invitation || undefined,
-          },
-        });
+  const loginWithRedirect = useCallback(
+    async (o: RedirectLoginOptions) => {
+      try {
+        const client = await getAuth0Client();
+        await client.loginWithRedirect(o);
+      } catch (error) {
+        return handleError(error);
       }
+    },
+    [handleError]
+  );
 
-      handleError(error);
-    }
-  };
+  const getAccessTokenSilently = useCallback(
+    async (opts?: GetTokenSilentlyOptions) => {
+      try {
+        const result = await getTokenSilently(opts);
+
+        return result;
+      } catch (error: any) {
+        if (error?.error === 'login_required' || error?.error === 'consent_required') {
+          return loginWithRedirect({
+            authorizationParams: {
+              organization: organization || undefined,
+              invitation: invitation || undefined,
+            },
+          });
+        }
+
+        handleError(error);
+      }
+    },
+    [handleError, invitation, loginWithRedirect, organization]
+  );
 
   useEffect(() => {
     const searchParams = new URL(window.location.href).searchParams;
@@ -230,7 +253,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
 
       if (error === 'access_denied') {
         const org = organizations[0];
-        setSelectedOrganization(org);
+        setSelectedOrganization(org.org_id);
         loginWithRedirect({
           authorizationParams: {
             organization: org?.org_id || undefined,
@@ -248,6 +271,22 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     }
   }, [auth0Client, isLoading, isAuthenticated]);
 
+  const switchOrganization = useCallback(
+    async function (orgID) {
+      const client = await getAuth0Client();
+      await client.logout({ openUrl: false });
+      await client.loginWithRedirect({
+        authorizationParams: {
+          organization: orgID,
+        },
+      });
+      setSelectedOrganization(orgID);
+    },
+    [setSelectedOrganization]
+  );
+
+  const { data: orfiumProducts = null } = useOrfiumProducts(selectedOrganization?.org_id);
+
   return (
     <AuthenticationContext.Provider
       value={{
@@ -256,6 +295,10 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         loginWithRedirect,
         logout: logoutAuth,
         getAccessTokenSilently: (o?: GetTokenSilentlyOptions) => getAccessTokenSilently(o),
+        orfiumProducts,
+        organizations,
+        selectedOrganization,
+        switchOrganization,
         user,
       }}
     >
