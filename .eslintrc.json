@@ -31,6 +31,9 @@
     "react/no-render-return-value": 0,
     /* JSX rules */
     "react/jsx-key": "error",
+    /* Since we are using React 17+ we no longer need these */
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
     /* eslint basic rules */
     "padding-line-between-statements": [
       "error",
@@ -56,27 +59,33 @@
     //    "no-unused-expressions": "warn",
     "no-unused-vars": "off",
     "no-debugger": "warn",
-    "no-console": "warn",
-
-    /* Typescript rules */
-    "@typescript-eslint/no-unused-expressions": "warn",
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
-      {
-        "args": "all",
-        "argsIgnorePattern": "^__",
-        "varsIgnorePattern": "^__|React"
-      }
-    ],
-    "@typescript-eslint/ban-ts-ignore": 0,
-    "@typescript-eslint/no-empty-function": 0,
-    "@typescript-eslint/camelcase": 0,
-    "@typescript-eslint/prefer-interface": 0,
-    "@typescript-eslint/no-inferrable-types": 0,
-    "@typescript-eslint/explicit-member-accessibility": 0,
-    "@typescript-eslint/explicit-function-return-type": 0,
-    "@typescript-eslint/ban-ts-comment": "warn"
+    "no-console": "warn"
   },
+  "overrides": [
+    /* Typescript rules */
+    {
+      "files": ["**/*.ts?(x)"],
+      "rules": {
+        "@typescript-eslint/no-unused-expressions": "warn",
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "args": "all",
+            "argsIgnorePattern": "^__",
+            "varsIgnorePattern": "^__|React"
+          }
+        ],
+        "@typescript-eslint/ban-ts-ignore": 0,
+        "@typescript-eslint/no-empty-function": 0,
+        "@typescript-eslint/camelcase": 0,
+        "@typescript-eslint/prefer-interface": 0,
+        "@typescript-eslint/no-inferrable-types": 0,
+        "@typescript-eslint/explicit-member-accessibility": 0,
+        "@typescript-eslint/explicit-function-return-type": 0,
+        "@typescript-eslint/ban-ts-comment": "warn"
+      }
+    }
+  ],
   "settings": {
     "react": {
       "pragma": "React",

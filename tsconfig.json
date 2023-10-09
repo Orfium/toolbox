@@ -3,13 +3,7 @@
     "outDir": "dist",
     "module": "esnext",
     "target": "es5",
-    "lib": [
-      "es5",
-      "es6",
-      "es7",
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es5", "es6", "es7", "es2017", "dom"],
     "sourceMap": true,
     "skipLibCheck": true,
     "allowJs": true,
@@ -17,7 +11,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "strict": true,
-    "rootDir": "./src",
+    "rootDir": "./",
     "baseUrl": "./src",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -29,20 +23,12 @@
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "types": [
-      "node",
-      "jest",
-      "@testing-library/jest-dom"
-    ],
+    "types": ["node", "jest", "@testing-library/jest-dom"],
     "jsxImportSource": "react",
-    "declarationDir": "./dist/types",
+    "declarationDir": "./dist/types"
   },
-  "include": [
-    "./src/*",
-    "./src/**/*"
-  ],
+  "include": ["src", "setup-jest.ts"],
   "exclude": [
-    "**/node_modules/**/",
     "node_modules",
     "build",
     "dist",
@@ -54,8 +40,6 @@
     "**/__snapshots__",
     "**/*.stories.tsx",
     "**/*.stories.mdx",
-    "**/*.test.ts",
-    "**/*.test.tsx",
     "__mocks__",
     "./jest.config.js"
   ]
