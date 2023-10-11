@@ -1,8 +1,7 @@
 import { Button } from '@orfium/ictinus';
-
+import ErrorCoverImg from '../../assets/error_cover.svg';
 //* using logoutAuth because error fallback is outside of providers */
-import ErrorCoverImg from '../../../assets/error_cover.svg';
-import { logoutAuth } from '../../context';
+import { logoutAuth } from '../../authentication/context';
 import {
   Box,
   ContentWrapper,
@@ -11,7 +10,7 @@ import {
   TechInfoTitle,
   TechInfoWrapper,
   Wrapper,
-} from './ErrorFallback.style';
+} from './ErrorFallback.styles';
 
 const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
   return (

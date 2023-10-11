@@ -1,9 +1,17 @@
-import { Icon, List, useTheme } from '@orfium/ictinus';
-import * as React from 'react';
-
+import { List, useTheme } from '@orfium/ictinus';
 import ClickAwayListener from '@orfium/ictinus/dist/components/utils/ClickAwayListener';
 import { MenuPositionAllowed } from '@orfium/ictinus/dist/components/utils/DropdownOptions';
-import { Button, Option, Tag, Wrapper } from './Menu.style';
+import { ReactNode, useState } from 'react';
+import FlippableArrow from '../../../FlippableArrow';
+import {
+  Button,
+  ButtonContentWrapper,
+  ButtonTextWrapper,
+  ChevronWrapper,
+  Option,
+  Tag,
+  Wrapper,
+} from './ClientSelector.styles';
 
 export type Props = {
   /** Items that are being declared as menu options */
@@ -11,9 +19,9 @@ export type Props = {
   /** A callback that is being triggered when an items has been clicked */
   onSelect: (option: string) => void;
   /** The text of the button to show - defaults to "More" */
-  buttonText: React.ReactNode;
+  buttonText: ReactNode;
   /** The text of the tag to show - defaults to undefined */
-  tagText: React.ReactNode;
+  tagText: ReactNode;
   /** Define if the button is in disabled state */
   disabled?: boolean;
   /** Menu position when open */
@@ -24,7 +32,7 @@ export type TestProps = {
   dataTestId?: string;
 };
 
-const Menu: React.FC<Props & TestProps> = (props) => {
+function ClientSelector(props: Props & TestProps) {
   const {
     items,
     disabled,
@@ -34,23 +42,25 @@ const Menu: React.FC<Props & TestProps> = (props) => {
     dataTestId,
     tagText,
   } = props;
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const theme = useTheme();
   const textColor = theme.utils.getColor('blue', 600);
-  const backgroundColor = theme.utils.getColor('lightGrey', 100);
 
   return (
     <ClickAwayListener onClick={() => setOpen(false)}>
       <Wrapper data-testid={dataTestId}>
         <Button disabled={disabled} textColor={textColor} onClick={() => setOpen((open) => !open)}>
-          <span>{buttonText}</span>{' '}
-          <Icon name={open ? 'triangleUp' : 'triangleDown'} size={11} color={textColor} />
+          <ButtonContentWrapper>
+            <ButtonTextWrapper>
+              <span>{buttonText}</span>
+              {tagText && <Tag textColor={textColor}>{tagText}</Tag>}
+            </ButtonTextWrapper>
+            <ChevronWrapper>
+              <FlippableArrow expanded={open} color={textColor} size={11} />
+            </ChevronWrapper>
+          </ButtonContentWrapper>
         </Button>
-        {tagText && (
-          <Tag backgroundColor={backgroundColor} textColor={textColor}>
-            {tagText}
-          </Tag>
-        )}
+
         {open && (
           <Option menuPosition={menuPosition}>
             {items && (
@@ -68,6 +78,6 @@ const Menu: React.FC<Props & TestProps> = (props) => {
       </Wrapper>
     </ClickAwayListener>
   );
-};
+}
 
-export default Menu;
+export default ClientSelector;
