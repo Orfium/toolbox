@@ -1,11 +1,12 @@
 import { cleanup, render, waitFor } from '@testing-library/react';
+import React from 'react';
 
-import { QueryClient, QueryClientProvider } from 'react-query';
 import {
   getNewFakeToken,
   getTokenSilently,
   isAuthenticated,
   loginWithRedirect,
+  // @ts-ignore
 } from '../../__mocks__/@auth0/auth0-spa-js';
 import { orfiumIdBaseInstance } from '../request';
 import MockRequest from '../request/mock';
@@ -15,41 +16,23 @@ const TestComp = () => {
 };
 
 describe('Authentication: ', () => {
+  let mock: MockRequest;
   const apiInstance = orfiumIdBaseInstance.instance;
-  const mock: MockRequest = new MockRequest(apiInstance);
-  let queryClient: QueryClient;
 
   beforeEach(() => {
-    queryClient = new QueryClient();
-    mock.onGet('/products/').reply(200, [
-      {
-        name: 'string',
-        organization_usage: 'string',
-        client_metadata: {
-          product_code: 'string',
-        },
-        logo_url: 'string',
-        login_url: 'string',
-      },
-    ]);
+    mock = new MockRequest(apiInstance);
   });
 
   afterEach(() => {
-    // clear all mocks and mocked values
     jest.clearAllMocks();
     cleanup();
-    mock.reset();
   });
-
-  afterEach(() => {});
 
   it('renders without crashing', () => {
     render(
-      <QueryClientProvider client={queryClient}>
-        <AuthenticationProvider>
-          <TestComp />
-        </AuthenticationProvider>
-      </QueryClientProvider>
+      <AuthenticationProvider>
+        <TestComp />
+      </AuthenticationProvider>
     );
   });
 
@@ -59,11 +42,9 @@ describe('Authentication: ', () => {
     mock.onGet('/memberships/').reply(200, [{ org_id: 'a' }]);
 
     const { findByTestId } = render(
-      <QueryClientProvider client={queryClient}>
-        <AuthenticationProvider>
-          <TestComp />
-        </AuthenticationProvider>
-      </QueryClientProvider>
+      <AuthenticationProvider>
+        <TestComp />
+      </AuthenticationProvider>
     );
 
     expect(await findByTestId('orfium-auth-loading')).toBeTruthy();
@@ -77,11 +58,9 @@ describe('Authentication: ', () => {
     mock.onGet('/memberships/').replyOnce(200, []);
 
     render(
-      <QueryClientProvider client={queryClient}>
-        <AuthenticationProvider>
-          <TestComp />
-        </AuthenticationProvider>
-      </QueryClientProvider>
+      <AuthenticationProvider>
+        <TestComp />
+      </AuthenticationProvider>
     );
 
     await waitFor(() => expect(loginWithRedirect).toHaveBeenCalled());
@@ -91,11 +70,9 @@ describe('Authentication: ', () => {
     getTokenSilently.mockResolvedValue(getNewFakeToken());
     isAuthenticated.mockResolvedValue(true);
     const { findByTestId } = render(
-      <QueryClientProvider client={queryClient}>
-        <AuthenticationProvider>
-          <TestComp />
-        </AuthenticationProvider>
-      </QueryClientProvider>
+      <AuthenticationProvider>
+        <TestComp />
+      </AuthenticationProvider>
     );
     expect(await findByTestId('orfium-auth-loading')).toBeTruthy();
   });
@@ -106,11 +83,9 @@ describe('Authentication: ', () => {
     mock.onGet('/memberships/').replyOnce(200, []);
 
     const { findByTestId } = render(
-      <QueryClientProvider client={queryClient}>
-        <AuthenticationProvider>
-          <TestComp />
-        </AuthenticationProvider>
-      </QueryClientProvider>
+      <AuthenticationProvider>
+        <TestComp />
+      </AuthenticationProvider>
     );
 
     expect(await findByTestId('orfium-auth-loading')).toBeTruthy();

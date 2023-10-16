@@ -2,38 +2,23 @@ import { Menu, TopNavBar } from '@orfium/ictinus';
 import { TopAppBarProps } from '@orfium/ictinus/dist/components/TopAppBar/TopAppBar.types';
 import React, { memo } from 'react';
 
-import { Organization } from '../../../store/organizations';
-import { useAuthentication } from '../../context';
-import { User } from '../../types';
+import useOrganization from '../../../store/useOrganization';
+import { getAuth0Client, useAuthentication } from '../../context';
 
 export type TopBarProps = {
   logoIcon: JSX.Element;
   userMenu?: never;
 } & Omit<TopAppBarProps, 'logoIcon' | 'userMenu'>;
 
-type InjectedProps = {
-  user: User | undefined;
-  logout: () => void;
-  switchOrganization: (x: string) => void;
-  organizations: Organization[];
-  selectedOrganization: Organization | null;
-};
-
 /*
  * The component to represent all the information that is coming from the SSO
  * Based on Ictinus component
  */
-export const TopBarWithInjectedProps: React.FC<TopBarProps & InjectedProps> = memo(
-  ({
-    logoIcon,
-    onMenuIconClick,
-    additionalTools,
-    user,
-    logout,
-    switchOrganization,
-    organizations,
-    selectedOrganization,
-  }) => {
+export const TopBar: React.FC<TopBarProps> = memo(
+  ({ logoIcon, onMenuIconClick, additionalTools }) => {
+    const { user, logout } = useAuthentication();
+    const { organizations, setSelectedOrganization, selectedOrganization } = useOrganization();
+
     const userConfig = {
       items: ['Logout'],
       userName: `${user?.name}`,
@@ -67,7 +52,14 @@ export const TopBarWithInjectedProps: React.FC<TopBarProps & InjectedProps> = me
               onSelect={async (option: string) => {
                 const foundOrg = organizations.find((org) => org.display_name === option);
                 if (foundOrg) {
-                  switchOrganization(foundOrg.org_id);
+                  const client = await getAuth0Client();
+                  await client.logout({ openUrl: false });
+                  await client.loginWithRedirect({
+                    authorizationParams: {
+                      organization: foundOrg.org_id,
+                    },
+                  });
+                  setSelectedOrganization(foundOrg);
                 }
               }}
               buttonText={selectedOrganization?.display_name}
@@ -81,22 +73,4 @@ export const TopBarWithInjectedProps: React.FC<TopBarProps & InjectedProps> = me
     );
   }
 );
-TopBarWithInjectedProps.displayName = 'TopBarWithInjectedProps';
-
-export function TopBar({ logoIcon, onMenuIconClick, additionalTools }: TopBarProps) {
-  const { user, logout, switchOrganization, organizations, selectedOrganization } =
-    useAuthentication();
-
-  return (
-    <TopBarWithInjectedProps
-      logoIcon={logoIcon}
-      onMenuIconClick={onMenuIconClick}
-      additionalTools={additionalTools}
-      user={user}
-      logout={logout}
-      switchOrganization={switchOrganization}
-      organizations={organizations}
-      selectedOrganization={selectedOrganization}
-    />
-  );
-}
+TopBar.displayName = 'TopBar';
