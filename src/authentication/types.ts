@@ -1,10 +1,8 @@
-import type {
+import {
   Auth0ClientOptions,
   GetTokenSilentlyOptions,
   RedirectLoginOptions,
 } from '@auth0/auth0-spa-js';
-import type { Product } from '../hooks/useOrfiumProducts/types';
-import { Organization } from '../store/organizations';
 
 export type DecodedTokenResponse = {
   iss?: string;
@@ -53,11 +51,7 @@ export type AuthenticationContextProps = {
     token: string;
     decodedToken: DecodedTokenResponse | Record<string, never>;
   } | void>;
-  orfiumProducts: Product[] | null;
   user: User | undefined;
-  organizations: Organization[];
-  selectedOrganization: Organization | null;
-  switchOrganization: (organisation: Organization['org_id']) => void;
 };
 
 export type AuthenticationProviderProps = { overrides?: Auth0ClientOptions };

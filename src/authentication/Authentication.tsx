@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { orfiumIdBaseInstance } from '../request';
-import useOrganization, { Organization } from '../store/organizations';
+import useOrganization, { Organization } from '../store/useOrganization';
 import { Box, LoadingContent, Wrapper } from './Authentication.style';
 import ErrorFallback from './components/ErrorFallback/ErrorFallback';
 import { TopBar, TopBarProps } from './components/TopBar/TopBar';
@@ -43,16 +43,10 @@ Authentication.TopBar = TopBar;
  * This is the main component that is wrapped on the authentication.
  */
 const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
-  const {
-    isLoading,
-    isAuthenticated,
-    getAccessTokenSilently,
-    logout,
-    loginWithRedirect,
-    organizations,
-    selectedOrganization,
-  } = useAuthentication();
-  const { setOrganizations, setSelectedOrganization } = useOrganization();
+  const { isLoading, isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } =
+    useAuthentication();
+  const { organizations, setOrganizations, setSelectedOrganization, selectedOrganization } =
+    useOrganization();
   const [systemLoading, setSystemLoading] = useState<boolean | undefined>(undefined);
 
   /**
@@ -78,7 +72,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
 
         setOrganizations(data);
         if (!selectedOrganization?.org_id && data?.length > 0) {
-          setSelectedOrganization(data[0].org_id);
+          setSelectedOrganization(data[0]);
         }
         // if token doesn't have an organization and the user has available organizations
         // set continue and set one
@@ -114,31 +108,35 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
 
   if (organizations.length === 0) {
     return (
-      <Wrapper data-testid={'orfium-no-organizations'}>
-        <h2>There are no organizations to pick.</h2>
-        <div>Go back or contact your administrator for more information.</div>
-        <Box>
-          <div>OR</div>
-        </Box>
-        <Button onClick={logout} type={'primary'}>
-          Logout
-        </Button>
-      </Wrapper>
+      <ThemeProvider>
+        <Wrapper data-testid={'orfium-no-organizations'}>
+          <h2>There are no organizations to pick.</h2>
+          <div>Go back or contact your administrator for more information.</div>
+          <Box>
+            <div>OR</div>
+          </Box>
+          <Button onClick={logout} type={'primary'}>
+            Logout
+          </Button>
+        </Wrapper>
+      </ThemeProvider>
     );
   }
 
   if (!selectedOrganization) {
     return (
-      <Wrapper data-testid={'orfium-no-org-id'}>
-        <h2>You dont have access to this Product.</h2>
-        <div>Go back or contact your administrator for more information.</div>
-        <Box>
-          <div>OR</div>
-        </Box>
-        <Button onClick={logout} type={'primary'}>
-          Logout
-        </Button>
-      </Wrapper>
+      <ThemeProvider>
+        <Wrapper data-testid={'orfium-no-org-id'}>
+          <h2>You dont have access to this Product.</h2>
+          <div>Go back or contact your administrator for more information.</div>
+          <Box>
+            <div>OR</div>
+          </Box>
+          <Button onClick={logout} type={'primary'}>
+            Logout
+          </Button>
+        </Wrapper>
+      </ThemeProvider>
     );
   }
 

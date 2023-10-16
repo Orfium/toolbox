@@ -4,9 +4,6 @@ import sign from 'jwt-encode';
 export const FAKE_TOKEN =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 
-const fakeIAT = new Date().getTime();
-const fakeEXP = fakeIAT + 30000;
-
 /*
  * Pre-made fake token data that sets new creation and expiration time for that token
  * Creation time is `now` and expiration time is `now + 30seconds`
@@ -16,8 +13,8 @@ export const fakeTokenData = {
   iss: 'https://sso.orfium-staging.com/',
   sub: 'auth0|62da8eaa586d8cd67d1746b6',
   aud: ['orfium', 'https://orfium-staging.us.auth0.com/userinfo'],
-  iat: fakeIAT,
-  exp: fakeEXP,
+  iat: new Date().getTime(),
+  exp: new Date().getTime() + 30000,
   azp: '1eWaFhQJpHS3xMDQRwrZJai3kIrF04eI',
   scope: 'openid profile email offline_access',
   org_id: 'org_WYZLEMyTm2xEbnbn',

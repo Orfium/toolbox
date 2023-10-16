@@ -1,4 +1,4 @@
-import { default as useOrganizationModule, Organization } from './store/organizations';
+import { default as useOrganizationModule, Organization } from './store/useOrganization';
 
 /*
  * Eliminate any other information from the useOrganization zustand state coming out
@@ -11,8 +11,8 @@ const useOrganization = () =>
     selectedOrganization,
   }));
 
-export * from './authentication';
 export * from './request';
 export * from './routing';
+export * from './authentication';
 export type { Organization };
 export { useOrganization };
