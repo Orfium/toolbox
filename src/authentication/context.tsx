@@ -12,7 +12,7 @@ import { useOrfiumProducts } from '../hooks/useOrfiumProducts';
 import useOrganization from '../store/organizations';
 import useRequestToken from '../store/requestToken';
 import { config } from './config';
-import { AuthenticationContextProps } from './types';
+import { AuthenticationContextValue } from './types';
 
 export const onRedirectCallback = (appState: { targetUrl?: string }) => {
   window.history.replaceState(
@@ -35,7 +35,7 @@ export const providerConfig: Auth0ClientOptions = {
   useRefreshTokensFallback: true, // fix issue with logout https://community.auth0.com/t/auth0-spa-2-x-returning-missing-refresh-token/98999/18
 };
 
-export const defaultContextValues: AuthenticationContextProps = {
+export const defaultContextValues: AuthenticationContextValue = {
   isAuthenticated: false,
   isLoading: false,
   user: undefined,
@@ -49,7 +49,7 @@ export const defaultContextValues: AuthenticationContextProps = {
 };
 
 export const AuthenticationContext =
-  createContext<AuthenticationContextProps>(defaultContextValues);
+  createContext<AuthenticationContextValue>(defaultContextValues);
 
 /*
  * This function get an auth0 client and store it globally as a singleton.

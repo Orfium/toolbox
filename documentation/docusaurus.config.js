@@ -17,7 +17,7 @@ const config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
+  organizationName: 'Orfium', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
 
   plugins: [
@@ -38,6 +38,14 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          exclude: [
+            '**/_type-definitions/**',
+            '**/_old/**',
+            '**/classes/**',
+            '**/interfaces/**',
+            '**/namespaces/**',
+            '**/modules.md',
+          ],
           sidebarPath: require.resolve('./sidebars.js'),
           remarkPlugins: [simplePlantUML],
           // Please change this to your repo.
@@ -129,7 +137,7 @@ const config = {
           //   ],
           // },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Toolbox, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Orfium. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,

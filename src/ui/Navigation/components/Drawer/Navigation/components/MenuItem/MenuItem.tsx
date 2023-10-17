@@ -1,7 +1,9 @@
 import { ExpandCollapse, Icon, useTheme, useTypeColorToColorMatch } from '@orfium/ictinus';
+import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types';
 import { BASE_SHADE } from '@orfium/ictinus/dist/theme/palette';
 import React from 'react';
 import { useLocation, useRouteMatch } from 'react-router-dom';
+import { Optional } from '../../../../../../../utils';
 import FlippableArrow from '../../../../../../FlippableArrow';
 import { MenuIcon, MenuItemText } from '../../../../../common.styles';
 import { MenuItem as MenuItemType } from '../../../../../types';
@@ -13,7 +15,11 @@ import {
   MenuLink,
 } from './MenuItem.styles';
 
-function MenuItemContent(props: { expanded: boolean; item: MenuItemType; isSubMenu?: boolean }) {
+function MenuItemContent(props: {
+  expanded: boolean;
+  item: Optional<MenuItemType, 'iconName'>;
+  isSubMenu?: boolean;
+}) {
   const { item, expanded, isSubMenu = false } = props;
   const match = useRouteMatch(item.url);
   const theme = useTheme();
@@ -26,18 +32,15 @@ function MenuItemContent(props: { expanded: boolean; item: MenuItemType; isSubMe
     ? theme.utils.getColor('blue', 600)
     : theme.utils.getColor('lightGrey', 650);
 
+  const iconName: AcceptedIconNames = item.iconName || 'warning';
+
   return (
     <React.Fragment>
       <MenuIcon hidden={isSubMenu ? (isCurrent ? false : true) : false}>
         {isSubMenu ? (
           <Bullet color={color} />
         ) : (
-          <Icon
-            name={item.iconName}
-            color={color}
-            size={16}
-            variant={isCurrent ? shade : BASE_SHADE}
-          />
+          <Icon name={iconName} color={color} size={16} variant={isCurrent ? shade : BASE_SHADE} />
         )}
       </MenuIcon>
       <MenuItemText color={color} className={'menu-item-text'}>

@@ -42,7 +42,7 @@ export type User = {
   sub?: string;
   [key: string]: any;
 };
-export type AuthenticationContextProps = {
+export type AuthenticationContextValue = {
   isAuthenticated: boolean;
   isLoading: boolean;
   loginWithRedirect(o?: RedirectLoginOptions): Promise<void>;
