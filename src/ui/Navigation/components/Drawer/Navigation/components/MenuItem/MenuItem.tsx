@@ -36,18 +36,18 @@ function MenuItemContent(props: {
 
   return (
     <React.Fragment>
-      <MenuIcon hidden={isSubMenu ? (isCurrent ? false : true) : false}>
+      <MenuIcon theme={theme} hidden={isSubMenu ? (isCurrent ? false : true) : false}>
         {isSubMenu ? (
           <Bullet color={color} />
         ) : (
           <Icon name={iconName} color={color} size={16} variant={isCurrent ? shade : BASE_SHADE} />
         )}
       </MenuIcon>
-      <MenuItemText color={color} className={'menu-item-text'}>
+      <MenuItemText theme={theme} color={color} className={'menu-item-text'}>
         {item.text}
       </MenuItemText>
       {hasSubMenus ? (
-        <ArrowContainer open={expanded}>
+        <ArrowContainer theme={theme} open={expanded}>
           <FlippableArrow expanded={expanded} color={color} size={10} />
         </ArrowContainer>
       ) : null}
@@ -63,6 +63,7 @@ export type MenuItemProps = {
 };
 
 function MenuItem({ expanded, toggleMenuItem, item }: MenuItemProps) {
+  const theme = useTheme();
   const match = useRouteMatch(item.url);
   const { state } = useLocation<{
     previous: {
@@ -76,13 +77,18 @@ function MenuItem({ expanded, toggleMenuItem, item }: MenuItemProps) {
   return (
     <React.Fragment>
       {hasSubMenus ? (
-        <ExpandCollapseWrapper matched={!!match}>
+        <ExpandCollapseWrapper theme={theme} matched={!!match}>
           <ExpandCollapse
             expanded={expanded}
             onChange={() => toggleMenuItem(item.url)}
             textAndControl={(handleClick) => {
               return (
-                <MenuItemButton type={'button'} data-testid={item.url} onClick={handleClick}>
+                <MenuItemButton
+                  theme={theme}
+                  type={'button'}
+                  data-testid={item.url}
+                  onClick={handleClick}
+                >
                   <MenuItemContent expanded={expanded} item={item} />
                 </MenuItemButton>
               );
@@ -94,6 +100,7 @@ function MenuItem({ expanded, toggleMenuItem, item }: MenuItemProps) {
                   {item.children
                     ? item.children.map((subMenuItem) => (
                         <MenuLink
+                          theme={theme}
                           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                           // @ts-ignore
                           exact
@@ -116,6 +123,7 @@ function MenuItem({ expanded, toggleMenuItem, item }: MenuItemProps) {
         </ExpandCollapseWrapper>
       ) : (
         <MenuLink
+          theme={theme}
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           exact

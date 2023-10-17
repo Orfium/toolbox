@@ -49,20 +49,29 @@ function ClientSelector(props: Props & TestProps) {
   return (
     <ClickAwayListener onClick={() => setOpen(false)}>
       <Wrapper data-testid={dataTestId}>
-        <Button disabled={disabled} textColor={textColor} onClick={() => setOpen((open) => !open)}>
+        <Button
+          theme={theme}
+          disabled={disabled}
+          textColor={textColor}
+          onClick={() => setOpen((open) => !open)}
+        >
           <ButtonContentWrapper>
-            <ButtonTextWrapper>
+            <ButtonTextWrapper theme={theme}>
               <span>{buttonText}</span>
-              {tagText && <Tag textColor={textColor}>{tagText}</Tag>}
+              {tagText && (
+                <Tag theme={theme} textColor={textColor}>
+                  {tagText}
+                </Tag>
+              )}
             </ButtonTextWrapper>
-            <ChevronWrapper>
+            <ChevronWrapper theme={theme}>
               <FlippableArrow expanded={open} color={textColor} size={11} />
             </ChevronWrapper>
           </ButtonContentWrapper>
         </Button>
 
         {open && (
-          <Option menuPosition={menuPosition}>
+          <Option theme={theme} menuPosition={menuPosition}>
             {items && (
               <List
                 data={items}

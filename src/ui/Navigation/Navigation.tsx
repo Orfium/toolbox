@@ -1,4 +1,4 @@
-import { Icon, Tooltip, useBreakpoints } from '@orfium/ictinus';
+import { Icon, Tooltip, useBreakpoints, useTheme } from '@orfium/ictinus';
 import { useEffect, useState } from 'react';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import AdminIcon from '../../assets/admin_icon.svg';
@@ -50,6 +50,7 @@ function Navigation(props: NavigationProps) {
     userIsAdmin = false,
   } = props;
 
+  const theme = useTheme();
   const breakpoints = useBreakpoints();
   const [expanded, setExpanded] = useState(() => {
     return breakpoints.des1200;
@@ -76,12 +77,13 @@ function Navigation(props: NavigationProps) {
       // onMouseEnter={() => !isDesktop && setExpanded(true)}
       onMouseLeave={() => !isDesktop && setExpanded(false)}
     >
-      <GlobalNav data-testid={'global-navigation'}>
+      <GlobalNav theme={theme} data-testid={'global-navigation'}>
         <SingleIconContainer>
           {isDesktop ? (
             <img alt={'Orfium logo'} src={Logo} height={28} width={28} />
           ) : (
             <BurgerButton
+              theme={theme}
               onClick={() => {
                 setExpanded((state) => !state);
               }}
@@ -91,7 +93,7 @@ function Navigation(props: NavigationProps) {
             </BurgerButton>
           )}
         </SingleIconContainer>
-        <IconsContainer>
+        <IconsContainer theme={theme}>
           {orfiumProducts
             ? orfiumProducts.map((p) => {
                 const isCurrentApp = p.client_metadata.product_code === config.productCode;
@@ -125,6 +127,7 @@ function Navigation(props: NavigationProps) {
             <Tooltip content={adminButtonTooltipText} placement={'right'}>
               <AppIconWrapper>
                 <AppIconRRLink
+                  theme={theme}
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore
                   to={
