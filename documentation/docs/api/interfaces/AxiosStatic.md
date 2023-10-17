@@ -79,7 +79,7 @@ ___
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[defaults](AxiosInstance.md#defaults-4)
+[AxiosInstance](AxiosInstance.md).[defaults](AxiosInstance.md#defaults-2)
 
 #### Defined in
 
@@ -100,7 +100,7 @@ ___
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[interceptors](AxiosInstance.md#interceptors-4)
+[AxiosInstance](AxiosInstance.md).[interceptors](AxiosInstance.md#interceptors-2)
 
 #### Defined in
 
@@ -178,7 +178,7 @@ ___
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[delete](AxiosInstance.md#delete-4)
+[AxiosInstance](AxiosInstance.md).[delete](AxiosInstance.md#delete-2)
 
 #### Defined in
 
@@ -210,7 +210,7 @@ ___
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[get](AxiosInstance.md#get-4)
+[AxiosInstance](AxiosInstance.md).[get](AxiosInstance.md#get-2)
 
 #### Defined in
 
@@ -234,7 +234,7 @@ ___
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[getUri](AxiosInstance.md#geturi-4)
+[AxiosInstance](AxiosInstance.md).[getUri](AxiosInstance.md#geturi-2)
 
 #### Defined in
 
@@ -266,7 +266,7 @@ ___
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[head](AxiosInstance.md#head-4)
+[AxiosInstance](AxiosInstance.md).[head](AxiosInstance.md#head-2)
 
 #### Defined in
 
@@ -338,7 +338,7 @@ ___
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[options](AxiosInstance.md#options-4)
+[AxiosInstance](AxiosInstance.md).[options](AxiosInstance.md#options-2)
 
 #### Defined in
 
@@ -371,7 +371,7 @@ ___
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[patch](AxiosInstance.md#patch-4)
+[AxiosInstance](AxiosInstance.md).[patch](AxiosInstance.md#patch-2)
 
 #### Defined in
 
@@ -404,7 +404,7 @@ ___
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[post](AxiosInstance.md#post-4)
+[AxiosInstance](AxiosInstance.md).[post](AxiosInstance.md#post-2)
 
 #### Defined in
 
@@ -437,7 +437,7 @@ ___
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[put](AxiosInstance.md#put-4)
+[AxiosInstance](AxiosInstance.md).[put](AxiosInstance.md#put-2)
 
 #### Defined in
 
@@ -468,7 +468,7 @@ ___
 
 #### Inherited from
 
-[AxiosInstance](AxiosInstance.md).[request](AxiosInstance.md#request-4)
+[AxiosInstance](AxiosInstance.md).[request](AxiosInstance.md#request-2)
 
 #### Defined in
 
