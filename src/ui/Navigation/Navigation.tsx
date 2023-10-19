@@ -1,27 +1,11 @@
-import { Icon, Tooltip, useBreakpoints, useTheme } from '@orfium/ictinus';
+import { useBreakpoints, useTheme } from '@orfium/ictinus';
 import { useEffect, useState } from 'react';
-import { useLocation, useRouteMatch } from 'react-router-dom';
-import AdminIcon from '../../assets/admin_icon.svg';
-import Logo from '../../assets/orfium_logo.svg';
-import BillingIcon from '../../assets/products/billing_icon.svg';
+import { useRouteMatch } from 'react-router-dom';
 import { useAuthentication } from '../../authentication';
-import { config } from '../../authentication/config';
 import Drawer from './components/Drawer';
-import {
-  AppIconNativeLink,
-  AppIconRRLink,
-  AppIconWrapper,
-  BurgerButton,
-  GlobalNav,
-  IconsContainer,
-  SingleIconContainer,
-  Wrapper,
-} from './Navigation.styles';
+import GlobalNav from './components/GlobalNav';
+import { Wrapper } from './Navigation.styles';
 import { MenuItem } from './types';
-
-const productIconsDict = {
-  earnings: BillingIcon,
-};
 
 export type NavigationProps = {
   regularNavigation: MenuItem[];
@@ -37,7 +21,7 @@ export type NavigationProps = {
 
 const EMPTY_ADMIN_NAVIGATION: MenuItem[] = [];
 
-function Navigation(props: NavigationProps) {
+export function Navigation(props: NavigationProps) {
   const {
     regularNavigation,
     adminNavigation,
@@ -55,12 +39,7 @@ function Navigation(props: NavigationProps) {
   const [expanded, setExpanded] = useState(() => {
     return breakpoints.des1200;
   });
-  const { pathname, search, state } = useLocation<{
-    previous: {
-      pathname: string;
-      search: string;
-    };
-  } | null>();
+
   const match = useRouteMatch(adminNavigationURLSegment);
   const { switchOrganization, organizations, selectedOrganization, orfiumProducts } =
     useAuthentication();
@@ -77,87 +56,18 @@ function Navigation(props: NavigationProps) {
       // onMouseEnter={() => !isDesktop && setExpanded(true)}
       onMouseLeave={() => !isDesktop && setExpanded(false)}
     >
-      <GlobalNav theme={theme} data-testid={'global-navigation'}>
-        <SingleIconContainer>
-          {isDesktop ? (
-            <img alt={'Orfium logo'} src={Logo} height={28} width={28} />
-          ) : (
-            <BurgerButton
-              theme={theme}
-              onClick={() => {
-                setExpanded((state) => !state);
-              }}
-              data-testid={'menu-handler'}
-            >
-              <Icon color={'primary'} name={'menu'} size={24} />
-            </BurgerButton>
-          )}
-        </SingleIconContainer>
-        <IconsContainer theme={theme}>
-          {orfiumProducts
-            ? orfiumProducts.map((p) => {
-                const isCurrentApp = p.client_metadata.product_code === config.productCode;
-
-                return (
-                  <Tooltip key={p.client_id} content={p.name} placement={'right'}>
-                    {/* App icon wrapper is needed to add extra distance between the icon and the tooltip */}
-                    {/* since the tooltip cannot adjust its distance from the trigger element */}
-                    <AppIconWrapper>
-                      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                      {/* @ts-ignore */}
-                      <AppIconNativeLink
-                        href={p.login_url}
-                        className={isCurrentApp ? 'active' : ''}
-                      >
-                        <img
-                          alt={p.name}
-                          src={productIconsDict[p.client_metadata.product_code]}
-                          height={16}
-                          width={16}
-                        />
-                      </AppIconNativeLink>
-                    </AppIconWrapper>
-                  </Tooltip>
-                );
-              })
-            : null}
-        </IconsContainer>
-        {userIsAdmin ? (
-          <SingleIconContainer>
-            <Tooltip content={adminButtonTooltipText} placement={'right'}>
-              <AppIconWrapper>
-                <AppIconRRLink
-                  theme={theme}
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore
-                  to={
-                    adminNavigationIsActive
-                      ? {
-                          pathname: state?.previous?.pathname || '/',
-                          search: state?.previous?.search,
-                        }
-                      : {
-                          pathname: adminNavigationURLSegment,
-                          state: {
-                            previous: {
-                              pathname,
-                              search,
-                            },
-                          },
-                        }
-                  }
-                  isActive={() => {
-                    return adminNavigationIsActive;
-                  }}
-                >
-                  <img alt={adminButtonTooltipText} src={AdminIcon} height={16} width={16} />
-                </AppIconRRLink>
-              </AppIconWrapper>
-            </Tooltip>
-          </SingleIconContainer>
-        ) : null}
-      </GlobalNav>
+      <GlobalNav
+        theme={theme}
+        isDesktop={isDesktop}
+        userIsAdmin={userIsAdmin}
+        adminNavigationIsActive={adminNavigationIsActive}
+        adminNavigationURLSegment={adminNavigationURLSegment}
+        setExpanded={setExpanded}
+        orfiumProducts={orfiumProducts}
+        adminButtonTooltipText={adminButtonTooltipText}
+      />
       <Drawer
+        theme={theme}
         menuItems={
           adminNavigationIsActive ? adminNavigation || EMPTY_ADMIN_NAVIGATION : regularNavigation
         }
@@ -173,5 +83,3 @@ function Navigation(props: NavigationProps) {
     </Wrapper>
   );
 }
-
-export default Navigation;

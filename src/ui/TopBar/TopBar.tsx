@@ -9,7 +9,7 @@ export type TopBarProps = {
   utilitySection?: ReactNode;
 } & Partial<UserMenuProps>;
 
-export default function TopBar({ utilitySection, menuItems = [] }: TopBarProps) {
+export function TopBar({ utilitySection, menuItems = [] }: TopBarProps) {
   const theme = useTheme();
   const breakpoints = useBreakpoints();
   const isDesktop = breakpoints.des1200;
