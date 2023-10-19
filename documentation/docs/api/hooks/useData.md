@@ -6,7 +6,7 @@ title: 'useData<
   DataType = string
 >'
 sidebar_label: 'useData'
-sidebar_position: 0
+sidebar_position: 10
 custom_edit_url: null
 ---
 

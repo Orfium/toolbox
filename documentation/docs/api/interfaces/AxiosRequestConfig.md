@@ -130,7 +130,7 @@ ___
 
 ### method
 
-• `Optional` **method**: [`Method`](../modules.md#method-92)
+• `Optional` **method**: [`Method`](../modules.md#method-98)
 
 #### Defined in
 
@@ -160,7 +160,7 @@ ___
 
 ### responseType
 
-• `Optional` **responseType**: [`ResponseType`](../modules.md#responsetype-92)
+• `Optional` **responseType**: [`ResponseType`](../modules.md#responsetype-98)
 
 #### Defined in
 

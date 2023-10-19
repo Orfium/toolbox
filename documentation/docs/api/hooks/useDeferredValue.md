@@ -2,7 +2,7 @@
 id: 'useDeferredValue'
 title: 'useDeferredValue<T>'
 sidebar_label: 'useDeferredValue'
-sidebar_position: 0
+sidebar_position: 3
 custom_edit_url: null
 ---
 

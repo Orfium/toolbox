@@ -6,7 +6,7 @@ title: 'useDataPagination<
   DataType = string
 >'
 sidebar_label: 'useDataPagination'
-sidebar_position: 0
+sidebar_position: 10
 custom_edit_url: null
 ---
 

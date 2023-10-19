@@ -4,8 +4,8 @@ import { useLocation } from 'react-router-dom';
 import AdminIcon from '../../../../assets/admin_icon.svg';
 import Logo from '../../../../assets/orfium_logo.svg';
 import BillingIcon from '../../../../assets/products/billing_icon.svg';
+import { Product } from '../../../../authentication';
 import { config } from '../../../../authentication/config';
-import { Product } from '../../../../hooks';
 import {
   AppIconNativeLink,
   AppIconRRLink,
