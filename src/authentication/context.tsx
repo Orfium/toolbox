@@ -6,7 +6,15 @@ import {
   RedirectLoginOptions,
 } from '@auth0/auth0-spa-js';
 import jwt_decode from 'jwt-decode';
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useErrorHandler } from 'react-error-boundary';
 import { orfiumIdBaseInstance } from '../request';
 import useOrganization from '../store/organizations';
@@ -17,6 +25,7 @@ import {
   OrfiumProductsContextValue,
   OrganizationsContextValue,
   Product,
+  TopBarUtilitySectionContextValue,
 } from './types';
 
 export const onRedirectCallback = (appState: { targetUrl?: string }) => {
@@ -51,6 +60,11 @@ export const defaultAuthenticationContextValues: AuthenticationContextValue = {
 
 export const defaultOrfiumProductsContextValues: OrfiumProductsContextValue = null;
 
+export const defaultTopBarUtilitySectionContextValue: TopBarUtilitySectionContextValue = {
+  topBarUtilitySection: null,
+  setTopBarUtilitySection: () => {},
+};
+
 export const defaultOrganizationsContextValues: OrganizationsContextValue = {
   organizations: [],
   selectedOrganization: null,
@@ -62,6 +76,9 @@ const AuthenticationContext = createContext<AuthenticationContextValue>(
 );
 const OrfiumProductsContext = createContext<OrfiumProductsContextValue>(
   defaultOrfiumProductsContextValues
+);
+const TopBarUtilitySectionContext = createContext<TopBarUtilitySectionContextValue>(
+  defaultTopBarUtilitySectionContextValue
 );
 const OrganizationsContext = createContext<OrganizationsContextValue>(
   defaultOrganizationsContextValues
@@ -158,12 +175,24 @@ export const getTokenSilently = async (
   }
 };
 
+function TopBarUtilitySectionProvider(props: { children: ReactNode }) {
+  const { children } = props;
+  const [topBarUtilitySection, setTopBarUtilitySection] = useState<ReactNode>(null);
+
+  return (
+    <TopBarUtilitySectionContext.Provider value={{ topBarUtilitySection, setTopBarUtilitySection }}>
+      {children}
+    </TopBarUtilitySectionContext.Provider>
+  );
+}
+
 export const AuthenticationProvider: React.FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<Record<string, unknown>>();
   const [auth0Client, setAuth0Client] = useState<Auth0Client>();
   const [isLoading, setIsLoading] = useState(true);
   const [orfiumProducts, setOrfiumProducts] = useState<Product[] | null>(null);
+
   // handleError is referentially stable, so it's safe to use as a dep in dep array
   // https://github.com/bvaughn/react-error-boundary/blob/v3.1.4/src/index.tsx#L165C10-L165C18
   const handleError = useErrorHandler();
@@ -328,7 +357,7 @@ export const AuthenticationProvider: React.FC = ({ children }) => {
         value={{ organizations, selectedOrganization, switchOrganization }}
       >
         <OrfiumProductsContext.Provider value={orfiumProducts}>
-          {children}
+          <TopBarUtilitySectionProvider>{children}</TopBarUtilitySectionProvider>
         </OrfiumProductsContext.Provider>
       </OrganizationsContext.Provider>
     </AuthenticationContext.Provider>
@@ -337,4 +366,16 @@ export const AuthenticationProvider: React.FC = ({ children }) => {
 
 export const useAuthentication = () => useContext(AuthenticationContext);
 export const useOrfiumProducts = () => useContext(OrfiumProductsContext);
+export const _useTopBarUtilitySection = () => useContext(TopBarUtilitySectionContext);
+export const useTopBarUtilitySection = (topBarUtilitySectionElement: ReactNode) => {
+  const { setTopBarUtilitySection } = useContext(TopBarUtilitySectionContext);
+
+  useEffect(() => {
+    setTopBarUtilitySection(topBarUtilitySectionElement);
+
+    return function () {
+      setTopBarUtilitySection(null);
+    };
+  }, [setTopBarUtilitySection, topBarUtilitySectionElement]);
+};
 export const useOrganizations = () => useContext(OrganizationsContext);
