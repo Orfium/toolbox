@@ -39,10 +39,11 @@ admin navigation.
 :::
 
 :::tip
-The above works because when you enter the admin navigation the current URL location is pushed to the history state and then all
-navigation links push that history state around to one another.
-If you make any redirects after clicking on the admin button, and you want to take advantage of this feature, you will
-need to pass the history state between the redirects.
+The above works because when you enter the admin navigation the current URL location is pushed to the history state and the
+navigation links within `Navigation` push that history state around to one another.
+If you navigate after clicking on the admin button (by means of redirects or links), and you want to take advantage of this feature, you will
+need to pass the history state between the redirects (you can use the utility components [`RedirectWithStatePassthrough`](./RedirectWithStatePassthrough),
+[`LinkWithStatePassthrough`](./LinkWithStatePassthrough) and [`NavLinkWithStatePassthrough`](./NavLinkWithStatePassthrough)).
 :::
 
 :::tip

@@ -1,11 +1,11 @@
-import { Redirect, RedirectProps, useLocation } from 'react-router-dom';
+import { NavLink, NavLinkProps, useLocation } from 'react-router-dom';
 
-export function RedirectWithStatePassthrough(props: RedirectProps) {
+export function NavLinkWithStatePassthrough(props: NavLinkProps) {
   const { to, ...rest } = props;
   const location = useLocation();
 
   return (
-    <Redirect
+    <NavLink
       {...rest}
       to={{ ...(typeof to === 'string' ? { pathname: to } : to), state: location.state }}
     />

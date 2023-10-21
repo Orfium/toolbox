@@ -1,11 +1,11 @@
-import { Redirect, RedirectProps, useLocation } from 'react-router-dom';
+import { Link, LinkProps, useLocation } from 'react-router-dom';
 
-export function RedirectWithStatePassthrough(props: RedirectProps) {
+export function LinkWithStatePassthrough(props: LinkProps) {
   const { to, ...rest } = props;
   const location = useLocation();
 
   return (
-    <Redirect
+    <Link
       {...rest}
       to={{ ...(typeof to === 'string' ? { pathname: to } : to), state: location.state }}
     />
