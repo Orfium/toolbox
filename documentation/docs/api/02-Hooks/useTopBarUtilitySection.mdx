@@ -20,10 +20,53 @@ A hook that simply sets the content of the [`TobBar`](../components/TopBar)'s ut
 
 The hook will automatically reset the value to `null` upon unmounting, so you do not have to manually clean up anything.
 
+:::info
 The intended usage scenario is to only render one component that makes use of this hook at a time (usually inside a page
 component, in order to populate the utility section with breadcrumbs for example). In case this hook is used by many
-components simultaneously the component that renders last will determine the content of the utility section.
+components simultaneously the outermost component in the render tree will determine the content of the utility section,
+due to `useEffect` execution order.
+:::
 
+**Example usage**
+
+```tsx
+import { useTopBarUtilitySection } from '@orfium/toolbox';
+import { useMemo } from 'react';
+
+function Page() {
+  const utilitySectionElement = useMemo(() => {
+    return <h2>Hello</h2>;
+  }, []);
+
+  useTopBarUtilitySection(utilitySectionElement);
+
+  return <div>Page contents</div>;
+}
+```
+
+```tsx
+// The utility section will end up with 'this will be shown' as its content
+
+import { useTopBarUtilitySection } from '@orfium/toolbox';
+import { useMemo } from 'react';
+
+function AnotherPage() {
+  useTopBarUtilitySection('this will not be shown');
+
+  return <h1>INNER PAGE</h1>;
+}
+
+function Page() {
+  useTopBarUtilitySection('this will be shown');
+
+  return (
+    <div>
+      <h1>OUTER PAGE</h1>
+      <AnotherPage />
+    </div>
+  );
+}
+```
 
 ### Parameters
 
