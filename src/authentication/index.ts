@@ -1,4 +1,4 @@
-export { Authentication, type AuthenticationProps } from './components/Authentication';
+export { Toolbox, type ToolboxProps } from './components/Toolbox';
 export {
   useAuthentication,
   useOrfiumProducts,

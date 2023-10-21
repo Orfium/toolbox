@@ -9,13 +9,13 @@ import { config } from '../../config';
 import { AuthenticationProvider, useAuthentication, useOrganizations } from '../../context';
 import { Box, LoadingContent, Wrapper } from './Authentication.style';
 
-export type AuthenticationProps = { children: ReactNode };
+export type ToolboxProps = { children: ReactNode };
 
 /*
  * The component that uses the AuthenticationProvider.
  * All the logic is on the Authentication
  */
-export function Authentication({ children }: AuthenticationProps) {
+export function Toolbox({ children }: ToolboxProps) {
   return (
     // @ts-ignore @TODO when react type will go to 18 this will be fixed
     <ErrorBoundary
