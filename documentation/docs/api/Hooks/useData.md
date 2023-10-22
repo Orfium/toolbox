@@ -7,10 +7,11 @@ title: 'useData<
 >'
 sidebar_label: 'useData'
 sidebar_position: 10
-custom_edit_url: null
 ---
 
-`import { useData } from '@orfium/toolbox';`
+```ts
+import { useData } from '@orfium/toolbox';
+```
 
 ## Description
 

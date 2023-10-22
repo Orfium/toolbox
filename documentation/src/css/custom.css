@@ -6,25 +6,50 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #175BF5;
-  --ifm-color-primary-dark: #1451DC;
-  --ifm-color-primary-darker: #1248C4;
-  --ifm-color-primary-darkest: #0D3693;
-  --ifm-color-primary-light: #2E6BF6;
-  --ifm-color-primary-lighter: #457BF7;
-  --ifm-color-primary-lightest: #5C8CF8;
+  --ifm-color-primary: #175bf5;
+  --ifm-color-primary-dark: #1451dc;
+  --ifm-color-primary-darker: #1248c4;
+  --ifm-color-primary-darkest: #0d3693;
+  --ifm-color-primary-light: #2e6bf6;
+  --ifm-color-primary-lighter: #457bf7;
+  --ifm-color-primary-lightest: #5c8cf8;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  /* custom overrides */
+  --ifm-navbar-link-color: #fff;
+  --ifm-navbar-link-hover-color: var(--ifm-color-primary-lightest);
+  --ifm-background-surface-color: #151447;
+  --ifm-menu-color-active: var(--ifm-color-primary-darker);
+  --ifm-hover-overlay: #edefff;
+  --ifm-menu-color: #757bb2;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #1DE9B6;
-  --ifm-color-primary-dark: #1AD1A3;
-  --ifm-color-primary-darker: #17BA91;
-  --ifm-color-primary-darkest: #118B6D;
-  --ifm-color-primary-light: #33EBBD;
-  --ifm-color-primary-lighter: #4AEDC4;
-  --ifm-color-primary-lightest: #60EFCB;
+  --ifm-color-primary: #1de9b6;
+  --ifm-color-primary-dark: #1ad1a3;
+  --ifm-color-primary-darker: #17ba91;
+  --ifm-color-primary-darkest: #118b6d;
+  --ifm-color-primary-light: #33ebbd;
+  --ifm-color-primary-lighter: #4aedc4;
+  --ifm-color-primary-lightest: #60efcb;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  /* custom overrides */
+  --ifm-menu-color: var(--ifm-color-emphasis-700);
+}
+
+[data-theme='light'] button[class*='toggleButton_'] path {
+  fill: var(--ifm-navbar-link-color);
+}
+
+[data-theme='light'] button[class*='toggleButton_']:hover {
+  background: var(--ifm-navbar-link-hover-color);
+}
+
+[data-theme='light'] .pagination-nav__link {
+  color: var(--ifm-color-primary-darker);
+}
+
+[data-theme='light'] a[class*='skipToContent_'] {
+  color: var(--ifm-navbar-link-color);
 }

@@ -3,7 +3,7 @@
 
 const simplePlantUML = require('@akebifiky/remark-simple-plantuml');
 const darkCodeTheme = require('prism-react-renderer/themes/oceanicNext');
-const lightCodeTheme = require('prism-react-renderer/themes/nightOwlLight');
+const lightCodeTheme = require('prism-react-renderer/themes/github');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -51,8 +51,8 @@ const config = {
           editCurrentVersion: false,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          // editUrl:
+          //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

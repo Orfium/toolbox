@@ -3,10 +3,11 @@ id: "useSafeDispatch"
 title: "useSafeDispatch<T>"
 sidebar_label: "useSafeDispatch"
 sidebar_position: 11
-custom_edit_url: null
 ---
 
-`import { useSafeDispatch } from '@orfium/toolbox';`
+```ts
+import { useSafeDispatch } from '@orfium/toolbox';
+```
 
 ## Description
 

@@ -3,10 +3,11 @@ id: 'orfiumIdBaseInstance'
 title: 'orfiumIdBaseInstance'
 sidebar_label: 'orfiumIdBaseInstance'
 sidebar_position: 0
-custom_edit_url: null
 ---
 
-`import { orfiumIdBaseInstance } from '@orfium/toolbox';`
+```ts
+import { orfiumIdBaseInstance } from '@orfium/toolbox';
+```
 
 ## Description
 
