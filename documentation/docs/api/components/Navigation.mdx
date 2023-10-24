@@ -12,13 +12,42 @@ import Type from '../_type-definitions/NavigationProps.md';
 
 ### Description
 
-A UI component that handles user navigation both within the current product and among Orfium products.
+A UI component that handles user navigation both within the current product and among Orfium products. It is comprised of
+two main parts, the **global navigation bar** and the **local navigation drawer**.
 
-:::tip
-For optimisation reasons, always try to memoise the values you pass down to `regularNavigation` and `adminNavigation`, when possible.
+#### Global navigation bar
+
+It lists links to all the Orfium products that are available to the user and highlights the one
+that is currently being used. Admin users will also find an extra button that when clicked it will show an admin-only
+navigation menu in the **main navigation section** of the **local navigation drawer**.
+
+#### Local navigation drawer
+
+It consists of three main sections
+* the **organisation switcher**, which allows the user to switch between the organisations
+available to their account
+* the **main navigation section**, which lists links internal to the currently used application
+* the **extra information section**, which can contain various external links to educational or support material. if the
+`extras` prop is not used this section will be non-existent
+
+You can read more [here](/docs/modules/UI/Navigation%20Component).
+
+:::info
+The extra admin button has a "resume" feature, where clicking on it to exit the admin navigation will take you back to exactly
+where you were before, restoring any previously applied URL params, no matter how many times the URL changed while you were in the
+admin navigation.
 :::
 
-[See more](/docs/modules/UI/Navigation%20Component)
+:::tip
+The above works because when you enter the admin navigation the current URL location is pushed to the history state and then all
+navigation links push that history state around to one another.
+If you make any redirects after clicking on the admin button, and you want to take advantage of this feature, you will
+need to pass the history state between the redirects.
+:::
+
+:::tip
+Memoising the values of `regularNavigation`, `adminNavigation` and `extras` will optimise performance.
+:::
 
 ### Props
 
