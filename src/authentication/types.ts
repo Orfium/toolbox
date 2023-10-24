@@ -3,6 +3,7 @@ import type {
   GetTokenSilentlyOptions,
   RedirectLoginOptions,
 } from '@auth0/auth0-spa-js';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 import { Organization } from '../store/organizations';
 
 export type DecodedTokenResponse = {
@@ -54,6 +55,11 @@ export type AuthenticationContextValue = {
 };
 
 export type OrfiumProductsContextValue = Product[] | null;
+
+export type TopBarUtilitySectionContextValue = {
+  topBarUtilitySection: ReactNode;
+  setTopBarUtilitySection: Dispatch<SetStateAction<ReactNode>>;
+};
 
 export type OrganizationsContextValue = {
   organizations: Organization[];
