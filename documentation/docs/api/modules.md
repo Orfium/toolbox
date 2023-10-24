@@ -35,19 +35,19 @@ custom_edit_url: null
 
 ## Other Functions
 
-- [Authentication](modules.md#authentication-112)
-- [Navigation](modules.md#navigation-112)
-- [RedirectWithStatePassthrough](modules.md#redirectwithstatepassthrough-12)
-- [TopBar](modules.md#topbar-112)
-- [createAPIInstance](modules.md#createapiinstance-112)
-- [useAuthentication](modules.md#useauthentication-112)
-- [useOrfiumProducts](modules.md#useorfiumproducts-16)
-- [useOrganizations](modules.md#useorganizations-16)
-- [useTopBarUtilitySection](modules.md#usetopbarutilitysection-8)
+- [Authentication](modules.md#authentication-114)
+- [Navigation](modules.md#navigation-114)
+- [RedirectWithStatePassthrough](modules.md#redirectwithstatepassthrough-14)
+- [TopBar](modules.md#topbar-114)
+- [createAPIInstance](modules.md#createapiinstance-114)
+- [useAuthentication](modules.md#useauthentication-114)
+- [useOrfiumProducts](modules.md#useorfiumproducts-18)
+- [useOrganizations](modules.md#useorganizations-18)
+- [useTopBarUtilitySection](modules.md#usetopbarutilitysection-10)
 
 ## component Functions
 
-- [generateRoutes](modules.md#generateroutes-112)
+- [generateRoutes](modules.md#generateroutes-114)
 
 ## Type aliases
 
@@ -61,8 +61,8 @@ custom_edit_url: null
 | :------ | :------ |
 | `isAuthenticated` | `boolean` |
 | `isLoading` | `boolean` |
-| `user` | [`User`](modules.md#user-112) \| `undefined` |
-| `getAccessTokenSilently` | (`opts?`: `GetTokenSilentlyOptions`) => `Promise`<`void` \| { `decodedToken`: [`DecodedTokenResponse`](modules.md#decodedtokenresponse-112) \| `Record`<`string`, `never`\> ; `token`: `string`  }\> |
+| `user` | [`User`](modules.md#user-114) \| `undefined` |
+| `getAccessTokenSilently` | (`opts?`: `GetTokenSilentlyOptions`) => `Promise`<`void` \| { `decodedToken`: [`DecodedTokenResponse`](modules.md#decodedtokenresponse-114) \| `Record`<`string`, `never`\> ; `token`: `string`  }\> |
 | `loginWithRedirect` | (`o?`: `RedirectLoginOptions`<`any`\>) => `Promise`<`void`\> |
 | `logout` | () => `void` |
 
@@ -131,7 +131,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `instance` | [`AxiosInstance`](interfaces/AxiosInstance.md) |
-| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops-112)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\>  } |
+| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops-114)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\>  } |
 | `deleteToken` | () => `void` |
 | `setToken` | (`token`: `string`) => `void` |
 
@@ -189,7 +189,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `children?` | [`Optional`](modules.md#optional-112)<[`MenuItem`](modules.md#menuitem-112), ``"iconName"``\>[] |
+| `children?` | [`Optional`](modules.md#optional-114)<[`MenuItem`](modules.md#menuitem-114), ``"iconName"``\>[] |
 | `iconName` | `AcceptedIconNames` |
 | `text` | `string` |
 | `url` | `string` |
@@ -229,13 +229,13 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `adminButtonTooltipText?` | `string` |
-| `adminNavigation?` | [`MenuItem`](modules.md#menuitem-112)[] |
+| `adminNavigation?` | [`MenuItem`](modules.md#menuitem-114)[] |
 | `adminNavigationHeader?` | `string` |
 | `adminNavigationURLSegment?` | `string` |
-| `extras?` | { `menuItems`: `Omit`<[`MenuItem`](modules.md#menuitem-112), ``"children"``\>[] ; `title`: `string`  }[] |
+| `extras?` | { `menuItems`: `Omit`<[`MenuItem`](modules.md#menuitem-114), ``"children"``\>[] ; `title`: `string`  }[] |
 | `hideOrgSwitcher?` | `boolean` |
 | `navigationHeader` | `string` |
-| `regularNavigation` | [`MenuItem`](modules.md#menuitem-112)[] |
+| `regularNavigation` | [`MenuItem`](modules.md#menuitem-114)[] |
 | `userIsAdmin?` | `boolean` |
 
 #### Defined in
@@ -263,7 +263,7 @@ ___
 
 ### OrfiumProductsContextValue
 
-Ƭ **OrfiumProductsContextValue**: [`Product`](modules.md#product-16)[] \| ``null``
+Ƭ **OrfiumProductsContextValue**: [`Product`](modules.md#product-18)[] \| ``null``
 
 #### Defined in
 
@@ -303,8 +303,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `organizations` | [`Organization`](modules.md#organization-112)[] |
-| `selectedOrganization` | [`Organization`](modules.md#organization-112) \| ``null`` |
+| `organizations` | [`Organization`](modules.md#organization-114)[] |
+| `selectedOrganization` | [`Organization`](modules.md#organization-114) \| ``null`` |
 | `switchOrganization` | (`organisation`: `string`) => `void` |
 
 #### Defined in
@@ -384,8 +384,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `authorization?` | [`Authorization`](modules.md#authorization-112) | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' -  **`defaultvalue:`** 'anonymous' |
-| `component?` | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-112)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route |
+| `authorization?` | [`Authorization`](modules.md#authorization-114) | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' -  **`defaultvalue:`** 'anonymous' |
+| `component?` | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-114)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route |
 | `extraProps?` | `unknown` | Any custom/extra props that are going to be available on the component |
 | `path` | `string` \| `string`[] | The url path or paths of the route that will listen to in order to render |
 
@@ -403,8 +403,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath-112), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
-| `routes` | [`RouteItem`](modules.md#routeitem-112)[] | - |
+| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath-114), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
+| `routes` | [`RouteItem`](modules.md#routeitem-114)[] | - |
 
 #### Defined in
 
@@ -510,7 +510,7 @@ ___
 
 ### orfiumIdBaseInstance
 
-• `Const` **orfiumIdBaseInstance**: [`CreateAPIInstanceType`](modules.md#createapiinstancetype-112)
+• `Const` **orfiumIdBaseInstance**: [`CreateAPIInstanceType`](modules.md#createapiinstancetype-114)
 
 #### Defined in
 
@@ -526,7 +526,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`AuthenticationProps`](modules.md#authenticationprops-112) |
+| `__namedParameters` | [`AuthenticationProps`](modules.md#authenticationprops-114) |
 
 #### Returns
 
@@ -546,7 +546,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`NavigationProps`](modules.md#navigationprops-112) |
+| `props` | [`NavigationProps`](modules.md#navigationprops-114) |
 
 #### Returns
 
@@ -586,7 +586,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`TopBarProps`](modules.md#topbarprops-112) |
+| `__namedParameters` | [`TopBarProps`](modules.md#topbarprops-114) |
 
 #### Returns
 
@@ -600,17 +600,17 @@ ___
 
 ### createAPIInstance
 
-▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype-112)
+▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype-114)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops-112) |
+| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops-114) |
 
 #### Returns
 
-[`CreateAPIInstanceType`](modules.md#createapiinstancetype-112)
+[`CreateAPIInstanceType`](modules.md#createapiinstancetype-114)
 
 #### Defined in
 
@@ -620,11 +620,11 @@ ___
 
 ### useAuthentication
 
-▸ **useAuthentication**(): [`AuthenticationContextValue`](modules.md#authenticationcontextvalue-112)
+▸ **useAuthentication**(): [`AuthenticationContextValue`](modules.md#authenticationcontextvalue-114)
 
 #### Returns
 
-[`AuthenticationContextValue`](modules.md#authenticationcontextvalue-112)
+[`AuthenticationContextValue`](modules.md#authenticationcontextvalue-114)
 
 #### Defined in
 
@@ -634,11 +634,11 @@ ___
 
 ### useOrfiumProducts
 
-▸ **useOrfiumProducts**(): [`OrfiumProductsContextValue`](modules.md#orfiumproductscontextvalue-16)
+▸ **useOrfiumProducts**(): [`OrfiumProductsContextValue`](modules.md#orfiumproductscontextvalue-18)
 
 #### Returns
 
-[`OrfiumProductsContextValue`](modules.md#orfiumproductscontextvalue-16)
+[`OrfiumProductsContextValue`](modules.md#orfiumproductscontextvalue-18)
 
 #### Defined in
 
@@ -648,34 +648,35 @@ ___
 
 ### useOrganizations
 
-▸ **useOrganizations**(): [`OrganizationsContextValue`](modules.md#organizationscontextvalue-16)
+▸ **useOrganizations**(): [`OrganizationsContextValue`](modules.md#organizationscontextvalue-18)
 
 #### Returns
 
-[`OrganizationsContextValue`](modules.md#organizationscontextvalue-16)
+[`OrganizationsContextValue`](modules.md#organizationscontextvalue-18)
 
 #### Defined in
 
-[src/authentication/context.tsx:373](https://github.com/Orfium/toolbox/blob/50e8912/src/authentication/context.tsx#L373)
+[src/authentication/context.tsx:374](https://github.com/Orfium/toolbox/blob/50e8912/src/authentication/context.tsx#L374)
 
 ___
 
 ### useTopBarUtilitySection
 
-▸ **useTopBarUtilitySection**(): `Object`
+▸ **useTopBarUtilitySection**(`topBarUtilitySectionElement`): `void`
 
-#### Returns
-
-`Object`
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `setTopBarUtilitySection` | `Dispatch`<`SetStateAction`<`ReactNode`\>\> |
-| `topBarUtilitySection` | `ReactNode` |
+| `topBarUtilitySectionElement` | `ReactNode` |
+
+#### Returns
+
+`void`
 
 #### Defined in
 
-[src/authentication/context.tsx:362](https://github.com/Orfium/toolbox/blob/50e8912/src/authentication/context.tsx#L362)
+[src/authentication/context.tsx:363](https://github.com/Orfium/toolbox/blob/50e8912/src/authentication/context.tsx#L363)
 
 ___
 
@@ -696,7 +697,7 @@ If the fallbacks are defined then those will be used instead.
 | `props` | `Object` | Component properties |
 | `props.fallbackComponent?` | `ComponentType`<{}\> | The component that will render if none of the routes match the url location - @default Page not found |
 | `props.isAuthenticated` | `boolean` | A boolean that are passed from the parent Application to let the generation of routes know the state of the user |
-| `props.structure` | [`RoutingStructure`](modules.md#routingstructure-112) | A list of Routes that needs to render with authorization level and extra props. |
+| `props.structure` | [`RoutingStructure`](modules.md#routingstructure-114) | A list of Routes that needs to render with authorization level and extra props. |
 
 #### Returns
 

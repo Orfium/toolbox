@@ -10,6 +10,10 @@ import Type from '../_type-definitions/TopBarUtilitySectionContextValue.md';
 
 `import { useTopBarUtilitySection } from '@orfium/toolbox';`
 
+:::info
+Only descendants of [`Toolbox`](../components/Toolbox) can use this hook.
+:::
+
 ### Description
 
 A hook that simply sets the content of the [`TobBar`](../components/TopBar)'s utility section.
@@ -20,16 +24,14 @@ The intended usage scenario is to only render one component that makes use of th
 component, in order to populate the utility section with breadcrumbs for example). In case this hook is used by many
 components simultaneously the component that renders last will determine the content of the utility section.
 
-:::info
-Only descendants of [`Toolbox`](../components/Toolbox) can use this hook.
-:::
 
 ### Parameters
 
 - `topBarUtilitySectionElement: ReactNode` - The React Element you want to set as the content of the utility section
 
-:::tip
-Memoising the value of `topBarUtilitySectionElement` may improve performance.
+:::danger
+Make **sure** you memoise the value of `topBarUtilitySectionElement` otherwise you **will** cause an infinite render loop.
+Take care to avoid trashing the memoised value unless necessary.
 :::
 
 ### Return value
