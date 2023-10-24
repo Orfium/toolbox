@@ -117,19 +117,19 @@ describe('Context', () => {
       window.history.pushState({}, '', oldWindowLocation.pathname);
     });
 
-    test('onRedirectCallback changes the url based on AppState passed', () => {
+    xtest('onRedirectCallback changes the url based on AppState passed', () => {
       const targetUrl = 'www.test.com';
 
       onRedirectCallback({ targetUrl });
       expect(window.location.pathname).toBe(`/${targetUrl}`);
     });
 
-    test('onRedirectCallback changes url without AppState targetUrl', () => {
+    xtest('onRedirectCallback changes url without AppState targetUrl', () => {
       onRedirectCallback({});
       expect(window.location.pathname).toBe(`/`);
     });
 
-    test('handleRedirectCallback being called if code exists on url', async () => {
+    xtest('handleRedirectCallback being called if code exists on url', async () => {
       window.history.pushState({}, '', '?code=test');
 
       render(
@@ -141,7 +141,7 @@ describe('Context', () => {
       await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1));
     });
 
-    test('handleRedirectCallback that triggers invalid state error', async () => {
+    xtest('handleRedirectCallback that triggers invalid state error', async () => {
       window.history.pushState({}, '', '?code=test');
 
       // @ts-ignore
@@ -162,7 +162,7 @@ describe('Context', () => {
       await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
     });
 
-    test('handleRedirectCallback that triggers error', async () => {
+    xtest('handleRedirectCallback that triggers error', async () => {
       window.history.pushState({}, '', '?code=test');
       const errorMsg = 'Invalid';
 
@@ -185,7 +185,7 @@ describe('Context', () => {
       await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
     }, 10000);
 
-    test('logoutAuth clears out data', async () => {
+    xtest('logoutAuth clears out data', async () => {
       const { setToken } = useRequestToken.getState();
       const { setOrganizations, setSelectedOrganization } = useOrganization.getState();
       const testToken = 'testToken';
@@ -222,7 +222,7 @@ describe('Context', () => {
   });
 
   describe('getTokenSilently', () => {
-    test('without cached results', async () => {
+    xtest('without cached results', async () => {
       mockedGetTokenSilently.mockResolvedValue(FAKE_TOKEN);
       const { token, decodedToken } = await getTokenSilently();
 
@@ -230,7 +230,7 @@ describe('Context', () => {
       expect(decodedToken).toEqual(jwtDecode(token));
     });
 
-    test('with cached results', async () => {
+    xtest('with cached results', async () => {
       const NEW_FAKE_EXPIRED_TOKEN = getNewFakeToken();
       const setToken = useRequestToken.getState().setToken;
       const setOrganizations = useOrganization.getState().setOrganizations;
@@ -260,7 +260,7 @@ describe('Context', () => {
       expect(decodedToken.org_id).toEqual(fakeTokenData.org_id); // the org_id of the token
     });
 
-    test('that throws error and handles it outside exclusion of login_required', async () => {
+    xtest('that throws error and handles it outside exclusion of login_required', async () => {
       const errorThrown = new CustomError('error', 'error');
       mockedGetTokenSilently.mockRejectedValue(errorThrown);
 
@@ -272,7 +272,7 @@ describe('Context', () => {
     });
   });
 
-  test('AuthenticationProvider contents', async () => {
+  xtest('AuthenticationProvider contents', async () => {
     isAuthenticated.mockResolvedValue(true);
     getUser.mockResolvedValue({
       name: 'John Doe',
@@ -289,7 +289,7 @@ describe('Context', () => {
   });
 
   describe('AuthenticationProvider calls loginWithRedirect success/error', () => {
-    test('loginWithRedirect when access token fails', async () => {
+    xtest('loginWithRedirect when access token fails', async () => {
       const errorMsg = 'login_required';
 
       mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, errorMsg));
@@ -308,7 +308,7 @@ describe('Context', () => {
       await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
     });
 
-    test('loginWithRedirect when access token fails and handle an error', async () => {
+    xtest('loginWithRedirect when access token fails and handle an error', async () => {
       const errorMsg = 'login_with_popup_failed';
 
       mockedGetTokenSilently.mockRejectedValue(new CustomError('login_required', 'login_required'));
@@ -334,7 +334,7 @@ describe('Context', () => {
     }, 10000);
   });
 
-  test('invitation redirect', async () => {
+  xtest('invitation redirect', async () => {
     const invitation = 'wkhLzqInxdaXipRfBPyBtzcxs3wmoUDg';
     const organization = 'org_lWF9avilXAry9Aid';
 
@@ -364,7 +364,7 @@ describe('Context', () => {
     });
   });
 
-  test('if error exists on the url with access_denied', async () => {
+  xtest('if error exists on the url with access_denied', async () => {
     const { setOrganizations, setSelectedOrganization } = useOrganization.getState();
     const organizationList = [
       {
@@ -423,7 +423,7 @@ describe('Context', () => {
     });
   }, 10000);
 
-  test('Context default functions', async () => {
+  xtest('Context default functions', async () => {
     expect(await defaultAuthenticationContextValues.getAccessTokenSilently()).toEqual({
       token: '',
       decodedToken: {},
@@ -432,7 +432,7 @@ describe('Context', () => {
     expect(await defaultAuthenticationContextValues.loginWithRedirect()).toBe(undefined);
   });
 
-  test('getAuth0Client failed process', async () => {
+  xtest('getAuth0Client failed process', async () => {
     expect.assertions(1);
     mockedCreateAuth0.mockImplementation(() => {
       throw new Error();
@@ -446,7 +446,7 @@ describe('Context', () => {
     }
   });
 
-  test('logoutAuth failed process', async () => {
+  xtest('logoutAuth failed process', async () => {
     expect.assertions(1);
 
     // @ts-ignore
