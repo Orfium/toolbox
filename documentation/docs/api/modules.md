@@ -35,21 +35,21 @@ custom_edit_url: null
 
 ## Other Functions
 
-- [Authentication](modules.md#authentication-2)
-- [Navigation](modules.md#navigation-2)
-- [TopBar](modules.md#topbar-2)
-- [createAPIInstance](modules.md#createapiinstance-2)
-- [useAuthentication](modules.md#useauthentication-2)
+- [Authentication](modules.md#authentication)
+- [Navigation](modules.md#navigation)
+- [TopBar](modules.md#topbar)
+- [createAPIInstance](modules.md#createapiinstance)
+- [useAuthentication](modules.md#useauthentication)
 
 ## component Functions
 
-- [generateRoutes](modules.md#generateroutes-2)
+- [generateRoutes](modules.md#generateroutes)
 
 ## Type aliases
 
-### AuthenticationContextProps
+### AuthenticationContextValue
 
-Ƭ **AuthenticationContextProps**: `Object`
+Ƭ **AuthenticationContextValue**: `Object`
 
 #### Type declaration
 
@@ -58,17 +58,33 @@ custom_edit_url: null
 | `isAuthenticated` | `boolean` |
 | `isLoading` | `boolean` |
 | `orfiumProducts` | `Product`[] \| ``null`` |
-| `organizations` | [`Organization`](modules.md#organization-2)[] |
-| `selectedOrganization` | [`Organization`](modules.md#organization-2) \| ``null`` |
-| `user` | [`User`](modules.md#user-2) \| `undefined` |
-| `getAccessTokenSilently` | (`opts?`: `GetTokenSilentlyOptions`) => `Promise`<`void` \| { `decodedToken`: [`DecodedTokenResponse`](modules.md#decodedtokenresponse-2) \| `Record`<`string`, `never`\> ; `token`: `string`  }\> |
+| `organizations` | [`Organization`](modules.md#organization)[] |
+| `selectedOrganization` | [`Organization`](modules.md#organization) \| ``null`` |
+| `user` | [`User`](modules.md#user) \| `undefined` |
+| `getAccessTokenSilently` | (`opts?`: `GetTokenSilentlyOptions`) => `Promise`<`void` \| { `decodedToken`: [`DecodedTokenResponse`](modules.md#decodedtokenresponse) \| `Record`<`string`, `never`\> ; `token`: `string`  }\> |
 | `loginWithRedirect` | (`o?`: `RedirectLoginOptions`<`any`\>) => `Promise`<`void`\> |
 | `logout` | () => `void` |
 | `switchOrganization` | (`organisation`: `string`) => `void` |
 
 #### Defined in
 
-[src/authentication/types.ts:45](https://github.com/Orfium/toolbox/blob/4ecaca9/src/authentication/types.ts#L45)
+[src/authentication/types.ts:45](https://github.com/Orfium/toolbox/blob/50e8912/src/authentication/types.ts#L45)
+
+___
+
+### AuthenticationProps
+
+Ƭ **AuthenticationProps**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `children` | `ReactNode` |
+
+#### Defined in
+
+[src/authentication/components/Authentication/Authentication.tsx:13](https://github.com/Orfium/toolbox/blob/50e8912/src/authentication/components/Authentication/Authentication.tsx#L13)
 
 ___
 
@@ -84,7 +100,7 @@ ___
 
 #### Defined in
 
-[src/authentication/types.ts:61](https://github.com/Orfium/toolbox/blob/4ecaca9/src/authentication/types.ts#L61)
+[src/authentication/types.ts:61](https://github.com/Orfium/toolbox/blob/50e8912/src/authentication/types.ts#L61)
 
 ___
 
@@ -100,7 +116,7 @@ ___
 
 #### Defined in
 
-[src/routing/Routing.tsx:14](https://github.com/Orfium/toolbox/blob/4ecaca9/src/routing/Routing.tsx#L14)
+[src/routing/Routing.tsx:14](https://github.com/Orfium/toolbox/blob/50e8912/src/routing/Routing.tsx#L14)
 
 ___
 
@@ -118,7 +134,7 @@ ___
 
 #### Defined in
 
-[src/request/createAPIInstance.ts:7](https://github.com/Orfium/toolbox/blob/4ecaca9/src/request/createAPIInstance.ts#L7)
+[src/request/createAPIInstance.ts:7](https://github.com/Orfium/toolbox/blob/50e8912/src/request/createAPIInstance.ts#L7)
 
 ___
 
@@ -131,13 +147,13 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `instance` | [`AxiosInstance`](interfaces/AxiosInstance.md) |
-| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops-2)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\>  } |
+| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\>  } |
 | `deleteToken` | () => `void` |
 | `setToken` | (`token`: `string`) => `void` |
 
 #### Defined in
 
-[src/request/createAPIInstance.ts:13](https://github.com/Orfium/toolbox/blob/4ecaca9/src/request/createAPIInstance.ts#L13)
+[src/request/createAPIInstance.ts:13](https://github.com/Orfium/toolbox/blob/50e8912/src/request/createAPIInstance.ts#L13)
 
 ___
 
@@ -161,7 +177,7 @@ ___
 
 #### Defined in
 
-[src/authentication/types.ts:9](https://github.com/Orfium/toolbox/blob/4ecaca9/src/authentication/types.ts#L9)
+[src/authentication/types.ts:9](https://github.com/Orfium/toolbox/blob/50e8912/src/authentication/types.ts#L9)
 
 ___
 
@@ -177,7 +193,7 @@ ___
 
 #### Defined in
 
-[src/routing/Routing.tsx:22](https://github.com/Orfium/toolbox/blob/4ecaca9/src/routing/Routing.tsx#L22)
+[src/routing/Routing.tsx:22](https://github.com/Orfium/toolbox/blob/50e8912/src/routing/Routing.tsx#L22)
 
 ___
 
@@ -189,14 +205,14 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `children?` | [`MenuItem`](modules.md#menuitem-2)[] |
+| `children?` | [`Optional`](modules.md#optional)<[`MenuItem`](modules.md#menuitem), ``"iconName"``\>[] |
 | `iconName` | `AcceptedIconNames` |
 | `text` | `string` |
 | `url` | `string` |
 
 #### Defined in
 
-[src/ui/Navigation/types.ts:3](https://github.com/Orfium/toolbox/blob/4ecaca9/src/ui/Navigation/types.ts#L3)
+[src/ui/Navigation/types.ts:4](https://github.com/Orfium/toolbox/blob/50e8912/src/ui/Navigation/types.ts#L4)
 
 ___
 
@@ -216,7 +232,7 @@ ___
 
 #### Defined in
 
-[src/request/mock.ts:3](https://github.com/Orfium/toolbox/blob/4ecaca9/src/request/mock.ts#L3)
+[src/request/mock.ts:3](https://github.com/Orfium/toolbox/blob/50e8912/src/request/mock.ts#L3)
 
 ___
 
@@ -229,18 +245,35 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `adminButtonTooltipText?` | `string` |
-| `adminNavigation?` | [`MenuItem`](modules.md#menuitem-2)[] |
+| `adminNavigation?` | [`MenuItem`](modules.md#menuitem)[] |
 | `adminNavigationHeader?` | `string` |
 | `adminNavigationURLSegment?` | `string` |
-| `extras?` | { `menuItems`: `Omit`<[`MenuItem`](modules.md#menuitem-2), ``"children"``\>[] ; `title`: `string`  }[] |
+| `extras?` | { `menuItems`: `Omit`<[`MenuItem`](modules.md#menuitem), ``"children"``\>[] ; `title`: `string`  }[] |
 | `hideOrgSwitcher?` | `boolean` |
 | `navigationHeader` | `string` |
-| `regularNavigation` | [`MenuItem`](modules.md#menuitem-2)[] |
+| `regularNavigation` | [`MenuItem`](modules.md#menuitem)[] |
 | `userIsAdmin?` | `boolean` |
 
 #### Defined in
 
-[src/ui/Navigation/Navigation.tsx:26](https://github.com/Orfium/toolbox/blob/4ecaca9/src/ui/Navigation/Navigation.tsx#L26)
+[src/ui/Navigation/Navigation.tsx:26](https://github.com/Orfium/toolbox/blob/50e8912/src/ui/Navigation/Navigation.tsx#L26)
+
+___
+
+### Optional
+
+Ƭ **Optional**<`T`, `K`\>: `Omit`<`T`, `K`\> & `Partial`<`T`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `T` |
+| `K` | extends keyof `T` |
+
+#### Defined in
+
+[src/utils/types.ts:1](https://github.com/Orfium/toolbox/blob/50e8912/src/utils/types.ts#L1)
 
 ___
 
@@ -264,7 +297,7 @@ ___
 
 #### Defined in
 
-[src/store/organizations.ts:4](https://github.com/Orfium/toolbox/blob/4ecaca9/src/store/organizations.ts#L4)
+[src/store/organizations.ts:4](https://github.com/Orfium/toolbox/blob/50e8912/src/store/organizations.ts#L4)
 
 ___
 
@@ -274,7 +307,7 @@ ___
 
 #### Defined in
 
-[src/request/request.ts:16](https://github.com/Orfium/toolbox/blob/4ecaca9/src/request/request.ts#L16)
+[src/request/request.ts:16](https://github.com/Orfium/toolbox/blob/50e8912/src/request/request.ts#L16)
 
 ___
 
@@ -304,7 +337,7 @@ Is being used to the route component to extend its functionality on types
 
 #### Defined in
 
-[src/routing/Routing.tsx:35](https://github.com/Orfium/toolbox/blob/4ecaca9/src/routing/Routing.tsx#L35)
+[src/routing/Routing.tsx:35](https://github.com/Orfium/toolbox/blob/50e8912/src/routing/Routing.tsx#L35)
 
 ___
 
@@ -316,14 +349,14 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `authorization?` | [`Authorization`](modules.md#authorization-2) | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' -  **`defaultvalue:`** 'anonymous' |
-| `component?` | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-2)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route |
+| `authorization?` | [`Authorization`](modules.md#authorization) | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' -  **`defaultvalue:`** 'anonymous' |
+| `component?` | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route |
 | `extraProps?` | `unknown` | Any custom/extra props that are going to be available on the component |
 | `path` | `string` \| `string`[] | The url path or paths of the route that will listen to in order to render |
 
 #### Defined in
 
-[src/routing/Routing.tsx:41](https://github.com/Orfium/toolbox/blob/4ecaca9/src/routing/Routing.tsx#L41)
+[src/routing/Routing.tsx:41](https://github.com/Orfium/toolbox/blob/50e8912/src/routing/Routing.tsx#L41)
 
 ___
 
@@ -335,12 +368,12 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath-2), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
-| `routes` | [`RouteItem`](modules.md#routeitem-2)[] | - |
+| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
+| `routes` | [`RouteItem`](modules.md#routeitem)[] | - |
 
 #### Defined in
 
-[src/routing/Routing.tsx:24](https://github.com/Orfium/toolbox/blob/4ecaca9/src/routing/Routing.tsx#L24)
+[src/routing/Routing.tsx:24](https://github.com/Orfium/toolbox/blob/50e8912/src/routing/Routing.tsx#L24)
 
 ___
 
@@ -350,7 +383,7 @@ ___
 
 #### Defined in
 
-[src/ui/TopBar/TopBar.tsx:8](https://github.com/Orfium/toolbox/blob/4ecaca9/src/ui/TopBar/TopBar.tsx#L8)
+[src/ui/TopBar/TopBar.tsx:8](https://github.com/Orfium/toolbox/blob/50e8912/src/ui/TopBar/TopBar.tsx#L8)
 
 ___
 
@@ -389,19 +422,9 @@ ___
 
 #### Defined in
 
-[src/authentication/types.ts:22](https://github.com/Orfium/toolbox/blob/4ecaca9/src/authentication/types.ts#L22)
+[src/authentication/types.ts:22](https://github.com/Orfium/toolbox/blob/50e8912/src/authentication/types.ts#L22)
 
 ## Variables
-
-### AuthenticationProvider
-
-• `Const` **AuthenticationProvider**: `React.FC`
-
-#### Defined in
-
-[src/authentication/context.tsx:145](https://github.com/Orfium/toolbox/blob/4ecaca9/src/authentication/context.tsx#L145)
-
-___
 
 ### DEFAULT\_NAVBAR\_HEIGHT
 
@@ -409,7 +432,7 @@ ___
 
 #### Defined in
 
-[src/ui/consts.ts:1](https://github.com/Orfium/toolbox/blob/4ecaca9/src/ui/consts.ts#L1)
+[src/ui/consts.ts:1](https://github.com/Orfium/toolbox/blob/50e8912/src/ui/consts.ts#L1)
 
 ___
 
@@ -419,7 +442,7 @@ ___
 
 #### Defined in
 
-[src/request/request.ts:14](https://github.com/Orfium/toolbox/blob/4ecaca9/src/request/request.ts#L14)
+[src/request/request.ts:14](https://github.com/Orfium/toolbox/blob/50e8912/src/request/request.ts#L14)
 
 ___
 
@@ -429,17 +452,17 @@ ___
 
 #### Defined in
 
-[src/request/mock.ts:4](https://github.com/Orfium/toolbox/blob/4ecaca9/src/request/mock.ts#L4)
+[src/request/mock.ts:4](https://github.com/Orfium/toolbox/blob/50e8912/src/request/mock.ts#L4)
 
 ___
 
 ### orfiumIdBaseInstance
 
-• `Const` **orfiumIdBaseInstance**: [`CreateAPIInstanceType`](modules.md#createapiinstancetype-2)
+• `Const` **orfiumIdBaseInstance**: [`CreateAPIInstanceType`](modules.md#createapiinstancetype)
 
 #### Defined in
 
-[src/request/index.ts:6](https://github.com/Orfium/toolbox/blob/4ecaca9/src/request/index.ts#L6)
+[src/request/index.ts:6](https://github.com/Orfium/toolbox/blob/50e8912/src/request/index.ts#L6)
 
 ## Other Functions
 
@@ -451,8 +474,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Object` |
-| `__namedParameters.children` | `ReactNode` |
+| `__namedParameters` | [`AuthenticationProps`](modules.md#authenticationprops) |
 
 #### Returns
 
@@ -460,7 +482,7 @@ ___
 
 #### Defined in
 
-[src/authentication/components/Authentication/Authentication.tsx:17](https://github.com/Orfium/toolbox/blob/4ecaca9/src/authentication/components/Authentication/Authentication.tsx#L17)
+[src/authentication/components/Authentication/Authentication.tsx:19](https://github.com/Orfium/toolbox/blob/50e8912/src/authentication/components/Authentication/Authentication.tsx#L19)
 
 ___
 
@@ -472,7 +494,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`NavigationProps`](modules.md#navigationprops-2) |
+| `props` | [`NavigationProps`](modules.md#navigationprops) |
 
 #### Returns
 
@@ -480,7 +502,7 @@ ___
 
 #### Defined in
 
-[src/ui/Navigation/Navigation.tsx:38](https://github.com/Orfium/toolbox/blob/4ecaca9/src/ui/Navigation/Navigation.tsx#L38)
+[src/ui/Navigation/Navigation.tsx:40](https://github.com/Orfium/toolbox/blob/50e8912/src/ui/Navigation/Navigation.tsx#L40)
 
 ___
 
@@ -492,7 +514,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`TopBarProps`](modules.md#topbarprops-2) |
+| `__namedParameters` | [`TopBarProps`](modules.md#topbarprops) |
 
 #### Returns
 
@@ -500,41 +522,41 @@ ___
 
 #### Defined in
 
-[src/ui/TopBar/TopBar.tsx:12](https://github.com/Orfium/toolbox/blob/4ecaca9/src/ui/TopBar/TopBar.tsx#L12)
+[src/ui/TopBar/TopBar.tsx:12](https://github.com/Orfium/toolbox/blob/50e8912/src/ui/TopBar/TopBar.tsx#L12)
 
 ___
 
 ### createAPIInstance
 
-▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype-2)
+▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops-2) |
+| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops) |
 
 #### Returns
 
-[`CreateAPIInstanceType`](modules.md#createapiinstancetype-2)
+[`CreateAPIInstanceType`](modules.md#createapiinstancetype)
 
 #### Defined in
 
-[src/request/createAPIInstance.ts:30](https://github.com/Orfium/toolbox/blob/4ecaca9/src/request/createAPIInstance.ts#L30)
+[src/request/createAPIInstance.ts:30](https://github.com/Orfium/toolbox/blob/50e8912/src/request/createAPIInstance.ts#L30)
 
 ___
 
 ### useAuthentication
 
-▸ **useAuthentication**(): [`AuthenticationContextProps`](modules.md#authenticationcontextprops-2)
+▸ **useAuthentication**(): [`AuthenticationContextValue`](modules.md#authenticationcontextvalue)
 
 #### Returns
 
-[`AuthenticationContextProps`](modules.md#authenticationcontextprops-2)
+[`AuthenticationContextValue`](modules.md#authenticationcontextvalue)
 
 #### Defined in
 
-[src/authentication/context.tsx:309](https://github.com/Orfium/toolbox/blob/4ecaca9/src/authentication/context.tsx#L309)
+[src/authentication/context.tsx:309](https://github.com/Orfium/toolbox/blob/50e8912/src/authentication/context.tsx#L309)
 
 ___
 
@@ -555,7 +577,7 @@ If the fallbacks are defined then those will be used instead.
 | `props` | `Object` | Component properties |
 | `props.fallbackComponent?` | `ComponentType`<{}\> | The component that will render if none of the routes match the url location - @default Page not found |
 | `props.isAuthenticated` | `boolean` | A boolean that are passed from the parent Application to let the generation of routes know the state of the user |
-| `props.structure` | [`RoutingStructure`](modules.md#routingstructure-2) | A list of Routes that needs to render with authorization level and extra props. |
+| `props.structure` | [`RoutingStructure`](modules.md#routingstructure) | A list of Routes that needs to render with authorization level and extra props. |
 
 #### Returns
 
@@ -563,4 +585,4 @@ If the fallbacks are defined then those will be used instead.
 
 #### Defined in
 
-[src/routing/Routing.tsx:62](https://github.com/Orfium/toolbox/blob/4ecaca9/src/routing/Routing.tsx#L62)
+[src/routing/Routing.tsx:62](https://github.com/Orfium/toolbox/blob/50e8912/src/routing/Routing.tsx#L62)
