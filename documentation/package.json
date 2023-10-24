@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@akebifiky/remark-simple-plantuml": "^1.0.2",
-    "@docusaurus/core": "2.0.0-beta.18",
-    "@docusaurus/preset-classic": "2.0.0-beta.18",
+    "@docusaurus/core": "^2.4.3",
+    "@docusaurus/preset-classic": "^2.4.3",
     "@mdx-js/react": "^1.6.22",
     "@orfium/ictinus": "^4.43.0",
     "clsx": "^1.1.1",
@@ -37,7 +37,7 @@
     ]
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-alpha.63",
+    "@docusaurus/module-type-aliases": "^2.4.3",
     "@types/jest": "^27.4.1",
     "docusaurus-plugin-typedoc": "^0.17.5",
     "jest": "^27.5.1",
