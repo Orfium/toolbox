@@ -3,10 +3,11 @@ id: 'useDeferredValue'
 title: 'useDeferredValue<T>'
 sidebar_label: 'useDeferredValue'
 sidebar_position: 4
-custom_edit_url: null
 ---
 
-`import { useDeferredValue } from '@orfium/toolbox';`
+```ts
+import { useDeferredValue } from '@orfium/toolbox';
+```
 
 ## Description
 

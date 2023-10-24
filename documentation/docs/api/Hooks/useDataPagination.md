@@ -7,10 +7,11 @@ title: 'useDataPagination<
 >'
 sidebar_label: 'useDataPagination'
 sidebar_position: 10
-custom_edit_url: null
 ---
 
-`import { useDataPagination } from '@orfium/toolbox';`
+```ts
+import { useDataPagination } from '@orfium/toolbox';
+```
 
 ## Description
 
