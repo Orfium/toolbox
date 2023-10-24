@@ -1,4 +1,4 @@
-import { Icon } from '@orfium/ictinus';
+import { Icon, useTheme } from '@orfium/ictinus';
 import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types';
 import ClickAwayListener from '@orfium/ictinus/dist/components/utils/ClickAwayListener';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -29,7 +29,7 @@ export type UserMenuProps = {
 
 function UserMenu(props: UserMenuProps) {
   const { user, logout } = useAuthentication();
-
+  const theme = useTheme();
   const [open, setOpen] = useState(false);
   const outerMenuWrapperRef = useRef<HTMLDivElement | null>(null);
   const innerMenuWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -76,6 +76,7 @@ function UserMenu(props: UserMenuProps) {
     <ClickAwayListener onClick={() => setOpen(false)}>
       <Anchor>
         <MenuOuterWrapper
+          theme={theme}
           onClick={() => {
             if (!open) {
               setOpen(true);
@@ -91,14 +92,15 @@ function UserMenu(props: UserMenuProps) {
           tabIndex={open ? -1 : 0}
           ref={outerMenuWrapperRef}
         >
-          <MenuInnerWrapper aria-hidden={open ? 'false' : 'true'} ref={innerMenuWrapperRef}>
-            <Header data-menu-header>
+          <MenuInnerWrapper theme={theme} aria-hidden={open ? 'false' : 'true'} ref={innerMenuWrapperRef}>
+            <Header theme={theme} data-menu-header>
               <img alt={'User avatar image'} src={user?.picture} />
               <div>
                 <UsernameWrapper>
-                  <Username>{user?.name}</Username> {user?.role ? <Tag>{user?.role}</Tag> : null}
+                  <Username theme={theme}>{user?.name}</Username>{' '}
+                  {user?.role ? <Tag theme={theme}>{user?.role}</Tag> : null}
                 </UsernameWrapper>
-                <Email>{user?.email}</Email>
+                <Email theme={theme}>{user?.email}</Email>
               </div>
             </Header>
 
@@ -107,6 +109,7 @@ function UserMenu(props: UserMenuProps) {
                 {props.menuItems.map((option) => {
                   return (
                     <MenuItem
+                      theme={theme}
                       href={option.url}
                       target={'_blank'}
                       rel={'noopener noreferrer'}
@@ -119,8 +122,8 @@ function UserMenu(props: UserMenuProps) {
                   );
                 })}
               </PrimarySection>
-              <SecondarySection>
-                <LogoutButton onClick={logout} tabIndex={open ? 0 : -1}>
+              <SecondarySection theme={theme}>
+                <LogoutButton theme={theme} onClick={logout} tabIndex={open ? 0 : -1}>
                   <span>Log out</span>
                 </LogoutButton>
               </SecondarySection>

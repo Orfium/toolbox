@@ -35,15 +35,15 @@ custom_edit_url: null
 
 ## Other Functions
 
-- [Authentication](modules.md#authentication)
-- [Navigation](modules.md#navigation)
-- [TopBar](modules.md#topbar)
-- [createAPIInstance](modules.md#createapiinstance)
-- [useAuthentication](modules.md#useauthentication)
+- [Authentication](modules.md#authentication-6)
+- [Navigation](modules.md#navigation-6)
+- [TopBar](modules.md#topbar-6)
+- [createAPIInstance](modules.md#createapiinstance-6)
+- [useAuthentication](modules.md#useauthentication-6)
 
 ## component Functions
 
-- [generateRoutes](modules.md#generateroutes)
+- [generateRoutes](modules.md#generateroutes-6)
 
 ## Type aliases
 
@@ -58,10 +58,10 @@ custom_edit_url: null
 | `isAuthenticated` | `boolean` |
 | `isLoading` | `boolean` |
 | `orfiumProducts` | `Product`[] \| ``null`` |
-| `organizations` | [`Organization`](modules.md#organization)[] |
-| `selectedOrganization` | [`Organization`](modules.md#organization) \| ``null`` |
-| `user` | [`User`](modules.md#user) \| `undefined` |
-| `getAccessTokenSilently` | (`opts?`: `GetTokenSilentlyOptions`) => `Promise`<`void` \| { `decodedToken`: [`DecodedTokenResponse`](modules.md#decodedtokenresponse) \| `Record`<`string`, `never`\> ; `token`: `string`  }\> |
+| `organizations` | [`Organization`](modules.md#organization-6)[] |
+| `selectedOrganization` | [`Organization`](modules.md#organization-6) \| ``null`` |
+| `user` | [`User`](modules.md#user-6) \| `undefined` |
+| `getAccessTokenSilently` | (`opts?`: `GetTokenSilentlyOptions`) => `Promise`<`void` \| { `decodedToken`: [`DecodedTokenResponse`](modules.md#decodedtokenresponse-6) \| `Record`<`string`, `never`\> ; `token`: `string`  }\> |
 | `loginWithRedirect` | (`o?`: `RedirectLoginOptions`<`any`\>) => `Promise`<`void`\> |
 | `logout` | () => `void` |
 | `switchOrganization` | (`organisation`: `string`) => `void` |
@@ -147,7 +147,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `instance` | [`AxiosInstance`](interfaces/AxiosInstance.md) |
-| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\>  } |
+| `createRequest` | <T\>(`props`: [`RequestProps`](modules.md#requestprops-6)) => { `cancelTokenSource`: [`CancelTokenSource`](interfaces/CancelTokenSource.md) ; `request`: () => `Promise`<`T`\>  } |
 | `deleteToken` | () => `void` |
 | `setToken` | (`token`: `string`) => `void` |
 
@@ -205,7 +205,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `children?` | [`Optional`](modules.md#optional)<[`MenuItem`](modules.md#menuitem), ``"iconName"``\>[] |
+| `children?` | [`Optional`](modules.md#optional-6)<[`MenuItem`](modules.md#menuitem-6), ``"iconName"``\>[] |
 | `iconName` | `AcceptedIconNames` |
 | `text` | `string` |
 | `url` | `string` |
@@ -245,13 +245,13 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `adminButtonTooltipText?` | `string` |
-| `adminNavigation?` | [`MenuItem`](modules.md#menuitem)[] |
+| `adminNavigation?` | [`MenuItem`](modules.md#menuitem-6)[] |
 | `adminNavigationHeader?` | `string` |
 | `adminNavigationURLSegment?` | `string` |
-| `extras?` | { `menuItems`: `Omit`<[`MenuItem`](modules.md#menuitem), ``"children"``\>[] ; `title`: `string`  }[] |
+| `extras?` | { `menuItems`: `Omit`<[`MenuItem`](modules.md#menuitem-6), ``"children"``\>[] ; `title`: `string`  }[] |
 | `hideOrgSwitcher?` | `boolean` |
 | `navigationHeader` | `string` |
-| `regularNavigation` | [`MenuItem`](modules.md#menuitem)[] |
+| `regularNavigation` | [`MenuItem`](modules.md#menuitem-6)[] |
 | `userIsAdmin?` | `boolean` |
 
 #### Defined in
@@ -349,8 +349,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `authorization?` | [`Authorization`](modules.md#authorization) | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' -  **`defaultvalue:`** 'anonymous' |
-| `component?` | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route |
+| `authorization?` | [`Authorization`](modules.md#authorization-6) | The authorization level of the route, there are 3: 'anonymous' \| 'authorized' \| 'unauthorized' -  **`defaultvalue:`** 'anonymous' |
+| `component?` | `React.FunctionComponent`<[`RouteComponentProps`](modules.md#routecomponentprops-6)\> | A component that the route renders as page. This has all the props and extraProps that have been passed to that route |
 | `extraProps?` | `unknown` | Any custom/extra props that are going to be available on the component |
 | `path` | `string` \| `string`[] | The url path or paths of the route that will listen to in order to render |
 
@@ -368,8 +368,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
-| `routes` | [`RouteItem`](modules.md#routeitem)[] | - |
+| `fallbackPaths?` | `Partial`<`Record`<[`FallbackPath`](modules.md#fallbackpath-6), `string`\>\> | Holder of paths relative to the types of authorization. For every type there is a fallback path that a user will be redirected if they don't have access to it based on the authorization |
+| `routes` | [`RouteItem`](modules.md#routeitem-6)[] | - |
 
 #### Defined in
 
@@ -458,7 +458,7 @@ ___
 
 ### orfiumIdBaseInstance
 
-• `Const` **orfiumIdBaseInstance**: [`CreateAPIInstanceType`](modules.md#createapiinstancetype)
+• `Const` **orfiumIdBaseInstance**: [`CreateAPIInstanceType`](modules.md#createapiinstancetype-6)
 
 #### Defined in
 
@@ -474,7 +474,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`AuthenticationProps`](modules.md#authenticationprops) |
+| `__namedParameters` | [`AuthenticationProps`](modules.md#authenticationprops-6) |
 
 #### Returns
 
@@ -494,7 +494,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`NavigationProps`](modules.md#navigationprops) |
+| `props` | [`NavigationProps`](modules.md#navigationprops-6) |
 
 #### Returns
 
@@ -514,7 +514,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`TopBarProps`](modules.md#topbarprops) |
+| `__namedParameters` | [`TopBarProps`](modules.md#topbarprops-6) |
 
 #### Returns
 
@@ -528,17 +528,17 @@ ___
 
 ### createAPIInstance
 
-▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype)
+▸ **createAPIInstance**(`__namedParameters`): [`CreateAPIInstanceType`](modules.md#createapiinstancetype-6)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops) |
+| `__namedParameters` | [`CreateAPIInstanceProps`](modules.md#createapiinstanceprops-6) |
 
 #### Returns
 
-[`CreateAPIInstanceType`](modules.md#createapiinstancetype)
+[`CreateAPIInstanceType`](modules.md#createapiinstancetype-6)
 
 #### Defined in
 
@@ -548,11 +548,11 @@ ___
 
 ### useAuthentication
 
-▸ **useAuthentication**(): [`AuthenticationContextValue`](modules.md#authenticationcontextvalue)
+▸ **useAuthentication**(): [`AuthenticationContextValue`](modules.md#authenticationcontextvalue-6)
 
 #### Returns
 
-[`AuthenticationContextValue`](modules.md#authenticationcontextvalue)
+[`AuthenticationContextValue`](modules.md#authenticationcontextvalue-6)
 
 #### Defined in
 
@@ -577,7 +577,7 @@ If the fallbacks are defined then those will be used instead.
 | `props` | `Object` | Component properties |
 | `props.fallbackComponent?` | `ComponentType`<{}\> | The component that will render if none of the routes match the url location - @default Page not found |
 | `props.isAuthenticated` | `boolean` | A boolean that are passed from the parent Application to let the generation of routes know the state of the user |
-| `props.structure` | [`RoutingStructure`](modules.md#routingstructure) | A list of Routes that needs to render with authorization level and extra props. |
+| `props.structure` | [`RoutingStructure`](modules.md#routingstructure-6) | A list of Routes that needs to render with authorization level and extra props. |
 
 #### Returns
 
