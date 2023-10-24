@@ -12,6 +12,7 @@ export const NavigationContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
   overflow: auto;
 
+  padding-bottom: ${({ theme }) => theme.spacing.sm};
   //Stick the scrollbar to the edge
   padding-right: ${({ theme }) => `${theme.spacing.md}`};
   width: calc(100% + ${({ theme }) => `${theme.spacing.md}`});

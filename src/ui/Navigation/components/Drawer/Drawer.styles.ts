@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { transition } from '@orfium/ictinus/dist/theme/functions';
 import { rem } from 'polished';
+import { menuItemStyle } from '../../common.styles';
 
 export const DrawerContainer = styled.div<{
   expanded: boolean;
@@ -39,12 +40,46 @@ export const NavHeader = styled.h2`
   color: ${({ theme }) => theme.utils.getColor('blue', 600)};
   flex-shrink: 0;
   margin: 0 0 ${({ theme }) => theme.spacing.sm} 0;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const ExtrasContainer = styled.div`
   border-top: 1px solid ${({ theme }) => theme.utils.getColor('lightGrey', 200)};
   flex-shrink: 0;
   padding: ${({ theme }) => `${theme.spacing.md} 0`};
+`;
+
+export const ExtrasSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.sm} 0;
+`;
+
+export const ExtrasSectionTitle = styled.h2`
+  font-size: ${({ theme }) => `${theme.typography.fontSizes['12']}`};
+  font-weight: ${({ theme }) => `${theme.typography.weights.bold}`};
+  line-height: ${({ theme }) => theme.spacing.md});
+  color: ${({ theme }) => theme.utils.getColor('blue', 600)};
+  text-transform: uppercase;
+  margin: 0;
+`;
+
+export const ExtrasSectionMenuItem = styled.a`
+  ${({ theme }) => menuItemStyle(theme)};
+  font-weight: ${({ theme }) => theme.typography.weights.regular};
+
+  > span {
+    transform: scale(1);
+    transition: transform 0.15s ease;
+  }
+
+  &:active {
+    > span {
+      transform: scale(0.95);
+    }
+  }
 `;
 
 export const NavElementsContainer = styled.div`

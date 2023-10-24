@@ -3,23 +3,15 @@ import { BASE_SHADE } from '@orfium/ictinus/dist/theme/palette';
 import React from 'react';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import FlippableArrow from '../../../../../../FlippableArrow';
+import { MenuIcon, MenuItemText } from '../../../../../common.styles';
 import { MenuItem as MenuItemType } from '../../../../../types';
 import {
   ArrowContainer,
   Bullet,
   ExpandCollapseWrapper,
-  MenuIcon,
   MenuItemButton,
-  MenuItemText,
   MenuLink,
 } from './MenuItem.styles';
-
-type Props = {
-  /** Defines if the menu item is expanded */
-  expanded: boolean;
-  toggleMenuItem: (newUrl: string) => void;
-  item: MenuItemType;
-};
 
 function MenuItemContent(props: { expanded: boolean; item: MenuItemType; isSubMenu?: boolean }) {
   const { item, expanded, isSubMenu = false } = props;
@@ -29,7 +21,7 @@ function MenuItemContent(props: { expanded: boolean; item: MenuItemType; isSubMe
   const { shade } = calculateColorBetweenColorAndType('', 'primary');
 
   const isCurrent = !!match;
-  const hasSubMenus = item.options.length > 0;
+  const hasSubMenus = item.children && item.children.length > 0;
   const color = isCurrent
     ? theme.utils.getColor('blue', 600)
     : theme.utils.getColor('lightGrey', 650);
@@ -49,7 +41,7 @@ function MenuItemContent(props: { expanded: boolean; item: MenuItemType; isSubMe
         )}
       </MenuIcon>
       <MenuItemText color={color} className={'menu-item-text'}>
-        {item.name}
+        {item.text}
       </MenuItemText>
       {hasSubMenus ? (
         <ArrowContainer open={expanded}>
@@ -60,7 +52,14 @@ function MenuItemContent(props: { expanded: boolean; item: MenuItemType; isSubMe
   );
 }
 
-const MenuItem: React.FC<Props> = ({ expanded, toggleMenuItem, item }) => {
+export type MenuItemProps = {
+  /** Defines if the menu item is expanded */
+  expanded: boolean;
+  toggleMenuItem: (newUrl: string) => void;
+  item: MenuItemType;
+};
+
+function MenuItem({ expanded, toggleMenuItem, item }: MenuItemProps) {
   const match = useRouteMatch(item.url);
   const { state } = useLocation<{
     previous: {
@@ -69,7 +68,7 @@ const MenuItem: React.FC<Props> = ({ expanded, toggleMenuItem, item }) => {
     };
   } | null>();
 
-  const hasSubMenus = item.options.length > 0;
+  const hasSubMenus = item.children && item.children.length > 0;
 
   return (
     <React.Fragment>
@@ -89,9 +88,8 @@ const MenuItem: React.FC<Props> = ({ expanded, toggleMenuItem, item }) => {
             {() => {
               return (
                 <React.Fragment>
-                  {item.options.map(
-                    (subMenuItem) =>
-                      subMenuItem.visible && (
+                  {item.children
+                    ? item.children.map((subMenuItem) => (
                         <MenuLink
                           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                           // @ts-ignore
@@ -103,12 +101,11 @@ const MenuItem: React.FC<Props> = ({ expanded, toggleMenuItem, item }) => {
                           data-testid={subMenuItem.url}
                           key={subMenuItem.url}
                           id={'submenu-item-link'}
-                          isSubmenu
                         >
                           <MenuItemContent expanded={expanded} item={subMenuItem} isSubMenu />
                         </MenuLink>
-                      )
-                  )}
+                      ))
+                    : null}
                 </React.Fragment>
               );
             }}
@@ -131,6 +128,6 @@ const MenuItem: React.FC<Props> = ({ expanded, toggleMenuItem, item }) => {
       )}
     </React.Fragment>
   );
-};
+}
 
 export default MenuItem;
