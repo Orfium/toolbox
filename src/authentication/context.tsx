@@ -6,13 +6,18 @@ import {
   RedirectLoginOptions,
 } from '@auth0/auth0-spa-js';
 import jwt_decode from 'jwt-decode';
-import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useErrorHandler } from 'react-error-boundary';
-import { useOrfiumProducts } from '../hooks/useOrfiumProducts';
+import { orfiumIdBaseInstance } from '../request';
 import useOrganization from '../store/organizations';
 import useRequestToken from '../store/requestToken';
 import { config } from './config';
-import { AuthenticationContextValue } from './types';
+import {
+  AuthenticationContextValue,
+  OrfiumProductsContextValue,
+  OrganizationsContextValue,
+  Product,
+} from './types';
 
 export const onRedirectCallback = (appState: { targetUrl?: string }) => {
   window.history.replaceState(
@@ -35,21 +40,32 @@ export const providerConfig: Auth0ClientOptions = {
   useRefreshTokensFallback: true, // fix issue with logout https://community.auth0.com/t/auth0-spa-2-x-returning-missing-refresh-token/98999/18
 };
 
-export const defaultContextValues: AuthenticationContextValue = {
+export const defaultAuthenticationContextValues: AuthenticationContextValue = {
   isAuthenticated: false,
   isLoading: false,
   user: undefined,
-  orfiumProducts: null,
-  organizations: [],
-  selectedOrganization: null,
-  switchOrganization: (__x) => {},
   loginWithRedirect: () => Promise.resolve(),
   logout: () => Promise.resolve('logged out'),
   getAccessTokenSilently: () => Promise.resolve({ token: '', decodedToken: {} }),
 };
 
-export const AuthenticationContext =
-  createContext<AuthenticationContextValue>(defaultContextValues);
+export const defaultOrfiumProductsContextValues: OrfiumProductsContextValue = null;
+
+export const defaultOrganizationsContextValues: OrganizationsContextValue = {
+  organizations: [],
+  selectedOrganization: null,
+  switchOrganization: (__x) => {},
+};
+
+const AuthenticationContext = createContext<AuthenticationContextValue>(
+  defaultAuthenticationContextValues
+);
+const OrfiumProductsContext = createContext<OrfiumProductsContextValue>(
+  defaultOrfiumProductsContextValues
+);
+const OrganizationsContext = createContext<OrganizationsContextValue>(
+  defaultOrganizationsContextValues
+);
 
 /*
  * This function get an auth0 client and store it globally as a singleton.
@@ -142,12 +158,12 @@ export const getTokenSilently = async (
   }
 };
 
-const AuthenticationProvider: React.FC = ({ children }) => {
+export const AuthenticationProvider: React.FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<Record<string, unknown>>();
   const [auth0Client, setAuth0Client] = useState<Auth0Client>();
   const [isLoading, setIsLoading] = useState(true);
-  // const [products, setProducts] = useState<Product[] | null>(null);
+  const [orfiumProducts, setOrfiumProducts] = useState<Product[] | null>(null);
   // handleError is referentially stable, so it's safe to use as a dep in dep array
   // https://github.com/bvaughn/react-error-boundary/blob/v3.1.4/src/index.tsx#L165C10-L165C18
   const handleError = useErrorHandler();
@@ -284,7 +300,18 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     [setSelectedOrganization]
   );
 
-  const orfiumProducts = useOrfiumProducts(selectedOrganization?.org_id);
+  useEffect(() => {
+    const { request, cancelTokenSource } = orfiumIdBaseInstance.createRequest<Product[]>({
+      method: 'get',
+      url: '/products/',
+    });
+
+    request().then((resp) => {
+      setOrfiumProducts(resp);
+    });
+
+    return cancelTokenSource.cancel;
+  }, [selectedOrganization?.org_id]);
 
   return (
     <AuthenticationContext.Provider
@@ -294,18 +321,20 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         loginWithRedirect,
         logout: logoutAuth,
         getAccessTokenSilently: (o?: GetTokenSilentlyOptions) => getAccessTokenSilently(o),
-        orfiumProducts,
-        organizations,
-        selectedOrganization,
-        switchOrganization,
         user,
       }}
     >
-      {children}
+      <OrganizationsContext.Provider
+        value={{ organizations, selectedOrganization, switchOrganization }}
+      >
+        <OrfiumProductsContext.Provider value={orfiumProducts}>
+          {children}
+        </OrfiumProductsContext.Provider>
+      </OrganizationsContext.Provider>
     </AuthenticationContext.Provider>
   );
 };
 
-const useAuthentication = () => React.useContext(AuthenticationContext);
-
-export { AuthenticationProvider, useAuthentication };
+export const useAuthentication = () => useContext(AuthenticationContext);
+export const useOrfiumProducts = () => useContext(OrfiumProductsContext);
+export const useOrganizations = () => useContext(OrganizationsContext);

@@ -31,7 +31,7 @@ import useRequestToken from '../store/requestToken';
 import {
   AuthenticationProvider,
   client,
-  defaultContextValues,
+  defaultAuthenticationContextValues,
   getAuth0Client,
   getTokenSilently,
   logoutAuth,
@@ -424,12 +424,12 @@ describe('Context', () => {
   }, 10000);
 
   test('Context default functions', async () => {
-    expect(await defaultContextValues.getAccessTokenSilently()).toEqual({
+    expect(await defaultAuthenticationContextValues.getAccessTokenSilently()).toEqual({
       token: '',
       decodedToken: {},
     });
-    expect(await defaultContextValues.logout()).toBe('logged out');
-    expect(await defaultContextValues.loginWithRedirect()).toBe(undefined);
+    expect(await defaultAuthenticationContextValues.logout()).toBe('logged out');
+    expect(await defaultAuthenticationContextValues.loginWithRedirect()).toBe(undefined);
   });
 
   test('getAuth0Client failed process', async () => {

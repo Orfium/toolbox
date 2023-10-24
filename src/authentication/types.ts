@@ -3,7 +3,6 @@ import type {
   GetTokenSilentlyOptions,
   RedirectLoginOptions,
 } from '@auth0/auth0-spa-js';
-import type { Product } from '../hooks/useOrfiumProducts/types';
 import { Organization } from '../store/organizations';
 
 export type DecodedTokenResponse = {
@@ -51,11 +50,30 @@ export type AuthenticationContextValue = {
     token: string;
     decodedToken: DecodedTokenResponse | Record<string, never>;
   } | void>;
-  orfiumProducts: Product[] | null;
   user: User | undefined;
+};
+
+export type OrfiumProductsContextValue = Product[] | null;
+
+export type OrganizationsContextValue = {
   organizations: Organization[];
   selectedOrganization: Organization | null;
   switchOrganization: (organisation: Organization['org_id']) => void;
 };
 
-export type AuthenticationProviderProps = { overrides?: Auth0ClientOptions };
+type ClientMetadata = {
+  product_code: string;
+};
+
+export type Product = {
+  client_id: string;
+  client_metadata: ClientMetadata;
+  grant_types: string | null;
+  icon_url: string;
+  login_url: string;
+  logo_url: string;
+  name: string;
+  organization_usage: string;
+};
+
+type AuthenticationProviderProps = { overrides?: Auth0ClientOptions };

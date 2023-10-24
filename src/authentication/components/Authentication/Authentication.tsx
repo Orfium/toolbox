@@ -2,12 +2,11 @@ import { Button, Loader } from '@orfium/ictinus';
 import * as Sentry from '@sentry/browser';
 import { ReactNode, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-
 import { orfiumIdBaseInstance } from '../../../request';
 import useOrganization, { Organization } from '../../../store/organizations';
 import ErrorFallback from '../../../ui/ErrorFallback/ErrorFallback';
 import { config } from '../../config';
-import { AuthenticationProvider, useAuthentication } from '../../context';
+import { AuthenticationProvider, useAuthentication, useOrganizations } from '../../context';
 import { Box, LoadingContent, Wrapper } from './Authentication.style';
 
 export type AuthenticationProps = { children: ReactNode };
@@ -16,7 +15,7 @@ export type AuthenticationProps = { children: ReactNode };
  * The component that uses the AuthenticationProvider.
  * All the logic is on the Authentication
  */
-function Authentication({ children }: AuthenticationProps) {
+export function Authentication({ children }: AuthenticationProps) {
   return (
     // @ts-ignore @TODO when react type will go to 18 this will be fixed
     <ErrorBoundary
@@ -36,15 +35,9 @@ function Authentication({ children }: AuthenticationProps) {
  * This is the main component that is wrapped in the authentication.
  */
 function AuthenticationWrapper({ children }: { children: ReactNode }) {
-  const {
-    isLoading,
-    isAuthenticated,
-    getAccessTokenSilently,
-    logout,
-    loginWithRedirect,
-    organizations,
-    selectedOrganization,
-  } = useAuthentication();
+  const { isLoading, isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } =
+    useAuthentication();
+  const { organizations, selectedOrganization } = useOrganizations();
   const { setOrganizations, setSelectedOrganization } = useOrganization();
   const [systemLoading, setSystemLoading] = useState<boolean | undefined>(undefined);
 
@@ -137,5 +130,3 @@ function AuthenticationWrapper({ children }: { children: ReactNode }) {
 
   return <>{children}</>;
 }
-
-export default Authentication;

@@ -2,7 +2,7 @@
 id: "useSafeDispatch"
 title: "useSafeDispatch<T>"
 sidebar_label: "useSafeDispatch"
-sidebar_position: 0
+sidebar_position: 11
 custom_edit_url: null
 ---
 

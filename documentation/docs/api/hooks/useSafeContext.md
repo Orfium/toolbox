@@ -2,7 +2,7 @@
 id: 'useSafeContext'
 title: 'useSafeContext<T>'
 sidebar_label: 'useSafeContext'
-sidebar_position: 0
+sidebar_position: 11
 custom_edit_url: null
 ---
 

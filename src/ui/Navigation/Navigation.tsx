@@ -1,7 +1,7 @@
 import { useBreakpoints, useTheme } from '@orfium/ictinus';
 import { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
-import { useAuthentication } from '../../authentication';
+import { useOrfiumProducts, useOrganizations } from '../../authentication';
 import Drawer from './components/Drawer';
 import GlobalNav from './components/GlobalNav';
 import { Wrapper } from './Navigation.styles';
@@ -41,8 +41,8 @@ export function Navigation(props: NavigationProps) {
   });
 
   const match = useRouteMatch(adminNavigationURLSegment);
-  const { switchOrganization, organizations, selectedOrganization, orfiumProducts } =
-    useAuthentication();
+  const orfiumProducts = useOrfiumProducts();
+  const { switchOrganization, organizations, selectedOrganization } = useOrganizations();
 
   useEffect(() => {
     setExpanded(breakpoints.des1200);
