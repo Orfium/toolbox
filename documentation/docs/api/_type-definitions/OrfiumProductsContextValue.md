@@ -1,1 +1,1 @@
-[`Product`](../Types/Product)`[] | null`
+[`Product`](../04-Types/Product)`[] | null`

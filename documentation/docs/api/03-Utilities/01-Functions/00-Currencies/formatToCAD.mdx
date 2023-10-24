@@ -1,0 +1,22 @@
+---
+id: 'formatToCAD'
+title: 'formatToCAD'
+sidebar_label: 'formatToCAD'
+sidebar_position: 0
+custom_edit_url: null
+---
+
+`import { formatToCAD } from '@orfium/toolbox';`
+
+### Description
+
+A function for formatting a number or number-formatted string specifically to CAD.
+
+### Parameters
+
+- `value: string | number` - If it's a string it must be expressing a number, otherwise you will get a runtime error
+- `options?: Omit<Intl.NumberFormatOptions, 'currency' | 'style'>` - An [`options`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#options) compliant object, excluding the properties `currency` and `style`
+
+### Return value
+
+Ƭ `string`
