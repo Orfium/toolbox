@@ -1,8 +1,10 @@
-import {
+import type {
   Auth0ClientOptions,
   GetTokenSilentlyOptions,
   RedirectLoginOptions,
 } from '@auth0/auth0-spa-js';
+import type { Product } from '../hooks/useOrfiumProducts/types';
+import { Organization } from '../store/organizations';
 
 export type DecodedTokenResponse = {
   iss?: string;
@@ -17,7 +19,6 @@ export type DecodedTokenResponse = {
   /** the permissions defined on the user for more info visit https://orfium.atlassian.net/wiki/spaces/OPS/pages/2554134739/Roles+and+Permissions#Organization-Roles **/
   permissions?: string[];
 };
-
 export type User = {
   name?: string;
   given_name?: string;
@@ -41,7 +42,6 @@ export type User = {
   sub?: string;
   [key: string]: any;
 };
-
 export type AuthenticationContextProps = {
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -51,7 +51,11 @@ export type AuthenticationContextProps = {
     token: string;
     decodedToken: DecodedTokenResponse | Record<string, never>;
   } | void>;
+  orfiumProducts: Product[] | null;
   user: User | undefined;
+  organizations: Organization[];
+  selectedOrganization: Organization | null;
+  switchOrganization: (organisation: Organization['org_id']) => void;
 };
 
 export type AuthenticationProviderProps = { overrides?: Auth0ClientOptions };
