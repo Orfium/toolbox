@@ -1,0 +1,39 @@
+---
+id: "LinkWithStatePassthrough"
+title: "LinkWithStatePassthrough"
+sidebar_label: "LinkWithStatePassthrough"
+sidebar_position: 3
+custom_edit_url: null
+---
+
+`import { LinkWithStatePassthrough } from '@orfium/toolbox';`
+
+### Description
+
+A utility component that wraps over React Router's [`Link`](https://v5.reactrouter.com/web/api/Link) component,
+but takes care to pass the _current_ history state over to the next link location.
+
+**Example usage**
+
+```tsx
+// `to` value can be a full or partial location object
+// (do note that explicitly passing a `state` object here will be ignored)
+function EmptyPage() {
+  return (
+    <LinkWithStatePassthrough to={{ pathname: '/login' }} />
+  );
+}
+```
+
+```tsx
+// `to` value can also just be a string
+function EmptyPage() {
+  return (
+    <LinkWithStatePassthrough to={'/login'} />
+  );
+}
+```
+
+### Props
+
+Ƭ `LinkProps`

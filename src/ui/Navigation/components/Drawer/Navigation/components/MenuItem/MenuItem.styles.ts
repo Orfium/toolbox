@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { flexCenter, transition } from '@orfium/ictinus/dist/theme/functions';
 import { rem } from 'polished';
-import { NavLink, NavLinkProps } from 'react-router-dom';
+import { NavLinkWithStatePassthrough } from '../../../../../../../utils';
 import { menuItemStyle } from '../../../../../common.styles';
 
 export const MenuItemButton = styled.button`
@@ -9,9 +9,7 @@ export const MenuItemButton = styled.button`
   width: 100%;
 `;
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export const MenuLink = styled<NavLinkProps>(NavLink)`
+export const MenuLink = styled(NavLinkWithStatePassthrough)`
   ${({ theme }) => menuItemStyle(theme)};
 
   text-decoration: none;

@@ -100,20 +100,8 @@ export function ExpandableMenuItem(props: MenuItemProps) {
 }
 
 export function MenuItem({ item, theme, isSubMenu = false }: MenuItemProps) {
-  const { historyState } = useMenuItemMatch(item);
-
   return (
-    <MenuLink
-      theme={theme}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      exact
-      to={{
-        pathname: item.url,
-        state: historyState,
-      }}
-      data-testid={item.url}
-    >
+    <MenuLink theme={theme} exact to={item.url} data-testid={item.url}>
       <MenuItemContent theme={theme} item={item} isSubMenu={isSubMenu} />
     </MenuLink>
   );
