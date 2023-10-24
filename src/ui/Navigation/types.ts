@@ -1,5 +1,5 @@
 import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types';
-import { Optional } from '../../utils/types';
+import { Optional } from '../../utils';
 
 export type MenuItem = {
   text: string;
