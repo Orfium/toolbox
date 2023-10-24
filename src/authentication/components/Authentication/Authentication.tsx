@@ -1,52 +1,49 @@
-import { Button, Loader, ThemeProvider } from '@orfium/ictinus';
+import { Button, Loader } from '@orfium/ictinus';
 import * as Sentry from '@sentry/browser';
-import React, { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { orfiumIdBaseInstance } from '../request';
-import useOrganization, { Organization } from '../store/useOrganization';
+import { orfiumIdBaseInstance } from '../../../request';
+import useOrganization, { Organization } from '../../../store/organizations';
+import ErrorFallback from '../../../ui/ErrorFallback/ErrorFallback';
+import { config } from '../../config';
+import { AuthenticationProvider, useAuthentication } from '../../context';
 import { Box, LoadingContent, Wrapper } from './Authentication.style';
-import ErrorFallback from './components/ErrorFallback/ErrorFallback';
-import { TopBar, TopBarProps } from './components/TopBar/TopBar';
-import { config } from './config';
-import { AuthenticationProvider, useAuthentication } from './context';
-
-type AuthenticationSubComponents = {
-  TopBar: React.FC<TopBarProps>;
-};
 
 /*
  * The component that uses the AuthenticationProvider.
  * All the logic is on the Authentication
  */
-const Authentication: React.FC & AuthenticationSubComponents = ({ children }) => {
+function Authentication({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider>
-      {/*
-      // @ts-ignore @TODO when react type will go to 18 this will be fixed */}
-      <ErrorBoundary
-        FallbackComponent={ErrorFallback}
-        onError={(error) => {
-          Sentry.captureException(error);
-        }}
-      >
-        <AuthenticationProvider>
-          <AuthenticationWrapper>{children}</AuthenticationWrapper>
-        </AuthenticationProvider>
-      </ErrorBoundary>
-    </ThemeProvider>
+    // @ts-ignore @TODO when react type will go to 18 this will be fixed
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onError={(error) => {
+        Sentry.captureException(error);
+      }}
+    >
+      <AuthenticationProvider>
+        <AuthenticationWrapper>{children}</AuthenticationWrapper>
+      </AuthenticationProvider>
+    </ErrorBoundary>
   );
-};
-Authentication.TopBar = TopBar;
+}
 
 /*
- * This is the main component that is wrapped on the authentication.
+ * This is the main component that is wrapped in the authentication.
  */
-const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
-  const { isLoading, isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } =
-    useAuthentication();
-  const { organizations, setOrganizations, setSelectedOrganization, selectedOrganization } =
-    useOrganization();
+function AuthenticationWrapper({ children }: { children: ReactNode }) {
+  const {
+    isLoading,
+    isAuthenticated,
+    getAccessTokenSilently,
+    logout,
+    loginWithRedirect,
+    organizations,
+    selectedOrganization,
+  } = useAuthentication();
+  const { setOrganizations, setSelectedOrganization } = useOrganization();
   const [systemLoading, setSystemLoading] = useState<boolean | undefined>(undefined);
 
   /**
@@ -72,7 +69,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
 
         setOrganizations(data);
         if (!selectedOrganization?.org_id && data?.length > 0) {
-          setSelectedOrganization(data[0]);
+          setSelectedOrganization(data[0].org_id);
         }
         // if token doesn't have an organization and the user has available organizations
         // set continue and set one
@@ -108,39 +105,35 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
 
   if (organizations.length === 0) {
     return (
-      <ThemeProvider>
-        <Wrapper data-testid={'orfium-no-organizations'}>
-          <h2>There are no organizations to pick.</h2>
-          <div>Go back or contact your administrator for more information.</div>
-          <Box>
-            <div>OR</div>
-          </Box>
-          <Button onClick={logout} type={'primary'}>
-            Logout
-          </Button>
-        </Wrapper>
-      </ThemeProvider>
+      <Wrapper data-testid={'orfium-no-organizations'}>
+        <h2>There are no organizations to pick.</h2>
+        <div>Go back or contact your administrator for more information.</div>
+        <Box>
+          <div>OR</div>
+        </Box>
+        <Button onClick={logout} type={'primary'}>
+          Logout
+        </Button>
+      </Wrapper>
     );
   }
 
   if (!selectedOrganization) {
     return (
-      <ThemeProvider>
-        <Wrapper data-testid={'orfium-no-org-id'}>
-          <h2>You dont have access to this Product.</h2>
-          <div>Go back or contact your administrator for more information.</div>
-          <Box>
-            <div>OR</div>
-          </Box>
-          <Button onClick={logout} type={'primary'}>
-            Logout
-          </Button>
-        </Wrapper>
-      </ThemeProvider>
+      <Wrapper data-testid={'orfium-no-org-id'}>
+        <h2>You dont have access to this Product.</h2>
+        <div>Go back or contact your administrator for more information.</div>
+        <Box>
+          <div>OR</div>
+        </Box>
+        <Button onClick={logout} type={'primary'}>
+          Logout
+        </Button>
+      </Wrapper>
     );
   }
 
   return <>{children}</>;
-};
+}
 
 export default Authentication;
