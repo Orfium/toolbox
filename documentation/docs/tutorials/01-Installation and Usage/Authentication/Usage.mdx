@@ -1,0 +1,94 @@
+---
+sidebar_position: 1
+---
+
+import Type from '../../../api/_type-definitions/AuthenticationContextValue.md'
+
+It's fairly easy to setup the Orfium One SSO using the [`Toolbox`](../../../api/Components/Toolbox.mdx). We will cover this in 5 simple steps.
+
+## 1. Set up environment variables.
+
+Ask <insert name of team/person responsible for SSO, maybe like core team or something> to provide you with the client id and domain, that is created through the auth0
+applications page, for your application. These will be different for each environment.
+
+On the created application, the team/person responsible needs to define `Allowed Callback URLs`, `Allowed Logout URLs` and `Allowed Web Origins` for your local and live urls.
+They need to also define connections in the organization otherwise the application will have constant redirects.
+
+You need to add these locally to a `.env` file that's ignored in Version Control, in order for you to develop with the authentication enabled, adding the staging and production
+ones directly to Heroku or AWS, depending on what you use.
+
+```bash
+REACT_APP_CLIENT_ID=<ClientId>
+REACT_APP_DOMAIN=<Domain>
+REACT_APP_AUDIENCE=<Audience> // optional option - default to 'orfium'
+REACT_APP_ORFIUM_ID_DOMAIN=<Orfium's SSO URL>
+REACT_APP_PRODUCT_CODE=<Product code provided for the project that you are using>
+```
+
+
+## 2. Setup Authentication
+
+After the initial setup, you need to wrap your app with the [`Toolbox`](../../../api/Components/Toolbox.mdx) provider. Make sure to add this in the top level of your app.
+
+```jsx
+// highlight-next-line
+import { Toolbox } from '@orfium/toolbox';
+
+ReactDOM.render(
+  <React.StrictMode>
+    // highlight-next-line
+    <Toolbox>
+      <App />
+      // highlight-next-line
+    </Toolbox>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+
+Authentication has no props. It only takes children and provides all the necessary information for all the linked parts of Orfium.
+
+## 3. :warning: Wait for it :warning:
+
+It's recommended (through the [official documentation](https://auth0.com/docs/libraries/auth0-react#isloading-and-error), but also through the support forum of Auth0) to wait for the
+authentication service. Make sure to add some kind of loader to the top of your application right after the AuthenticationProvider.
+
+Example:
+
+```jsx title="/src/App.tsx"
+...
+import { useAuthentication } from '@orfium/toolbox';
+
+function Page() {
+  const { isLoading } = useAuthentication();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+...
+}
+```
+
+## 4. Use the values and function provided
+
+The hook [`useAuthentication`](../../../api/Hooks/useAuthentication.mdx) provides all the necessary information and functions to handle the authentication of a user. Some original auth0 namings are also used in our naming scheme, since they were self-explanatory.
+
+<Type />
+
+## 5. Have a beer :beer:
+
+Or a wine. Or a tea. I don't care. You are done! :sunglasses:
+
+If you are not authenticated and the app is not loading, the toolbox will automatically redirect you to the Login page.
+
+## Appendix
+
+### Refresh Tokens
+
+_The toolbox handles all of this logic <b>under the hood</b>, meaning that it's not required to use this function in a specific product._
+
+By default, we use [refresh tokens](./flow#refresh-tokens). This doesn't change the way you use the app, so it wasn't mentioned before.
+
+Let's deep-dive into the `getAccessTokenSilently` function and how it can be used in special cases.
+`Authorization` goes hand in hand with the `Request` of the toolbox. Furthermore, everytime a user authenticate all the requests are automatically handling the token as their authorization bearer token.
+If at some point you might make an API call to your BE using the token provided and the request will fail as unauthorized you can call the `getAccessTokenSilently` function to get a new token, this is going to be created by your refresh token _automatically_ again.

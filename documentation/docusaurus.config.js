@@ -1,35 +1,42 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const simplePlantUML = require('@akebifiky/remark-simple-plantuml');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const lightCodeTheme = require('prism-react-renderer/themes/github');
+const darkCodeTheme = require('prism-react-renderer/themes/oceanicNext');
+const lightCodeTheme = require('prism-react-renderer/themes/nightOwlLight');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: '🧰 Toolbox',
   tagline: 'Tools are cool',
+  favicon: 'img/favicon.ico',
+
+  // Set the production url of your site here
   url: 'https://your-docusaurus-test-site.com',
+  // Set the /<baseUrl>/ pathname under which your site is served
+  // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
+
+  // GitHub pages deployment config.
+  // If you aren't using GitHub pages, you don't need these.
+  organizationName: 'Orfium', // Usually your GitHub org/user name.
+  projectName: 'Toolbox Documentation', // Usually your repo name.
+
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
-  organizationName: 'Orfium', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+
+  // Even if you don't use internalization, you can use this field to set useful
+  // metadata like html lang. For example, if your site is Chinese, you may want
+  // to replace "en" with "zh-Hans".
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en'],
+  },
 
   plugins: [
     [
-      'docusaurus-plugin-typedoc',
-
-      // Plugin / TypeDoc options
-      {
-        entryPoints: ['../src/index.ts'],
-        tsconfig: '../tsconfig.json',
-        watch: process.env.NODE_ENV === 'development',
-      },
+      require.resolve('docusaurus-lunr-search'),
+      { disableVersioning: true, includeRoutes: ['/docs/api/**/*'] },
     ],
   ],
   presets: [
@@ -38,18 +45,12 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          exclude: [
-            '**/_type-definitions/**',
-            '**/_old/**',
-            '**/classes/**',
-            '**/interfaces/**',
-            '**/namespaces/**',
-            '**/modules.md',
-          ],
+          exclude: ['**/_type-definitions/**'],
           sidebarPath: require.resolve('./sidebars.js'),
           remarkPlugins: [simplePlantUML],
-          // Please change this to your repo.
           editCurrentVersion: false,
+          // Please change this to your repo.
+          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
@@ -63,22 +64,28 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      docs: {
+        sidebar: {
+          hideable: true,
+          autoCollapseCategories: false,
+        },
+      },
+      colorMode: {
+        respectPrefersColorScheme: true,
+      },
       navbar: {
         title: '🧰 Toolbox',
-        // logo: {
-        //   alt: 'Toolbox Logo',
-        //   src: 'img/logo.svg',
-        // },
+        hideOnScroll: false,
         items: [
           {
-            type: 'doc',
-            docId: 'intro',
-            position: 'left',
+            type: 'docSidebar',
+            sidebarId: 'tutorials',
             label: 'Docs',
+            position: 'left',
           },
           {
-            to: 'docs/api/',
-            activeBasePath: 'docs/api',
+            type: 'docSidebar',
+            sidebarId: 'api',
             label: 'API',
             position: 'left',
           },
@@ -91,52 +98,21 @@ const config = {
         ],
       },
       footer: {
-        style: 'dark',
-        links: [
-          {
-            title: 'Items',
-            items: [
-              {
-                label: 'Docs',
-                to: '/docs/intro',
-              },
-              {
-                label: 'API',
-                to: '/docs/api',
-              },
-            ],
-          },
-          // {
-          //   title: 'Community',
-          //   items: [
-          //     {
-          //       label: 'Stack Overflow',
-          //       href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-          //     },
-          //     {
-          //       label: 'Discord',
-          //       href: 'https://discordapp.com/invite/docusaurus',
-          //     },
-          //     {
-          //       label: 'Twitter',
-          //       href: 'https://twitter.com/docusaurus',
-          //     },
-          //   ],
-          // },
-          // {
-          //   title: 'More',
-          //   items: [
-          //     {
-          //       label: 'Blog',
-          //       to: '/blog',
-          //     },
-          //     {
-          //       label: 'GitHub',
-          //       href: 'https://github.com/facebook/docusaurus',
-          //     },
-          //   ],
-          // },
-        ],
+        // links: [
+        //   {
+        //     title: 'Items',
+        //     items: [
+        //       {
+        //         label: 'Docs',
+        //         to: '/docs/tutorials',
+        //       },
+        //       {
+        //         label: 'API',
+        //         to: '/docs/api',
+        //       },
+        //     ],
+        //   },
+        // ],
         copyright: `Copyright © ${new Date().getFullYear()} Orfium. Built with Docusaurus.`,
       },
       prism: {

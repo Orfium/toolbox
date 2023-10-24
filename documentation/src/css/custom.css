@@ -6,34 +6,25 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #0e4d64;
-  --ifm-color-primary-dark: #0d455a;
-  --ifm-color-primary-darker: #0c4155;
-  --ifm-color-primary-darkest: #0a3646;
-  --ifm-color-primary-light: #0f556e;
-  --ifm-color-primary-lighter: #105973;
-  --ifm-color-primary-lightest: #126482;
+  --ifm-color-primary: #175BF5;
+  --ifm-color-primary-dark: #1451DC;
+  --ifm-color-primary-darker: #1248C4;
+  --ifm-color-primary-darkest: #0D3693;
+  --ifm-color-primary-light: #2E6BF6;
+  --ifm-color-primary-lighter: #457BF7;
+  --ifm-color-primary-lightest: #5C8CF8;
   --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-}
-
-.docusaurus-highlight-code-line {
-  background-color: rgba(0, 0, 0, 0.1);
-  display: block;
-  margin: 0 calc(-1 * var(--ifm-pre-padding));
-  padding: 0 var(--ifm-pre-padding);
-}
-
-[data-theme='dark'] .docusaurus-highlight-code-line {
-  background-color: rgba(0, 0, 0, 0.3);
+  --ifm-color-primary: #1DE9B6;
+  --ifm-color-primary-dark: #1AD1A3;
+  --ifm-color-primary-darker: #17BA91;
+  --ifm-color-primary-darkest: #118B6D;
+  --ifm-color-primary-light: #33EBBD;
+  --ifm-color-primary-lighter: #4AEDC4;
+  --ifm-color-primary-lightest: #60EFCB;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }

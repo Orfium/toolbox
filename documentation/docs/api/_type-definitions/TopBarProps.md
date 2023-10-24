@@ -1,4 +1,4 @@
-| Name               | Type                                                             |
-| :----------------- |:-----------------------------------------------------------------|
-| ` utilitySection?` | `ReactNode`                                                      |
-| `menuItems?`       | `{ text: string; url: string; iconName?: AcceptedIconNames; }[]` |
+| Name               | Type                                                                                           |
+| :----------------- |:-----------------------------------------------------------------------------------------------|
+| ` utilitySection?` | `ReactNode`                                                                                    |
+| `menuItems?`       | <pre>{ <br/>  text: string; <br/>  url: string; <br/>  iconName?: AcceptedIconNames; <br/>}[]</pre> |

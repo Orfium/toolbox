@@ -1,6 +1,6 @@
 | Name             | Type                                                                                       |
 | :--------------- | :----------------------------------------------------------------------------------------- |
 | `path`           | <code>string &#124; string[]</code>                                                        |
-| `authorization?` | [`Authorization`](../04-Types/Authorization)                                                  |
+| `authorization?` | [`Authorization`](../Types/Authorization)                                                  |
 | `extraProps?`    | `unknown`                                                                                  |
-| `component?`     | <code>React.FunctionComponent<[RouteComponentProps](../04-Types/RouteComponentProps)\></code> |
+| `component?`     | <code>React.FunctionComponent<[RouteComponentProps](../Types/RouteComponentProps)\></code> |
