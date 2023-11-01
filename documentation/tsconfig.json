@@ -1,7 +1,12 @@
 {
   // This file is not used in compilation. It is here just for a nice editor experience.
-  "extends": "@tsconfig/docusaurus/tsconfig.json",
+  "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
+    // Documentation does not mention this but without it (using the extended
+    // "moduleResolution": "bundler") imports in the docusaurus.config.js file show
+    // import errors/warnings.
+    // Maybe it's not needed in the future or if the config file gets turned into an esm module
+    "moduleResolution": "nodenext",
     "baseUrl": "."
   }
 }
