@@ -2,8 +2,10 @@
 // Note: type annotations allow type checking and IDEs autocompletion
 
 const simplePlantUML = require('@akebifiky/remark-simple-plantuml');
-const darkCodeTheme = require('prism-react-renderer/themes/oceanicNext');
-const lightCodeTheme = require('prism-react-renderer/themes/github');
+
+const { themes } = require('prism-react-renderer');
+const darkCodeTheme = themes.oceanicNext;
+const lightCodeTheme = themes.github;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
