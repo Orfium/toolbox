@@ -11,6 +11,10 @@ import Type from '../_type-definitions/NavigationProps.md';
 import { Navigation } from '@orfium/toolbox';
 ```
 
+:::info
+Must be a descendant of [`Toolbox`](./Toolbox), [`ThemeProvider`](https://designlab.orfium.com/?path=/docs/design-system-themeprovider--setting-up-a-button-example) and [`Router`](https://v5.reactrouter.com/web/api/Router).
+:::
+
 ## Description
 
 A UI component that handles user navigation both within the current product and among Orfium products. It is comprised of
@@ -47,7 +51,7 @@ navigation links within `Navigation` pass that history state around to one anoth
 URL path as its `href` value.
 :::
 
-:::caution
+:::warning
 If your admin views have navigation of their own (by means of redirects or links), using regular
 [`Link`](https://v5.reactrouter.com/web/api/Link)s, [`NavLink`](https://v5.reactrouter.com/web/api/NavLink)s or
 [`Redirect`](https://v5.reactrouter.com/web/api/Redirect)s without passing around the history state will "break" the
