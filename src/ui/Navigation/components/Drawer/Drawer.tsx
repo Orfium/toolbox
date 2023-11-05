@@ -14,7 +14,7 @@ import {
   NavHeader,
   OrgSwitcherWrapper,
 } from './Drawer.styles';
-import Navigation from './Navigation/Navigation';
+import Navigation from './Navigation';
 
 export type DrawerProps = {
   theme: Theme;

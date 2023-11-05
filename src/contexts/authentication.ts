@@ -1,10 +1,5 @@
-import type {
-  Auth0ClientOptions,
-  GetTokenSilentlyOptions,
-  RedirectLoginOptions,
-} from '@auth0/auth0-spa-js';
-import { Dispatch, ReactNode, SetStateAction } from 'react';
-import { Organization } from '../store/organizations';
+import { type GetTokenSilentlyOptions, type RedirectLoginOptions } from '@auth0/auth0-spa-js';
+import { createContext } from 'react';
 
 export type DecodedTokenResponse = {
   iss?: string;
@@ -19,6 +14,7 @@ export type DecodedTokenResponse = {
   /** the permissions defined on the user for more info visit https://orfium.atlassian.net/wiki/spaces/OPS/pages/2554134739/Roles+and+Permissions#Organization-Roles **/
   permissions?: string[];
 };
+
 export type User = {
   name?: string;
   given_name?: string;
@@ -42,6 +38,7 @@ export type User = {
   sub?: string;
   [key: string]: any;
 };
+
 export type AuthenticationContextValue = {
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -54,32 +51,15 @@ export type AuthenticationContextValue = {
   user: User | undefined;
 };
 
-export type OrfiumProductsContextValue = Product[] | null;
-
-export type TopBarUtilitySectionContextValue = {
-  topBarUtilitySection: ReactNode;
-  setTopBarUtilitySection: Dispatch<SetStateAction<ReactNode>>;
+export const defaultAuthenticationContextValues: AuthenticationContextValue = {
+  isAuthenticated: false,
+  isLoading: false,
+  user: undefined,
+  loginWithRedirect: () => Promise.resolve(),
+  logout: () => Promise.resolve('logged out'),
+  getAccessTokenSilently: () => Promise.resolve({ token: '', decodedToken: {} }),
 };
 
-export type OrganizationsContextValue = {
-  organizations: Organization[];
-  selectedOrganization: Organization | null;
-  switchOrganization: (organisation: Organization['org_id']) => void;
-};
-
-type ClientMetadata = {
-  product_code: string;
-};
-
-export type Product = {
-  client_id: string;
-  client_metadata: ClientMetadata;
-  grant_types: string | null;
-  icon_url: string;
-  login_url: string;
-  logo_url: string;
-  name: string;
-  organization_usage: string;
-};
-
-type AuthenticationProviderProps = { overrides?: Auth0ClientOptions };
+export const AuthenticationContext = createContext<AuthenticationContextValue>(
+  defaultAuthenticationContextValues
+);

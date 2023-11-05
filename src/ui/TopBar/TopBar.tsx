@@ -2,7 +2,7 @@ import { Global } from '@emotion/react';
 import { useBreakpoints, useTheme } from '@orfium/ictinus';
 import { ReactNode } from 'react';
 import Logo from '../../assets/orfium_logo.svg';
-import { _useTopBarUtilitySection } from '../../authentication/context';
+import { _useTopBarUtilitySection } from '../../hooks/useTopBarUtilitySection';
 import UserMenu, { UserMenuProps } from './components/UserMenu';
 import { backGround, TopAppBarWrapper, UserDefinedSection, UserSection } from './TopBar.styles';
 

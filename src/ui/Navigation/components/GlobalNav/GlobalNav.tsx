@@ -1,11 +1,11 @@
-import { Icon, Theme, Tooltip } from '@orfium/ictinus';
-import React, { Dispatch, memo } from 'react';
+import { Icon, Tooltip, type Theme } from '@orfium/ictinus';
+import { memo, type Dispatch, type SetStateAction } from 'react';
 import { useLocation } from 'react-router-dom';
 import AdminIcon from '../../../../assets/admin_icon.svg';
 import Logo from '../../../../assets/orfium_logo.svg';
 import BillingIcon from '../../../../assets/products/billing_icon.svg';
-import { Product } from '../../../../authentication';
-import { config } from '../../../../authentication/config';
+import { config } from '../../../../config';
+import { type Product } from '../../../../contexts/orfium-products';
 import {
   AppIconNativeLink,
   AppIconRRLink,
@@ -70,7 +70,7 @@ function GlobalNavLink(props: GlobalNavLinkProps) {
 export type GlobalNavProps = {
   theme: Theme;
   isDesktop: boolean;
-  setExpanded: Dispatch<React.SetStateAction<boolean>>;
+  setExpanded: Dispatch<SetStateAction<boolean>>;
   orfiumProducts: Product[] | null;
   userIsAdmin: boolean;
   adminNavigationIsActive: boolean;
