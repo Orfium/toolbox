@@ -2,12 +2,16 @@ import { Button, Loader } from '@orfium/ictinus';
 import * as Sentry from '@sentry/browser';
 import { ReactNode, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { orfiumIdBaseInstance } from '../../../request';
-import useOrganization, { Organization } from '../../../store/organizations';
-import ErrorFallback from '../../../ui/ErrorFallback/ErrorFallback';
 import { config } from '../../config';
-import { AuthenticationProvider, useAuthentication, useOrganizations } from '../../context';
-import { Box, LoadingContent, Wrapper } from './Authentication.style';
+import { useAuthentication, useOrganizations } from '../../hooks';
+import { orfiumIdBaseInstance } from '../../request';
+import useOrganization, { Organization } from '../../store/organizations';
+import ErrorFallback from '../../ui/ErrorFallback/ErrorFallback';
+import { Authentication } from '../Authentication';
+import { OrfiumProducts } from '../OrfiumProducts';
+import { Organizations } from '../Organizations';
+import { TopBarUtilitySection } from '../TopBarUtilitySection';
+import { Box, LoadingContent, Wrapper } from './Toolbox.style';
 
 export type ToolboxProps = { children: ReactNode };
 
@@ -24,9 +28,15 @@ export function Toolbox({ children }: ToolboxProps) {
         Sentry.captureException(error);
       }}
     >
-      <AuthenticationProvider>
-        <AuthenticationWrapper>{children}</AuthenticationWrapper>
-      </AuthenticationProvider>
+      <Organizations>
+        <Authentication>
+          <OrfiumProducts>
+            <TopBarUtilitySection>
+              <AuthenticationWrapper>{children}</AuthenticationWrapper>
+            </TopBarUtilitySection>
+          </OrfiumProducts>
+        </Authentication>
+      </Organizations>
     </ErrorBoundary>
   );
 }

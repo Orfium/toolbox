@@ -1,7 +1,7 @@
 import { Button } from '@orfium/ictinus';
 import ErrorCoverImg from '../../assets/error_cover.svg';
 //* using logoutAuth because error fallback is outside of providers */
-import { logoutAuth } from '../../authentication/context';
+import { logoutAuth } from '../../utils/auth';
 import {
   Box,
   ContentWrapper,

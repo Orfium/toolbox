@@ -1,7 +1,7 @@
 import { useBreakpoints, useTheme } from '@orfium/ictinus';
 import { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
-import { useOrfiumProducts, useOrganizations } from '../../authentication';
+import { useOrfiumProducts, useOrganizations } from '../../hooks';
 import Drawer from './components/Drawer';
 import GlobalNav from './components/GlobalNav';
 import { Wrapper } from './Navigation.styles';
