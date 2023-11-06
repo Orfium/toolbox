@@ -1,5 +1,3 @@
-export { useData } from './data/useData';
-export { useDataPagination } from './data/useDataPagination';
 export { useAuthentication } from './useAuthentication';
 export { useOrfiumProducts } from './useOrfiumProducts';
 export { useOrganizations } from './useOrganizations';
