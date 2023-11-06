@@ -8,7 +8,7 @@ sidebar_position: 2
 
 ## Overview
 
-The new unified `Navigation` component aims to bring together all Orfium products, under a single navigational element in
+The new unified [`Navigation`](../../../api/Components/Navigation.mdx) component aims to bring together all Orfium products, under a single navigational element in
 addition to refreshing the familiar drawer navigation.
 It consists of two main parts:
 
@@ -16,8 +16,9 @@ It consists of two main parts:
 - **The local navigation drawer**: Home to the selected product's navigation and the client picker, which was moved over from the Top Bar. There is also a new optional extra section at the bottom, where products can list links to educational or troubleshooting material.
 
 In order to make usage easier for the user, the `Navigation` component:
-* integrates with authentication related data on its own, without the need for user provided logic or actions.
-* is solely responsible for controlling its expanded or collapsed state and it's not possible to control this aspect externally.
+
+- integrates with authentication related data on its own, without the need for user provided logic or actions.
+- is solely responsible for controlling its expanded or collapsed state and it's not possible to control this aspect externally.
 
 ## Usage
 
@@ -77,4 +78,3 @@ const Page: React.FC = () => {
   );
 }
 ```
-

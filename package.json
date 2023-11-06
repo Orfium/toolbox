@@ -63,7 +63,6 @@
     "prettier-plugin-organize-imports": "^3.2.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-query": "^3.22.0",
     "react-router-dom": "^5.3.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.1.4",
@@ -79,9 +78,8 @@
     "@emotion/styled": "^11.10.4",
     "@orfium/ictinus": "^4.71.3",
     "@sentry/browser": "^7.0.0",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
-    "react-query": "^3.10.0"
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "scripts": {
     "prebuild": "rimraf dist",
