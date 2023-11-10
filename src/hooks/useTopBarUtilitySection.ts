@@ -13,3 +13,5 @@ export const useTopBarUtilitySection = (topBarUtilitySectionElement: ReactNode) 
     };
   }, [setTopBarUtilitySection, topBarUtilitySectionElement]);
 };
+
+export type UseTopBarUtilitySectionReturnValue = undefined;

@@ -1,12 +1,10 @@
 import { createContext } from 'react';
 
-type ClientMetadata = {
-  product_code: string;
-};
-
 export type Product = {
   client_id: string;
-  client_metadata: ClientMetadata;
+  client_metadata: {
+    product_code: string;
+  };
   grant_types: string | null;
   icon_url: string;
   login_url: string;

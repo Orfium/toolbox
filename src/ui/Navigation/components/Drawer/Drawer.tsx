@@ -1,5 +1,6 @@
 import { Icon, Theme } from '@orfium/ictinus';
 import { ReactNode, useMemo } from 'react';
+import { SwitchOrganization } from '../../../../providers/Organizations';
 import { Organization } from '../../../../store/organizations';
 import { MenuIcon, MenuItemText } from '../../common.styles';
 import { MenuItem } from '../../types';
@@ -21,7 +22,7 @@ export type DrawerProps = {
   expanded: boolean;
   menuItems: MenuItem[];
   hideOrgSwitcher?: boolean;
-  switchOrganization: (organisation: string) => void;
+  switchOrganization: SwitchOrganization;
   organizations: Organization[];
   selectedOrganization: Organization | null;
   navigationHeader: ReactNode;

@@ -7,7 +7,7 @@ import {
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { useErrorHandler } from 'react-error-boundary';
 import { AuthenticationContext } from '../contexts/authentication';
-import { useOrganizations } from '../hooks';
+import { _useOrganizations } from '../hooks/useOrganizations';
 import { getAuth0Client, getTokenSilently, logoutAuth, onRedirectCallback } from '../utils/auth';
 
 type AuthenticationProps = { children: ReactNode; overrides?: Auth0ClientOptions };
@@ -22,7 +22,7 @@ export function Authentication({ children }: AuthenticationProps) {
   // https://github.com/bvaughn/react-error-boundary/blob/v3.1.4/src/index.tsx#L165C10-L165C18
   const handleError = useErrorHandler();
   const params = new URLSearchParams(window.location.search);
-  const { selectedOrganization, organizations, switchOrganization } = useOrganizations();
+  const { selectedOrganization, organizations, _switchOrganization } = _useOrganizations();
   const organization = params.get('organization') || selectedOrganization?.org_id;
 
   const invitation = params.get('invitation');
@@ -111,12 +111,8 @@ export function Authentication({ children }: AuthenticationProps) {
 
       if (error === 'access_denied') {
         const org = organizations[0];
-        switchOrganization(org.org_id);
-        loginWithRedirect({
-          authorizationParams: {
-            organization: org?.org_id || undefined,
-            invitation: invitation || undefined,
-          },
+        _switchOrganization(org.org_id, {
+          authorizationParams: { invitation: invitation || undefined },
         });
       } else {
         loginWithRedirect({
@@ -136,7 +132,7 @@ export function Authentication({ children }: AuthenticationProps) {
         isLoading,
         loginWithRedirect,
         logout: logoutAuth,
-        getAccessTokenSilently: (o?: GetTokenSilentlyOptions) => getAccessTokenSilently(o),
+        getAccessTokenSilently,
         user,
       }}
     >
