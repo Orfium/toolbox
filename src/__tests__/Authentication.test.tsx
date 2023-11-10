@@ -14,7 +14,6 @@ class CustomError extends Error {
 import { ErrorBoundary, useErrorHandler } from 'react-error-boundary';
 
 import {
-  createAuth0Client as mockedCreateAuth0,
   fakeTokenData,
   FAKE_TOKEN,
   getNewFakeToken,
@@ -27,11 +26,12 @@ import {
 import { defaultAuthenticationContextValues } from '../contexts/authentication';
 import { useAuthentication } from '../hooks';
 import { Authentication } from '../providers/Authentication';
+import { Organizations } from '../providers/Organizations';
 import { orfiumIdBaseInstance } from '../request';
 import MockRequest from '../request/mock';
 import useOrganization from '../store/organizations';
 import useRequestToken from '../store/requestToken';
-import { getAuth0Client, getTokenSilently, logoutAuth, onRedirectCallback } from '../utils/auth';
+import { getTokenSilently, logoutAuth, onRedirectCallback } from '../utils/auth';
 
 const TestingComponentSimple = () => {
   const { user, isAuthenticated, isLoading } = useAuthentication();
@@ -79,8 +79,11 @@ const TestingComponent = () => {
 describe('Context', () => {
   const apiInstance = orfiumIdBaseInstance.instance;
   const mock: MockRequest = new MockRequest(apiInstance);
+  // let client;
 
   beforeEach(() => {
+    jest.resetModules();
+    // client = undefined;
     mock.onGet('/products/').reply(200, [
       {
         name: 'string',
@@ -111,19 +114,19 @@ describe('Context', () => {
       window.history.pushState({}, '', oldWindowLocation.pathname);
     });
 
-    xtest('onRedirectCallback changes the url based on AppState passed', () => {
+    test('onRedirectCallback changes the url based on AppState passed', () => {
       const targetUrl = 'www.test.com';
 
       onRedirectCallback({ targetUrl });
       expect(window.location.pathname).toBe(`/${targetUrl}`);
     });
 
-    xtest('onRedirectCallback changes url without AppState targetUrl', () => {
+    test('onRedirectCallback changes url without AppState targetUrl', () => {
       onRedirectCallback({});
       expect(window.location.pathname).toBe(`/`);
     });
 
-    xtest('handleRedirectCallback being called if code exists on url', async () => {
+    test('handleRedirectCallback being called if code exists on url', async () => {
       window.history.pushState({}, '', '?code=test');
 
       render(
@@ -135,7 +138,7 @@ describe('Context', () => {
       await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1));
     });
 
-    xtest('handleRedirectCallback that triggers invalid state error', async () => {
+    test('handleRedirectCallback that triggers invalid state error', async () => {
       window.history.pushState({}, '', '?code=test');
 
       // @ts-ignore
@@ -156,7 +159,7 @@ describe('Context', () => {
       await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
     });
 
-    xtest('handleRedirectCallback that triggers error', async () => {
+    test('handleRedirectCallback that triggers error', async () => {
       window.history.pushState({}, '', '?code=test');
       const errorMsg = 'Invalid';
 
@@ -179,7 +182,7 @@ describe('Context', () => {
       await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
     }, 10000);
 
-    xtest('logoutAuth clears out data', async () => {
+    test('logoutAuth clears out data', async () => {
       const { setToken } = useRequestToken.getState();
       const { setOrganizations, setSelectedOrganization } = useOrganization.getState();
       const testToken = 'testToken';
@@ -216,7 +219,7 @@ describe('Context', () => {
   });
 
   describe('getTokenSilently', () => {
-    xtest('without cached results', async () => {
+    test('without cached results', async () => {
       mockedGetTokenSilently.mockResolvedValue(FAKE_TOKEN);
       const { token, decodedToken } = await getTokenSilently();
 
@@ -224,7 +227,7 @@ describe('Context', () => {
       expect(decodedToken).toEqual(jwtDecode(token));
     });
 
-    xtest('with cached results', async () => {
+    test('with cached results', async () => {
       const NEW_FAKE_EXPIRED_TOKEN = getNewFakeToken();
       const setToken = useRequestToken.getState().setToken;
       const setOrganizations = useOrganization.getState().setOrganizations;
@@ -254,7 +257,7 @@ describe('Context', () => {
       expect(decodedToken.org_id).toEqual(fakeTokenData.org_id); // the org_id of the token
     });
 
-    xtest('that throws error and handles it outside exclusion of login_required', async () => {
+    test('that throws error and handles it outside exclusion of login_required', async () => {
       const errorThrown = new CustomError('error', 'error');
       mockedGetTokenSilently.mockRejectedValue(errorThrown);
 
@@ -266,7 +269,8 @@ describe('Context', () => {
     });
   });
 
-  xtest('Authentication contents', async () => {
+  test('Authentication contents', async () => {
+    mockedGetTokenSilently.mockResolvedValue(FAKE_TOKEN);
     isAuthenticated.mockResolvedValue(true);
     getUser.mockResolvedValue({
       name: 'John Doe',
@@ -283,7 +287,7 @@ describe('Context', () => {
   });
 
   describe('Authentication calls loginWithRedirect success/error', () => {
-    xtest('loginWithRedirect when access token fails', async () => {
+    test('loginWithRedirect when access token fails', async () => {
       const errorMsg = 'login_required';
 
       mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, errorMsg));
@@ -302,7 +306,7 @@ describe('Context', () => {
       await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
     });
 
-    xtest('loginWithRedirect when access token fails and handle an error', async () => {
+    test('loginWithRedirect when access token fails and handle an error', async () => {
       const errorMsg = 'login_with_popup_failed';
 
       mockedGetTokenSilently.mockRejectedValue(new CustomError('login_required', 'login_required'));
@@ -328,7 +332,7 @@ describe('Context', () => {
     }, 10000);
   });
 
-  xtest('invitation redirect', async () => {
+  test('invitation redirect', async () => {
     const invitation = 'wkhLzqInxdaXipRfBPyBtzcxs3wmoUDg';
     const organization = 'org_lWF9avilXAry9Aid';
 
@@ -358,8 +362,9 @@ describe('Context', () => {
     });
   });
 
-  xtest('if error exists on the url with access_denied', async () => {
-    const { setOrganizations, setSelectedOrganization } = useOrganization.getState();
+  test('if error exists on the url with access_denied', async () => {
+    const { setOrganizations, setSelectedOrganization, selectedOrganization } =
+      useOrganization.getState();
     const organizationList = [
       {
         org_id: 'testOrgId1',
@@ -399,13 +404,13 @@ describe('Context', () => {
 
     isAuthenticated.mockResolvedValue(false);
 
-    await act(async () => {
-      render(
+    render(
+      <Organizations>
         <Authentication>
           <TestingComponentSimple />
         </Authentication>
-      );
-    });
+      </Organizations>
+    );
 
     await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('false'));
     await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
@@ -417,43 +422,12 @@ describe('Context', () => {
     });
   }, 10000);
 
-  xtest('Context default functions', async () => {
+  test('Context default functions', async () => {
     expect(await defaultAuthenticationContextValues.getAccessTokenSilently()).toEqual({
       token: '',
       decodedToken: {},
     });
     expect(await defaultAuthenticationContextValues.logout()).toBe('logged out');
     expect(await defaultAuthenticationContextValues.loginWithRedirect()).toBe(undefined);
-  });
-
-  xtest('getAuth0Client failed process', async () => {
-    expect.assertions(1);
-    mockedCreateAuth0.mockImplementation(() => {
-      throw new Error();
-    });
-    // @ts-ignore
-    client = undefined;
-    try {
-      await getAuth0Client();
-    } catch (e) {
-      expect(e).toEqual(new Error(`getAuth0Client Error: Error`));
-    }
-  });
-
-  xtest('logoutAuth failed process', async () => {
-    expect.assertions(1);
-
-    // @ts-ignore
-    client = undefined;
-    // @ts-ignore make logout fail with no .logout property on client
-    mockedCreateAuth0.mockImplementation(() => {
-      return {};
-    });
-
-    try {
-      await logoutAuth();
-    } catch (e) {
-      expect(e).toEqual(new Error(`client_1.logout is not a function`));
-    }
   });
 });
