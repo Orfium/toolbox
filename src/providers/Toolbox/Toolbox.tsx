@@ -59,9 +59,11 @@ function AuthenticationWrapper({ children }: { children: ReactNode }) {
    * - in case of no organization id pass the first fetched organization from the above list and re-fetch a token
    */
   useEffect(() => {
+    // console.log(1);
     if (!systemLoading && !isLoading) {
       setSystemLoading(true);
       (async () => {
+        // console.log(2);
         // moving this will affect the app. If this is moved below when clearing the storage the app constantly refresh
         const response = await getAccessTokenSilently();
         // @TODO in the future we must define the org_id
