@@ -1,8 +1,9 @@
-| Name                     | Type                                                                                                                                                                                                                                     |
-| :----------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `isAuthenticated`        | `boolean`                                                                                                                                                                                                                                |
-| `isLoading`              | `boolean`                                                                                                                                                                                                                                |
-| `user`                   | <code>[User](/docs/api/Types/User) &#124; undefined</code>                                                                                                                                                                               |
-| `getAccessTokenSilently` | <pre>(opts?: GetTokenSilentlyOptions) => Promise\<<br/> void &#124; <br/> \{ <br/> decodedToken: [DecodedTokenResponse](/docs/api/Types/DecodedTokenResponse) &#124; Record\<string, never\>; <br/> token: string; <br/> \}<br/>\></pre> |
-| `loginWithRedirect`      | <code>(o?: RedirectLoginOptions\<any\>) => Promise\<void\></code>                                                                                                                                                                        |
-| `logout`                 | `() => void`                                                                                                                                                                                                                             |
+| Name                     | Type                                                              |
+| :----------------------- |:------------------------------------------------------------------|
+| `isAuthenticated`        | `boolean`                                                         |
+| `isLoading`              | `boolean`                                                         |
+| `permissions`            | [`Permissions`](/docs/api/Types/Permissions)                      |
+| `user`                   | <code>[User](/docs/api/Types/User) &#124; undefined</code>        |
+| `getAccessTokenSilently` | [`GetAccessTokenSilently`](/docs/api/Types/GetAccessTokenSilently)  |
+| `loginWithRedirect`      | <code>(o?: RedirectLoginOptions\<any\>) => Promise\<void\></code> |
+| `logout`                 | `() => void`                                                      |
