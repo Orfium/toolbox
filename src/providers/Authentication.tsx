@@ -27,6 +27,40 @@ export function Authentication({ children }: AuthenticationProps) {
 
   const invitation = params.get('invitation');
 
+  const loginWithRedirect = useCallback(
+    async (o: RedirectLoginOptions) => {
+      try {
+        const client = await getAuth0Client();
+        await client.loginWithRedirect(o);
+      } catch (error) {
+        return handleError(error);
+      }
+    },
+    [handleError]
+  );
+
+  const getAccessTokenSilently = useCallback(
+    async (opts?: GetTokenSilentlyOptions) => {
+      try {
+        const result = await getTokenSilently(opts);
+
+        return result;
+      } catch (error: any) {
+        if (error?.error === 'login_required' || error?.error === 'consent_required') {
+          return loginWithRedirect({
+            authorizationParams: {
+              organization: organization || undefined,
+              invitation: invitation || undefined,
+            },
+          });
+        }
+
+        handleError(error);
+      }
+    },
+    [handleError, invitation, loginWithRedirect, organization]
+  );
+
   useEffect(() => {
     (async () => {
       try {
@@ -68,45 +102,11 @@ export function Authentication({ children }: AuthenticationProps) {
         handleError(error);
       }
     })();
-  }, []);
-
-  const loginWithRedirect = useCallback(
-    async (o: RedirectLoginOptions) => {
-      try {
-        const client = await getAuth0Client();
-        await client.loginWithRedirect(o);
-      } catch (error) {
-        return handleError(error);
-      }
-    },
-    [handleError]
-  );
-
-  const getAccessTokenSilently = useCallback(
-    async (opts?: GetTokenSilentlyOptions) => {
-      try {
-        const result = await getTokenSilently(opts);
-
-        return result;
-      } catch (error: any) {
-        if (error?.error === 'login_required' || error?.error === 'consent_required') {
-          return loginWithRedirect({
-            authorizationParams: {
-              organization: organization || undefined,
-              invitation: invitation || undefined,
-            },
-          });
-        }
-
-        handleError(error);
-      }
-    },
-    [handleError, invitation, loginWithRedirect, organization]
-  );
+  }, [handleError, invitation, loginWithRedirect, organization]);
 
   useEffect(() => {
-    const searchParams = new URL(window.location.href).searchParams;
-    if (!isLoading && !isAuthenticated && isAuthenticated !== undefined) {
+    if (!isLoading && !isAuthenticated) {
+      const searchParams = new URL(window.location.href).searchParams;
       const error = searchParams.get('error');
 
       if (error === 'access_denied') {
@@ -123,7 +123,15 @@ export function Authentication({ children }: AuthenticationProps) {
         });
       }
     }
-  }, [auth0Client, isLoading, isAuthenticated]);
+  }, [
+    _switchOrganization,
+    invitation,
+    isAuthenticated,
+    isLoading,
+    loginWithRedirect,
+    organization,
+    organizations,
+  ]);
 
   return (
     <AuthenticationContext.Provider
@@ -132,7 +140,7 @@ export function Authentication({ children }: AuthenticationProps) {
         isLoading,
         loginWithRedirect,
         logout: logoutAuth,
-        getAccessTokenSilently,
+        getAccessTokenSilently: (opts?: GetTokenSilentlyOptions) => getAccessTokenSilently(opts),
         user,
       }}
     >
