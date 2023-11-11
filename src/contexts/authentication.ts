@@ -1,6 +1,8 @@
 import { type GetTokenSilentlyOptions, type RedirectLoginOptions } from '@auth0/auth0-spa-js';
 import { createContext } from 'react';
 
+export type Permissions = string[];
+
 export type DecodedTokenResponse = {
   iss?: string;
   sub?: string;
@@ -12,7 +14,7 @@ export type DecodedTokenResponse = {
   /** the organization id of the user currently selected **/
   org_id?: string;
   /** the permissions defined on the user for more info visit https://orfium.atlassian.net/wiki/spaces/OPS/pages/2554134739/Roles+and+Permissions#Organization-Roles **/
-  permissions?: string[];
+  permissions?: Permissions;
 };
 
 export type User = {
@@ -39,16 +41,19 @@ export type User = {
   [key: string]: any;
 };
 
+export type GetAccessTokenSilently = (opts?: GetTokenSilentlyOptions) => Promise<{
+  token: string;
+  decodedToken: DecodedTokenResponse | Record<string, never>;
+} | void>;
+
 export type AuthenticationContextValue = {
   isAuthenticated: boolean;
   isLoading: boolean;
   loginWithRedirect(o?: RedirectLoginOptions): Promise<void>;
   logout: () => void;
-  getAccessTokenSilently: (opts?: GetTokenSilentlyOptions) => Promise<{
-    token: string;
-    decodedToken: DecodedTokenResponse | Record<string, never>;
-  } | void>;
+  getAccessTokenSilently: GetAccessTokenSilently;
   user: User | undefined;
+  permissions: Permissions;
 };
 
 export const defaultAuthenticationContextValues: AuthenticationContextValue = {
@@ -58,6 +63,7 @@ export const defaultAuthenticationContextValues: AuthenticationContextValue = {
   loginWithRedirect: () => Promise.resolve(),
   logout: () => Promise.resolve('logged out'),
   getAccessTokenSilently: () => Promise.resolve({ token: '', decodedToken: {} }),
+  permissions: [],
 };
 
 export const AuthenticationContext = createContext<AuthenticationContextValue>(

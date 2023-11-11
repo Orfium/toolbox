@@ -6,7 +6,11 @@ import {
 } from '@auth0/auth0-spa-js';
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { useErrorHandler } from 'react-error-boundary';
-import { AuthenticationContext } from '../contexts/authentication';
+import {
+  AuthenticationContext,
+  type GetAccessTokenSilently,
+  type Permissions,
+} from '../contexts/authentication';
 import { _useOrganizations } from '../hooks/useOrganizations';
 import { getAuth0Client, getTokenSilently, logoutAuth, onRedirectCallback } from '../utils/auth';
 
@@ -17,6 +21,7 @@ export function Authentication({ children }: AuthenticationProps) {
   const [user, setUser] = useState<Record<string, unknown>>();
   const [auth0Client, setAuth0Client] = useState<Auth0Client>();
   const [isLoading, setIsLoading] = useState(true);
+  const [permissions, setPermissions] = useState<Permissions>([]);
 
   // handleError is referentially stable, so it's safe to use as a dep in dep array
   // https://github.com/bvaughn/react-error-boundary/blob/v3.1.4/src/index.tsx#L165C10-L165C18
@@ -39,7 +44,7 @@ export function Authentication({ children }: AuthenticationProps) {
     [handleError]
   );
 
-  const getAccessTokenSilently = useCallback(
+  const getAccessTokenSilently: GetAccessTokenSilently = useCallback(
     async (opts?: GetTokenSilentlyOptions) => {
       try {
         const result = await getTokenSilently(opts);
@@ -84,6 +89,9 @@ export function Authentication({ children }: AuthenticationProps) {
         if (clientIsAuthenticated) {
           const clientUser = await client.getUser();
           setUser(clientUser);
+
+          const decodedTokenResponse = await getAccessTokenSilently();
+          setPermissions(decodedTokenResponse?.decodedToken.permissions || []);
         }
 
         setIsLoading(false);
@@ -102,7 +110,7 @@ export function Authentication({ children }: AuthenticationProps) {
         handleError(error);
       }
     })();
-  }, [handleError, invitation, loginWithRedirect, organization]);
+  }, [getAccessTokenSilently, handleError, invitation, loginWithRedirect, organization]);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -142,6 +150,7 @@ export function Authentication({ children }: AuthenticationProps) {
         logout: logoutAuth,
         getAccessTokenSilently: (opts?: GetTokenSilentlyOptions) => getAccessTokenSilently(opts),
         user,
+        permissions,
       }}
     >
       {children}
