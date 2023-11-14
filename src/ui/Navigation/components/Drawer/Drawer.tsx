@@ -1,9 +1,9 @@
-import { Icon, Theme } from '@orfium/ictinus';
-import { ReactNode, useMemo } from 'react';
-import { SwitchOrganization } from '../../../../providers/Organizations';
-import { Organization } from '../../../../store/organizations';
+import { Icon, type Theme } from '@orfium/ictinus';
+import { useMemo, type ReactNode } from 'react';
+import { type SwitchOrganization } from '../../../../providers/Organizations';
+import { type Organization } from '../../../../store/organizations';
 import { MenuIcon, MenuItemText } from '../../common.styles';
-import { MenuItem } from '../../types';
+import { type MenuItem } from '../../types';
 import ClientSelector from '../ClientSelector';
 import {
   DrawerContainer,
@@ -25,7 +25,7 @@ export type DrawerProps = {
   switchOrganization: SwitchOrganization;
   organizations: Organization[];
   selectedOrganization: Organization | null;
-  navigationHeader: ReactNode;
+  header: ReactNode;
   extras?: { title: string; menuItems: Omit<MenuItem, 'children'>[] }[];
   isDesktop: boolean;
 };
@@ -37,7 +37,7 @@ function Drawer(props: DrawerProps) {
     organizations,
     selectedOrganization,
     hideOrgSwitcher = false,
-    navigationHeader,
+    header,
     extras,
     isDesktop,
     expanded,
@@ -77,12 +77,12 @@ function Drawer(props: DrawerProps) {
   const mainContentElement = useMemo(() => {
     return (
       <NavElementsContainer theme={theme}>
-        <NavHeader theme={theme}>{navigationHeader}</NavHeader>
+        <NavHeader theme={theme}>{header}</NavHeader>
         <Navigation theme={theme} menuItems={menuItems} />
         {extrasElement}
       </NavElementsContainer>
     );
-  }, [extrasElement, menuItems, navigationHeader, theme]);
+  }, [extrasElement, menuItems, header, theme]);
 
   const orgSwitcherElement = useMemo(() => {
     return (
