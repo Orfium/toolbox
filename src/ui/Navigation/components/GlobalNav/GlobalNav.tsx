@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import AdminIcon from '../../../../assets/admin_icon.svg';
 import Logo from '../../../../assets/orfium_logo.svg';
 import BillingIcon from '../../../../assets/products/billing_icon.svg';
+import STIcon from '../../../../assets/products/sync_tracker_icon.svg';
 import { config } from '../../../../config';
 import { type Product } from '../../../../contexts/orfium-products';
 import {
@@ -18,6 +19,7 @@ import {
 
 const productIconsDict = {
   earnings: BillingIcon,
+  'sync-tracker': STIcon,
 };
 
 type GlobalNavLinkProps = {
@@ -72,7 +74,7 @@ export type GlobalNavProps = {
   isDesktop: boolean;
   setExpanded: Dispatch<SetStateAction<boolean>>;
   orfiumProducts: Product[] | null;
-  userIsAdmin: boolean;
+  enableAdminMode: boolean;
   adminNavigationIsActive: boolean;
   adminNavigationURLSegment?: string;
   adminButtonTooltipText?: string;
@@ -86,7 +88,7 @@ function GlobalNav(props: GlobalNavProps) {
     orfiumProducts,
     adminNavigationIsActive,
     adminButtonTooltipText,
-    userIsAdmin,
+    enableAdminMode,
     adminNavigationURLSegment,
   } = props;
 
@@ -131,7 +133,7 @@ function GlobalNav(props: GlobalNavProps) {
             })
           : null}
       </IconsContainer>
-      {userIsAdmin ? (
+      {enableAdminMode ? (
         <SingleIconContainer>
           <Tooltip content={adminButtonTooltipText} placement={'right'}>
             <AppIconWrapper>

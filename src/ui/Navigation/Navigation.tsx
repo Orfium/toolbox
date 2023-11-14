@@ -5,17 +5,17 @@ import { useOrfiumProducts, useOrganizations } from '../../hooks';
 import Drawer from './components/Drawer';
 import GlobalNav from './components/GlobalNav';
 import { Wrapper } from './Navigation.styles';
-import { MenuItem } from './types';
+import { type MenuItem } from './types';
 
 export type NavigationProps = {
-  regularNavigation: MenuItem[];
-  navigationHeader: string;
-  userIsAdmin?: boolean;
-  hideOrgSwitcher?: boolean;
-  adminNavigation?: MenuItem[];
-  adminNavigationHeader?: string;
+  header: string;
+  menuItems: MenuItem[];
+  enableAdminMode?: boolean;
+  adminHeader?: string;
+  adminMenuItems?: MenuItem[];
   adminNavigationURLSegment?: string;
   adminButtonTooltipText?: string;
+  hideOrgSwitcher?: boolean;
   extras?: { title: string; menuItems: Omit<MenuItem, 'children'>[] }[];
 };
 
@@ -23,15 +23,15 @@ const EMPTY_ADMIN_NAVIGATION: MenuItem[] = [];
 
 export function Navigation(props: NavigationProps) {
   const {
-    regularNavigation,
-    adminNavigation,
+    menuItems,
+    adminMenuItems,
     adminNavigationURLSegment = '/admin',
     adminButtonTooltipText = 'Admin Settings',
-    navigationHeader,
-    adminNavigationHeader,
+    header,
+    adminHeader,
     extras,
     hideOrgSwitcher = false,
-    userIsAdmin = false,
+    enableAdminMode = false,
   } = props;
 
   const theme = useTheme();
@@ -49,7 +49,7 @@ export function Navigation(props: NavigationProps) {
   }, [breakpoints.des1200]);
 
   const isDesktop = breakpoints.des1200;
-  const adminNavigationIsActive = match?.url === adminNavigationURLSegment && userIsAdmin;
+  const adminNavigationIsActive = match?.url === adminNavigationURLSegment && enableAdminMode;
 
   return (
     <Wrapper
@@ -59,7 +59,7 @@ export function Navigation(props: NavigationProps) {
       <GlobalNav
         theme={theme}
         isDesktop={isDesktop}
-        userIsAdmin={userIsAdmin}
+        enableAdminMode={enableAdminMode}
         adminNavigationIsActive={adminNavigationIsActive}
         adminNavigationURLSegment={adminNavigationURLSegment}
         setExpanded={setExpanded}
@@ -68,15 +68,13 @@ export function Navigation(props: NavigationProps) {
       />
       <Drawer
         theme={theme}
-        menuItems={
-          adminNavigationIsActive ? adminNavigation || EMPTY_ADMIN_NAVIGATION : regularNavigation
-        }
+        menuItems={adminNavigationIsActive ? adminMenuItems || EMPTY_ADMIN_NAVIGATION : menuItems}
         expanded={expanded}
         switchOrganization={switchOrganization}
         organizations={organizations}
         selectedOrganization={selectedOrganization}
         hideOrgSwitcher={hideOrgSwitcher}
-        navigationHeader={adminNavigationIsActive ? adminNavigationHeader : navigationHeader}
+        header={adminNavigationIsActive ? adminHeader : header}
         extras={extras}
         isDesktop={isDesktop}
       />

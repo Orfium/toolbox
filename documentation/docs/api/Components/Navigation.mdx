@@ -28,7 +28,7 @@ Top-to-bottom, it consists of :
 - A **list of icon links** corresponding to all the Orfium products that are available to the user. The currently used product
   icon is highlighted.
 - An **extra button** (![admin button](/img/admin_button.png)) that when clicked will navigate to `/admin` (configurable by `adminNavigationURLSegment`) and toggle
-  the contents of the [**main navigation section**](#local-navigation-drawer) between the admin-only (`adminNavigation`) and the regular navigation (`regularNavigation`) menu. **(Admin users only)**
+  the contents of the [**main navigation section**](#local-navigation-drawer) between the admin-only (`adminMenuItems`) and the regular navigation (`menuItems`) menu. **(Admin users only)**
 
 ### Local navigation drawer
 
@@ -67,5 +67,5 @@ URL path.
 <Type />
 
 :::tip
-Memoising the values of `regularNavigation`, `adminNavigation` and `extras` will optimise performance.
+Memoising the values of `menuItems`, `adminMenuItems` and `extras` will optimise performance.
 :::
