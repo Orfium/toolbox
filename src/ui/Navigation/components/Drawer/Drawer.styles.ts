@@ -1,15 +1,17 @@
 import styled from '@emotion/styled';
 import { transition } from '@orfium/ictinus/dist/theme/functions';
 import { rem } from 'polished';
-import { menuItemStyle } from '../../common.styles';
+import { getGlobalNavWidth, menuItemStyle } from '../../common.styles';
 
 export const DrawerContainer = styled.div<{
   expanded: boolean;
   isDesktop: boolean;
 }>`
-  ${transition(0.2)};
+  ${transition(0.2, 'width')};
   width: ${({ expanded }) => (expanded ? rem('308px') : 0)};
-  background-color: white;
+  background-color: ${({ theme }) => theme.palette.white};
+  position: ${({ isDesktop }) => (isDesktop ? 'relative' : 'absolute')};
+  left: ${({ theme, isDesktop }) => (isDesktop ? 0 : getGlobalNavWidth(theme))};
   flex-shrink: 0;
   height: 100%;
   min-height: 100%;
