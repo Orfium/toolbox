@@ -5,6 +5,10 @@ import { flexCenter, transition } from '@orfium/ictinus/dist/theme/functions';
 import { getFocus } from '@orfium/ictinus/dist/theme/states';
 import { rem } from 'polished';
 
+export function getGlobalNavWidth(theme: Theme) {
+  return `calc(7 * ${theme.spacing.sm})`; // 56px
+}
+
 export const menuItemStyle = (theme: Theme) => css`
   height: ${rem(44)};
   color: ${theme.utils.getColor('darkGrey', 850)};

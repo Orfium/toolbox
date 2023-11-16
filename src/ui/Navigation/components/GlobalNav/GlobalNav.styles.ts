@@ -4,9 +4,10 @@ import { Theme } from '@orfium/ictinus';
 import { rem } from 'polished';
 import { LinkProps, NavLink } from 'react-router-dom';
 import { DEFAULT_NAVBAR_HEIGHT } from '../../../consts';
+import { getGlobalNavWidth } from '../../common.styles';
 
 export const Wrapper = styled.div`
-  width: calc(7 * ${({ theme }) => `${theme.spacing.sm}`}); // 56px
+  width: ${({ theme }) => getGlobalNavWidth(theme)};
   display: flex;
   flex-basis: calc(7 * ${({ theme }) => `${theme.spacing.sm}`}); // 56px
   flex-direction: column;
