@@ -14,7 +14,7 @@ export function TopBar({ utilitySection, menuItems = [] }: TopBarProps) {
   const { topBarUtilitySection } = _useTopBarUtilitySection();
   const theme = useTheme();
   const breakpoints = useBreakpoints();
-  const isDesktop = breakpoints.des1200;
+  const isDesktop = breakpoints.des1366;
 
   return (
     <TopAppBarWrapper role="banner" aria-label="Top Application Banner">
