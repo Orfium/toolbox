@@ -37,7 +37,7 @@ export function Navigation(props: NavigationProps) {
   const theme = useTheme();
   const breakpoints = useBreakpoints();
   const [expanded, setExpanded] = useState(() => {
-    return breakpoints.des1200;
+    return breakpoints.des1366;
   });
 
   const match = useRouteMatch(adminNavigationURLSegment);
@@ -45,10 +45,10 @@ export function Navigation(props: NavigationProps) {
   const { switchOrganization, organizations, selectedOrganization } = useOrganizations();
 
   useEffect(() => {
-    setExpanded(breakpoints.des1200);
-  }, [breakpoints.des1200]);
+    setExpanded(breakpoints.des1366);
+  }, [breakpoints.des1366]);
 
-  const isDesktop = breakpoints.des1200;
+  const isDesktop = breakpoints.des1366;
   const adminNavigationIsActive = match?.url === adminNavigationURLSegment && enableAdminMode;
 
   return (
