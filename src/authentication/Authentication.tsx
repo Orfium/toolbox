@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/browser';
 import React, { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
+import dayjs from 'dayjs';
 import { orfiumIdBaseInstance } from '../request';
 import useOrganization, { Organization } from '../store/useOrganization';
 import { Box, LoadingContent, Wrapper } from './Authentication.style';
@@ -43,7 +44,7 @@ Authentication.TopBar = TopBar;
  * This is the main component that is wrapped on the authentication.
  */
 const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
-  const { isLoading, isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } =
+  const { isLoading, isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect, user } =
     useAuthentication();
   const { organizations, setOrganizations, setSelectedOrganization, selectedOrganization } =
     useOrganization();
@@ -66,7 +67,10 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         const requestInstance = orfiumIdBaseInstance.createRequest<Organization[]>({
           method: 'get',
           url: '/memberships/',
-          params: config.productCode ? { product_code: config.productCode } : undefined,
+          params: {
+            ...(config.productCode ? { product_code: config.productCode } : {}),
+            fresh: dayjs(user?.updated_at).isAfter(dayjs().subtract(1, 'minute')) || undefined,
+          },
         });
         const data = await requestInstance.request();
 
