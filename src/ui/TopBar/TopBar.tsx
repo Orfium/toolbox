@@ -2,16 +2,16 @@ import { Global } from '@emotion/react';
 import { useBreakpoints, useTheme } from '@orfium/ictinus';
 import { ReactNode } from 'react';
 import Logo from '../../assets/orfium_logo.svg';
-import { _useTopBarUtilitySection } from '../../hooks/useTopBarUtilitySection';
+import { _useTopBarUtilitySlot } from '../../hooks/useTopBarUtilitySlot';
 import UserMenu, { UserMenuProps } from './components/UserMenu';
-import { backGround, TopAppBarWrapper, UserDefinedSection, UserSection } from './TopBar.styles';
+import { backGround, TopAppBarWrapper, UserDefinedSlot, UserSection } from './TopBar.styles';
 
 export type TopBarProps = {
-  utilitySection?: ReactNode;
+  utilitySlot?: ReactNode;
 } & Partial<UserMenuProps>;
 
-export function TopBar({ utilitySection, menuItems = [] }: TopBarProps) {
-  const { topBarUtilitySection } = _useTopBarUtilitySection();
+export function TopBar({ utilitySlot, menuItems = [] }: TopBarProps) {
+  const { topBarUtilitySlot } = _useTopBarUtilitySlot();
   const theme = useTheme();
   const breakpoints = useBreakpoints();
   const isDesktop = breakpoints.des1366;
@@ -20,7 +20,7 @@ export function TopBar({ utilitySection, menuItems = [] }: TopBarProps) {
     <TopAppBarWrapper role="banner" aria-label="Top Application Banner">
       <Global styles={{ body: backGround(theme) }} />
       {isDesktop ? null : <img alt={'Orfium logo'} src={Logo} height={28} width={28} />}
-      <UserDefinedSection>{topBarUtilitySection || utilitySection}</UserDefinedSection>
+      <UserDefinedSlot>{topBarUtilitySlot || utilitySlot}</UserDefinedSlot>
       <UserSection>
         <UserMenu menuItems={menuItems} />
       </UserSection>

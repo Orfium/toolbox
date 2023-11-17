@@ -27,7 +27,7 @@ export const UserSection = styled.div`
   ${topAppBarSectionStyles};
   flex-shrink: 0;
 `;
-export const UserDefinedSection = styled.div`
+export const UserDefinedSlot = styled.div`
   ${topAppBarSectionStyles};
   flex-grow: 1;
   justify-content: flex-start;

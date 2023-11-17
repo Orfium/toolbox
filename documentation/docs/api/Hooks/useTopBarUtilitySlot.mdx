@@ -1,12 +1,12 @@
 ---
-id: 'useTopBarUtilitySection'
-title: 'useTopBarUtilitySection'
-sidebar_label: 'useTopBarUtilitySection'
+id: 'useTopBarUtilitySlot'
+title: 'useTopBarUtilitySlot'
+sidebar_label: 'useTopBarUtilitySlot'
 sidebar_position: 3
 ---
 
 ```ts
-import { useTopBarUtilitySection } from '@orfium/toolbox';
+import { useTopBarUtilitySlot } from '@orfium/toolbox';
 ```
 
 :::info
@@ -29,15 +29,15 @@ due to the `useEffect` execution order.
 **Example usage**
 
 ```tsx
-import { useTopBarUtilitySection } from '@orfium/toolbox';
+import { useTopBarUtilitySlot } from '@orfium/toolbox';
 import { useMemo } from 'react';
 
 function Page() {
-  const utilitySectionElement = useMemo(() => {
+  const utilitySlotElement = useMemo(() => {
     return <h2>Hello</h2>;
   }, []);
 
-  useTopBarUtilitySection(utilitySectionElement);
+  useTopBarUtilitySlot(utilitySlotElement);
   return <div>Page contents</div>;
 }
 ```
@@ -45,16 +45,16 @@ function Page() {
 ```tsx
 // The utility section will end up with 'this will be shown' as its content
 
-import { useTopBarUtilitySection } from '@orfium/toolbox';
+import { useTopBarUtilitySlot } from '@orfium/toolbox';
 
 function AnotherPage() {
-  useTopBarUtilitySection('this will not be shown');
+  useTopBarUtilitySlot('this will not be shown');
 
   return <h1>INNER PAGE</h1>;
 }
 
 function Page() {
-  useTopBarUtilitySection('this will be shown');
+  useTopBarUtilitySlot('this will be shown');
 
   return (
     <div>
@@ -67,10 +67,10 @@ function Page() {
 
 ## Parameters
 
-- `topBarUtilitySectionElement: ReactNode` - The React Element you want to set as the content of the utility section
+- `topBarUtilitySlotElement: ReactNode` - The React Element you want to set as the content of the utility section
 
 :::danger
-Make **sure** you memoise the value of `topBarUtilitySectionElement` otherwise you **will** cause an infinite render loop.
+Make **sure** you memoise the value of `topBarUtilitySlotElement` otherwise you **will** cause an infinite render loop.
 Take care to avoid trashing the memoised value unless necessary.
 :::
 
