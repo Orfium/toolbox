@@ -6,6 +6,9 @@ on:
       - 'next'
       - 'v3.x'
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     name: Deploy
