@@ -24,14 +24,19 @@ export const Button = styled.button`
   cursor: pointer;
   height: calc(9 * ${({ theme }) => `${theme.spacing.sm}`});
 
-  :hover {
+  :not([disabled]):hover {
     background-color: ${({ theme }) => `${theme.utils.getColor('lightGrey', 50)}`};
   }
 
-  > span {
-    padding-right: ${({ theme }) => theme.spacing.sm};
-    display: inline-block;
+  &[disabled] {
+    cursor: default;
   }
+`;
+
+export const SelectedOrg = styled.span`
+  padding-right: ${({ theme }) => theme.spacing.sm};
+  display: inline-block;
+  font-weight: ${({ theme }) => theme.typography.weights.medium};
 `;
 
 export const ButtonTextWrapper = styled.div`

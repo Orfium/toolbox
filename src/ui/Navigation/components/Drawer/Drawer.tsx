@@ -4,7 +4,7 @@ import { type SwitchOrganization } from '../../../../providers/Organizations';
 import { type Organization } from '../../../../store/organizations';
 import { MenuIcon, MenuItemText } from '../../common.styles';
 import { type MenuItem } from '../../types';
-import ClientSelector from '../ClientSelector';
+import OrganizationSelector from '../OrganizationSelector';
 import {
   DrawerContainer,
   ExtrasContainer,
@@ -87,7 +87,8 @@ function Drawer(props: DrawerProps) {
   const orgSwitcherElement = useMemo(() => {
     return (
       <OrgSwitcherWrapper>
-        <ClientSelector
+        <OrganizationSelector
+          disabled={organizations.length <= 1}
           tagText={''}
           dataTestId={'organization-picker'}
           onSelect={async (option: string) => {

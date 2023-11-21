@@ -7,46 +7,63 @@ import { rem } from 'polished';
 const AVATAR_SIZE_COLLAPSED = 36;
 const AVATAR_SIZE_EXPANDED = 46;
 
-export const AvatarButton = styled.button`
-  background-color: transparent;
-  box-shadow: none;
-  border-color: transparent;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-
-  &:focus-visible {
-    outline: ${({ theme }) => getFocus({ theme }).styleOutline};
-  }
-
-  img {
-    width: ${rem(AVATAR_SIZE_COLLAPSED)};
-    height: ${rem(AVATAR_SIZE_COLLAPSED)};
-    border-radius: 50%;
-  }
+export const Anchor = styled.div`
+  position: relative;
+  height: ${rem(AVATAR_SIZE_COLLAPSED)};
 `;
 
 export const MenuOuterWrapper = styled.div`
+  --max-width: auto;
+  --max-height: auto;
+  --min-width: ${rem(AVATAR_SIZE_COLLAPSED)};
+  --min-height: ${rem(AVATAR_SIZE_COLLAPSED)};
   border: ${rem(1)} solid ${({ theme }) => theme.utils.getColor('lightGrey', 200)};
   border-radius: ${rem(8)};
   box-shadow: ${({ theme }) => theme.elevation['04']};
   background-color: #fff;
   padding: ${({ theme }) => theme.spacing.md};
-  transition: top 0.25s ease, opacity 0.25s ease, visibility 0.25s ease;
+  transition: padding 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease, width 0.25s ease, height 0.25s ease;
   width: var(--max-width);
   height: var(--max-height);
   overflow: hidden;
   position: absolute;
-  top: calc(100% + ${({ theme }) => theme.spacing.sm});
+  top: 0;
   right: 0;
 
+  [data-menu-header] {
+    transition: padding 0.25s ease;
+  }
+
+  [data-menu-header] > div,
+  [data-menu-options] {
+    transition: opacity 0.15s ease;
+    opacity: 1;
+    visibility: visible;
+  }
+
   &.collapsed {
-    pointer-events: none;
-    opacity: 0;
-    visibility: hidden;
-    top: calc(100% - ${({ theme }) => theme.spacing.md});
+    width: var(--min-width);
+    height: var(--min-height);
+    padding: 1px; // fixes weird 1px clipping issue between this and the img
+    background-color: transparent;
+    box-shadow: none;
+    border-color: transparent;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: ${({ theme }) => getFocus({ theme }).styleOutline};
+    }
+
+    [data-menu-header] {
+      padding: 0;
+    }
+
+    [data-menu-header] > div,
+    [data-menu-options] {
+      opacity: 0;
+      visibility: hidden;
+    }
   }
 `;
 
@@ -73,6 +90,13 @@ export const Header = styled.div`
     display: flex;
     flex-direction: column;
     gap: ${rem(4)};
+  }
+
+  &.collapsed {
+    img {
+      width: ${rem(AVATAR_SIZE_COLLAPSED)};
+      height: ${rem(AVATAR_SIZE_COLLAPSED)};
+    }
   }
 `;
 

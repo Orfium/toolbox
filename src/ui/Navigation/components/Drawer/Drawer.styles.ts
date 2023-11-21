@@ -8,7 +8,7 @@ export const DrawerContainer = styled.div<{
   isDesktop: boolean;
 }>`
   ${transition(0.2, 'width')};
-  width: ${({ expanded }) => (expanded ? rem('308px') : 0)};
+  width: ${({ expanded }) => (expanded ? rem(252) : 0)};
   background-color: ${({ theme }) => theme.palette.white};
   position: ${({ isDesktop }) => (isDesktop ? 'relative' : 'absolute')};
   left: ${({ theme, isDesktop }) => (isDesktop ? 0 : getGlobalNavWidth(theme))};
