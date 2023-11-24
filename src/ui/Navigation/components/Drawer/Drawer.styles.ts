@@ -85,7 +85,7 @@ export const ExtrasSectionMenuItem = styled.a`
 `;
 
 export const NavElementsContainer = styled.div`
-  padding: ${({ theme }) => `${theme.spacing.md}`};
+  padding: ${({ theme }) => `${rem(10)} ${theme.spacing.md} ${theme.spacing.md}`};
   display: flex;
   flex-direction: column;
   flex-grow: 1;
