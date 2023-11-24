@@ -52,7 +52,7 @@ export const AppIcon = (theme: Theme) => css`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s ease, box-shadow 0.1s ease;
+  transition: background-color 0.2s ease, box-shadow 0.1s ease, outline 0.1s ease;
   box-shadow: 0 0 0 0 #fff;
   cursor: pointer;
 
@@ -62,8 +62,7 @@ export const AppIcon = (theme: Theme) => css`
     transform: scale(1);
   }
 
-  &:focus-visible,
-  &.active {
+  &:focus-visible {
     box-shadow: 0 0 0 1px #fff;
     background-color: #ffffff20;
     outline: 1px solid #fff;
@@ -71,6 +70,12 @@ export const AppIcon = (theme: Theme) => css`
 
   &:hover {
     background-color: #ffffff20;
+  }
+
+  &.active {
+    box-shadow: 0 0 0 1px #fff;
+    background-color: ${theme.utils.getColor('blue', 500)};
+    outline: 1px solid #fff;
   }
 
   &:active {

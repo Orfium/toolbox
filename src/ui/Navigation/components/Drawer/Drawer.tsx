@@ -89,7 +89,6 @@ function Drawer(props: DrawerProps) {
       <OrgSwitcherWrapper>
         <OrganizationSelector
           disabled={organizations.length <= 1}
-          tagText={''}
           dataTestId={'organization-picker'}
           onSelect={async (option: string) => {
             const foundOrg = organizations.find((org) => org.display_name === option);

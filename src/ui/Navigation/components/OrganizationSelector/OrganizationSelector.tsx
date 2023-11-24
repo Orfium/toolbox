@@ -22,7 +22,7 @@ export type Props = {
   /** The text of the button to show - defaults to "More" */
   buttonText: ReactNode;
   /** The text of the tag to show - defaults to undefined */
-  tagText: ReactNode;
+  tagText?: ReactNode;
   /** Define if the button is in disabled state */
   disabled?: boolean;
   /** Menu position when open */
@@ -41,7 +41,7 @@ function OrganizationSelector(props: Props & TestProps) {
     buttonText = 'More',
     menuPosition = 'left',
     dataTestId,
-    tagText,
+    tagText = 'Organization',
   } = props;
   const [open, setOpen] = useState(false);
   const theme = useTheme();
