@@ -1,4 +1,10 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Theme } from '@orfium/ictinus';
+
+export const backGround = (theme: Theme) => css`
+  background-color: ${theme.utils.getColor('blue', null, 'pale')};
+`;
 
 export const GridContainer = styled.div`
   display: grid;
@@ -13,9 +19,11 @@ export const GridContainer = styled.div`
 
 export const Header = styled.header`
   grid-area: header;
+  z-index: 100;
   position: sticky;
   top: 0;
   padding: 0 ${({ theme }) => theme.spacing.md};
+  ${({ theme }) => backGround(theme)};
 `;
 
 export const Contents = styled.main`
@@ -23,6 +31,7 @@ export const Contents = styled.main`
   position: relative;
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.md}
     ${({ theme }) => theme.spacing.lg};
+  overflow: auto;
 `;
 
 export const SideNav = styled.aside`
