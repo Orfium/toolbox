@@ -48,15 +48,19 @@ export const NavHeader = styled.h2`
 
 export const ExtrasContainer = styled.div`
   border-top: 1px solid ${({ theme }) => theme.utils.getColor('lightGrey', 200)};
-  flex-shrink: 0;
-  padding: ${({ theme }) => `${theme.spacing.md} 0`};
+  padding: ${({ theme }) => `${theme.spacing.lg} 0`};
+  overflow: auto;
+
+  //Stick the scrollbar to the edge
+  box-sizing: border-box;
+  padding-right: ${({ theme }) => `${theme.spacing.md}`};
+  width: calc(100% + ${({ theme }) => `${theme.spacing.md}`});
 `;
 
 export const ExtrasSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
-  padding: ${({ theme }) => theme.spacing.sm} 0;
 `;
 
 export const ExtrasSectionTitle = styled.h2`
@@ -85,7 +89,7 @@ export const ExtrasSectionMenuItem = styled.a`
 `;
 
 export const NavElementsContainer = styled.div`
-  padding: ${({ theme }) => `${rem(10)} ${theme.spacing.md} ${theme.spacing.md}`};
+  padding: ${({ theme }) => `${rem(10)} ${theme.spacing.md} 0`};
   display: flex;
   flex-direction: column;
   flex-grow: 1;
