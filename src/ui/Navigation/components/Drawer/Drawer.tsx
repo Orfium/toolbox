@@ -61,7 +61,7 @@ function Drawer(props: DrawerProps) {
                     rel={'noreferrer noopener'}
                   >
                     <MenuIcon theme={theme}>
-                      <Icon color={'#0E0E17'} name={item.iconName} />
+                      <Icon color={theme.utils.getColor('lightGrey', 650)} name={item.iconName} />
                     </MenuIcon>
                     <MenuItemText theme={theme}>{item.text}</MenuItemText>
                   </ExtrasSectionMenuItem>
@@ -78,11 +78,11 @@ function Drawer(props: DrawerProps) {
     return (
       <NavElementsContainer theme={theme}>
         <NavHeader theme={theme}>{header}</NavHeader>
-        <Navigation theme={theme} menuItems={menuItems} />
+        <Navigation theme={theme} menuItems={menuItems} hasExtras={Boolean(extras)} />
         {extrasElement}
       </NavElementsContainer>
     );
-  }, [extrasElement, menuItems, header, theme]);
+  }, [theme, header, menuItems, extras, extrasElement]);
 
   const orgSwitcherElement = useMemo(() => {
     return (
