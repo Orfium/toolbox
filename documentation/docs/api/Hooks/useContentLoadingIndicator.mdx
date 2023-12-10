@@ -1,0 +1,43 @@
+---
+id: 'useContentLoadingIndicator'
+title: 'useContentLoadingIndicator'
+sidebar_label: 'useContentLoadingIndicator'
+sidebar_position: 3.1
+---
+
+```ts
+import { useContentLoadingIndicator } from '@orfium/toolbox';
+```
+
+:::info
+Only descendants of [`Scaffold`](../components/Scaffold) can use this hook.
+:::
+
+## Description
+
+A hook that simply activates/deactivates an indeterminate loader meant to indicate that the content of the page is
+still loading.
+
+The hook will automatically reset the value to `false` upon unmounting, so you do not have to manually clean up anything.
+
+**Example usage**
+
+```tsx
+import { useContentLoadingIndicator } from '@orfium/toolbox';
+import { useQuery } from '@tanstack/react-query';
+
+function Page() {
+  const {data, isLoading} = useQuery(/***/)
+  useContentLoadingIndicator(isLoading);
+
+  return <div>{data ? data.toString() : '-'}</div>;
+}
+```
+
+## Parameters
+
+- `active: boolean` - Indicates whether the loading indicator should be shown or not.
+
+## Return value
+
+Ƭ `undefined`
