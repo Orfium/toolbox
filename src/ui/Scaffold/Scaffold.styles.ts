@@ -29,8 +29,7 @@ export const Header = styled.header`
 export const Contents = styled.main`
   grid-area: main;
   position: relative;
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.md}
-    ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => `0 ${theme.spacing.md} ${theme.spacing.lg}`};
   overflow: auto;
 `;
 
@@ -39,4 +38,11 @@ export const SideNav = styled.aside`
   transition: all 0.2s ease-in-out;
   position: relative;
   z-index: 101;
+`;
+
+export const LoadingBarWrapper = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
 `;
