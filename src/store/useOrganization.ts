@@ -17,17 +17,17 @@ export type Organization = {
 
 type Store = {
   // list of organizations that fetched and stored
-  organizations: Organization[];
+  organizations: Organization[] | null;
   // the selected organization for the current session
-  selectedOrganization: Organization | undefined;
+  selectedOrganization: Organization | undefined | null;
   setOrganizations: (organizations: Organization[]) => void;
   setSelectedOrganization: (organizations: Organization) => void;
   reset: () => void;
 };
 
 const initialState = {
-  organizations: [],
-  selectedOrganization: undefined,
+  organizations: null,
+  selectedOrganization: null,
 };
 const useOrganization = create(
   persist<Store>(

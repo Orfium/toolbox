@@ -3,13 +3,7 @@
     "outDir": "dist",
     "module": "esnext",
     "target": "es5",
-    "lib": [
-      "es5",
-      "es6",
-      "es7",
-      "es2017",
-      "dom"
-    ],
+    "lib": ["dom", "es5", "es6", "es7", "es2017"],
     "sourceMap": true,
     "skipLibCheck": true,
     "allowJs": true,
@@ -17,7 +11,6 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "strict": true,
-    "rootDir": "./src",
     "baseUrl": "./src",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -29,18 +22,11 @@
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "types": [
-      "node",
-      "jest",
-      "@testing-library/jest-dom"
-    ],
+    "types": ["node", "jest", "@testing-library/jest-dom"],
     "jsxImportSource": "react",
-    "declarationDir": "./dist/types",
+    "declarationDir": "./dist/types"
   },
-  "include": [
-    "./src/*",
-    "./src/**/*"
-  ],
+  "include": ["./src/*", "./src/**/*"],
   "exclude": [
     "**/node_modules/**/",
     "node_modules",

@@ -1,6 +1,6 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import jwtDecode from 'jwt-decode';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Auth0 custom error simulator. This extends a regular Error to match Auth0 Error.
 class CustomError extends Error {
@@ -14,7 +14,7 @@ class CustomError extends Error {
 import { ErrorBoundary, useErrorHandler } from 'react-error-boundary';
 
 import {
-  createAuth0Client as mockedCreateAuth0,
+  Auth0Client as mockedCreateAuth0,
   fakeTokenData,
   FAKE_TOKEN,
   getNewFakeToken,
@@ -23,7 +23,7 @@ import {
   handleRedirectCallback as mockedHandleRedirectCallback,
   isAuthenticated,
   loginWithRedirect,
-  // @ts-ignore
+  logout,
 } from '../../__mocks__/@auth0/auth0-spa-js';
 import useOrganization from '../store/useOrganization';
 import useRequestToken from '../store/useRequestToken';
@@ -195,8 +195,8 @@ describe('Context', () => {
       const { organizations, selectedOrganization } = useOrganization.getState();
 
       expect(token).toBe(undefined);
-      expect(organizations).toStrictEqual([]);
-      expect(selectedOrganization).toBe(undefined);
+      expect(organizations).toStrictEqual(null);
+      expect(selectedOrganization).toStrictEqual(null);
     });
   });
 
@@ -251,6 +251,7 @@ describe('Context', () => {
     isAuthenticated.mockResolvedValue(true);
     getUser.mockResolvedValue({
       name: 'John Doe',
+      updated_at: new Date().toDateString(),
     });
 
     const { findByText, getByTestId } = render(
@@ -263,50 +264,23 @@ describe('Context', () => {
     await waitFor(() => expect(getByTestId('isAuthenticated').innerHTML).toBe('true'));
   });
 
-  describe('AuthenticationProvider calls loginWithRedirect success/error', () => {
-    test('loginWithRedirect when access token fails', async () => {
-      const errorMsg = 'login_required';
+  test('logout when access token fails', async () => {
+    const errorMsg = 'login_required';
 
-      mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, errorMsg));
+    mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, errorMsg));
 
-      render(
-        // @ts-ignore
-        <ErrorBoundary
-          FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
-        >
-          <AuthenticationProvider>
-            <TestingComponent />
-          </AuthenticationProvider>
-        </ErrorBoundary>
-      );
+    render(
+      // @ts-ignore
+      <ErrorBoundary
+        FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
+      >
+        <AuthenticationProvider>
+          <TestingComponent />
+        </AuthenticationProvider>
+      </ErrorBoundary>
+    );
 
-      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
-    });
-
-    test('loginWithRedirect when access token fails and handle an error', async () => {
-      const errorMsg = 'login_with_popup_failed';
-
-      mockedGetTokenSilently.mockRejectedValue(new CustomError('login_required', 'login_required'));
-      loginWithRedirect.mockImplementation(() => {
-        throw new Error(errorMsg);
-      });
-
-      render(
-        // @ts-ignore
-        <ErrorBoundary
-          FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
-        >
-          <AuthenticationProvider>
-            <TestingComponent />
-          </AuthenticationProvider>
-        </ErrorBoundary>
-      );
-
-      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
-
-      await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
-      await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
-    }, 10000);
+    await waitFor(() => expect(logout).toBeCalledTimes(1));
   });
 
   test('invitation redirect', async () => {
@@ -388,14 +362,8 @@ describe('Context', () => {
       );
     });
 
-    await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('false'));
-    await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
-    expect(loginWithRedirect).toBeCalledWith({
-      authorizationParams: {
-        organization: organizationList[0].org_id,
-        invitation: undefined,
-      },
-    });
+    await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('true'));
+    await waitFor(() => expect(logout).toBeCalledTimes(1));
   }, 10000);
 
   test('Context default functions', async () => {
@@ -415,7 +383,7 @@ describe('Context', () => {
     // @ts-ignore
     client = undefined;
     try {
-      await getAuth0Client();
+      getAuth0Client();
     } catch (e) {
       expect(e).toEqual(new Error(`getAuth0Client Error: Error`));
     }
@@ -434,7 +402,7 @@ describe('Context', () => {
     try {
       await logoutAuth();
     } catch (e) {
-      expect(e).toEqual(new Error(`client_1.logout is not a function`));
+      expect(e).toEqual(new Error(`logoutAuth Error: client is not defined`));
     }
   });
 });

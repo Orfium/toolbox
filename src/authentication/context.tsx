@@ -1,16 +1,16 @@
 import {
   Auth0Client,
   Auth0ClientOptions,
-  createAuth0Client,
   GetTokenSilentlyOptions,
   RedirectLoginOptions,
 } from '@auth0/auth0-spa-js';
 import jwt_decode from 'jwt-decode';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useRef, useState } from 'react';
 import { useErrorHandler } from 'react-error-boundary';
 
 import useOrganization from '../store/useOrganization';
 import useRequestToken from '../store/useRequestToken';
+import useUser from '../store/useUser';
 import { config } from './config';
 import { AuthenticationContextProps } from './types';
 
@@ -52,15 +52,13 @@ export const AuthenticationContext =
  * Auth0 creation requires a call to auth0 for token which by define it once we prevent other unintended calls to the service.
  */
 export let client: Auth0Client | undefined;
-export const getAuth0Client = async () => {
-  const selectedOrganization = useOrganization.getState().selectedOrganization;
-  if (!client || selectedOrganization?.org_id) {
+export const getAuth0Client = (force = false) => {
+  if (force || !client) {
     try {
-      client = await createAuth0Client({
+      client = new Auth0Client({
         ...providerConfig,
         authorizationParams: {
           ...providerConfig.authorizationParams,
-          organization: selectedOrganization?.org_id,
         },
       });
     } catch (e) {
@@ -77,18 +75,30 @@ export const getAuth0Client = async () => {
  *  - tokens
  *  - organizations, selectedOrganization
  */
-export const logoutAuth = async () => {
-  const setToken = useRequestToken.getState().setToken;
-  const resetOrganizationState = useOrganization.getState().reset;
+export const logoutAuth = async ({ force = false }: { force?: boolean } = {}) => {
   try {
-    const client = await getAuth0Client();
+    const client = getAuth0Client();
 
+    if (!client || Object.keys(client).length === 0) {
+      throw new Error('logoutAuth Error: client is not defined');
+    }
+
+    const resetUser = useUser.getState().reset;
+    const setToken = useRequestToken.getState().setToken;
+    const resetOrganizationState = useOrganization.getState().reset;
+    const isAuthenticated = await client?.isAuthenticated();
+
+    resetUser();
     setToken(undefined);
     resetOrganizationState();
-    // @TODO change returnTo to orfium one when is ready
-    client?.logout({ logoutParams: { returnTo: window.location.origin } });
+
+    if (isAuthenticated || force) {
+      await client?.logout({
+        logoutParams: { returnTo: window.location.origin },
+      });
+    }
   } catch (e: unknown) {
-    if (e instanceof Error) {
+    if (e) {
       throw e;
     }
   }
@@ -120,7 +130,7 @@ export const getTokenSilently = async (
   }
 
   try {
-    const client = await getAuth0Client();
+    const client = getAuth0Client();
     const token = await client.getTokenSilently({
       ...params,
       authorizationParams: {
@@ -131,32 +141,50 @@ export const getTokenSilently = async (
     setToken(token);
 
     return { token, decodedToken: jwt_decode(token) };
-  } catch (e) {
-    if (e instanceof Error) {
-      throw e;
+  } catch (e: any) {
+    if (e?.error === 'login_required') {
+      // case 1 we want logout because a user clicked logout
+      // case 2 auth0 session expired and client will redirect for login (popup or redirect)
+      await logoutAuth({ force: true });
     }
+    throw e;
   }
 };
 
 const AuthenticationProvider: React.FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<Record<string, unknown>>();
-  const [auth0Client, setAuth0Client] = useState<Auth0Client>();
+  const { user, setUser } = useUser();
+  const [client] = useState<Auth0Client>(() => getAuth0Client());
   const [isLoading, setIsLoading] = useState(true);
   const handleError = useErrorHandler();
+  const [error, setError] = useState('');
   const params = new URLSearchParams(window.location.search);
-
+  const didInitialise = useRef(false);
   const selectedOrganization = useOrganization((state) => state.selectedOrganization);
   const setSelectedOrganization = useOrganization((state) => state.setSelectedOrganization);
   const organizations = useOrganization((state) => state.organizations);
   const organization = params.get('organization') || selectedOrganization?.org_id;
   const invitation = params.get('invitation');
+  const errorParam = params.get('error');
+
+  const loginWithRedirect = useCallback(
+    async (o: RedirectLoginOptions) => {
+      try {
+        await client.loginWithRedirect(o);
+      } catch (error) {
+        return handleError(error);
+      }
+    },
+    [handleError]
+  );
 
   useEffect(() => {
     (async () => {
+      if (didInitialise.current) {
+        return;
+      }
+      didInitialise.current = true;
       try {
-        const client = await getAuth0Client();
-        setAuth0Client(client);
         if (window.location.search.includes('code=')) {
           const { appState } = await client.handleRedirectCallback();
           onRedirectCallback(appState);
@@ -168,6 +196,9 @@ const AuthenticationProvider: React.FC = ({ children }) => {
               invitation: invitation || undefined,
             },
           });
+        }
+        if (window.location.search.includes('error=') && errorParam === 'access_denied') {
+          return logoutAuth({ force: true });
         }
         const clientIsAuthenticated = await client.isAuthenticated();
         setIsAuthenticated(clientIsAuthenticated);
@@ -193,35 +224,24 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         handleError(error);
       }
     })();
-  }, []);
+  }, [client, errorParam, handleError, invitation, loginWithRedirect, organization, setUser]);
 
-  const loginWithRedirect = async (o: RedirectLoginOptions) => {
-    try {
-      const client = await getAuth0Client();
-      await client.loginWithRedirect(o);
-    } catch (error) {
-      return handleError(error);
-    }
-  };
+  const getAccessTokenSilently = useCallback(
+    async (opts?: GetTokenSilentlyOptions) => {
+      try {
+        const response = await getTokenSilently(opts);
 
-  const getAccessTokenSilently = async (opts?: GetTokenSilentlyOptions) => {
-    try {
-      const result = await getTokenSilently(opts);
+        return response;
+      } catch (error: any) {
+        if (error?.error) {
+          setError(error?.error);
+        }
 
-      return result;
-    } catch (error: any) {
-      if (error?.error === 'login_required' || error?.error === 'consent_required') {
-        return loginWithRedirect({
-          authorizationParams: {
-            organization: organization || undefined,
-            invitation: invitation || undefined,
-          },
-        });
+        return handleError(error);
       }
-
-      handleError(error);
-    }
-  };
+    },
+    [handleError]
+  );
 
   useEffect(() => {
     const searchParams = new URL(window.location.href).searchParams;
@@ -229,7 +249,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       const error = searchParams.get('error');
 
       if (error === 'access_denied') {
-        const org = organizations[0];
+        const org = (organizations || [])[0];
         setSelectedOrganization(org);
         loginWithRedirect({
           authorizationParams: {
@@ -246,7 +266,37 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         });
       }
     }
-  }, [auth0Client, isLoading, isAuthenticated]);
+  }, [
+    invitation,
+    isAuthenticated,
+    isLoading,
+    loginWithRedirect,
+    organization,
+    organizations,
+    setSelectedOrganization,
+  ]);
+
+  // error handling useEffect
+  useEffect(() => {
+    (async () => {
+      if (error === 'login_required') {
+        // case 1 we want logout because a user clicked logout
+        // case 2 auth0 session expired and client will redirect for login (popup or redirect)
+        // clear local cached data
+        return await logoutAuth();
+      }
+
+      if (error === 'consent_required') {
+        return loginWithRedirect({
+          authorizationParams: {
+            organization: organization || undefined,
+            invitation: invitation || undefined,
+          },
+        });
+      }
+      setError('');
+    })();
+  }, [error, invitation, loginWithRedirect, organization]);
 
   return (
     <AuthenticationContext.Provider
@@ -255,7 +305,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
         isLoading,
         loginWithRedirect,
         logout: logoutAuth,
-        getAccessTokenSilently: (o?: GetTokenSilentlyOptions) => getAccessTokenSilently(o),
+        getAccessTokenSilently,
         user,
       }}
     >

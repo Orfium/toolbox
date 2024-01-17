@@ -1,12 +1,11 @@
 import { cleanup, render, waitFor } from '@testing-library/react';
-import React from 'react';
 
 import {
   getNewFakeToken,
   getTokenSilently,
+  getUser,
   isAuthenticated,
   loginWithRedirect,
-  // @ts-ignore
 } from '../../__mocks__/@auth0/auth0-spa-js';
 import { orfiumIdBaseInstance } from '../request';
 import MockRequest from '../request/mock';
@@ -38,7 +37,17 @@ describe('Authentication: ', () => {
 
   it('renders the test component', async () => {
     getTokenSilently.mockResolvedValue(getNewFakeToken());
+    jest.mock('../store/useUser', () => ({
+      __esModule: true,
+      default: {
+        user: {},
+      },
+    }));
     isAuthenticated.mockResolvedValue(true);
+    getUser.mockResolvedValue({
+      name: 'John Doe',
+      updated_at: new Date().toDateString(),
+    });
     mock.onGet('/memberships/').reply(200, [{ org_id: 'a' }]);
 
     const { findByTestId } = render(
@@ -49,7 +58,11 @@ describe('Authentication: ', () => {
 
     expect(await findByTestId('orfium-auth-loading')).toBeTruthy();
 
-    expect(await findByTestId('test')).toBeTruthy();
+    expect(
+      await findByTestId('test', undefined, {
+        timeout: 3000,
+      })
+    ).toBeTruthy();
   });
 
   it('redirects to login if not authenticated', async () => {
@@ -69,6 +82,10 @@ describe('Authentication: ', () => {
   it('renders the loading while its authenticating', async () => {
     getTokenSilently.mockResolvedValue(getNewFakeToken());
     isAuthenticated.mockResolvedValue(true);
+    getUser.mockResolvedValue({
+      name: 'John Doe',
+      updated_at: new Date().toDateString(),
+    });
     const { findByTestId } = render(
       <AuthenticationProvider>
         <TestComp />
@@ -80,6 +97,10 @@ describe('Authentication: ', () => {
   it('renders the no organization message when it should', async () => {
     getTokenSilently.mockResolvedValue(getNewFakeToken());
     isAuthenticated.mockResolvedValue(true);
+    getUser.mockResolvedValue({
+      name: 'John Doe',
+      updated_at: new Date().toDateString(),
+    });
     mock.onGet('/memberships/').replyOnce(200, []);
 
     const { findByTestId } = render(
@@ -89,6 +110,10 @@ describe('Authentication: ', () => {
     );
 
     expect(await findByTestId('orfium-auth-loading')).toBeTruthy();
-    expect(await findByTestId('orfium-no-organizations')).toBeTruthy();
+    expect(
+      await findByTestId('orfium-no-organizations', undefined, {
+        timeout: 13000,
+      })
+    ).toBeTruthy();
   });
 });

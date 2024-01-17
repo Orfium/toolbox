@@ -17,7 +17,7 @@ export type TopBarProps = {
 export const TopBar: React.FC<TopBarProps> = memo(
   ({ logoIcon, onMenuIconClick, additionalTools }) => {
     const { user, logout } = useAuthentication();
-    const { organizations, setSelectedOrganization, selectedOrganization } = useOrganization();
+    const { organizations, selectedOrganization, reset } = useOrganization();
 
     const userConfig = {
       items: ['Logout'],
@@ -50,21 +50,21 @@ export const TopBar: React.FC<TopBarProps> = memo(
               dataTestId={'organization-picker'}
               color={'lightGrey-50'}
               onSelect={async (option: string) => {
-                const foundOrg = organizations.find((org) => org.display_name === option);
+                const foundOrg = organizations?.find((org) => org.display_name === option);
                 if (foundOrg) {
-                  const client = await getAuth0Client();
+                  const client = getAuth0Client();
                   await client.logout({ openUrl: false });
                   await client.loginWithRedirect({
                     authorizationParams: {
                       organization: foundOrg.org_id,
                     },
                   });
-                  setSelectedOrganization(foundOrg);
+                  reset();
                 }
               }}
               buttonText={selectedOrganization?.display_name}
               items={organizations
-                .filter((org) => org.display_name !== selectedOrganization?.display_name)
+                ?.filter((org) => org.display_name !== selectedOrganization?.display_name)
                 .map((org) => org.display_name)}
             />
           </div>

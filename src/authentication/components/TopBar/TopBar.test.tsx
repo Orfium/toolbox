@@ -1,9 +1,12 @@
 import { ThemeProvider } from '@orfium/ictinus';
 import { fireEvent, render, waitFor } from '@testing-library/react';
-import React from 'react';
 
 // @ts-ignore
-import { createAuth0Client as mockedCreateAuth0 } from '../../../../__mocks__/@auth0/auth0-spa-js';
+import {
+  Auth0Client as mockedCreateAuth0,
+  loginWithRedirect,
+  logout,
+} from '../../../../__mocks__/@auth0/auth0-spa-js';
 import { Organization } from '../../../store/useOrganization';
 import { Authentication } from '../../index';
 const mockOrganizations: Organization[] = [
@@ -46,12 +49,14 @@ const mockedUserFn = jest
   .mockReturnValue(mockedUser);
 const mockSetSelectedOrganization = jest.fn();
 const mockLogout = jest.fn();
+const mockResetOrganization = jest.fn();
 
 jest.mock('../../../store/useOrganization', () =>
   jest.fn(() => ({
     organizations: mockOrganizations,
     setSelectedOrganization: mockSetSelectedOrganization,
     selectedOrganization: mockOrganizations[0],
+    reset: mockResetOrganization,
   }))
 );
 
@@ -88,7 +93,9 @@ describe('TopBar', () => {
     fireEvent.click(getByText(mockOrganizations[0].display_name));
     fireEvent.click(getByTestId('ictinus_list_item_0'));
 
-    await waitFor(() => expect(mockSetSelectedOrganization).toBeCalledTimes(1));
+    await waitFor(() => expect(logout).toBeCalledTimes(1));
+    await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+    await waitFor(() => expect(mockResetOrganization).toBeCalledTimes(1));
   });
 
   describe('user data', function () {
@@ -125,6 +132,7 @@ describe('TopBar', () => {
       </ThemeProvider>
     );
 
+    // @ts-ignore
     const userMenu = getByTestId('userMenu')?.firstChild;
     userMenu && fireEvent.click(userMenu);
     fireEvent.click(getByText('Logout'));
