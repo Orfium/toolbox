@@ -98,9 +98,7 @@ export const logoutAuth = async ({ force = false }: { force?: boolean } = {}) =>
       });
     }
   } catch (e: unknown) {
-    if (e) {
-      throw e;
-    }
+    throw e;
   }
 };
 
