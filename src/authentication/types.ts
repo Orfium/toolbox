@@ -46,7 +46,7 @@ export type AuthenticationContextProps = {
   isAuthenticated: boolean;
   isLoading: boolean;
   loginWithRedirect(o?: RedirectLoginOptions): Promise<void>;
-  logout: () => void;
+  logout: (props?: { force?: boolean }) => void;
   getAccessTokenSilently: (opts?: GetTokenSilentlyOptions) => Promise<{
     token: string;
     decodedToken: DecodedTokenResponse | Record<string, never>;

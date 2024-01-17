@@ -1,6 +1,6 @@
 import { Button, Loader, ThemeProvider } from '@orfium/ictinus';
 import * as Sentry from '@sentry/browser';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import dayjs from 'dayjs';
@@ -48,7 +48,6 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
     useAuthentication();
   const { organizations, setOrganizations, setSelectedOrganization, selectedOrganization } =
     useOrganization();
-  const [systemLoading, setSystemLoading] = useState<boolean | undefined>(undefined);
 
   /**
    * On initial load the useEffect checks if there are no loading at all and if both are false will try to get a valid token with organization
@@ -58,8 +57,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
    * - in case of no organization id pass the first fetched organization from the above list and re-fetch a token
    */
   useEffect(() => {
-    if (!systemLoading && !isLoading) {
-      setSystemLoading(true);
+    if (!isLoading && user?.updated_at) {
       (async () => {
         // moving this will affect the app. If this is moved below when clearing the storage the app constantly refresh
         const response = await getAccessTokenSilently();
@@ -75,32 +73,35 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
         const data = await requestInstance.request();
 
         setOrganizations(data);
-        if (!selectedOrganization?.org_id && data?.length > 0) {
-          setSelectedOrganization(data[0]);
+        if (response?.decodedToken?.org_id) {
+          const orgData = data.find((org) => org.org_id === response.decodedToken.org_id);
+          setSelectedOrganization(orgData || data[0]);
         }
         // if token doesn't have an organization and the user has available organizations
         // set continue and set one
-        if (!response?.decodedToken?.org_id && data?.length) {
+        else if (!response?.decodedToken?.org_id && data?.length) {
           // IMPORTANT - when we are using `useRefreshTokens` and `cacheLocation` on Auth0 we can fetch just a token with organization through `getTokenSilently`
           // we must use loginWithRedirect in that case thus this is happening here
           // https://auth0.com/docs/secure/tokens/refresh-tokens/use-refresh-token-rotation
           await loginWithRedirect({
             authorizationParams: {
-              organization: selectedOrganization?.org_id || data[0].org_id,
+              organization: data[0].org_id,
             },
           });
-        } else {
-          // set false at all times
-          setSystemLoading(false);
         }
       })();
     }
-    // @NOTE selectedOrganization?.org_id, isLoading, systemLoading
-    // are missing on purpose from the deps as these are being updated from places where the organization id is being handled with refresh from auth0
-  }, [getAccessTokenSilently, loginWithRedirect, setOrganizations, setSelectedOrganization]);
+  }, [
+    getAccessTokenSilently,
+    isLoading,
+    loginWithRedirect,
+    setOrganizations,
+    setSelectedOrganization,
+    user?.updated_at,
+  ]);
 
   // when loading is true before navigation this is not showing anymore
-  if (systemLoading === undefined || systemLoading || isLoading || !isAuthenticated) {
+  if (selectedOrganization === null || isLoading || !isAuthenticated) {
     return (
       <Wrapper data-testid={'orfium-auth-loading'}>
         <LoadingContent>
@@ -110,7 +111,7 @@ const AuthenticationWrapper: React.FunctionComponent = ({ children }) => {
     );
   }
 
-  if (organizations.length === 0) {
+  if (organizations?.length === 0) {
     return (
       <ThemeProvider>
         <Wrapper data-testid={'orfium-no-organizations'}>
