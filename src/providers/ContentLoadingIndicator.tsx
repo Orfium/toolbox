@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { ContentLoadingIndicatorContext } from '../contexts/content-loading-indicator';
+import { ContentLoadingIndicatorContext } from '../contexts/content-loading-indicator.js';
 
 export function ContentLoadingIndicator(props: { children: ReactNode }) {
   const { children } = props;

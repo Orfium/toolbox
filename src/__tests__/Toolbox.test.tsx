@@ -7,8 +7,8 @@ import {
   loginWithRedirect,
 } from '../../__mocks__/@auth0/auth0-spa-js';
 import { Authentication } from '../providers/Authentication';
-import { orfiumIdBaseInstance } from '../request';
 import MockRequest from '../request/mock';
+import { orfiumIdBaseInstance } from '../request/orfium-id-base-instance';
 const TestComp = () => {
   return <div data-testid={'test'}>Test</div>;
 };
@@ -18,6 +18,8 @@ describe('Authentication: ', () => {
   const apiInstance = orfiumIdBaseInstance.instance;
 
   beforeEach(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     mock = new MockRequest(apiInstance);
   });
 
@@ -37,6 +39,8 @@ describe('Authentication: ', () => {
   xit('renders the test component', async () => {
     getTokenSilently.mockResolvedValue(getNewFakeToken());
     isAuthenticated.mockResolvedValue(true);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     mock.onGet('/memberships/').reply(200, [{ org_id: 'a' }]);
 
     const { findByTestId } = render(
@@ -53,6 +57,8 @@ describe('Authentication: ', () => {
   xit('redirects to login if not authenticated', async () => {
     isAuthenticated.mockResolvedValue(false);
     getTokenSilently.mockResolvedValue(getNewFakeToken());
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     mock.onGet('/memberships/').replyOnce(200, []);
 
     render(
@@ -78,6 +84,8 @@ describe('Authentication: ', () => {
   xit('renders the no organization message when it should', async () => {
     getTokenSilently.mockResolvedValue(getNewFakeToken());
     isAuthenticated.mockResolvedValue(true);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     mock.onGet('/memberships/').replyOnce(200, []);
 
     const { findByTestId } = render(

@@ -5,8 +5,8 @@ import AdminIcon from '../../../../assets/admin_icon.svg';
 import Logo from '../../../../assets/orfium_logo.svg';
 import BillingIcon from '../../../../assets/products/billing_icon.svg';
 import STIcon from '../../../../assets/products/sync_tracker_icon.svg';
-import { config } from '../../../../config';
-import { type Product } from '../../../../contexts/orfium-products';
+import { config } from '../../../../config.js';
+import { type Product } from '../../../../contexts/orfium-products.js';
 import {
   AppIconNativeLink,
   AppIconRRLink,
@@ -15,9 +15,9 @@ import {
   IconsContainer,
   SingleIconContainer,
   Wrapper,
-} from './GlobalNav.styles';
+} from './GlobalNav.styles.js';
 
-const productIconsDict = {
+const productIconsDict: Record<string, string> = {
   earnings: BillingIcon,
   'sync-tracker': STIcon,
 };

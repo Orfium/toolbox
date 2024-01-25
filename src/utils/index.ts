@@ -6,8 +6,8 @@ export {
   formatToGBP,
   formatToJPY,
   formatToUSD,
-} from './currencies';
-export { LinkWithStatePassthrough } from './LinkWithStatePassthrough';
-export { NavLinkWithStatePassthrough } from './NavLinkWithStatePassthrough';
-export { RedirectWithStatePassthrough } from './RedirectWithStatePassthrough';
-export type { Optional } from './types';
+} from './currencies.js';
+export { LinkWithStatePassthrough } from './LinkWithStatePassthrough/index.js';
+export { NavLinkWithStatePassthrough } from './NavLinkWithStatePassthrough/index.js';
+export { RedirectWithStatePassthrough } from './RedirectWithStatePassthrough/index.js';
+export type { Optional } from './types.js';

@@ -1,14 +1,22 @@
 {
   "name": "@orfium/toolbox",
   "version": "0.0.0",
+  "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/esm/index.d.ts",
   "exports": {
-    "types": "./dist/types/index.d.ts",
-    "import": "./dist/esm/index.js",
-    "require": "./dist/cjs/index.js",
-    "default": "./dist/cjs/index.js"
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      },
+      "default": "./dist/cjs/index.js"
+    }
   },
   "files": [
     "dist"
@@ -46,8 +54,8 @@
     "@types/jwt-encode": "^1.0.0",
     "@types/react": "^17.0.44",
     "@types/react-router-dom": "^5.1.7",
-    "@typescript-eslint/eslint-plugin": "^5.23.0",
-    "@typescript-eslint/parser": "^5.23.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "eslint": "8.22.0",
@@ -58,6 +66,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
     "jest-sonar-reporter": "^2.0.0",
+    "jest-ts-webcompat-resolver": "^1.0.0",
     "jwt-encode": "^1.0.1",
     "lint-staged": "^12.4.1",
     "prettier": "^2.6.2",
@@ -69,9 +78,10 @@
     "ts-jest": "^27.1.4",
     "ts-lib": "^0.0.5",
     "tsc-watch": "^5.0.3",
+    "tsconfig-to-dual-package": "^1.2.0",
     "tslib": "^2.3.1",
     "typedoc": "^0.22.13",
-    "typescript": "^4.6.3"
+    "typescript": "^5.3.3"
   },
   "peerDependencies": {
     "@emotion/react": "^11.10.4",
@@ -87,9 +97,9 @@
     "prepublishOnly": "yarn build",
     "documentation": "cd documentation && yarn start",
     "documentation:build": "cd documentation && yarn install && yarn build",
-    "build": "rimraf ./dist/types && npm run build:esm && npm run build:cjs",
-    "build:esm": "rimraf ./dist/esm && tsc -p tsconfig.prod.json --module esnext --outDir dist/esm && copyfiles -u 1 ./src/assets/* ./src/assets/products/* ./dist/esm/",
-    "build:cjs": "rimraf ./dist/cjs && tsc -p tsconfig.prod.json --module commonjs --outDir dist/cjs && copyfiles -u 1 ./src/assets/* ./src/assets/products/* ./dist/cjs/",
+    "build": "rimraf ./dist && npm run build:esm & npm run build:cjs && tsconfig-to-dual-package",
+    "build:esm": "rimraf ./dist/esm && tsc -p tsconfig.build.esm.json && copyfiles -u 1 ./src/assets/* ./src/assets/products/* ./dist/esm/",
+    "build:cjs": "rimraf ./dist/cjs && tsc -p tsconfig.build.cjs.json && copyfiles -u 1 ./src/assets/* ./src/assets/products/* ./dist/cjs/",
     "yalc:push": "yalc publish --push",
     "watch": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"yarn yalc:push\"",
     "lint": "eslint './src/**/*.{ts,tsx}'",

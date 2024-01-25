@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { TopBarUtilitySlotContext } from '../contexts/top-bar-utility-slot';
+import { TopBarUtilitySlotContext } from '../contexts/top-bar-utility-slot.js';
 
 export function TopBarUtilitySlot(props: { children: ReactNode }) {
   const { children } = props;

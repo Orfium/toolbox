@@ -1,10 +1,11 @@
 import { cleanup } from '@testing-library/react';
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, type AxiosRequestConfig } from 'axios';
 
 // @ts-ignore
 import { FAKE_TOKEN, getTokenSilently } from '../../__mocks__/@auth0/auth0-spa-js';
-import { createAPIInstance, CreateAPIInstanceType, METHODS } from './index';
-import MockRequest from './mock';
+import { createAPIInstance, CreateAPIInstanceType } from '../request/createAPIInstance';
+import MockRequest from '../request/mock';
+import { METHODS } from '../request/request';
 
 describe('Request: ', () => {
   let factory: CreateAPIInstanceType;
@@ -16,13 +17,19 @@ describe('Request: ', () => {
   beforeEach(() => {
     factory = createAPIInstance({ baseUrl });
     apiInstance = factory.instance;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     mock = new MockRequest(apiInstance);
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     mock.onGet('/test-api-with-orfium-base/').reply(200, {
       hasBeenCalled: true,
     });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     mock.onPost('/test-post/').reply(
-      (config) => {
+      (config: AxiosRequestConfig) => {
         return new Promise(function (resolve) {
           setTimeout(function () {
             const data = JSON.parse(config.data);
@@ -37,7 +44,11 @@ describe('Request: ', () => {
   });
 
   afterEach(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     mock.restore();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     mock.restore();
     cleanup();
   });

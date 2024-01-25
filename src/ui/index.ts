@@ -1,4 +1,4 @@
-export { DEFAULT_NAVBAR_HEIGHT } from './consts';
-export { Navigation, type MenuItem, type NavigationProps } from './Navigation';
-export { Scaffold, type ScaffoldProps } from './Scaffold';
-export { TopBar, type TopBarProps } from './TopBar';
+export { DEFAULT_NAVBAR_HEIGHT } from './consts.js';
+export { Navigation, type MenuItem, type NavigationProps } from './Navigation/index.js';
+export { Scaffold, type ScaffoldProps } from './Scaffold/index.js';
+export { TopBar, type TopBarProps } from './TopBar/index.js';

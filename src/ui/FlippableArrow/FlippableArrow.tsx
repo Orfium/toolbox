@@ -1,5 +1,5 @@
 import { Icon } from '@orfium/ictinus';
-import { IconWrapper } from './FlippableArrow.styles';
+import { IconWrapper } from './FlippableArrow.styles.js';
 
 type FlippableChevronProps = {
   expanded: boolean;

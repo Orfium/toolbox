@@ -9,4 +9,4 @@ export {
   RouteComponentProps,
   RouteItem,
   RoutingStructure,
-} from './Routing';
+} from './Routing.js';

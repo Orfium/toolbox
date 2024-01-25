@@ -1,7 +1,8 @@
 import { Icon, useTheme } from '@orfium/ictinus';
-import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
-import { useAuthentication } from '../../../../hooks';
+import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types.js';
+import { useEffect, useRef, useState } from 'react';
+import { useAuthentication } from '../../../../hooks/index.js';
+import { useClickAwayListener } from '../../../../hooks/useClickAwayListener.js';
 import {
   AvatarButton,
   Email,
@@ -16,7 +17,7 @@ import {
   Tag,
   Username,
   UsernameWrapper,
-} from './UserMenu.styles';
+} from './UserMenu.styles.js';
 
 export type UserMenuProps = {
   menuItems: {
@@ -25,25 +26,6 @@ export type UserMenuProps = {
     iconName?: AcceptedIconNames;
   }[];
 };
-
-function useClickAwayListener(
-  ref: MutableRefObject<HTMLElement | null>,
-  onClick: (event: MouseEvent) => void
-) {
-  const handleClickOutside = (event: MouseEvent) => {
-    if (ref.current && !ref.current.contains(event.target as HTMLElement)) {
-      onClick(event);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('click', handleClickOutside, true);
-
-    return () => {
-      window.removeEventListener('click', handleClickOutside, true);
-    };
-  });
-}
 
 function UserMenu(props: UserMenuProps) {
   const { user, logout } = useAuthentication();

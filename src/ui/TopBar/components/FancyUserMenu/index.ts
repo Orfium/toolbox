@@ -1,2 +1,2 @@
-export * from './UserMenu';
-export { default } from './UserMenu';
+export * from './UserMenu.js';
+export { default } from './UserMenu.js';

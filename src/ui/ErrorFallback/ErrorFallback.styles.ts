@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { rem } from '@orfium/ictinus/dist/theme/utils';
+import { rem } from 'polished';
 
 export const ErrorCover = styled.img`
   margin: ${rem(30)};

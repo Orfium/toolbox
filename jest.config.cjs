@@ -1,4 +1,9 @@
 module.exports = {
+  globals: {
+    'ts-jest': {
+      tsConfig: './src/__tests__/tsconfig.json',
+    },
+  },
   preset: 'ts-jest',
   workerIdleMemoryLimit: 0.75,
   testEnvironment: 'jsdom',
@@ -16,4 +21,6 @@ module.exports = {
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.stories.{ts,tsx,js,jsx,mdx,md}'],
   coveragePathIgnorePatterns: ['/node_modules/', '/test/', '/documentation/'],
   testResultsProcessor: 'jest-sonar-reporter',
+  // https://github.com/kulshekhar/ts-jest/issues/1057
+  resolver: 'jest-ts-webcompat-resolver',
 };

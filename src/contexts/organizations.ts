@@ -1,6 +1,6 @@
 import { createContext } from 'react';
-import { type SwitchOrganization, type _SwitchOrganization } from '../providers/Organizations';
-import { type Organization } from '../store/organizations';
+import { type SwitchOrganization, type _SwitchOrganization } from '../providers/Organizations.js';
+import { type Organization } from '../store/organizations.js';
 
 export type OrganizationsContextValue = {
   organizations: Organization[];

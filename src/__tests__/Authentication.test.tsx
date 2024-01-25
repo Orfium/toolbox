@@ -24,11 +24,11 @@ import {
   loginWithRedirect,
 } from '../../__mocks__/@auth0/auth0-spa-js';
 import { defaultAuthenticationContextValues } from '../contexts/authentication';
-import { useAuthentication } from '../hooks';
+import { useAuthentication } from '../hooks/useAuthentication';
 import { Authentication } from '../providers/Authentication';
 import { Organizations } from '../providers/Organizations';
-import { orfiumIdBaseInstance } from '../request';
 import MockRequest from '../request/mock';
+import { orfiumIdBaseInstance } from '../request/orfium-id-base-instance';
 import useOrganization from '../store/organizations';
 import useRequestToken from '../store/requestToken';
 import { getTokenSilently, logoutAuth, onRedirectCallback } from '../utils/auth';
@@ -78,12 +78,16 @@ const TestingComponent = () => {
 
 describe('Context', () => {
   const apiInstance = orfiumIdBaseInstance.instance;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const mock: MockRequest = new MockRequest(apiInstance);
   // let client;
 
   beforeEach(() => {
     jest.resetModules();
     // client = undefined;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     mock.onGet('/products/').reply(200, [
       {
         name: 'string',
@@ -101,6 +105,8 @@ describe('Context', () => {
   afterEach(() => {
     // clear all mocks and mocked values
     jest.clearAllMocks();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     mock.reset();
     mockedGetTokenSilently.mockReset();
     getUser.mockReset();
@@ -224,6 +230,8 @@ describe('Context', () => {
       const { token, decodedToken } = await getTokenSilently();
 
       expect(token).toBe(FAKE_TOKEN);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       expect(decodedToken).toEqual(jwtDecode(token));
     });
 
@@ -253,6 +261,8 @@ describe('Context', () => {
       const { token, decodedToken } = await getTokenSilently();
 
       expect(token).toBe(NEW_FAKE_EXPIRED_TOKEN);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       expect(decodedToken).toEqual(jwtDecode(token));
       expect(decodedToken.org_id).toEqual(fakeTokenData.org_id); // the org_id of the token
     });

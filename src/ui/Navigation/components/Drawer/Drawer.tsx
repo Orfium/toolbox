@@ -1,10 +1,10 @@
 import { Icon, type Theme } from '@orfium/ictinus';
 import { useMemo, type ReactNode } from 'react';
-import { type SwitchOrganization } from '../../../../providers/Organizations';
-import { type Organization } from '../../../../store/organizations';
-import { MenuIcon, MenuItemText } from '../../common.styles';
-import { type MenuItem } from '../../types';
-import OrganizationSelector from '../OrganizationSelector';
+import { type SwitchOrganization } from '../../../../providers/Organizations.js';
+import { type Organization } from '../../../../store/organizations.js';
+import { MenuIcon, MenuItemText } from '../../common.styles.js';
+import { type MenuItem } from '../../types.js';
+import OrganizationSelector from '../OrganizationSelector/index.js';
 import {
   DrawerContainer,
   ExtrasContainer,
@@ -14,8 +14,8 @@ import {
   NavElementsContainer,
   NavHeader,
   OrgSwitcherWrapper,
-} from './Drawer.styles';
-import Navigation from './Navigation';
+} from './Drawer.styles.js';
+import Navigation from './Navigation/index.js';
 
 export type DrawerProps = {
   theme: Theme;

@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { ContentLoadingIndicatorContext } from '../contexts/content-loading-indicator';
+import { ContentLoadingIndicatorContext } from '../contexts/content-loading-indicator.js';
 
 export const _useContentLoadingIndicator = () => useContext(ContentLoadingIndicatorContext);
 export const useContentLoadingIndicator = (active: boolean) => {

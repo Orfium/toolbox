@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es5",
+    "lib": ["es5", "es6", "es7", "es2017", "dom"],
+    "moduleResolution": "node"
+  },
+  "include": ["src/__tests__", "setup-jest.ts", "**/*.test.ts", "**/*.test.tsx"],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    "scripts",
+    "typeDocs",
+    "documentation",
+    "server",
+    "**/storyUtils",
+    "**/__snapshots__",
+    "**/*.stories.tsx",
+    "**/*.stories.mdx",
+    "__mocks__",
+    "./jest.config.cjs"
+  ]
+}

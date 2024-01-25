@@ -1,9 +1,9 @@
 import { useBreakpoints } from '@orfium/ictinus';
 import { ReactNode } from 'react';
 import Logo from '../../assets/orfium_logo.svg';
-import { _useTopBarUtilitySlot } from '../../hooks/useTopBarUtilitySlot';
-import UserMenu, { UserMenuProps } from './components/UserMenu';
-import { TopAppBarWrapper, UserDefinedSlot, UserSection } from './TopBar.styles';
+import { _useTopBarUtilitySlot } from '../../hooks/useTopBarUtilitySlot.js';
+import UserMenu, { UserMenuProps } from './components/UserMenu/index.js';
+import { TopAppBarWrapper, UserDefinedSlot, UserSection } from './TopBar.styles.js';
 
 export type TopBarProps = {
   utilitySlot?: ReactNode;

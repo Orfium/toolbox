@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { Theme } from '@orfium/ictinus';
 import { rem } from 'polished';
 import { LinkProps, NavLink } from 'react-router-dom';
-import { DEFAULT_NAVBAR_HEIGHT } from '../../../consts';
-import { getGlobalNavWidth } from '../../common.styles';
+import { DEFAULT_NAVBAR_HEIGHT } from '../../../consts.js';
+import { getGlobalNavWidth } from '../../common.styles.js';
 
 export const Wrapper = styled.div`
   width: ${({ theme }) => getGlobalNavWidth(theme)};

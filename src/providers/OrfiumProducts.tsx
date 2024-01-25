@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
-import { OrfiumProductsContext, Product } from '../contexts/orfium-products';
-import { useOrganizations } from '../hooks';
-import { orfiumIdBaseInstance } from '../request';
+import { OrfiumProductsContext, Product } from '../contexts/orfium-products.js';
+import { useOrganizations } from '../hooks/useOrganizations.js';
+import { orfiumIdBaseInstance } from '../request/orfium-id-base-instance.js';
 
 export function OrfiumProducts(props: { children: ReactNode }) {
   const { children } = props;
@@ -15,7 +15,7 @@ export function OrfiumProducts(props: { children: ReactNode }) {
       url: '/products/',
     });
 
-    request().then((resp) => {
+    request().then((resp: Product[]) => {
       setOrfiumProducts(resp);
     });
 

@@ -1,8 +1,8 @@
-import axios, { AxiosInstance, CancelTokenSource } from 'axios';
-import useRequestToken from '../store/requestToken';
-import { getTokenSilently, logoutAuth } from '../utils/auth';
-import { deleteToken, request, RequestProps, setToken, tokenFormat } from './request';
-export { default as MockRequest } from './mock';
+import axios, { AxiosInstance, CancelTokenSource, type AxiosRequestConfig } from 'axios';
+import useRequestToken from '../store/requestToken.js';
+import { getTokenSilently, logoutAuth } from '../utils/auth.js';
+import { deleteToken, request, RequestProps, setToken, tokenFormat } from './request.js';
+export { default as MockRequest } from './mock.js';
 
 export type CreateAPIInstanceProps = {
   baseUrl: string;
@@ -34,14 +34,16 @@ export const createAPIInstance = ({
   },
   hasAutomaticToken = true,
 }: CreateAPIInstanceProps): CreateAPIInstanceType => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const orfiumAxios = axios.create({
     baseURL: baseUrl,
   });
 
   // These are the two interceptors to detect if there is a 401 error to logout the user because 401 is unauthorized
   orfiumAxios.interceptors.response.use(
-    (response) => response,
-    (error) => {
+    (response: any) => response,
+    (error: any) => {
       if (error?.response?.status === 401) {
         if (hasAutomaticToken) {
           logoutAuth();
@@ -55,7 +57,7 @@ export const createAPIInstance = ({
   // if this fails then the user will be redirected to the response interceptor
   // Fetching latest token is mandatory for all the request to have up-to-date information
   orfiumAxios.interceptors.request.use(
-    async (config) => {
+    async (config: AxiosRequestConfig) => {
       if (hasAutomaticToken) {
         const { token } = await getTokenSilently();
         config.headers.Authorization = `Bearer ${token}`;
@@ -63,7 +65,7 @@ export const createAPIInstance = ({
 
       return config;
     },
-    (error) => {
+    (error: any) => {
       Promise.reject(error);
     }
   );

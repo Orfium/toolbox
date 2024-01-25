@@ -1,8 +1,11 @@
 import { AuthorizationParams } from '@auth0/auth0-spa-js';
 import { ReactNode, useCallback, useMemo } from 'react';
-import { OrganizationsContext } from '../contexts/organizations';
-import useOrganization, { Organization } from '../store/organizations';
-import { getAuth0Client } from '../utils/auth';
+import { OrganizationsContext } from '../contexts/organizations.js';
+import useOrganization, {
+  type Organization,
+  type OrganizationsStore,
+} from '../store/organizations.js';
+import { getAuth0Client } from '../utils/auth.js';
 
 export type SwitchOrganization = (orgID: Organization['org_id']) => void;
 
@@ -17,14 +20,18 @@ export type _SwitchOrganization = (
 export function Organizations(props: { children: ReactNode }) {
   const { children } = props;
 
-  const selectedOrganization = useOrganization((state) => state.selectedOrganization);
-  const setSelectedOrganization = useOrganization((state) => state.setSelectedOrganization);
-  const organizationsDict = useOrganization((state) => state.organizations);
-  const organizationsList = useOrganization((state) => state.organizationsList);
+  const selectedOrganization = useOrganization(
+    (state: OrganizationsStore) => state.selectedOrganization
+  );
+  const setSelectedOrganization = useOrganization(
+    (state: OrganizationsStore) => state.setSelectedOrganization
+  );
+  const organizationsDict = useOrganization((state: OrganizationsStore) => state.organizations);
+  const organizationsList = useOrganization((state: OrganizationsStore) => state.organizationsList);
 
   const organizations = useMemo(() => {
     if (organizationsDict && organizationsList) {
-      return organizationsList.map((x) => organizationsDict[x]);
+      return organizationsList.map((x: string) => organizationsDict[x]);
     }
 
     return [];

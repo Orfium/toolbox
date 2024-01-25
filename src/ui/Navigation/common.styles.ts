@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Theme } from '@orfium/ictinus';
-import { flexCenter, transition } from '@orfium/ictinus/dist/theme/functions';
+import { flexCenter, transition } from '@orfium/ictinus/dist/theme/functions.js';
 import { getFocus } from '@orfium/ictinus/dist/theme/states';
 import { rem } from 'polished';
 

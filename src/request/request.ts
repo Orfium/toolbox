@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-import { axiosPromiseResult } from './utils';
+import { axiosPromiseResult } from './utils.js';
 
 const GET = 'get';
 const POST = 'post';
@@ -32,6 +32,8 @@ export const request =
     onDownloadProgress,
     responseType,
   }: RequestProps) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const cancelTokenSource = axios.CancelToken.source();
     const config = {
       method: method,

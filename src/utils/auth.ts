@@ -4,10 +4,10 @@ import {
   createAuth0Client,
   GetTokenSilentlyOptions,
 } from '@auth0/auth0-spa-js';
-import jwt_decode from 'jwt-decode';
-import { config } from '../config';
-import useOrganization from '../store/organizations';
-import useRequestToken from '../store/requestToken';
+import jwtDecode from 'jwt-decode';
+import { config } from '../config.js';
+import useOrganization from '../store/organizations.js';
+import useRequestToken from '../store/requestToken.js';
 
 export const onRedirectCallback = (appState: { targetUrl?: string }) => {
   window.history.replaceState(
@@ -92,7 +92,9 @@ export const getTokenSilently = async (
 ): Promise<{ token: string; decodedToken: { exp?: number; org_id?: string } }> => {
   const { token: stateToken = '', setToken } = useRequestToken.getState();
   const selectedOrganization = useOrganization.getState().selectedOrganization;
-  const decodedToken = stateToken ? jwt_decode<{ exp?: number; org_id?: string }>(stateToken) : {};
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const decodedToken = stateToken ? jwtDecode<{ exp?: number; org_id?: string }>(stateToken) : {};
   const isExpired =
     decodedToken && decodedToken.exp
       ? new Date(decodedToken?.exp * 1000).getTime() < new Date().getTime()
@@ -113,7 +115,9 @@ export const getTokenSilently = async (
     });
     setToken(token);
 
-    return { token, decodedToken: jwt_decode(token) };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return { token, decodedToken: jwtDecode(token) };
   } catch (e) {
     if (e instanceof Error) {
       throw e;

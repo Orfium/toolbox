@@ -3,16 +3,17 @@ import * as Sentry from '@sentry/browser';
 import dayjs from 'dayjs';
 import { ReactNode, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { config } from '../../config';
-import { useAuthentication, useOrganizations } from '../../hooks';
-import { orfiumIdBaseInstance } from '../../request';
-import useOrganization, { Organization } from '../../store/organizations';
-import ErrorFallback from '../../ui/ErrorFallback/ErrorFallback';
-import { Authentication } from '../Authentication';
-import { OrfiumProducts } from '../OrfiumProducts';
-import { Organizations } from '../Organizations';
-import { TopBarUtilitySlot } from '../TopBarUtilitySlot';
-import { Box, LoadingContent, Wrapper } from './Toolbox.style';
+import { config } from '../../config.js';
+import { useAuthentication } from '../../hooks/useAuthentication.js';
+import { useOrganizations } from '../../hooks/useOrganizations.js';
+import { orfiumIdBaseInstance } from '../../request/orfium-id-base-instance.js';
+import useOrganization, { Organization } from '../../store/organizations.js';
+import ErrorFallback from '../../ui/ErrorFallback/ErrorFallback.js';
+import { Authentication } from '../Authentication.js';
+import { OrfiumProducts } from '../OrfiumProducts.js';
+import { Organizations } from '../Organizations.js';
+import { TopBarUtilitySlot } from '../TopBarUtilitySlot.js';
+import { Box, LoadingContent, Wrapper } from './Toolbox.style.js';
 
 export type ToolboxProps = { children: ReactNode };
 
