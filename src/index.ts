@@ -6,6 +6,9 @@ export * from './routing';
 export type { Organization } from './store/organizations';
 export * from './ui';
 export {
+  LinkWithStatePassthrough,
+  NavLinkWithStatePassthrough,
+  RedirectWithStatePassthrough,
   formatToAUD,
   formatToCAD,
   formatToCurrency,
@@ -13,8 +16,5 @@ export {
   formatToGBP,
   formatToJPY,
   formatToUSD,
-  LinkWithStatePassthrough,
-  NavLinkWithStatePassthrough,
-  RedirectWithStatePassthrough,
   type Optional,
 } from './utils';

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useRouteMatch } from 'react-router-dom';
-import { Optional } from '../../../../../../../utils';
-import { MenuItem as MenuItemType } from '../../../../../types';
+import { MenuItem as MenuItemType } from '~/ui/Navigation/types';
+import { Optional } from '~/utils/types';
 
 export function useMenuItemMatch(item: MenuItemType | Optional<MenuItemType, 'iconName'>) {
   const { state } = useLocation<{

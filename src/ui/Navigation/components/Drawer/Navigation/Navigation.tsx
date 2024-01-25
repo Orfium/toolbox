@@ -1,8 +1,8 @@
 import { Theme } from '@orfium/ictinus';
 import { memo, useMemo } from 'react';
-import { MenuItem as MenuItemType } from '../../../types';
-import { ExpandableMenuItem, MenuItem } from './components/MenuItem';
+import { MenuItem as MenuItemType } from '~/ui/Navigation/types';
 import { NavigationContainer } from './Navigation.styles';
+import { ExpandableMenuItem, MenuItem } from './components/MenuItem';
 
 type NavigationProps = {
   theme: Theme;

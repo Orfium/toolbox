@@ -3,7 +3,7 @@ import {
   MenuPositionAllowed,
   optionsStyle,
 } from '@orfium/ictinus/dist/components/utils/DropdownOptions';
-import { rem } from '@orfium/ictinus/dist/theme/utils';
+import { rem } from 'polished';
 
 export const Wrapper = styled.div`
   position: relative;

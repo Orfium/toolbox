@@ -1,8 +1,8 @@
 import { List, useTheme } from '@orfium/ictinus';
-import ClickAwayListener from '@orfium/ictinus/dist/components/utils/ClickAwayListener';
 import { MenuPositionAllowed } from '@orfium/ictinus/dist/components/utils/DropdownOptions';
-import { ReactNode, useState } from 'react';
-import FlippableArrow from '../../../FlippableArrow';
+import { ReactNode, useRef, useState } from 'react';
+import { useClickAwayListener } from '~/hooks/useClickAwayListener';
+import FlippableArrow from '~/ui/FlippableArrow';
 import {
   Button,
   ButtonContentWrapper,
@@ -45,50 +45,56 @@ function OrganizationSelector(props: Props & TestProps) {
   } = props;
   const [open, setOpen] = useState(false);
   const theme = useTheme();
+  const outerMenuWrapperRef = useRef<HTMLDivElement | null>(null);
   const textColor = theme.utils.getColor('blue', 600);
 
-  return (
-    <ClickAwayListener onClick={() => setOpen(false)}>
-      <Wrapper data-testid={dataTestId}>
-        <Button
-          theme={theme}
-          disabled={disabled}
-          textColor={textColor}
-          onClick={() => setOpen((open) => !open)}
-        >
-          <ButtonContentWrapper>
-            <ButtonTextWrapper theme={theme}>
-              <SelectedOrg>{buttonText}</SelectedOrg>
-              {tagText && (
-                <Tag theme={theme} textColor={textColor}>
-                  {tagText}
-                </Tag>
-              )}
-            </ButtonTextWrapper>
-            {disabled ? null : (
-              <ChevronWrapper theme={theme}>
-                <FlippableArrow expanded={open} color={textColor} size={11} />
-              </ChevronWrapper>
-            )}
-          </ButtonContentWrapper>
-        </Button>
+  useClickAwayListener(outerMenuWrapperRef, (e: MouseEvent) => {
+    if (open) {
+      e.stopPropagation();
+      setOpen(false);
+    }
+  });
 
-        {open && (
-          <Option theme={theme} menuPosition={menuPosition}>
-            {items && (
-              <List
-                data={items}
-                rowSize={'small'}
-                handleOptionClick={(option: string) => {
-                  setOpen(false);
-                  onSelect(option);
-                }}
-              />
+  return (
+    <Wrapper ref={outerMenuWrapperRef} data-testid={dataTestId}>
+      <Button
+        theme={theme}
+        disabled={disabled}
+        textColor={textColor}
+        onClick={() => setOpen((open) => !open)}
+      >
+        <ButtonContentWrapper>
+          <ButtonTextWrapper theme={theme}>
+            <SelectedOrg>{buttonText}</SelectedOrg>
+            {tagText && (
+              <Tag theme={theme} textColor={textColor}>
+                {tagText}
+              </Tag>
             )}
-          </Option>
-        )}
-      </Wrapper>
-    </ClickAwayListener>
+          </ButtonTextWrapper>
+          {disabled ? null : (
+            <ChevronWrapper theme={theme}>
+              <FlippableArrow expanded={open} color={textColor} size={11} />
+            </ChevronWrapper>
+          )}
+        </ButtonContentWrapper>
+      </Button>
+
+      {open && (
+        <Option theme={theme} menuPosition={menuPosition}>
+          {items && (
+            <List
+              data={items}
+              rowSize={'small'}
+              handleOptionClick={(option: string) => {
+                setOpen(false);
+                onSelect(option);
+              }}
+            />
+          )}
+        </Option>
+      )}
+    </Wrapper>
   );
 }
 

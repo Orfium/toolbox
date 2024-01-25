@@ -15,7 +15,7 @@ export type Organization = {
   };
 };
 
-type Store = {
+export type OrganizationsStore = {
   // list of organizations that fetched and stored
   organizations: Record<string, Organization> | null;
   organizationsList: Organization['org_id'][] | null;
@@ -31,8 +31,11 @@ const initialState = {
   organizationsList: null,
   selectedOrganization: null,
 };
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const useOrganization = create(
-  persist<Store>(
+  persist<OrganizationsStore>(
     (set, get) => ({
       ...initialState,
       setOrganizations: (organizations: Organization[]) =>
@@ -45,8 +48,8 @@ const useOrganization = create(
               return acc;
             },
             { organizations: {}, organizationsList: [] } as {
-              organizations: NonNullable<Store['organizations']>;
-              organizationsList: NonNullable<Store['organizationsList']>;
+              organizations: NonNullable<OrganizationsStore['organizations']>;
+              organizationsList: NonNullable<OrganizationsStore['organizationsList']>;
             }
           );
         }),

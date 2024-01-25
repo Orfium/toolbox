@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { transition } from '@orfium/ictinus/dist/theme/functions';
 import { rem } from 'polished';
-import { getGlobalNavWidth, menuItemStyle } from '../../common.styles';
+import { getGlobalNavWidth, menuItemStyle } from '~/ui/Navigation/common.styles';
 
 export const DrawerContainer = styled.div<{
   expanded: boolean;

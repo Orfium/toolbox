@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 
-import { generateRoutes, RoutingStructure } from './Routing';
+import { generateRoutes, RoutingStructure } from '~/routing/Routing';
 
 import '@testing-library/jest-dom';
 

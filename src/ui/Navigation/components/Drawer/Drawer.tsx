@@ -1,9 +1,9 @@
 import { Icon, type Theme } from '@orfium/ictinus';
 import { useMemo, type ReactNode } from 'react';
-import { type SwitchOrganization } from '../../../../providers/Organizations';
-import { type Organization } from '../../../../store/organizations';
-import { MenuIcon, MenuItemText } from '../../common.styles';
-import { type MenuItem } from '../../types';
+import { type SwitchOrganization } from '~/providers/Organizations';
+import { type Organization } from '~/store/organizations';
+import { MenuIcon, MenuItemText } from '~/ui/Navigation/common.styles';
+import { type MenuItem } from '~/ui/Navigation/types';
 import OrganizationSelector from '../OrganizationSelector';
 import {
   DrawerContainer,

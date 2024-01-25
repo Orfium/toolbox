@@ -1,8 +1,8 @@
 import { Global } from '@emotion/react';
 import { Loader, useTheme } from '@orfium/ictinus';
 import { type ReactElement, type ReactNode } from 'react';
-import { _useContentLoadingIndicator } from '../../hooks/useContentLoadingIndicator';
-import { ContentLoadingIndicator } from '../../providers/ContentLoadingIndicator';
+import { _useContentLoadingIndicator } from '~/hooks/useContentLoadingIndicator';
+import { ContentLoadingIndicator } from '~/providers/ContentLoadingIndicator';
 import {
   Contents,
   GridContainer,

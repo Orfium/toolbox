@@ -2,7 +2,7 @@ import { Icon, useTheme } from '@orfium/ictinus';
 import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types';
 import ClickAwayListener from '@orfium/ictinus/dist/components/utils/ClickAwayListener';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useAuthentication } from '../../../../hooks';
+import { useAuthentication } from '~/hooks/useAuthentication';
 import {
   Anchor,
   Email,
@@ -73,6 +73,8 @@ function UserMenu(props: UserMenuProps) {
   }, []);
 
   return (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     <ClickAwayListener
       onClick={() => {
         if (open) {
