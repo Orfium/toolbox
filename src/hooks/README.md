@@ -5,7 +5,7 @@
 _Description:</br> Accepts two parameters a **react context instance**, and a ** string** that specifies the name of the context.<br />It will throw an exception if someone tries to use hook outside of provider._
 
 ```typescript jsx
-import { useSafeContext } from '@orfium/cmo-client-utils';
+import { useSafeContext } from '@orfium/toolbox';
 
 const CustomContext = React.createContext(null);
 
