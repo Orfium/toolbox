@@ -23,7 +23,7 @@ Error: useCustomContext must be used within a CustomContextProvider
 _Description:</br> Accepts a **dispatch method** generated from a `useReducer` hook.<br />It will return an optimized and guarded dispatch callback which will be invoked only when the component is mounted._
 
 ```typescript jsx
-import { useSafeDispatch } from '@orfium/cmo-client-utils';
+import { useSafeDispatch } from '@orfium/toolbox';
 
 type State = Record<string, string> | null;
 type Action = { type: string; payload: boolean };
