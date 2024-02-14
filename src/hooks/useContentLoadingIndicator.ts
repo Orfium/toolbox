@@ -3,15 +3,15 @@ import { ContentLoadingIndicatorContext } from '../contexts/content-loading-indi
 
 export const _useContentLoadingIndicator = () => useContext(ContentLoadingIndicatorContext);
 export const useContentLoadingIndicator = (active: boolean) => {
-  const { setLoadingIndicatorActive } = useContext(ContentLoadingIndicatorContext);
+  const { setLoadingIndicator } = useContext(ContentLoadingIndicatorContext);
 
   useEffect(() => {
-    setLoadingIndicatorActive(active);
+    setLoadingIndicator(active);
 
     return function () {
-      setLoadingIndicatorActive(false);
+      setLoadingIndicator(false);
     };
-  }, [setLoadingIndicatorActive, active]);
+  }, [setLoadingIndicator, active]);
 };
 
 export type UseLoadingIndicatorReturnValue = undefined;
