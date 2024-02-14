@@ -3,13 +3,13 @@ import { ContentLoadingIndicatorContext } from '../contexts/content-loading-indi
 
 export function ContentLoadingIndicator(props: { children: ReactNode }) {
   const { children } = props;
-  const [loadingIndicatorActive, setLoadingIndicatorActive] = useState<boolean>(false);
+  const [loadingIndicator, setLoadingIndicator] = useState<boolean>(false);
 
   return (
     <ContentLoadingIndicatorContext.Provider
       value={{
-        loadingIndicatorActive,
-        setLoadingIndicatorActive,
+        loadingIndicator,
+        setLoadingIndicator,
       }}
     >
       {children}

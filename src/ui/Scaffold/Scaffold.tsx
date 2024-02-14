@@ -4,12 +4,12 @@ import { type ReactElement, type ReactNode } from 'react';
 import { _useContentLoadingIndicator } from '../../hooks/useContentLoadingIndicator';
 import { ContentLoadingIndicator } from '../../providers/ContentLoadingIndicator';
 import {
-  backGround,
   Contents,
   GridContainer,
   Header,
   LoadingBarWrapper,
   SideNav,
+  backGround,
 } from './Scaffold.styles';
 
 export type ScaffoldProps = {
@@ -20,7 +20,7 @@ export type ScaffoldProps = {
 
 function ScaffoldInternal(props: ScaffoldProps) {
   const { navigationSlot, headerSlot, children } = props;
-  const { loadingIndicatorActive } = _useContentLoadingIndicator();
+  const { loadingIndicator } = _useContentLoadingIndicator();
 
   const theme = useTheme();
 
@@ -29,7 +29,7 @@ function ScaffoldInternal(props: ScaffoldProps) {
       <Global styles={{ body: backGround(theme) }} />
       <SideNav>{navigationSlot}</SideNav>
       <Header>
-        {loadingIndicatorActive ? (
+        {loadingIndicator ? (
           <LoadingBarWrapper>
             <Loader type={'indeterminate'} />
           </LoadingBarWrapper>
