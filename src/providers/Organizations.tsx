@@ -28,6 +28,7 @@ export function Organizations(props: { children: ReactNode }) {
   );
   const organizationsDict = useOrganization((state: OrganizationsStore) => state.organizations);
   const organizationsList = useOrganization((state: OrganizationsStore) => state.organizationsList);
+  const reset = useOrganization((state: OrganizationsStore) => state.reset);
 
   const organizations = useMemo(() => {
     if (organizationsDict && organizationsList) {
@@ -46,7 +47,7 @@ export function Organizations(props: { children: ReactNode }) {
           organization: orgID,
         },
       });
-      setSelectedOrganization(orgID);
+      reset();
     },
     [setSelectedOrganization]
   );

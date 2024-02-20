@@ -50,7 +50,7 @@ export type AuthenticationContextValue = {
   isAuthenticated: boolean;
   isLoading: boolean;
   loginWithRedirect(o?: RedirectLoginOptions): Promise<void>;
-  logout: () => void;
+  logout: (props?: { force?: boolean }) => Promise<void | string>;
   getAccessTokenSilently: GetAccessTokenSilently;
   user: User | undefined;
   permissions: Permissions;

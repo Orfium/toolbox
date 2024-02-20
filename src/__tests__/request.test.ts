@@ -1,11 +1,9 @@
 import { cleanup } from '@testing-library/react';
 import { AxiosInstance, type AxiosRequestConfig } from 'axios';
 
-// @ts-ignore
 import { FAKE_TOKEN, getTokenSilently } from '../../__mocks__/@auth0/auth0-spa-js';
-import { createAPIInstance, CreateAPIInstanceType } from '../request/createAPIInstance';
+import { CreateAPIInstanceType, METHODS, createAPIInstance } from '../request';
 import MockRequest from '../request/mock';
-import { METHODS } from '../request/request';
 
 describe('Request: ', () => {
   let factory: CreateAPIInstanceType;

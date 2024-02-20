@@ -75,6 +75,7 @@
     "react-dom": "^18.1.0",
     "react-router-dom": "^5.3.1",
     "rimraf": "^3.0.2",
+    "semantic-release": "^22.0.12",
     "ts-jest": "^27.1.4",
     "ts-lib": "^0.0.5",
     "tsc-watch": "^5.0.3",
