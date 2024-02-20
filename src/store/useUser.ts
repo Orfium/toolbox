@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { User } from '../authentication';
+import { User } from '../contexts/index.js';
 
 type Store = {
   user?: User;
@@ -10,6 +10,9 @@ type Store = {
 const initialState = {
   user: undefined,
 };
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const useUser = create<Store>()((set, __get) => ({
   ...initialState,
   setUser: (user: User | undefined) => set(() => ({ user })),

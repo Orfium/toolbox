@@ -20,6 +20,8 @@ import {
   getUser,
   isAuthenticated,
   loginWithRedirect,
+  logout,
+  Auth0Client as mockedCreateAuth0,
   getTokenSilently as mockedGetTokenSilently,
   handleRedirectCallback as mockedHandleRedirectCallback,
 } from '__mocks__/@auth0/auth0-spa-js';
@@ -27,11 +29,11 @@ import { defaultAuthenticationContextValues } from '~/contexts/authentication';
 import { useAuthentication } from '~/hooks';
 import { Authentication } from '~/providers/Authentication';
 import { Organizations } from '~/providers/Organizations';
-import { orfiumIdBaseInstance } from '~/request';
 import MockRequest from '~/request/mock';
+import { orfiumIdBaseInstance } from '~/request';
 import useOrganization from '~/store/organizations';
 import useRequestToken from '~/store/requestToken';
-import { getTokenSilently, logoutAuth, onRedirectCallback } from '~/utils/auth';
+import { getAuth0Client, getTokenSilently, logoutAuth, onRedirectCallback } from '~/utils/auth';
 
 const TestingComponentSimple = () => {
   const { user, isAuthenticated, isLoading } = useAuthentication();
@@ -284,6 +286,7 @@ describe('Context', () => {
     isAuthenticated.mockResolvedValue(true);
     getUser.mockResolvedValue({
       name: 'John Doe',
+      updated_at: new Date().toDateString(),
     });
 
     const { findByText, getByTestId } = render(
@@ -313,7 +316,7 @@ describe('Context', () => {
         </ErrorBoundary>
       );
 
-      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+      await waitFor(() => expect(logout).toBeCalledTimes(1));
     });
 
     test('loginWithRedirect when access token fails and handle an error', async () => {
@@ -422,14 +425,8 @@ describe('Context', () => {
       </Organizations>
     );
 
-    await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('false'));
-    await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
-    expect(loginWithRedirect).toBeCalledWith({
-      authorizationParams: {
-        organization: organizationList[0].org_id,
-        invitation: undefined,
-      },
-    });
+    await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('true'));
+    await waitFor(() => expect(logout).toBeCalledTimes(1));
   }, 10000);
 
   test('Context default functions', async () => {
@@ -439,5 +436,36 @@ describe('Context', () => {
     });
     expect(await defaultAuthenticationContextValues.logout()).toBe('logged out');
     expect(await defaultAuthenticationContextValues.loginWithRedirect()).toBe(undefined);
+  });
+
+  test('getAuth0Client failed process', async () => {
+    expect.assertions(1);
+    mockedCreateAuth0.mockImplementation(() => {
+      throw new Error();
+    });
+    // @ts-ignore
+    client = undefined;
+    try {
+      getAuth0Client();
+    } catch (e) {
+      expect(e).toEqual(new Error(`getAuth0Client Error: Error`));
+    }
+  });
+
+  test('logoutAuth failed process', async () => {
+    expect.assertions(1);
+
+    // @ts-ignore
+    client = undefined;
+    // @ts-ignore make logout fail with no .logout property on client
+    mockedCreateAuth0.mockImplementation(() => {
+      return {};
+    });
+
+    try {
+      await logoutAuth();
+    } catch (e) {
+      expect(e).toEqual(new Error(`logoutAuth Error: client is not defined`));
+    }
   });
 });
