@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { type User } from '../contexts/index.js';
+import { type User } from '~/contexts/index.js';
 
 type Store = {
   user?: User;

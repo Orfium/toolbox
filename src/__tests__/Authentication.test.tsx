@@ -20,10 +20,10 @@ import { defaultAuthenticationContextValues } from '~/contexts/authentication';
 import { useAuthentication } from '~/hooks';
 import { Authentication } from '~/providers/Authentication';
 import { Organizations } from '~/providers/Organizations';
-import MockRequest from '../request/mock';
+import MockRequest from '~/request/mock';
 import { orfiumIdBaseInstance } from '~/request';
-import useOrganization from '../store/organizations';
-import useRequestToken from '../store/requestToken';
+import useOrganization from '~/store/organizations';
+import useRequestToken from '~/store/requestToken';
 import { getTokenSilently, logoutAuth, onRedirectCallback } from '~/utils/auth';
 const clientMock = mocked(new Auth0Client({ clientId: '', domain: '' }));
 
