@@ -1,6 +1,7 @@
 import { Auth0Client, Auth0ClientOptions, GetTokenSilentlyOptions } from '@auth0/auth0-spa-js';
 import jwtDecode from 'jwt-decode';
 import { config } from '~/config';
+import { DecodedTokenResponse } from '~/contexts';
 import useOrganization from '~/store/organizations';
 import useRequestToken from '~/store/requestToken';
 import useUser from '~/store/useUser';
@@ -88,7 +89,7 @@ export const logoutAuth = async ({ force = false }: { force?: boolean } = {}) =>
  */
 export const getTokenSilently = async (
   params?: GetTokenSilentlyOptions
-): Promise<{ token: string; decodedToken: { exp?: number; org_id?: string } }> => {
+): Promise<{ token: string; decodedToken: DecodedTokenResponse | Record<string, never> }> => {
   const { token: stateToken = '', setToken } = useRequestToken.getState();
   const selectedOrganization = useOrganization.getState().selectedOrganization;
   // @ts-ignore

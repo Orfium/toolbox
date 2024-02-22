@@ -33,7 +33,7 @@ const structure: RoutingStructure = {
   ],
 };
 
-xtest('authorized url access while authenticated', async () => {
+test('authorized url access while authenticated', async () => {
   const history = createMemoryHistory({ initialEntries: ['/authorized'] });
 
   render(
@@ -50,7 +50,7 @@ xtest('authorized url access while authenticated', async () => {
   expect(screen.getByText(/authorized/i)).toBeTruthy();
 });
 
-xtest('unauthorized access with redirection to unauthorized fallback while authenticated', async () => {
+test('unauthorized access with redirection to unauthorized fallback while authenticated', async () => {
   const history = createMemoryHistory({ initialEntries: ['/unauthorized'] });
 
   render(
@@ -66,7 +66,7 @@ xtest('unauthorized access with redirection to unauthorized fallback while authe
   expect(history.location.pathname).toBe(structure.fallbackPaths?.unauthorized);
 });
 
-xtest('anonymous access while authenticated. Redirection to authenticated but anonymous fallback', async () => {
+test('anonymous access while authenticated. Redirection to authenticated but anonymous fallback', async () => {
   const history = createMemoryHistory({ initialEntries: ['/open-page'] });
 
   render(
@@ -82,7 +82,7 @@ xtest('anonymous access while authenticated. Redirection to authenticated but an
   expect(history.location.pathname).toBe(structure.fallbackPaths?.authenticatedButAnonymous);
 });
 
-xtest('access to unknown path. Redirection to not found', async () => {
+test('access to unknown path. Redirection to not found', async () => {
   const history = createMemoryHistory({ initialEntries: ['/unknown-path'] });
 
   render(
@@ -98,7 +98,7 @@ xtest('access to unknown path. Redirection to not found', async () => {
   expect(screen.getByText(/page not found/i)).toBeTruthy();
 });
 
-xtest('unauthenticated access with redirection to unauthenticated fallback while NOT authenticated', async () => {
+test('unauthenticated access with redirection to unauthenticated fallback while NOT authenticated', async () => {
   const history = createMemoryHistory({ initialEntries: ['/unauthorized'] });
 
   render(

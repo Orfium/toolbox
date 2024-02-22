@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, CancelTokenSource, type AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, CancelTokenSource, type InternalAxiosRequestConfig } from 'axios';
 import useRequestToken from '~/store/requestToken';
 import { getTokenSilently, logoutAuth } from '~/utils/auth';
 import { RequestProps, deleteToken, request, setToken, tokenFormat } from './request';
@@ -57,7 +57,7 @@ export const createAPIInstance = ({
   // if this fails then the user will be redirected to the response interceptor
   // Fetching latest token is mandatory for all the request to have up-to-date information
   orfiumAxios.interceptors.request.use(
-    async (config: AxiosRequestConfig) => {
+    async (config: InternalAxiosRequestConfig) => {
       if (hasAutomaticToken) {
         const { token } = await getTokenSilently();
         config.headers.Authorization = `Bearer ${token}`;

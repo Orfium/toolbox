@@ -10,16 +10,20 @@ export function OrfiumProducts(props: { children: ReactNode }) {
   const [orfiumProducts, setOrfiumProducts] = useState<Product[] | null>(null);
 
   useEffect(() => {
-    const { request, cancelTokenSource } = orfiumIdBaseInstance.createRequest<Product[]>({
-      method: 'get',
-      url: '/products/',
-    });
+    if (selectedOrganization?.org_id) {
+      const { request, cancelTokenSource } = orfiumIdBaseInstance.createRequest<Product[]>({
+        method: 'get',
+        url: '/products/',
+      });
 
-    request().then((resp: Product[]) => {
-      setOrfiumProducts(resp);
-    });
+      request().then((resp: Product[]) => {
+        setOrfiumProducts(resp);
+      });
 
-    return cancelTokenSource.cancel;
+      return cancelTokenSource.cancel;
+    } else {
+      return () => {};
+    }
   }, [selectedOrganization?.org_id]);
 
   return (

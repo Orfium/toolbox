@@ -51,15 +51,15 @@ describe('Request: ', () => {
     cleanup();
   });
 
-  xit('correctly sets the adapter on the axios instance', function () {
+  it('correctly sets the adapter on the axios instance', function () {
     expect(apiInstance.defaults.adapter).toBeTruthy();
   });
 
-  xit('correctly sets the base url based on instance factory', async () => {
+  it('correctly sets the base url based on instance factory', async () => {
     expect(apiInstance.defaults.baseURL).toBe(baseUrl);
   });
 
-  xit('correctly passes props to request', async () => {
+  it('correctly passes props to request', async () => {
     const { request } = factory.createRequest({
       method: METHODS.GET,
       url: '/test-api-with-orfium-base/',
@@ -70,7 +70,7 @@ describe('Request: ', () => {
     expect(result.hasBeenCalled).toBeTruthy();
   });
 
-  xit('correctly uses the params for POST requests', async () => {
+  it('correctly uses the params for POST requests', async () => {
     const { request } = factory.createRequest({
       method: METHODS.POST,
       url: '/test-post/',
@@ -84,13 +84,13 @@ describe('Request: ', () => {
     expect(result.message).toBe('its OK');
   });
 
-  xit('correctly sets token', async () => {
+  it('correctly sets token', async () => {
     factory.setToken('I am groot ');
 
     expect(apiInstance.defaults.headers.common.Authorization).toBe('Bearer I am groot ');
   });
 
-  xit('correctly removes token', async () => {
+  it('correctly removes token', async () => {
     factory.setToken('I am groot ');
 
     expect(apiInstance.defaults.headers.common.Authorization).toBe('Bearer I am groot ');

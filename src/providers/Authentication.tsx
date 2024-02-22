@@ -6,14 +6,9 @@ import {
 } from '@auth0/auth0-spa-js';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useErrorHandler } from 'react-error-boundary';
-import {
-  AuthenticationContext,
-  type GetAccessTokenSilently,
-  type Permissions,
-} from '~/contexts/authentication';
+import { AuthenticationContext, type Permissions } from '~/contexts/authentication';
 import { _useOrganizations } from '~/hooks/useOrganizations';
-import useOrganization from '~/store/organizations.js';
-import useUser from '~/store/useUser.js';
+import useUser from '~/store/useUser';
 import { getAuth0Client, getTokenSilently, logoutAuth, onRedirectCallback } from '~/utils/auth';
 
 type AuthenticationProps = { children: ReactNode; overrides?: Auth0ClientOptions };
@@ -32,7 +27,6 @@ export function Authentication({ children }: AuthenticationProps) {
   const handleError = useErrorHandler();
   const params = new URLSearchParams(window.location.search);
   const { selectedOrganization, organizations, _switchOrganization } = _useOrganizations();
-  const { setSelectedOrganization } = useOrganization();
   const organization = params.get('organization') || selectedOrganization?.org_id;
 
   const invitation = params.get('invitation');
@@ -49,26 +43,19 @@ export function Authentication({ children }: AuthenticationProps) {
     [client, handleError]
   );
 
-  const getAccessTokenSilently: GetAccessTokenSilently = useCallback(
+  const getAccessTokenSilently = useCallback(
     async (opts?: GetTokenSilentlyOptions) => {
       try {
-        const result = await getTokenSilently(opts);
-
-        return result;
+        return await getTokenSilently(opts);
       } catch (error: any) {
-        if (error?.error === 'login_required' || error?.error === 'consent_required') {
-          return loginWithRedirect({
-            authorizationParams: {
-              organization: organization || undefined,
-              invitation: invitation || undefined,
-            },
-          });
+        if (error?.error) {
+          setError(error?.error);
         }
 
-        handleError(error);
+        return handleError(error);
       }
     },
-    [handleError, invitation, loginWithRedirect, organization]
+    [handleError]
   );
 
   useEffect(() => {
@@ -99,6 +86,9 @@ export function Authentication({ children }: AuthenticationProps) {
         if (clientIsAuthenticated) {
           const clientUser = await client.getUser();
           setUser(clientUser);
+
+          const decodedTokenResponse = await getAccessTokenSilently();
+          setPermissions(decodedTokenResponse?.decodedToken.permissions || []);
         }
 
         setIsLoading(false);
@@ -117,7 +107,16 @@ export function Authentication({ children }: AuthenticationProps) {
         handleError(error);
       }
     })();
-  }, [client, errorParam, handleError, invitation, loginWithRedirect, organization, setUser]);
+  }, [
+    client,
+    errorParam,
+    getAccessTokenSilently,
+    handleError,
+    invitation,
+    loginWithRedirect,
+    organization,
+    setUser,
+  ]);
 
   useEffect(() => {
     const searchParams = new URL(window.location.href).searchParams;
@@ -126,10 +125,8 @@ export function Authentication({ children }: AuthenticationProps) {
 
       if (error === 'access_denied') {
         const org = (organizations || [])[0];
-        setSelectedOrganization(org.org_id);
-        loginWithRedirect({
+        _switchOrganization(org.org_id, {
           authorizationParams: {
-            organization: org?.org_id || undefined,
             invitation: invitation || undefined,
           },
         });
@@ -143,13 +140,13 @@ export function Authentication({ children }: AuthenticationProps) {
       }
     }
   }, [
+    _switchOrganization,
     invitation,
     isAuthenticated,
     isLoading,
     loginWithRedirect,
     organization,
     organizations,
-    setSelectedOrganization,
   ]);
 
   // error handling useEffect

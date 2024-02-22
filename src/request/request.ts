@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 
 import { axiosPromiseResult } from './utils';
 
@@ -22,7 +22,6 @@ export type RequestProps = {
 
 export const request =
   (orfiumAxios: AxiosInstance, baseHeaders: Record<string, string | undefined>) =>
-  // @ts-ignore
   <T = any>({
     method,
     url,
@@ -32,8 +31,6 @@ export const request =
     onDownloadProgress,
     responseType,
   }: RequestProps) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const cancelTokenSource = axios.CancelToken.source();
     const config = {
       method: method,
@@ -45,7 +42,7 @@ export const request =
       ...(onUploadProgress && { onUploadProgress }),
       ...(onDownloadProgress && { onDownloadProgress }),
       responseType,
-    };
+    } as InternalAxiosRequestConfig;
 
     const request = () => axiosPromiseResult<T>(orfiumAxios(config));
 

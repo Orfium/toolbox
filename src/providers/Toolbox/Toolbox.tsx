@@ -77,7 +77,7 @@ function AuthenticationWrapper({ children }: { children: ReactNode }) {
         setOrganizations(data);
         if (response?.decodedToken?.org_id) {
           const orgData = data.find((org) => org.org_id === response.decodedToken.org_id);
-          setSelectedOrganization(orgData ? orgData.org_id : data[0].org_id);
+          setSelectedOrganization(orgData ? orgData.org_id : data[0]?.org_id || undefined);
         }
         // if token doesn't have an organization and the user has available organizations
         // set continue and set one

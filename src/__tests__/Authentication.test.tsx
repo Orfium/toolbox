@@ -14,18 +14,17 @@ class CustomError extends Error {
 import { ErrorBoundary, useErrorHandler } from 'react-error-boundary';
 
 import { Auth0Client } from '@auth0/auth0-spa-js';
-import { mocked } from 'ts-jest/utils';
 import { FAKE_TOKEN, fakeTokenData, getNewFakeToken } from '__mocks__/@auth0/auth0-spa-js';
 import { defaultAuthenticationContextValues } from '~/contexts/authentication';
 import { useAuthentication } from '~/hooks';
 import { Authentication } from '~/providers/Authentication';
 import { Organizations } from '~/providers/Organizations';
-import MockRequest from '~/request/mock';
 import { orfiumIdBaseInstance } from '~/request';
+import MockRequest from '~/request/mock';
 import useOrganization from '~/store/organizations';
 import useRequestToken from '~/store/requestToken';
 import { getTokenSilently, logoutAuth, onRedirectCallback } from '~/utils/auth';
-const clientMock = mocked(new Auth0Client({ clientId: '', domain: '' }));
+const clientMock = jest.mocked(new Auth0Client({ clientId: '', domain: '' }));
 
 const TestingComponentSimple = () => {
   const { user, isAuthenticated, isLoading } = useAuthentication();
@@ -316,7 +315,7 @@ describe('Context', () => {
     });
 
     test('loginWithRedirect when access token fails and handle an error', async () => {
-      const errorMsg = 'login_with_popup_failed';
+      const errorMsg = 'login_required';
 
       clientMock.getTokenSilently.mockRejectedValue(
         new CustomError('login_required', 'login_required')
@@ -336,7 +335,7 @@ describe('Context', () => {
         </ErrorBoundary>
       );
 
-      await waitFor(() => expect(clientMock.loginWithRedirect).toBeCalledTimes(1));
+      await waitFor(() => expect(clientMock.logout).toBeCalledTimes(1));
 
       await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
       await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
