@@ -99,6 +99,9 @@ export function Authentication({ children }: AuthenticationProps) {
         if (clientIsAuthenticated) {
           const clientUser = await client.getUser();
           setUser(clientUser);
+
+          const decodedTokenResponse = await getAccessTokenSilently();
+          setPermissions(decodedTokenResponse?.decodedToken.permissions || []);
         }
 
         setIsLoading(false);
