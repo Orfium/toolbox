@@ -1,9 +1,9 @@
 import { Auth0Client, Auth0ClientOptions, GetTokenSilentlyOptions } from '@auth0/auth0-spa-js';
 import jwtDecode from 'jwt-decode';
-import { config } from '../config.js';
-import useOrganization from '../store/organizations.js';
-import useRequestToken from '../store/requestToken.js';
-import useUser from '../store/useUser.js';
+import { config } from '~/config';
+import useOrganization from '~/store/organizations';
+import useRequestToken from '~/store/requestToken';
+import useUser from '~/store/useUser';
 
 export const onRedirectCallback = (appState: { targetUrl?: string }) => {
   window.history.replaceState(
@@ -91,7 +91,6 @@ export const getTokenSilently = async (
 ): Promise<{ token: string; decodedToken: { exp?: number; org_id?: string } }> => {
   const { token: stateToken = '', setToken } = useRequestToken.getState();
   const selectedOrganization = useOrganization.getState().selectedOrganization;
-  // @ts-ignore
   const decodedToken = stateToken ? jwtDecode<{ exp?: number; org_id?: string }>(stateToken) : {};
   const isExpired =
     decodedToken && decodedToken.exp
@@ -113,7 +112,6 @@ export const getTokenSilently = async (
     });
     setToken(token);
 
-    // @ts-ignore
     return { token, decodedToken: jwtDecode(token) };
   } catch (e: any) {
     if (e?.error === 'login_required') {

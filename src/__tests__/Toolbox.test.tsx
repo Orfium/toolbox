@@ -1,5 +1,8 @@
 import { cleanup, render, waitFor } from '@testing-library/react';
 
+import { Authentication } from '~/providers/Authentication';
+import { orfiumIdBaseInstance } from '~/request';
+import MockRequest from '~/request/mock';
 import {
   getNewFakeToken,
   getTokenSilently,
@@ -7,9 +10,6 @@ import {
   isAuthenticated,
   loginWithRedirect,
 } from '../../__mocks__/@auth0/auth0-spa-js';
-import { Authentication } from '../providers/Authentication';
-import MockRequest from '../request/mock';
-import { orfiumIdBaseInstance } from '../request/orfium-id-base-instance';
 const TestComp = () => {
   return <div data-testid={'test'}>Test</div>;
 };

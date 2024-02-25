@@ -1,12 +1,12 @@
 import { Icon, Tooltip, type Theme } from '@orfium/ictinus';
 import { memo, type Dispatch, type SetStateAction } from 'react';
 import { useLocation } from 'react-router-dom';
+import { config } from '~/config';
+import { type Product } from '~/contexts/orfium-products';
 import AdminIcon from '../../../../assets/admin_icon.svg';
 import Logo from '../../../../assets/orfium_logo.svg';
 import BillingIcon from '../../../../assets/products/billing_icon.svg';
 import STIcon from '../../../../assets/products/sync_tracker_icon.svg';
-import { config } from '../../../../config.js';
-import { type Product } from '../../../../contexts/orfium-products.js';
 import {
   AppIconNativeLink,
   AppIconRRLink,
@@ -15,7 +15,7 @@ import {
   IconsContainer,
   SingleIconContainer,
   Wrapper,
-} from './GlobalNav.styles.js';
+} from './GlobalNav.styles';
 
 const productIconsDict: Record<string, string> = {
   earnings: BillingIcon,

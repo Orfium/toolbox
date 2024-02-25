@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { OrganizationsContext } from '../contexts/organizations.js';
+import { OrganizationsContext } from '~/contexts/organizations';
 
 export const _useOrganizations = () => useContext(OrganizationsContext);
 

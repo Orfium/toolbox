@@ -1,12 +1,12 @@
 import { useBreakpoints, useTheme } from '@orfium/ictinus';
 import { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
-import { useOrfiumProducts } from '../../hooks/useOrfiumProducts.js';
-import { useOrganizations } from '../../hooks/useOrganizations.js';
-import Drawer from './components/Drawer/index.js';
-import GlobalNav from './components/GlobalNav/index.js';
-import { Wrapper } from './Navigation.styles.js';
-import { type MenuItem } from './types.js';
+import { useOrfiumProducts } from '~/hooks/useOrfiumProducts';
+import { useOrganizations } from '~/hooks/useOrganizations';
+import { Wrapper } from './Navigation.styles';
+import Drawer from './components/Drawer';
+import GlobalNav from './components/GlobalNav';
+import { type MenuItem } from './types';
 
 export type NavigationProps = {
   header: string;

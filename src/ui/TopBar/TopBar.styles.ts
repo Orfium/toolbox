@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { flexCenter } from '@orfium/ictinus/dist/theme/functions.js';
+import { flexCenter } from '@orfium/ictinus/dist/theme/functions';
 import { rem } from 'polished';
-import { DEFAULT_NAVBAR_HEIGHT } from '../consts.js';
+import { DEFAULT_NAVBAR_HEIGHT } from '~/ui/consts';
 
 export const TopAppBarWrapper = styled.div`
   ${flexCenter};

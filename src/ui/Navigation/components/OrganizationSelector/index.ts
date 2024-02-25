@@ -1,1 +1,1 @@
-export { default } from './OrganizationSelector.js';
+export { default } from './OrganizationSelector';

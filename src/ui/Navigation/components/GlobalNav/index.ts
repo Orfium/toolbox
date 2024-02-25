@@ -1,2 +1,2 @@
-export * from './GlobalNav.js';
-export { default } from './GlobalNav.js';
+export * from './GlobalNav';
+export { default } from './GlobalNav';

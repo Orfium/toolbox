@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { transition } from '@orfium/ictinus/dist/theme/functions.js';
+import { transition } from '@orfium/ictinus/dist/theme/functions';
 import { rem } from 'polished';
 
 export const NavigationContainer = styled.div<{ hasExtras: boolean }>`

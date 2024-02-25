@@ -1,1 +1,1 @@
-export { Toolbox, type ToolboxProps } from './Toolbox/index.js';
+export { Toolbox, type ToolboxProps } from './Toolbox';

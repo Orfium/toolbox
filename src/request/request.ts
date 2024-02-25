@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-import { axiosPromiseResult } from './utils.js';
+import { axiosPromiseResult } from './utils';
 
 const GET = 'get';
 const POST = 'post';

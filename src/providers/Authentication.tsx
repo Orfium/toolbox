@@ -10,11 +10,11 @@ import {
   AuthenticationContext,
   type GetAccessTokenSilently,
   type Permissions,
-} from '../contexts/authentication.js';
-import { _useOrganizations } from '../hooks/useOrganizations.js';
-import useOrganization from '../store/organizations.js';
-import useUser from '../store/useUser.js';
-import { getAuth0Client, getTokenSilently, logoutAuth, onRedirectCallback } from '../utils/auth.js';
+} from '~/contexts/authentication';
+import { _useOrganizations } from '~/hooks/useOrganizations';
+import useOrganization from '~/store/organizations';
+import useUser from '~/store/useUser';
+import { getAuth0Client, getTokenSilently, logoutAuth, onRedirectCallback } from '~/utils/auth';
 
 type AuthenticationProps = { children: ReactNode; overrides?: Auth0ClientOptions };
 

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { transition } from '@orfium/ictinus/dist/theme/functions.js';
+import { transition } from '@orfium/ictinus/dist/theme/functions';
 
 export const IconWrapper = styled.span<{ expanded: boolean }>`
   perspective: 1000px;

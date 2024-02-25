@@ -5,8 +5,8 @@ export { BrowserRouter, Redirect, Route } from 'react-router-dom';
 export {
   Authorization,
   FallbackPath,
-  generateRoutes,
   RouteComponentProps,
   RouteItem,
   RoutingStructure,
-} from './Routing.js';
+  generateRoutes,
+} from './Routing';

@@ -1,2 +1,2 @@
-export * from './FlippableArrow.js';
-export { default } from './FlippableArrow.js';
+export * from './FlippableArrow';
+export { default } from './FlippableArrow';

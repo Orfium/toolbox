@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
-import { OrfiumProductsContext, Product } from '../contexts/orfium-products.js';
-import { useOrganizations } from '../hooks/useOrganizations.js';
-import { orfiumIdBaseInstance } from '../request/orfium-id-base-instance.js';
+import { OrfiumProductsContext, Product } from '~/contexts/orfium-products';
+import { useOrganizations } from '~/hooks/useOrganizations';
+import { orfiumIdBaseInstance } from '~/request/orfium-id-base-instance';
 
 export function OrfiumProducts(props: { children: ReactNode }) {
   const { children } = props;

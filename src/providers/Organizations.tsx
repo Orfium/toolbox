@@ -1,11 +1,11 @@
 import { AuthorizationParams } from '@auth0/auth0-spa-js';
 import { ReactNode, useCallback, useMemo } from 'react';
-import { OrganizationsContext } from '../contexts/organizations.js';
+import { OrganizationsContext } from '~/contexts/organizations';
+import { getAuth0Client } from '~/utils/auth';
 import useOrganization, {
   type Organization,
   type OrganizationsStore,
-} from '../store/organizations.js';
-import { getAuth0Client } from '../utils/auth.js';
+} from '../store/organizations';
 
 export type SwitchOrganization = (orgID: Organization['org_id']) => void;
 

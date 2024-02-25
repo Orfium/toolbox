@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 
-import { generateRoutes, RoutingStructure } from './Routing.js';
+import { generateRoutes, RoutingStructure } from './Routing';
 
 /**
  * ** THIS IS A DEMO PAGE **

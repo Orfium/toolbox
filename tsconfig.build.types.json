@@ -1,10 +1,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist/cjs",
+    "declarationDir": "./dist/types",
     "rootDir": "./src",
-    "declaration": false,
-    "noEmit": false
+    "declaration": true,
+    "emitDeclarationOnly": true,
+     "noEmit": false
   },
   "include": ["src"],
   "exclude": ["**/*.test.ts", "**/*.test.tsx"]

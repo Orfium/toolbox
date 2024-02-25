@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/esm",
-    "module": "NodeNext",
-    "target": "ES2020",
+    "module": "ESNext",
+    "target": "ES2021",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "sourceMap": true,
+    "sourceMap": false,
     "skipLibCheck": true,
     "allowJs": true,
     "jsx": "react-jsx",
+    "importHelpers": true,
     "esModuleInterop": true,
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
     "strict": true,
     "rootDir": "./",
     "baseUrl": "./src",
@@ -19,17 +19,21 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noUnusedLocals": false,
-    "declaration": true,
+    "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "types": ["node", "jest", "@testing-library/jest-dom"],
-    "jsxImportSource": "react"
+    "jsxImportSource": "react",
+    "paths": {
+      "~/*": ["./*"]
+    }
   },
   "include": ["src", "setup-jest.ts"],
   "exclude": [
     "node_modules",
     "build",
     "dist",
+    "assets",
     "scripts",
     "typeDocs",
     "documentation",
@@ -39,9 +43,6 @@
     "**/*.stories.tsx",
     "**/*.stories.mdx",
     "__mocks__",
-    "./jest.config.cjs",
-    "**/__tests__",
-    "**/*.test.ts",
-    "**/*.test.tsx"
+    "./jest.config.cjs"
   ]
 }

@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, CancelTokenSource, type AxiosRequestConfig } from 'axios';
-import useRequestToken from '../store/requestToken.js';
-import { getTokenSilently, logoutAuth } from '../utils/auth.js';
-import { deleteToken, request, RequestProps, setToken, tokenFormat } from './request.js';
-export { default as MockRequest } from './mock.js';
+import { getTokenSilently, logoutAuth } from '~/utils/auth';
+import useRequestToken from '../store/requestToken';
+import { RequestProps, deleteToken, request, setToken, tokenFormat } from './request';
+export { default as MockRequest } from './mock';
 
 export type CreateAPIInstanceProps = {
   baseUrl: string;

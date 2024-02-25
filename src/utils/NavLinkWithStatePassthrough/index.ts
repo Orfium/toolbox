@@ -1,1 +1,1 @@
-export * from './NavLinkWithStatePassthrough.js';
+export * from './NavLinkWithStatePassthrough';

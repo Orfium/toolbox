@@ -1,1 +1,1 @@
-export * from './RedirectWithStatePassthrough.js';
+export * from './RedirectWithStatePassthrough';

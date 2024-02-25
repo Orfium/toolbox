@@ -1,20 +1,20 @@
 import { ExpandCollapse, Icon, Theme, useTypeColorToColorMatch } from '@orfium/ictinus';
-import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types.js';
-import { BASE_SHADE } from '@orfium/ictinus/dist/theme/palette.js';
+import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types';
+import { BASE_SHADE } from '@orfium/ictinus/dist/theme/palette';
 import React, { useMemo } from 'react';
 import { useRouteMatch } from 'react-router-dom';
-import { Optional } from '../../../../../../../utils/types.js';
-import FlippableArrow from '../../../../../../FlippableArrow/index.js';
-import { MenuIcon, MenuItemText } from '../../../../../common.styles.js';
-import { MenuItem as MenuItemType } from '../../../../../types.js';
-import { useMenuItemMatch } from './hooks.js';
+import FlippableArrow from '~/ui/FlippableArrow';
+import { MenuIcon, MenuItemText } from '~/ui/Navigation/common.styles';
+import { MenuItem as MenuItemType } from '~/ui/Navigation/types';
+import { Optional } from '~/utils/types';
 import {
   ArrowContainer,
   Bullet,
   ExpandCollapseWrapper,
   MenuItemButton,
   MenuLink,
-} from './MenuItem.styles.js';
+} from './MenuItem.styles';
+import { useMenuItemMatch } from './hooks';
 
 export type MenuItemProps = {
   theme: Theme;

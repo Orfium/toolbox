@@ -1,4 +1,4 @@
-import { getAuth0Client } from '../utils/auth';
+import { getAuth0Client } from '~/utils/auth';
 
 describe('Auth0Client Errors Tests', () => {
   beforeEach(() => {

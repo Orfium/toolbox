@@ -1,8 +1,8 @@
 import { List, useTheme } from '@orfium/ictinus';
 import { MenuPositionAllowed } from '@orfium/ictinus/dist/components/utils/DropdownOptions';
 import { ReactNode, useRef, useState } from 'react';
-import { useClickAwayListener } from '../../../../hooks/useClickAwayListener.js';
-import FlippableArrow from '../../../FlippableArrow/index.js';
+import { useClickAwayListener } from '~/hooks/useClickAwayListener';
+import FlippableArrow from '~/ui/FlippableArrow';
 import {
   Button,
   ButtonContentWrapper,
@@ -12,7 +12,7 @@ import {
   SelectedOrg,
   Tag,
   Wrapper,
-} from './OrganizationSelector.styles.js';
+} from './OrganizationSelector.styles';
 
 export type Props = {
   /** Items that are being declared as menu options */

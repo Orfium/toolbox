@@ -1,8 +1,8 @@
 import React, { ComponentType } from 'react';
 import {
+  RouteComponentProps as ReactRouterRouteComponentProps,
   Redirect,
   Route,
-  RouteComponentProps as ReactRouterRouteComponentProps,
   Switch,
 } from 'react-router-dom';
 

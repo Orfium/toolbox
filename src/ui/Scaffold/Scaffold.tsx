@@ -1,8 +1,8 @@
 import { Global } from '@emotion/react';
 import { Loader, useTheme } from '@orfium/ictinus';
 import { type ReactElement, type ReactNode } from 'react';
-import { _useContentLoadingIndicator } from '../../hooks/useContentLoadingIndicator.js';
-import { ContentLoadingIndicator } from '../../providers/ContentLoadingIndicator.js';
+import { _useContentLoadingIndicator } from '~/hooks/useContentLoadingIndicator';
+import { ContentLoadingIndicator } from '~/providers/ContentLoadingIndicator';
 import {
   Contents,
   GridContainer,
@@ -10,7 +10,7 @@ import {
   LoadingBarWrapper,
   SideNav,
   backGround,
-} from './Scaffold.styles.js';
+} from './Scaffold.styles';
 
 export type ScaffoldProps = {
   navigationSlot: ReactElement;

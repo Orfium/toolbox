@@ -1,9 +1,4 @@
 module.exports = {
-  globals: {
-    'ts-jest': {
-      tsConfig: './src/__tests__/tsconfig.json',
-    },
-  },
   preset: 'ts-jest',
   workerIdleMemoryLimit: 0.75,
   testEnvironment: 'jsdom',
@@ -16,11 +11,10 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '\\.svg$': '<rootDir>/__mocks__/fileMock.tsx',
+    '~/(.*)': '<rootDir>/src/$1',
   },
   setupFilesAfterEnv: [`<rootDir>/setup-jest.ts`],
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.stories.{ts,tsx,js,jsx,mdx,md}'],
   coveragePathIgnorePatterns: ['/node_modules/', '/test/', '/documentation/'],
   testResultsProcessor: 'jest-sonar-reporter',
-  // https://github.com/kulshekhar/ts-jest/issues/1057
-  resolver: 'jest-ts-webcompat-resolver',
 };

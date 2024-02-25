@@ -1,8 +1,8 @@
 import { Icon, useTheme } from '@orfium/ictinus';
-import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types.js';
+import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types';
 import { useEffect, useRef, useState } from 'react';
-import { useAuthentication } from '../../../../hooks/index.js';
-import { useClickAwayListener } from '../../../../hooks/useClickAwayListener.js';
+import { useAuthentication } from '~/hooks/useAuthentication';
+import { useClickAwayListener } from '~/hooks/useClickAwayListener';
 import {
   AvatarButton,
   Email,
@@ -17,7 +17,7 @@ import {
   Tag,
   Username,
   UsernameWrapper,
-} from './UserMenu.styles.js';
+} from './UserMenu.styles';
 
 export type UserMenuProps = {
   menuItems: {

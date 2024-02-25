@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
-import { flexCenter, transition } from '@orfium/ictinus/dist/theme/functions.js';
+import { flexCenter, transition } from '@orfium/ictinus/dist/theme/functions';
 import { rem } from 'polished';
-import { NavLinkWithStatePassthrough } from '../../../../../../../utils/NavLinkWithStatePassthrough/index.js';
-import { menuItemStyle } from '../../../../../common.styles.js';
+import { menuItemStyle } from '~/ui/Navigation/common.styles';
+import { NavLinkWithStatePassthrough } from '~/utils/NavLinkWithStatePassthrough';
 
 export const MenuItemButton = styled.button`
   ${({ theme }) => menuItemStyle(theme)};
