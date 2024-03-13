@@ -1,0 +1,44 @@
+---
+id: "RedirectWithStatePassthrough"
+title: "RedirectWithStatePassthrough"
+sidebar_label: "RedirectWithStatePassthrough"
+sidebar_position: 3
+---
+
+```ts
+import { RedirectWithStatePassthrough } from '@orfium/toolbox';
+```
+
+:::info
+Must be a descendant of [`Router`](https://v5.reactrouter.com/web/api/Router).
+:::
+
+## Description
+
+A utility component that wraps over React Router's [`Redirect`](https://v5.reactrouter.com/web/api/Redirect) component,
+but takes care to pass the _current_ history state over to the next redirect location.
+
+**Example usage**
+
+```tsx
+// `to` value can be a full or partial location object
+// (do note that explicitly passing a `state` object here will be ignored)
+function EmptyPage() {
+  return (
+    <RedirectWithStatePassthrough to={{ pathname: '/login' }} />
+  );
+}
+```
+
+```tsx
+// `to` value can also just be a string
+function EmptyPage() {
+  return (
+    <RedirectWithStatePassthrough to={'/login'} />
+  );
+}
+```
+
+## Props
+
+Ƭ `RedirectProps`

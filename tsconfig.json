@@ -1,51 +1,40 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "esnext",
-    "target": "es5",
-    "lib": [
-      "es5",
-      "es6",
-      "es7",
-      "es2017",
-      "dom"
-    ],
+    "module": "ESNext",
+    "target": "ES2021",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "sourceMap": true,
     "skipLibCheck": true,
     "allowJs": true,
     "jsx": "react-jsx",
+    "importHelpers": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "strict": true,
-    "rootDir": "./src",
+    "rootDir": "./",
     "baseUrl": "./src",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": false,
-    "declaration": true,
+    "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "types": [
-      "node",
-      "jest",
-      "@testing-library/jest-dom"
-    ],
+    "types": ["node", "jest", "@testing-library/jest-dom"],
     "jsxImportSource": "react",
-    "declarationDir": "./dist/types",
+    "paths": {
+      "~/*": ["./*"],
+      "__mocks__/*": ["../__mocks__/*"]
+    }
   },
-  "include": [
-    "./src/*",
-    "./src/**/*"
-  ],
+  "include": ["src", "setup-jest.ts", "rollup.config"],
   "exclude": [
-    "**/node_modules/**/",
     "node_modules",
     "build",
     "dist",
+    "assets",
     "scripts",
     "typeDocs",
     "documentation",
@@ -54,9 +43,7 @@
     "**/__snapshots__",
     "**/*.stories.tsx",
     "**/*.stories.mdx",
-    "**/*.test.ts",
-    "**/*.test.tsx",
     "__mocks__",
-    "./jest.config.js"
+    "./jest.config.cjs"
   ]
 }
