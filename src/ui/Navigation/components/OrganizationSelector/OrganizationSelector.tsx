@@ -9,9 +9,10 @@ import {
   ButtonTextWrapper,
   ChevronWrapper,
   Option,
+  SelectedOrg,
   Tag,
   Wrapper,
-} from './ClientSelector.styles';
+} from './OrganizationSelector.styles';
 
 export type Props = {
   /** Items that are being declared as menu options */
@@ -32,7 +33,7 @@ export type TestProps = {
   dataTestId?: string;
 };
 
-function ClientSelector(props: Props & TestProps) {
+function OrganizationSelector(props: Props & TestProps) {
   const {
     items,
     disabled,
@@ -57,16 +58,18 @@ function ClientSelector(props: Props & TestProps) {
         >
           <ButtonContentWrapper>
             <ButtonTextWrapper theme={theme}>
-              <span>{buttonText}</span>
+              <SelectedOrg>{buttonText}</SelectedOrg>
               {tagText && (
                 <Tag theme={theme} textColor={textColor}>
                   {tagText}
                 </Tag>
               )}
             </ButtonTextWrapper>
-            <ChevronWrapper theme={theme}>
-              <FlippableArrow expanded={open} color={textColor} size={11} />
-            </ChevronWrapper>
+            {disabled ? null : (
+              <ChevronWrapper theme={theme}>
+                <FlippableArrow expanded={open} color={textColor} size={11} />
+              </ChevronWrapper>
+            )}
           </ButtonContentWrapper>
         </Button>
 
@@ -89,4 +92,4 @@ function ClientSelector(props: Props & TestProps) {
   );
 }
 
-export default ClientSelector;
+export default OrganizationSelector;
