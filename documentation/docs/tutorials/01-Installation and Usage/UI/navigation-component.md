@@ -25,13 +25,13 @@ In order to make usage easier for the user, the `Navigation` component:
 In order to use the `Navigation` component, you only have to import it from `@orfium/toolbox` and add it to the file where you build your product's overall layout.
 Keep in mind that `@orfium/ictinus` must be installed in your app. Follow these [steps](https://ictinus.herokuapp.com/?path=/story/guide-getting-started--page) before you proceed.
 
-```jsx
-...
+```tsx
+//...
 // highlight-next-line
 import { Navigation } from '@orfium/toolbox';
-...
+//...
 
-const Page: React.FC = () => {
+function Page() {
 
   return (
     <...>

@@ -1,0 +1,31 @@
+---
+id: 'Scaffold'
+title: 'Scaffold'
+sidebar_label: 'Scaffold'
+sidebar_position: 2.1
+---
+
+import Type from '../_type-definitions/ScaffoldProps.md';
+
+```ts
+import { Scaffold } from '@orfium/toolbox';
+```
+
+:::info
+Must be a descendant of [`ThemeProvider`](https://designlab.orfium.com/?path=/docs/design-system-themeprovider--setting-up-a-button-example).
+:::
+
+## Description
+
+A component that provides the basic HTML structure for all Orfium applications.
+
+## Props
+
+Ƭ [`ScaffoldProps`](../types/ScaffoldProps)
+
+<Type />
+
+:::warning
+While you can pass any valid `ReactElement` to the `navigationSlot` and `headerSlot` props, it is really only intended to be
+used with [`Navigation`](./Navigation) and [`TopBar`](./TopBar) respectively.
+:::
