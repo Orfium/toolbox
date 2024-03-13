@@ -1,5 +1,4 @@
 import {
-  Auth0Client,
   type Auth0ClientOptions,
   type GetTokenSilentlyOptions,
   type RedirectLoginOptions,
@@ -19,7 +18,6 @@ type AuthenticationProps = { children: ReactNode; overrides?: Auth0ClientOptions
 export function Authentication({ children }: AuthenticationProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<Record<string, unknown>>();
-  const [auth0Client, setAuth0Client] = useState<Auth0Client>();
   const [isLoading, setIsLoading] = useState(true);
   const [permissions, setPermissions] = useState<Permissions>([]);
 
@@ -70,7 +68,6 @@ export function Authentication({ children }: AuthenticationProps) {
     (async () => {
       try {
         const client = await getAuth0Client();
-        setAuth0Client(client);
         if (window.location.search.includes('code=')) {
           const { appState } = await client.handleRedirectCallback();
           onRedirectCallback(appState);
