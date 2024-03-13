@@ -1,0 +1,1 @@
+<pre>(opts?: GetTokenSilentlyOptions) => Promise\<<br/>  void &#124; <br/>  \{ <br/>    decodedToken: [DecodedTokenResponse](/docs/api/Types/DecodedTokenResponse) &#124; Record\<string, never\>; <br/>    token: string; <br/>  \}<br/>\></pre>
