@@ -36,6 +36,7 @@ export const Button = styled.button`
 export const SelectedOrg = styled.span`
   padding-right: ${({ theme }) => theme.spacing.sm};
   display: inline-block;
+  text-align: left;
   font-weight: ${({ theme }) => theme.typography.weights.medium};
 `;
 
@@ -61,6 +62,7 @@ export const ChevronWrapper = styled.div`
 `;
 
 export const Tag = styled.span<{ textColor: string }>`
+  font-weight: ${({ theme }) => theme.typography.weights.medium};
   font-size: ${({ theme }) => theme.typography.fontSizes[12]};
   padding: ${({ theme }) => theme.spacing.xsm};
   background-color: ${({ theme }) => theme.utils.getColor('lightGrey', 100)};
