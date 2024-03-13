@@ -6,6 +6,11 @@ on:
       - 'next'
       - 'v3.x'
 
+permissions:
+  packages: write
+  contents: write
+  id-token: write
+
 jobs:
   deploy:
     name: Deploy
