@@ -64,7 +64,7 @@ function GlobalNavLink(props: GlobalNavLinkProps) {
         return adminNavigationIsActive;
       }}
     >
-      <img alt={adminButtonTooltipText} src={AdminIcon} height={16} width={16} />
+      <AdminIcon alt={adminButtonTooltipText} height={16} width={16} />
     </AppIconRRLink>
   );
 }
