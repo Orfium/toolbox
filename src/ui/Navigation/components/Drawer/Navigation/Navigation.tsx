@@ -7,9 +7,10 @@ import { NavigationContainer } from './Navigation.styles';
 type NavigationProps = {
   theme: Theme;
   menuItems: MenuItemType[];
+  hasExtras: boolean;
 };
 
-function Navigation({ menuItems, theme }: NavigationProps) {
+function Navigation({ menuItems, theme, hasExtras }: NavigationProps) {
   const menuItemElements = useMemo(() => {
     return menuItems.map((menuItem) => {
       return menuItem?.children?.length ? (
@@ -21,7 +22,7 @@ function Navigation({ menuItems, theme }: NavigationProps) {
   }, [menuItems, theme]);
 
   return (
-    <NavigationContainer data-navigation-container theme={theme}>
+    <NavigationContainer data-navigation-container theme={theme} hasExtras={hasExtras}>
       {menuItemElements}
     </NavigationContainer>
   );
