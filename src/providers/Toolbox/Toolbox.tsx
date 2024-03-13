@@ -1,5 +1,6 @@
 import { Button, Loader } from '@orfium/ictinus';
 import * as Sentry from '@sentry/browser';
+import dayjs from 'dayjs';
 import { ReactNode, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { config } from '../../config';
@@ -45,7 +46,7 @@ export function Toolbox({ children }: ToolboxProps) {
  * This is the main component that is wrapped in the authentication.
  */
 function AuthenticationWrapper({ children }: { children: ReactNode }) {
-  const { isLoading, isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } =
+  const { user, isLoading, isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } =
     useAuthentication();
   const { organizations, selectedOrganization } = useOrganizations();
   const { setOrganizations, setSelectedOrganization } = useOrganization();
@@ -68,7 +69,10 @@ function AuthenticationWrapper({ children }: { children: ReactNode }) {
         const requestInstance = orfiumIdBaseInstance.createRequest<Organization[]>({
           method: 'get',
           url: '/memberships/',
-          params: config.productCode ? { product_code: config.productCode } : undefined,
+          params: {
+            ...(config.productCode ? { product_code: config.productCode } : {}),
+            fresh: dayjs(user?.updated_at).isAfter(dayjs().subtract(1, 'minute')) || undefined,
+          },
         });
         const data = await requestInstance.request();
 
