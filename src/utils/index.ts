@@ -9,6 +9,5 @@ export {
 } from './currencies';
 export { LinkWithStatePassthrough } from './LinkWithStatePassthrough';
 export { NavLinkWithStatePassthrough } from './NavLinkWithStatePassthrough';
-export { createQueryKey } from './reactQuery';
 export { RedirectWithStatePassthrough } from './RedirectWithStatePassthrough';
 export type { Optional } from './types';

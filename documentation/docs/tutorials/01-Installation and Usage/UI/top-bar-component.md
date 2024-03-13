@@ -8,7 +8,7 @@ sidebar_position: 2
 
 ## Overview
 
-The new `TopBar` component is an essential tool for every Orfium application as it holds information about the currently
+The new [`TopBar`](../../../api/Components/TopBar.mdx) component is an essential tool for every Orfium application as it holds information about the currently
 logged-in user, and it's also home to the user menu, which includes a list of available actions the user can make.
 
 The component provides a utility slot that sits on the left side, where the user can opt to display things such as
