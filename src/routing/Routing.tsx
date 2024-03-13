@@ -2,8 +2,8 @@ import React, { ComponentType } from 'react';
 import {
   Redirect,
   Route,
-  Switch,
   RouteComponentProps as ReactRouterRouteComponentProps,
+  Switch,
 } from 'react-router-dom';
 
 /**

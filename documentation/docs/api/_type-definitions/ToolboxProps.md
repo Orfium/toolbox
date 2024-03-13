@@ -1,0 +1,3 @@
+| Name       | Type        |
+| :--------- | :---------- |
+| `children` | `ReactNode` |

@@ -6,34 +6,50 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #0e4d64;
-  --ifm-color-primary-dark: #0d455a;
-  --ifm-color-primary-darker: #0c4155;
-  --ifm-color-primary-darkest: #0a3646;
-  --ifm-color-primary-light: #0f556e;
-  --ifm-color-primary-lighter: #105973;
-  --ifm-color-primary-lightest: #126482;
+  --ifm-color-primary: #175bf5;
+  --ifm-color-primary-dark: #1451dc;
+  --ifm-color-primary-darker: #1248c4;
+  --ifm-color-primary-darkest: #0d3693;
+  --ifm-color-primary-light: #2e6bf6;
+  --ifm-color-primary-lighter: #457bf7;
+  --ifm-color-primary-lightest: #5c8cf8;
   --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  /* custom overrides */
+  --ifm-navbar-link-color: #fff;
+  --ifm-navbar-link-hover-color: var(--ifm-color-primary-lightest);
+  --ifm-background-surface-color: #151447;
+  --ifm-menu-color-active: var(--ifm-color-primary-darker);
+  --ifm-hover-overlay: #edefff;
+  --ifm-menu-color: #757bb2;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
+  --ifm-color-primary: #1de9b6;
+  --ifm-color-primary-dark: #1ad1a3;
+  --ifm-color-primary-darker: #17ba91;
+  --ifm-color-primary-darkest: #118b6d;
+  --ifm-color-primary-light: #33ebbd;
+  --ifm-color-primary-lighter: #4aedc4;
+  --ifm-color-primary-lightest: #60efcb;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  /* custom overrides */
+  --ifm-menu-color: var(--ifm-color-emphasis-700);
 }
 
-.docusaurus-highlight-code-line {
-  background-color: rgba(0, 0, 0, 0.1);
-  display: block;
-  margin: 0 calc(-1 * var(--ifm-pre-padding));
-  padding: 0 var(--ifm-pre-padding);
+[data-theme='light'] button[class*='toggleButton_'] path {
+  fill: var(--ifm-navbar-link-color);
 }
 
-[data-theme='dark'] .docusaurus-highlight-code-line {
-  background-color: rgba(0, 0, 0, 0.3);
+[data-theme='light'] button[class*='toggleButton_']:hover {
+  background: var(--ifm-navbar-link-hover-color);
+}
+
+[data-theme='light'] .pagination-nav__link {
+  color: var(--ifm-color-primary-darker);
+}
+
+[data-theme='light'] a[class*='skipToContent_'] {
+  color: var(--ifm-navbar-link-color);
 }

@@ -1,0 +1,25 @@
+---
+id: 'generateRoutes'
+title: 'generateRoutes'
+sidebar_label: 'generateRoutes'
+sidebar_position: 0
+---
+
+```ts
+import { generateRoutes } from '@orfium/toolbox';
+```
+
+## Description
+
+For each item of the structure it creates a new Route with a Switch statement. It automatically handles the redirections
+based on authorization of each route to specific pages. If the fallbacks are defined then those will be used instead.
+
+## Parameters
+
+- `config: { isAuthenticated: boolean; fallbackComponent: ComponentType; structure:`[`RoutingStructure`](../../types/RoutingStructure) `; }`
+
+## Return value
+
+Ƭ `ReactElement`
+
+
