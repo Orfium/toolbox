@@ -1,7 +1,16 @@
 import { Global } from '@emotion/react';
-import { useTheme } from '@orfium/ictinus';
+import { Loader, useTheme } from '@orfium/ictinus';
 import { type ReactElement, type ReactNode } from 'react';
-import { backGround, Contents, GridContainer, Header, SideNav } from './Scaffold.styles';
+import { _useContentLoadingIndicator } from '../../hooks/useContentLoadingIndicator';
+import { ContentLoadingIndicator } from '../../providers/ContentLoadingIndicator';
+import {
+  Contents,
+  GridContainer,
+  Header,
+  LoadingBarWrapper,
+  SideNav,
+  backGround,
+} from './Scaffold.styles';
 
 export type ScaffoldProps = {
   navigationSlot: ReactElement;
@@ -9,8 +18,9 @@ export type ScaffoldProps = {
   children: ReactNode;
 };
 
-export function Scaffold(props: ScaffoldProps) {
+function ScaffoldInternal(props: ScaffoldProps) {
   const { navigationSlot, headerSlot, children } = props;
+  const { loadingIndicator } = _useContentLoadingIndicator();
 
   const theme = useTheme();
 
@@ -18,8 +28,25 @@ export function Scaffold(props: ScaffoldProps) {
     <GridContainer>
       <Global styles={{ body: backGround(theme) }} />
       <SideNav>{navigationSlot}</SideNav>
-      <Header>{headerSlot}</Header>
+      <Header>
+        {loadingIndicator ? (
+          <LoadingBarWrapper>
+            <Loader type={'indeterminate'} />
+          </LoadingBarWrapper>
+        ) : null}
+        {headerSlot}
+      </Header>
       <Contents>{children}</Contents>
     </GridContainer>
+  );
+}
+
+export function Scaffold(props: ScaffoldProps) {
+  const { children, ...rest } = props;
+
+  return (
+    <ContentLoadingIndicator>
+      <ScaffoldInternal {...rest}>{children}</ScaffoldInternal>
+    </ContentLoadingIndicator>
   );
 }

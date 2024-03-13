@@ -1,4 +1,5 @@
 export { useAuthentication, type UseAuthenticationReturnValue } from './useAuthentication';
+export { useContentLoadingIndicator } from './useContentLoadingIndicator';
 export { useDeferredValue } from './useDeferredValue';
 export { useOrfiumProducts, type UseOrfiumProductsReturnValue } from './useOrfiumProducts';
 export { useOrganizations, type UseOrganizationsReturnValue } from './useOrganizations';
