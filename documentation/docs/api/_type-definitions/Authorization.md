@@ -1,0 +1,1 @@
+`'anonymous' | 'authorized' | 'unauthorized'`

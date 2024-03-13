@@ -1,6 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 
-type MockRequest = MockAdapter;
+type MockRequest = typeof MockAdapter;
 const MockRequest = MockAdapter;
 
 export default MockRequest;
