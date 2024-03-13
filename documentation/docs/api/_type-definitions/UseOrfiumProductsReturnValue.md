@@ -1,1 +1,1 @@
-[`Product`](../Types/Product)`[] | null`
+<code>[Product](/docs/api/Types/Product)[] | null</code>
