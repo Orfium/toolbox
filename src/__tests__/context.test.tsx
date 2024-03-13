@@ -24,20 +24,14 @@ import {
   isAuthenticated,
   loginWithRedirect,
 } from '../../__mocks__/@auth0/auth0-spa-js';
+import { defaultAuthenticationContextValues } from '../contexts/authentication';
+import { useAuthentication } from '../hooks';
+import { Authentication } from '../providers/Authentication';
 import { orfiumIdBaseInstance } from '../request';
 import MockRequest from '../request/mock';
 import useOrganization from '../store/organizations';
 import useRequestToken from '../store/requestToken';
-import {
-  AuthenticationProvider,
-  client,
-  defaultAuthenticationContextValues,
-  getAuth0Client,
-  getTokenSilently,
-  logoutAuth,
-  onRedirectCallback,
-  useAuthentication,
-} from './context';
+import { getAuth0Client, getTokenSilently, logoutAuth, onRedirectCallback } from '../utils/auth';
 
 const TestingComponentSimple = () => {
   const { user, isAuthenticated, isLoading } = useAuthentication();
@@ -133,9 +127,9 @@ describe('Context', () => {
       window.history.pushState({}, '', '?code=test');
 
       render(
-        <AuthenticationProvider>
+        <Authentication>
           <></>
-        </AuthenticationProvider>
+        </Authentication>
       );
 
       await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1));
@@ -152,9 +146,9 @@ describe('Context', () => {
         <ErrorBoundary
           FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
         >
-          <AuthenticationProvider>
+          <Authentication>
             <TestingComponent />
-          </AuthenticationProvider>
+          </Authentication>
         </ErrorBoundary>
       );
 
@@ -174,9 +168,9 @@ describe('Context', () => {
         <ErrorBoundary
           FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
         >
-          <AuthenticationProvider>
+          <Authentication>
             <TestingComponent />
-          </AuthenticationProvider>
+          </Authentication>
         </ErrorBoundary>
       );
 
@@ -272,23 +266,23 @@ describe('Context', () => {
     });
   });
 
-  xtest('AuthenticationProvider contents', async () => {
+  xtest('Authentication contents', async () => {
     isAuthenticated.mockResolvedValue(true);
     getUser.mockResolvedValue({
       name: 'John Doe',
     });
 
     const { findByText, getByTestId } = render(
-      <AuthenticationProvider>
+      <Authentication>
         <TestingComponentSimple />
-      </AuthenticationProvider>
+      </Authentication>
     );
 
     await waitFor(() => expect(findByText('John Doe')).toBeTruthy());
     await waitFor(() => expect(getByTestId('isAuthenticated').innerHTML).toBe('true'));
   });
 
-  describe('AuthenticationProvider calls loginWithRedirect success/error', () => {
+  describe('Authentication calls loginWithRedirect success/error', () => {
     xtest('loginWithRedirect when access token fails', async () => {
       const errorMsg = 'login_required';
 
@@ -299,9 +293,9 @@ describe('Context', () => {
         <ErrorBoundary
           FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
         >
-          <AuthenticationProvider>
+          <Authentication>
             <TestingComponent />
-          </AuthenticationProvider>
+          </Authentication>
         </ErrorBoundary>
       );
 
@@ -321,9 +315,9 @@ describe('Context', () => {
         <ErrorBoundary
           FallbackComponent={({ error }) => <h1 data-testid="errorboundary">{error.message}</h1>}
         >
-          <AuthenticationProvider>
+          <Authentication>
             <TestingComponent />
-          </AuthenticationProvider>
+          </Authentication>
         </ErrorBoundary>
       );
 
@@ -349,9 +343,9 @@ describe('Context', () => {
 
     await act(async () => {
       render(
-        <AuthenticationProvider>
+        <Authentication>
           <TestingComponentSimple />
-        </AuthenticationProvider>
+        </Authentication>
       );
     });
 
@@ -407,9 +401,9 @@ describe('Context', () => {
 
     await act(async () => {
       render(
-        <AuthenticationProvider>
+        <Authentication>
           <TestingComponentSimple />
-        </AuthenticationProvider>
+        </Authentication>
       );
     });
 

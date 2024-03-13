@@ -7,9 +7,9 @@ import {
   isAuthenticated,
   loginWithRedirect,
 } from '../../__mocks__/@auth0/auth0-spa-js';
+import { Authentication } from '../providers/Authentication';
 import { orfiumIdBaseInstance } from '../request';
 import MockRequest from '../request/mock';
-import { Toolbox as AuthenticationProvider } from './index';
 const TestComp = () => {
   return <div data-testid={'test'}>Test</div>;
 };
@@ -29,9 +29,9 @@ describe('Authentication: ', () => {
 
   xit('renders without crashing', () => {
     render(
-      <AuthenticationProvider>
+      <Authentication>
         <TestComp />
-      </AuthenticationProvider>
+      </Authentication>
     );
   });
 
@@ -51,9 +51,9 @@ describe('Authentication: ', () => {
     mock.onGet('/memberships/').reply(200, [{ org_id: 'a' }]);
 
     const { findByTestId } = render(
-      <AuthenticationProvider>
+      <Authentication>
         <TestComp />
-      </AuthenticationProvider>
+      </Authentication>
     );
 
     expect(await findByTestId('orfium-auth-loading')).toBeTruthy();
@@ -71,9 +71,9 @@ describe('Authentication: ', () => {
     mock.onGet('/memberships/').replyOnce(200, []);
 
     render(
-      <AuthenticationProvider>
+      <Authentication>
         <TestComp />
-      </AuthenticationProvider>
+      </Authentication>
     );
 
     await waitFor(() => expect(loginWithRedirect).toHaveBeenCalled());
@@ -87,9 +87,9 @@ describe('Authentication: ', () => {
       updated_at: new Date().toDateString(),
     });
     const { findByTestId } = render(
-      <AuthenticationProvider>
+      <Authentication>
         <TestComp />
-      </AuthenticationProvider>
+      </Authentication>
     );
     expect(await findByTestId('orfium-auth-loading')).toBeTruthy();
   });
@@ -104,9 +104,9 @@ describe('Authentication: ', () => {
     mock.onGet('/memberships/').replyOnce(200, []);
 
     const { findByTestId } = render(
-      <AuthenticationProvider>
+      <Authentication>
         <TestComp />
-      </AuthenticationProvider>
+      </Authentication>
     );
 
     expect(await findByTestId('orfium-auth-loading')).toBeTruthy();

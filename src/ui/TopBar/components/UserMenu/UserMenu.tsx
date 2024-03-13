@@ -2,7 +2,7 @@ import { Icon, useTheme } from '@orfium/ictinus';
 import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types';
 import ClickAwayListener from '@orfium/ictinus/dist/components/utils/ClickAwayListener';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useAuthentication } from '../../../../authentication';
+import { useAuthentication } from '../../../../hooks';
 import {
   Anchor,
   Email,
@@ -92,7 +92,11 @@ function UserMenu(props: UserMenuProps) {
           tabIndex={open ? -1 : 0}
           ref={outerMenuWrapperRef}
         >
-          <MenuInnerWrapper theme={theme} aria-hidden={open ? 'false' : 'true'} ref={innerMenuWrapperRef}>
+          <MenuInnerWrapper
+            theme={theme}
+            aria-hidden={open ? 'false' : 'true'}
+            ref={innerMenuWrapperRef}
+          >
             <Header theme={theme} data-menu-header>
               <img alt={'User avatar image'} src={user?.picture} />
               <div>
