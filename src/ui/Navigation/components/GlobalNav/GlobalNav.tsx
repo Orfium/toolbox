@@ -1,12 +1,12 @@
 import { Icon, Tooltip, type Theme } from '@orfium/ictinus';
-import { memo, type Dispatch, type SetStateAction } from 'react';
+import { memo, type Dispatch, type ReactElement, type SetStateAction } from 'react';
 import { useLocation } from 'react-router-dom';
+import { config } from '~/config';
+import { type Product } from '~/contexts/orfium-products';
 import AdminIcon from '../../../../assets/admin_icon.svg';
 import Logo from '../../../../assets/orfium_logo.svg';
 import BillingIcon from '../../../../assets/products/billing_icon.svg';
 import STIcon from '../../../../assets/products/sync_tracker_icon.svg';
-import { config } from '../../../../config';
-import { type Product } from '../../../../contexts/orfium-products';
 import {
   AppIconNativeLink,
   AppIconRRLink,
@@ -17,7 +17,7 @@ import {
   Wrapper,
 } from './GlobalNav.styles';
 
-const productIconsDict = {
+const productIconsDict: Record<string, () => ReactElement> = {
   earnings: BillingIcon,
   'sync-tracker': STIcon,
 };
@@ -96,7 +96,7 @@ function GlobalNav(props: GlobalNavProps) {
     <Wrapper theme={theme} data-testid={'global-navigation'}>
       <SingleIconContainer>
         {isDesktop ? (
-          <img alt={'Orfium logo'} src={Logo} height={28} width={28} />
+          <Logo alt={'Orfium logo'} height={28} width={28} />
         ) : (
           <BurgerButton
             theme={theme}
@@ -113,6 +113,7 @@ function GlobalNav(props: GlobalNavProps) {
         {orfiumProducts
           ? orfiumProducts.map((p) => {
               const isCurrentApp = p.client_metadata.product_code === config.productCode;
+              const Icon = productIconsDict[p.client_metadata.product_code];
 
               return (
                 <Tooltip key={p.client_id} content={p.name} placement={'right'}>
@@ -120,12 +121,8 @@ function GlobalNav(props: GlobalNavProps) {
                   {/* since the tooltip cannot adjust its distance from the trigger element */}
                   <AppIconWrapper>
                     <AppIconNativeLink href={p.login_url} className={isCurrentApp ? 'active' : ''}>
-                      <img
-                        alt={p.name}
-                        src={productIconsDict[p.client_metadata.product_code]}
-                        height={16}
-                        width={16}
-                      />
+                      {/* @ts-ignore*/}
+                      <Icon alt={p.name} height={16} width={16} />
                     </AppIconNativeLink>
                   </AppIconWrapper>
                 </Tooltip>

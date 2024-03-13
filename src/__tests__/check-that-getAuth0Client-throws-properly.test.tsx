@@ -1,5 +1,5 @@
-import { createAuth0Client as mockedCreateAuth0 } from '../../__mocks__/@auth0/auth0-spa-js';
-import { getAuth0Client, logoutAuth } from '../utils/auth';
+import { createAuth0Client as mockedCreateAuth0 } from '__mocks__/@auth0/auth0-spa-js';
+import { getAuth0Client, logoutAuth } from '~/utils/auth';
 
 test('getAuth0Client failed process', async () => {
   expect.assertions(1);

@@ -32,6 +32,8 @@ export const request =
     onDownloadProgress,
     responseType,
   }: RequestProps) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const cancelTokenSource = axios.CancelToken.source();
     const config = {
       method: method,

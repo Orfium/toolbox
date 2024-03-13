@@ -1,4 +1,4 @@
-import { Link, LinkProps, useLocation } from 'react-router-dom';
+import { Link, useLocation, type LinkProps } from 'react-router-dom';
 
 export function LinkWithStatePassthrough(props: LinkProps) {
   const { to, ...rest } = props;

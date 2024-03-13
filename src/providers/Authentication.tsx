@@ -9,9 +9,9 @@ import {
   AuthenticationContext,
   type GetAccessTokenSilently,
   type Permissions,
-} from '../contexts/authentication';
-import { _useOrganizations } from '../hooks/useOrganizations';
-import { getAuth0Client, getTokenSilently, logoutAuth, onRedirectCallback } from '../utils/auth';
+} from '~/contexts/authentication';
+import { _useOrganizations } from '~/hooks/useOrganizations';
+import { getAuth0Client, getTokenSilently, logoutAuth, onRedirectCallback } from '~/utils/auth';
 
 type AuthenticationProps = { children: ReactNode; overrides?: Auth0ClientOptions };
 
