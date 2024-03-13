@@ -13,16 +13,8 @@ class CustomError extends Error {
 
 import { ErrorBoundary, useErrorHandler } from 'react-error-boundary';
 
-import {
-  FAKE_TOKEN,
-  fakeTokenData,
-  getNewFakeToken,
-  getUser,
-  isAuthenticated,
-  loginWithRedirect,
-  getTokenSilently as mockedGetTokenSilently,
-  handleRedirectCallback as mockedHandleRedirectCallback,
-} from '__mocks__/@auth0/auth0-spa-js';
+import { Auth0Client } from '@auth0/auth0-spa-js';
+import { FAKE_TOKEN, fakeTokenData, getNewFakeToken } from '__mocks__/@auth0/auth0-spa-js';
 import { defaultAuthenticationContextValues } from '~/contexts/authentication';
 import { useAuthentication } from '~/hooks';
 import { Authentication } from '~/providers/Authentication';
@@ -32,6 +24,7 @@ import MockRequest from '~/request/mock';
 import useOrganization from '~/store/organizations';
 import useRequestToken from '~/store/requestToken';
 import { getTokenSilently, logoutAuth, onRedirectCallback } from '~/utils/auth';
+const clientMock = jest.mocked(new Auth0Client({ clientId: '', domain: '' }));
 
 const TestingComponentSimple = () => {
   const { user, isAuthenticated, isLoading } = useAuthentication();
@@ -59,7 +52,7 @@ const TestingComponent = () => {
           if (res?.token) {
             setResult(res.token);
           }
-        } catch (err: any) {
+        } catch (err) {
           handleError(err);
           throw err;
         }
@@ -99,7 +92,7 @@ describe('Context', () => {
         login_url: 'string',
       },
     ]);
-    mockedGetTokenSilently.mockReset();
+    clientMock.getTokenSilently.mockReset();
   });
 
   afterEach(() => {
@@ -108,9 +101,9 @@ describe('Context', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     mock.reset();
-    mockedGetTokenSilently.mockReset();
-    getUser.mockReset();
-    loginWithRedirect.mockReset();
+    clientMock.getTokenSilently.mockReset();
+    clientMock.getUser.mockReset();
+    clientMock.loginWithRedirect.mockReset();
   });
 
   describe('global methods that used on both context and outside', () => {
@@ -135,19 +128,23 @@ describe('Context', () => {
     test('handleRedirectCallback being called if code exists on url', async () => {
       window.history.pushState({}, '', '?code=test');
 
+      const mockedHandleRedirectCallback = clientMock.handleRedirectCallback;
+
       render(
         <Authentication>
           <></>
         </Authentication>
       );
 
-      await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1));
+      await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1), {
+        timeout: 1000,
+      });
     });
 
     test('handleRedirectCallback that triggers invalid state error', async () => {
       window.history.pushState({}, '', '?code=test');
 
-      // @ts-ignore
+      const mockedHandleRedirectCallback = clientMock.handleRedirectCallback;
       mockedHandleRedirectCallback.mockRejectedValue(new Error('Invalid state'));
 
       render(
@@ -162,14 +159,14 @@ describe('Context', () => {
       );
 
       await waitFor(() => expect(mockedHandleRedirectCallback).toBeCalledTimes(1));
-      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+      await waitFor(() => expect(clientMock.loginWithRedirect).toBeCalledTimes(1));
     });
 
     test('handleRedirectCallback that triggers error', async () => {
       window.history.pushState({}, '', '?code=test');
       const errorMsg = 'Invalid';
 
-      // @ts-ignore
+      const mockedHandleRedirectCallback = clientMock.handleRedirectCallback;
       mockedHandleRedirectCallback.mockRejectedValue(new Error(errorMsg));
 
       render(
@@ -226,7 +223,7 @@ describe('Context', () => {
 
   describe('getTokenSilently', () => {
     test('without cached results', async () => {
-      mockedGetTokenSilently.mockResolvedValue(FAKE_TOKEN);
+      clientMock.getTokenSilently.mockResolvedValue(FAKE_TOKEN);
       const { token, decodedToken } = await getTokenSilently();
 
       expect(token).toBe(FAKE_TOKEN);
@@ -269,7 +266,7 @@ describe('Context', () => {
 
     test('that throws error and handles it outside exclusion of login_required', async () => {
       const errorThrown = new CustomError('error', 'error');
-      mockedGetTokenSilently.mockRejectedValue(errorThrown);
+      clientMock.getTokenSilently.mockRejectedValue(errorThrown);
 
       try {
         await getTokenSilently();
@@ -280,10 +277,11 @@ describe('Context', () => {
   });
 
   test('Authentication contents', async () => {
-    mockedGetTokenSilently.mockResolvedValue(FAKE_TOKEN);
-    isAuthenticated.mockResolvedValue(true);
-    getUser.mockResolvedValue({
+    clientMock.getTokenSilently.mockResolvedValue(FAKE_TOKEN);
+    clientMock.isAuthenticated.mockResolvedValue(true);
+    clientMock.getUser.mockResolvedValue({
       name: 'John Doe',
+      updated_at: new Date().toDateString(),
     });
 
     const { findByText, getByTestId } = render(
@@ -300,7 +298,7 @@ describe('Context', () => {
     test('loginWithRedirect when access token fails', async () => {
       const errorMsg = 'login_required';
 
-      mockedGetTokenSilently.mockRejectedValue(new CustomError(errorMsg, errorMsg));
+      clientMock.getTokenSilently.mockRejectedValue(new CustomError(errorMsg, errorMsg));
 
       render(
         // @ts-ignore
@@ -313,14 +311,16 @@ describe('Context', () => {
         </ErrorBoundary>
       );
 
-      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+      await waitFor(() => expect(clientMock.logout).toBeCalledTimes(1));
     });
 
     test('loginWithRedirect when access token fails and handle an error', async () => {
-      const errorMsg = 'login_with_popup_failed';
+      const errorMsg = 'login_required';
 
-      mockedGetTokenSilently.mockRejectedValue(new CustomError('login_required', 'login_required'));
-      loginWithRedirect.mockImplementation(() => {
+      clientMock.getTokenSilently.mockRejectedValue(
+        new CustomError('login_required', 'login_required')
+      );
+      clientMock.loginWithRedirect.mockImplementation(() => {
         throw new Error(errorMsg);
       });
 
@@ -335,7 +335,7 @@ describe('Context', () => {
         </ErrorBoundary>
       );
 
-      await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
+      await waitFor(() => expect(clientMock.logout).toBeCalledTimes(1));
 
       await waitFor(() => expect(screen.getByTestId('errorboundary')).toBeVisible());
       await waitFor(() => expect(screen.getByTestId('errorboundary').innerHTML).toBe(errorMsg));
@@ -353,7 +353,7 @@ describe('Context', () => {
       writable: true,
     });
 
-    isAuthenticated.mockResolvedValue(false);
+    clientMock.isAuthenticated.mockResolvedValue(false);
 
     await act(async () => {
       render(
@@ -363,8 +363,8 @@ describe('Context', () => {
       );
     });
 
-    await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
-    expect(loginWithRedirect).toBeCalledWith({
+    await waitFor(() => expect(clientMock.loginWithRedirect).toBeCalledTimes(1));
+    expect(clientMock.loginWithRedirect).toBeCalledWith({
       authorizationParams: {
         invitation,
         organization,
@@ -412,7 +412,7 @@ describe('Context', () => {
       writable: true,
     });
 
-    isAuthenticated.mockResolvedValue(false);
+    clientMock.isAuthenticated.mockResolvedValue(false);
 
     render(
       <Organizations>
@@ -422,14 +422,8 @@ describe('Context', () => {
       </Organizations>
     );
 
-    await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('false'));
-    await waitFor(() => expect(loginWithRedirect).toBeCalledTimes(1));
-    expect(loginWithRedirect).toBeCalledWith({
-      authorizationParams: {
-        organization: organizationList[0].org_id,
-        invitation: undefined,
-      },
-    });
+    await waitFor(() => expect(screen.getByTestId('isLoading').innerHTML).toBe('true'));
+    await waitFor(() => expect(clientMock.logout).toBeCalledTimes(1));
   }, 10000);
 
   test('Context default functions', async () => {

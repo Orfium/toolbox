@@ -135,7 +135,7 @@ function UserMenu(props: UserMenuProps) {
                 })}
               </PrimarySection>
               <SecondarySection theme={theme}>
-                <LogoutButton theme={theme} onClick={logout} tabIndex={open ? 0 : -1}>
+                <LogoutButton theme={theme} onClick={() => logout()} tabIndex={open ? 0 : -1}>
                   <span>Log out</span>
                 </LogoutButton>
               </SecondarySection>

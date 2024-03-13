@@ -25,6 +25,7 @@ export function Organizations(props: { children: ReactNode }) {
   );
   const organizationsDict = useOrganization((state: OrganizationsStore) => state.organizations);
   const organizationsList = useOrganization((state: OrganizationsStore) => state.organizationsList);
+  const reset = useOrganization((state: OrganizationsStore) => state.reset);
 
   const organizations = useMemo(() => {
     if (organizationsDict && organizationsList) {
@@ -36,16 +37,16 @@ export function Organizations(props: { children: ReactNode }) {
 
   const switchOrganization: SwitchOrganization = useCallback(
     async function (orgID) {
-      const client = await getAuth0Client();
+      const client = getAuth0Client();
       await client.logout({ openUrl: false });
       await client.loginWithRedirect({
         authorizationParams: {
           organization: orgID,
         },
       });
-      setSelectedOrganization(orgID);
+      reset();
     },
-    [setSelectedOrganization]
+    [reset]
   );
 
   // This is a more configurable switchOrganization for internal use only.
@@ -53,7 +54,7 @@ export function Organizations(props: { children: ReactNode }) {
   // It can also accept a custom AuthorizationParams config object, to use in loginWithRedirect()
   const _switchOrganization: _SwitchOrganization = useCallback(
     async function (orgID, options = { withLogout: false }) {
-      const client = await getAuth0Client();
+      const client = getAuth0Client();
 
       if (options.withLogout) {
         await client.logout({ openUrl: false });

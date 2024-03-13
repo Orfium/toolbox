@@ -22,7 +22,7 @@ export type OrganizationsStore = {
   // the selected organization for the current session
   selectedOrganization: Organization | null;
   setOrganizations: (organizations: Organization[]) => void;
-  setSelectedOrganization: (orgID: Organization['org_id']) => void;
+  setSelectedOrganization: (orgID: Organization['org_id'] | undefined) => void;
   reset: () => void;
 };
 
@@ -53,9 +53,11 @@ const useOrganization = create(
             }
           );
         }),
-      setSelectedOrganization: (organization: Organization['org_id']) => {
+      setSelectedOrganization: (organization: Organization['org_id'] | undefined) => {
         const orgs = get().organizations;
-        if (orgs === null) {
+        if (organization === undefined) {
+          set({ selectedOrganization: organization });
+        } else if (orgs === null) {
           set({ selectedOrganization: null });
         } else {
           set({ selectedOrganization: orgs[organization] });
