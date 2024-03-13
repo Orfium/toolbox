@@ -14,6 +14,8 @@ logged-in user, and it's also home to the user menu, which includes a list of av
 The component provides a utility slot that sits on the left side, where the user can opt to display things such as
 breadcrumbs, or whatever is necessary based on product requirements.
 
+![TopBar layout](/img/top-bar.png)
+
 ## Usage
 
 In order to use the `TopBar` component you only have to import it from `@orfium/toolbox` and add it to the file where you build your product's overall layout.
@@ -32,8 +34,8 @@ function Page() {
       // highlight-next-line
       <header>
         <TopBar
-        menuItems={[{ text: 'Settings', url: 'one.orfium.com/settings', iconName: 'settings' }]}
-        utilitySection={<div>hello there</div>}
+          menuItems={[{ text: 'Settings', url: 'one.orfium.com/settings', iconName: 'settings' }]}
+          utilitySlot={<div>hello there</div>}
         />
       </header>
       // rest of the page

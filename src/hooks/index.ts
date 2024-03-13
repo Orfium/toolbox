@@ -4,7 +4,4 @@ export { useOrfiumProducts, type UseOrfiumProductsReturnValue } from './useOrfiu
 export { useOrganizations, type UseOrganizationsReturnValue } from './useOrganizations';
 export { useSafeContext } from './useSafeContext';
 export { useSafeDispatch } from './useSafeDispatch';
-export {
-  useTopBarUtilitySection,
-  type UseTopBarUtilitySectionReturnValue,
-} from './useTopBarUtilitySection';
+export { useTopBarUtilitySlot } from './useTopBarUtilitySlot';

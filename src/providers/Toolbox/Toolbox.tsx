@@ -10,7 +10,7 @@ import ErrorFallback from '../../ui/ErrorFallback/ErrorFallback';
 import { Authentication } from '../Authentication';
 import { OrfiumProducts } from '../OrfiumProducts';
 import { Organizations } from '../Organizations';
-import { TopBarUtilitySection } from '../TopBarUtilitySection';
+import { TopBarUtilitySlot } from '../TopBarUtilitySlot';
 import { Box, LoadingContent, Wrapper } from './Toolbox.style';
 
 export type ToolboxProps = { children: ReactNode };
@@ -31,9 +31,9 @@ export function Toolbox({ children }: ToolboxProps) {
       <Organizations>
         <Authentication>
           <OrfiumProducts>
-            <TopBarUtilitySection>
+            <TopBarUtilitySlot>
               <AuthenticationWrapper>{children}</AuthenticationWrapper>
-            </TopBarUtilitySection>
+            </TopBarUtilitySlot>
           </OrfiumProducts>
         </Authentication>
       </Organizations>
