@@ -1,5 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
-
+import type { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { axiosPromiseResult } from './utils';
 
 const GET = 'get';
@@ -42,7 +42,7 @@ export const request =
       ...(onUploadProgress && { onUploadProgress }),
       ...(onDownloadProgress && { onDownloadProgress }),
       responseType,
-    } as InternalAxiosRequestConfig;
+    } as AxiosRequestConfig;
 
     const request = () => axiosPromiseResult<T>(orfiumAxios(config));
 

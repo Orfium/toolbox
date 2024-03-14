@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, CancelTokenSource, type InternalAxiosRequestConfig } from 'axios';
+import type { AxiosInstance, AxiosRequestConfig, CancelTokenSource } from 'axios';
+import axios from 'axios';
 import useRequestToken from '~/store/requestToken';
 import { getTokenSilently, logoutAuth } from '~/utils/auth';
 import { RequestProps, deleteToken, request, setToken, tokenFormat } from './request';
@@ -12,7 +13,6 @@ export type CreateAPIInstanceProps = {
 
 export type CreateAPIInstanceType = {
   instance: AxiosInstance;
-  // @ts-ignore
   createRequest: <T = any>(
     props: RequestProps
   ) => {
@@ -34,8 +34,6 @@ export const createAPIInstance = ({
   },
   hasAutomaticToken = true,
 }: CreateAPIInstanceProps): CreateAPIInstanceType => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   const orfiumAxios = axios.create({
     baseURL: baseUrl,
   });
@@ -57,7 +55,7 @@ export const createAPIInstance = ({
   // if this fails then the user will be redirected to the response interceptor
   // Fetching latest token is mandatory for all the request to have up-to-date information
   orfiumAxios.interceptors.request.use(
-    async (config: InternalAxiosRequestConfig) => {
+    async (config: AxiosRequestConfig) => {
       if (hasAutomaticToken) {
         const { token } = await getTokenSilently();
         config.headers.Authorization = `Bearer ${token}`;
