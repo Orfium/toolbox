@@ -78,7 +78,7 @@
     "ts-lib": "^0.0.5",
     "tsc-watch": "^5.0.3",
     "tslib": "^2.3.1",
-    "typedoc": "^0.22.13",
+    "typedoc": "^0.25.12",
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
