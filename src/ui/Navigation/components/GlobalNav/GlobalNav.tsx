@@ -64,7 +64,7 @@ function GlobalNavLink(props: GlobalNavLinkProps) {
         return adminNavigationIsActive;
       }}
     >
-      <AdminIcon alt={adminButtonTooltipText} height={16} width={16} />
+      <AdminIcon alt={adminButtonTooltipText} />
     </AppIconRRLink>
   );
 }
@@ -122,7 +122,7 @@ function GlobalNav(props: GlobalNavProps) {
                   <AppIconWrapper>
                     <AppIconNativeLink href={p.login_url} className={isCurrentApp ? 'active' : ''}>
                       {/* @ts-ignore*/}
-                      <Icon alt={p.name} height={16} width={16} />
+                      <Icon alt={p.name} />
                     </AppIconNativeLink>
                   </AppIconWrapper>
                 </Tooltip>
