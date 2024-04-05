@@ -6,6 +6,8 @@ import { type Product } from '~/contexts/orfium-products';
 import AdminIcon from '../../../../assets/admin_icon.svg';
 import Logo from '../../../../assets/orfium_logo.svg';
 import BillingIcon from '../../../../assets/products/billing_icon.svg';
+import MatchingIcon from '../../../../assets/products/matching_icon.svg';
+import RCIcon from '../../../../assets/products/rights_cloud_con.svg';
 import STIcon from '../../../../assets/products/sync_tracker_icon.svg';
 import {
   AppIconNativeLink,
@@ -20,6 +22,8 @@ import {
 const productIconsDict: Record<string, () => ReactElement> = {
   earnings: BillingIcon,
   'sync-tracker': STIcon,
+  'rights-cloud': RCIcon,
+  'matching-app': MatchingIcon,
 };
 
 type GlobalNavLinkProps = {
