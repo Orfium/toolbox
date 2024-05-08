@@ -1,6 +1,6 @@
 import { ExpandCollapse, Icon, Theme, useTypeColorToColorMatch } from '@orfium/ictinus';
 import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types';
-import { BASE_SHADE } from '@orfium/ictinus/dist/theme/palette';
+import { BASE_SHADE } from '@orfium/ictinus/dist/theme/palette.js';
 import React, { useMemo } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import FlippableArrow from '~/ui/FlippableArrow';

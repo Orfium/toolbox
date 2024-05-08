@@ -1,5 +1,5 @@
 import { List, useTheme } from '@orfium/ictinus';
-import { MenuPositionAllowed } from '@orfium/ictinus/dist/components/utils/DropdownOptions';
+import { MenuPositionAllowed } from '@orfium/ictinus/dist/components/utils/DropdownOptions/index.js';
 import { ReactNode, useRef, useState } from 'react';
 import { useClickAwayListener } from '~/hooks/useClickAwayListener';
 import FlippableArrow from '~/ui/FlippableArrow';
