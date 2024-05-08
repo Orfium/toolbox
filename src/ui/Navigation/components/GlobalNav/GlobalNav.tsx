@@ -45,6 +45,7 @@ function GlobalNavLink(props: GlobalNavLinkProps) {
 
   return (
     <AppIconRRLink
+      data-testid={'toolbox-admin-button'}
       theme={theme}
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -119,12 +120,20 @@ function GlobalNav(props: GlobalNavProps) {
               const isCurrentApp = p.client_metadata.product_code === config.productCode;
               const Icon = productIconsDict[p.client_metadata.product_code];
 
+              // TODO: We could be using the provided `p.icon_url` and not have to keep our own
+              //   dictionary of product codes and icons, but that would need changes on the CSP side
+              //   of things, cause otherwise the resources get blocked
+
               return (
                 <Tooltip key={p.client_id} content={p.name} placement={'right'}>
                   {/* App icon wrapper is needed to add extra distance between the icon and the tooltip */}
                   {/* since the tooltip cannot adjust its distance from the trigger element */}
                   <AppIconWrapper>
-                    <AppIconNativeLink href={p.login_url} className={isCurrentApp ? 'active' : ''}>
+                    <AppIconNativeLink
+                      data-testid={p.client_metadata.product_code}
+                      href={p.login_url}
+                      className={isCurrentApp ? 'active' : ''}
+                    >
                       {/* @ts-ignore*/}
                       <Icon alt={p.name} />
                     </AppIconNativeLink>
