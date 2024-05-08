@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Theme } from '@orfium/ictinus';
-import { getFocus } from '@orfium/ictinus/dist/theme/states';
+import { getFocus } from '@orfium/ictinus/dist/theme/states/index.js';
 import { rem } from 'polished';
 
 const AVATAR_SIZE_COLLAPSED = 36;

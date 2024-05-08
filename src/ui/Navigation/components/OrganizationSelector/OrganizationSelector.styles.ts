@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import {
   MenuPositionAllowed,
   optionsStyle,
-} from '@orfium/ictinus/dist/components/utils/DropdownOptions';
+} from '@orfium/ictinus/dist/components/utils/DropdownOptions/index.js';
 import { rem } from 'polished';
 
 export const Wrapper = styled.div`
