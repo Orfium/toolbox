@@ -130,7 +130,7 @@ function GlobalNav(props: GlobalNavProps) {
                   {/* since the tooltip cannot adjust its distance from the trigger element */}
                   <AppIconWrapper>
                     <AppIconNativeLink
-                      data-testid={p.client_metadata.product_code}
+                      data-testid={`${p.client_metadata.product_code}-app`}
                       href={p.login_url}
                       className={isCurrentApp ? 'active' : ''}
                     >
