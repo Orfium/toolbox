@@ -8,6 +8,7 @@ export default [
       {
         dir: 'dist/cjs',
         format: 'cjs',
+        entryFileNames: '[name].cjs',
         preserveModules: true,
         preserveModulesRoot: 'src',
       },
