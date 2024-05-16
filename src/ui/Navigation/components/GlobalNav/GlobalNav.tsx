@@ -118,7 +118,14 @@ function GlobalNav(props: GlobalNavProps) {
         {orfiumProducts
           ? orfiumProducts.map((p) => {
               const isCurrentApp = p.client_metadata.product_code === config.productCode;
-              const Icon = productIconsDict[p.client_metadata.product_code];
+              const Icon: (() => ReactElement) | undefined =
+                productIconsDict[p.client_metadata.product_code];
+
+              if (!Icon) {
+                console.warn('Unknown product code: ', p.client_metadata.product_code);
+
+                return null;
+              }
 
               // TODO: We could be using the provided `p.icon_url` and not have to keep our own
               //   dictionary of product codes and icons, but that would need changes on the CSP side
