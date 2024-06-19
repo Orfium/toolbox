@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 import { config } from '~/config';
 import { type Product } from '~/contexts/orfium-products';
 import AdminIcon from '../../../../assets/admin_icon.svg';
-import Logo from '../../../../assets/orfium_logo.svg';
 import BillingIcon from '../../../../assets/products/billing_icon.svg';
 import MatchingIcon from '../../../../assets/products/matching_icon.svg';
 import RCIcon from '../../../../assets/products/rights_cloud_con.svg';
@@ -100,24 +99,24 @@ function GlobalNav(props: GlobalNavProps) {
   return (
     <Wrapper theme={theme} data-testid={'global-navigation'}>
       <SingleIconContainer>
-        {isDesktop ? (
-          <Logo alt={'Orfium logo'} height={28} width={28} />
-        ) : (
-          <BurgerButton
-            theme={theme}
-            onClick={() => {
-              setExpanded((state) => !state);
-            }}
-            data-testid={'menu-handler'}
-          >
-            <Icon color={'primary'} name={'menu'} size={24} />
-          </BurgerButton>
-        )}
+        {/*{isDesktop ? (*/}
+        {/*  <Logo alt={'Orfium logo'} height={28} width={28} />*/}
+        {/*) : (*/}
+        <BurgerButton
+          theme={theme}
+          onClick={() => {
+            setExpanded((state) => !state);
+          }}
+          data-testid={'menu-handler'}
+        >
+          <Icon color={'primary'} name={'menu'} size={24} />
+        </BurgerButton>
+        {/*)}*/}
       </SingleIconContainer>
       <IconsContainer theme={theme}>
         {orfiumProducts
           ? orfiumProducts.map((p) => {
-              const isCurrentApp = p.client_metadata.product_code === config.productCode;
+              const isCurrentApp = !adminNavigationIsActive && p.client_metadata.product_code === config.productCode;
               const Icon: (() => ReactElement) | undefined =
                 productIconsDict[p.client_metadata.product_code];
 
@@ -152,7 +151,7 @@ function GlobalNav(props: GlobalNavProps) {
       </IconsContainer>
       {enableAdminMode ? (
         <SingleIconContainer>
-          <Tooltip content={adminButtonTooltipText} placement={'right'}>
+          <Tooltip content={adminButtonTooltipText || ''} placement={'right'}>
             <AppIconWrapper>
               <GlobalNavLink
                 theme={theme}

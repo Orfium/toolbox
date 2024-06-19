@@ -9,7 +9,7 @@ import { getGlobalNavWidth } from '~/ui/Navigation/common.styles';
 export const Wrapper = styled.div`
   width: ${({ theme }) => getGlobalNavWidth(theme)};
   display: flex;
-  flex-basis: calc(7 * ${({ theme }) => `${theme.spacing.sm}`}); // 56px
+  flex-basis: calc(7 * ${({ theme }) => `${theme.globals.spacing.get("4")}`}); // 56px
   flex-direction: column;
   flex-shrink: 0;
   background-color: #151447;
@@ -33,8 +33,8 @@ export const IconsContainer = styled.div`
   flex-direction: column;
   flex: 1;
   align-items: center;
-  padding: ${({ theme }) => `${theme.spacing.sm} 0`};
-  gap: ${({ theme }) => `${theme.spacing.md} 0`};
+  padding: ${({ theme }) => `${theme.globals.spacing.get("4")} 0`};
+  gap: ${({ theme }) => `${theme.globals.spacing.get("6")} 0`};
 `;
 
 export const AppIconWrapper = styled.div`
@@ -47,8 +47,8 @@ export const AppIconWrapper = styled.div`
 export const AppIcon = (theme: Theme) => css`
   background-color: #ffffff10;
   border-radius: 4px;
-  height: ${theme.spacing.xl};
-  width: ${theme.spacing.xl};
+  height: ${theme.globals.spacing.get("9")};
+  width: ${theme.globals.spacing.get("9")};
   display: flex;
   align-items: center;
   justify-content: center;

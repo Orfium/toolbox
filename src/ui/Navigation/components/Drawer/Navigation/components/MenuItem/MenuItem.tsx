@@ -1,6 +1,4 @@
-import { ExpandCollapse, Icon, Theme, useTypeColorToColorMatch } from '@orfium/ictinus';
-import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types';
-import { BASE_SHADE } from '@orfium/ictinus/dist/theme/palette.js';
+import { AcceptedIconNames, ExpandCollapse, Icon, Theme } from '@orfium/ictinus';
 import React, { useMemo } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import FlippableArrow from '~/ui/FlippableArrow';
@@ -30,9 +28,7 @@ function MenuItemContent(props: {
 }) {
   const { theme, item, expanded = false, isSubMenu = false } = props;
   const match = useRouteMatch(item.url);
-  const { calculateColorBetweenColorAndType } = useTypeColorToColorMatch();
 
-  const { shade } = calculateColorBetweenColorAndType('', 'primary');
   const isCurrent = !!match;
   const hasSubMenus = item.children && item.children.length > 0;
   const color = isCurrent
@@ -44,18 +40,14 @@ function MenuItemContent(props: {
   return (
     <React.Fragment>
       <MenuIcon theme={theme} hidden={isSubMenu ? (isCurrent ? false : true) : false}>
-        {isSubMenu ? (
-          <Bullet color={color} />
-        ) : (
-          <Icon name={iconName} color={color} size={16} variant={isCurrent ? shade : BASE_SHADE} />
-        )}
+        {isSubMenu ? <Bullet color={color} /> : <Icon name={iconName} color={color} size={16} />}
       </MenuIcon>
       <MenuItemText theme={theme} color={color} className={'menu-item-text'}>
         {item.text}
       </MenuItemText>
       {hasSubMenus ? (
         <ArrowContainer theme={theme} open={expanded}>
-          <FlippableArrow expanded={expanded} color={color} size={10} />
+          <FlippableArrow expanded={expanded} color={color} size={18} />
         </ArrowContainer>
       ) : null}
     </React.Fragment>
@@ -76,7 +68,8 @@ export function ExpandableMenuItem(props: MenuItemProps) {
   return (
     <ExpandCollapseWrapper theme={theme} matched={!!match}>
       <ExpandCollapse
-        expanded={expanded}
+        // @ts-ignore
+        isExpanded={expanded}
         onChange={() => setExpanded((state) => !state)}
         textAndControl={(handleClick) => {
           return (

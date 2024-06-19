@@ -6,6 +6,9 @@ module.exports = {
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
+  transformIgnorePatterns: [
+    '<rootDir>/node_modules/(?!lodash-es)'
+  ],
   moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx'],
   moduleDirectories: ['<rootDir>/src', 'node_modules'],
   moduleNameMapper: {
@@ -13,6 +16,7 @@ module.exports = {
     '\\.svg$': '<rootDir>/__mocks__/fileMock.tsx',
     '~/(.*)': '<rootDir>/src/$1',
     '__mocks__/(.*)': '<rootDir>/__mocks__/$1',
+    "^lodash-es$": "lodash"
   },
   setupFilesAfterEnv: [`<rootDir>/setup-jest.ts`],
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.stories.{ts,tsx,js,jsx,mdx,md}'],

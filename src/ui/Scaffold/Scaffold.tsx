@@ -1,5 +1,5 @@
 import { Global } from '@emotion/react';
-import { Loader, useTheme } from '@orfium/ictinus';
+import { ProgressIndicator, useTheme } from '@orfium/ictinus';
 import { type ReactElement, type ReactNode } from 'react';
 import { _useContentLoadingIndicator } from '~/hooks/useContentLoadingIndicator';
 import { ContentLoadingIndicator } from '~/providers/ContentLoadingIndicator';
@@ -31,7 +31,7 @@ function ScaffoldInternal(props: ScaffoldProps) {
       <Header>
         {loadingIndicator ? (
           <LoadingBarWrapper>
-            <Loader type={'indeterminate'} />
+            <ProgressIndicator type={'linear'} />
           </LoadingBarWrapper>
         ) : null}
         {headerSlot}

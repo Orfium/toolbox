@@ -31,3 +31,6 @@ yarn-error.log*
 .vscode/
 
 /typeDocs
+.yalc
+/yalc.lock
+/rollup.config-1715595703115.mjs

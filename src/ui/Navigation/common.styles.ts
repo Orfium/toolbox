@@ -1,20 +1,18 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Theme } from '@orfium/ictinus';
-import { flexCenter, transition } from '@orfium/ictinus/dist/theme/functions.js';
-import { getFocus } from '@orfium/ictinus/dist/theme/states/index.js';
+import { Theme, flexCenter, transition } from '@orfium/ictinus';
 import { rem } from 'polished';
 
 export function getGlobalNavWidth(theme: Theme) {
-  return `calc(7 * ${theme.spacing.sm})`; // 56px
+  return `calc(7 * ${theme.globals.spacing.get('4')})`; // 56px
 }
 
 export const menuItemStyle = (theme: Theme) => css`
   height: ${rem(44)};
   color: ${theme.utils.getColor('darkGrey', 850)};
-  font-size: ${theme.typography.fontSizes['14']};
-  font-weight: ${theme.typography.weights.medium};
-  padding: 0 ${theme.spacing.sm};
+  font-size: ${theme.globals.typography.fontSize.get('3')};
+  font-weight: ${theme.globals.typography.fontWeight.get('medium')};
+  padding: 0 ${theme.globals.spacing.get('4')};
   border: 0 solid transparent;
   display: flex;
   justify-content: flex-start;
@@ -39,7 +37,8 @@ export const menuItemStyle = (theme: Theme) => css`
   }
 
   &:focus-visible {
-    outline: ${getFocus({ theme }).styleOutline};
+    // @TODO fix this
+    outline: #c813d5 auto 0.0625rem;
   }
 `;
 
@@ -47,7 +46,7 @@ export const MenuIcon = styled.div<{ hidden?: boolean }>`
   position: relative;
   ${transition(0.2)};
   ${flexCenter};
-  margin-right: ${({ theme }) => theme.spacing.sm};
+  margin-right: ${({ theme }) => theme.globals.spacing.get('4')};
   width: ${rem(32)};
   height: ${rem(32)};
   border-radius: 50%;

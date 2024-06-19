@@ -17,7 +17,7 @@ export const LoadingContent = styled.div`
   display: flex;
   align-items: center;
   column-gap: ${rem(10)};
-  font-size: ${({ theme }) => theme.typography.fontSizes['16']};
+  font-size: ${({ theme }) => theme.globals.typography.fontSize.get("4")};
 `;
 
 export const Box = styled.div`

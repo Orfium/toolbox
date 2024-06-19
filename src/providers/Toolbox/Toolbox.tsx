@@ -1,4 +1,4 @@
-import { Button, Loader } from '@orfium/ictinus';
+import { Button, ProgressIndicator } from '@orfium/ictinus';
 import * as Sentry from '@sentry/browser';
 import dayjs from 'dayjs';
 import { ReactNode, useEffect } from 'react';
@@ -107,7 +107,7 @@ function AuthenticationWrapper({ children }: { children: ReactNode }) {
     return (
       <Wrapper data-testid={'orfium-auth-loading'}>
         <LoadingContent>
-          Loading... <Loader type={'spinner'} />
+          Loading... <ProgressIndicator type={'circular'} />
         </LoadingContent>
       </Wrapper>
     );
@@ -121,7 +121,7 @@ function AuthenticationWrapper({ children }: { children: ReactNode }) {
         <Box>
           <div>OR</div>
         </Box>
-        <Button onClick={logout} type={'primary'}>
+        <Button onClick={logout} htmlType={'primary'}>
           Logout
         </Button>
       </Wrapper>
@@ -136,7 +136,7 @@ function AuthenticationWrapper({ children }: { children: ReactNode }) {
         <Box>
           <div>OR</div>
         </Box>
-        <Button onClick={logout} type={'primary'}>
+        <Button onClick={logout} htmlType={'primary'}>
           Logout
         </Button>
       </Wrapper>

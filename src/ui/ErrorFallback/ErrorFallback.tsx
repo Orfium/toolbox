@@ -1,8 +1,7 @@
-import { Button } from '@orfium/ictinus';
+import { Box, Button } from '@orfium/ictinus';
 //* using logoutAuth because error fallback is outside of providers */
 import { logoutAuth } from '~/utils/auth';
 import {
-  Box,
   ContentWrapper,
   ErrorContainer,
   ErrorCover,
@@ -25,16 +24,16 @@ const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
             </div>
           </Box>
 
-          <Box>
-            <Button onClick={resetErrorBoundary} type={'primary'}>
+          <Box justifyContent={'center'} display={'flex'} m={'7'}>
+            <Button onClick={resetErrorBoundary} htmlType={'primary'}>
               Try again
             </Button>
           </Box>
 
           <div>OR</div>
 
-          <Box>
-            <Button onClick={logoutAuth} type={'link'}>
+          <Box justifyContent={'center'} display={'flex'} m={'7'}>
+            <Button onClick={logoutAuth} htmlType={'link'}>
               Logout
             </Button>
           </Box>
