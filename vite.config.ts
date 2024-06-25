@@ -3,6 +3,7 @@
 import path from 'path';
 
 import react from '@vitejs/plugin-react';
+import { exec } from 'node:child_process';
 import { defineConfig, loadEnv } from 'vite';
 import dts from 'vite-plugin-dts';
 import svgr from 'vite-plugin-svgr';
@@ -14,6 +15,19 @@ import pkg from './package.json';
 
 const regexesOfPackages = (externalPackages = []) =>
   externalPackages.map((packageName) => new RegExp(`^${packageName}(/.*)?`));
+
+const viteOnBuildSuccess = () => {
+  return {
+    name: 'vite:on-build-success',
+    apply: 'build',
+    buildEnd: async () => {
+      exec('yarn yalc:push --no-scripts', (_, output, err) => {
+        if (output) console.log(output);
+        if (err) console.log(err);
+      });
+    },
+  };
+};
 
 const plugins = [
   react({
@@ -44,8 +58,11 @@ export default defineConfig(({ mode }) => {
       'process.env.STORYBOOK_ENV': JSON.stringify(env.STORYBOOK_ENV),
       'process.env.PORT': JSON.stringify(env.PORT),
     },
-    plugins,
+    plugins: mode === 'watch' ? [...plugins, viteOnBuildSuccess()] : plugins,
     build: {
+      watch: {
+        include: 'src/**',
+      },
       lib: {
         entry: path.resolve(__dirname, 'src/index.ts'),
         name: pkg.name,
