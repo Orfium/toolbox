@@ -1,13 +1,13 @@
 import { Icon, Tooltip, type Theme } from '@orfium/ictinus';
-import { memo, type Dispatch, type ReactElement, type SetStateAction } from 'react';
+import { FunctionComponent, memo, type Dispatch, type SetStateAction } from 'react';
 import { useLocation } from 'react-router-dom';
 import { config } from '~/config';
 import { type Product } from '~/contexts/orfium-products';
-import AdminIcon from '../../../../assets/admin_icon.svg';
-import BillingIcon from '../../../../assets/products/billing_icon.svg';
-import MatchingIcon from '../../../../assets/products/matching_icon.svg';
-import RCIcon from '../../../../assets/products/rights_cloud_con.svg';
-import STIcon from '../../../../assets/products/sync_tracker_icon.svg';
+import AdminIcon from '../../../../assets/admin_icon.svg?react';
+import BillingIcon from '../../../../assets/products/billing_icon.svg?react';
+import MatchingIcon from '../../../../assets/products/matching_icon.svg?react';
+import RCIcon from '../../../../assets/products/rights_cloud_con.svg?react';
+import STIcon from '../../../../assets/products/sync_tracker_icon.svg?react';
 import {
   AppIconNativeLink,
   AppIconRRLink,
@@ -18,7 +18,7 @@ import {
   Wrapper,
 } from './GlobalNav.styles';
 
-const productIconsDict: Record<string, () => ReactElement> = {
+const productIconsDict: Record<string, FunctionComponent> = {
   earnings: BillingIcon,
   'sync-tracker': STIcon,
   'rights-cloud': RCIcon,
@@ -43,6 +43,7 @@ function GlobalNavLink(props: GlobalNavLinkProps) {
   } | null>();
 
   return (
+    // @ts-ignore @TODO migrate to abstract routing methodology
     <AppIconRRLink
       data-testid={'toolbox-admin-button'}
       theme={theme}
@@ -87,7 +88,6 @@ export type GlobalNavProps = {
 function GlobalNav(props: GlobalNavProps) {
   const {
     theme,
-    isDesktop,
     setExpanded,
     orfiumProducts,
     adminNavigationIsActive,
@@ -116,8 +116,9 @@ function GlobalNav(props: GlobalNavProps) {
       <IconsContainer theme={theme}>
         {orfiumProducts
           ? orfiumProducts.map((p) => {
-              const isCurrentApp = !adminNavigationIsActive && p.client_metadata.product_code === config.productCode;
-              const Icon: (() => ReactElement) | undefined =
+              const isCurrentApp =
+                !adminNavigationIsActive && p.client_metadata.product_code === config.productCode;
+              const Icon: React.FunctionComponent<{ alt?: string }> =
                 productIconsDict[p.client_metadata.product_code];
 
               if (!Icon) {
@@ -140,7 +141,6 @@ function GlobalNav(props: GlobalNavProps) {
                       href={p.login_url}
                       className={isCurrentApp ? 'active' : ''}
                     >
-                      {/* @ts-ignore*/}
                       <Icon alt={p.name} />
                     </AppIconNativeLink>
                   </AppIconWrapper>

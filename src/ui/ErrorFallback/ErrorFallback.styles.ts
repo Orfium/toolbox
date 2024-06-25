@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { rem } from 'polished';
-import ErrorCoverImg from '../../assets/error_cover.svg';
+import ErrorCoverImg from '../../assets/error_cover.svg?react';
 
 export const ErrorCover = styled(ErrorCoverImg)`
   margin: ${rem(30)};
