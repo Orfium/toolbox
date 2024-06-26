@@ -60,9 +60,12 @@ export default defineConfig(({ mode }) => {
     },
     plugins: mode === 'watch' ? [...plugins, viteOnBuildSuccess()] : plugins,
     build: {
-      watch: {
-        include: 'src/**',
-      },
+      watch:
+        mode === 'watch'
+          ? {
+              include: 'src/**',
+            }
+          : undefined,
       lib: {
         entry: path.resolve(__dirname, 'src/index.ts'),
         name: pkg.name,
