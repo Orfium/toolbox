@@ -75,13 +75,13 @@ function AuthenticationWrapper({ children }: { children: ReactNode }) {
         const data = await requestInstance.request();
 
         setOrganizations(data);
-        if (response?.decodedToken?.org_id) {
+        if (response && response?.decodedToken?.org_id) {
           const orgData = data.find((org) => org.org_id === response.decodedToken.org_id);
           setSelectedOrganization(orgData ? orgData.org_id : data[0]?.org_id || undefined);
         }
         // if token doesn't have an organization and the user has available organizations
         // set continue and set one
-        else if (!response?.decodedToken?.org_id && data?.length) {
+        else if (response && !response?.decodedToken?.org_id && data?.length) {
           // IMPORTANT - when we are using `useRefreshTokens` and `cacheLocation` on Auth0 we can fetch just a token with organization through `getTokenSilently`
           // we must use loginWithRedirect in that case thus this is happening here
           // https://auth0.com/docs/secure/tokens/refresh-tokens/use-refresh-token-rotation
@@ -121,7 +121,7 @@ function AuthenticationWrapper({ children }: { children: ReactNode }) {
         <Box>
           <div>OR</div>
         </Box>
-        <Button onClick={logout} htmlType={'primary'}>
+        <Button onClick={() => logout()} type={'primary'}>
           Logout
         </Button>
       </Wrapper>
@@ -136,7 +136,7 @@ function AuthenticationWrapper({ children }: { children: ReactNode }) {
         <Box>
           <div>OR</div>
         </Box>
-        <Button onClick={logout} htmlType={'primary'}>
+        <Button onClick={() => logout()} type={'primary'}>
           Logout
         </Button>
       </Wrapper>

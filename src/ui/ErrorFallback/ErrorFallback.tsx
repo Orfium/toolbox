@@ -25,7 +25,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
           </Box>
 
           <Box justifyContent={'center'} display={'flex'} m={'7'}>
-            <Button onClick={resetErrorBoundary} htmlType={'primary'}>
+            <Button onClick={resetErrorBoundary} type={'primary'}>
               Try again
             </Button>
           </Box>
@@ -33,7 +33,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
           <div>OR</div>
 
           <Box justifyContent={'center'} display={'flex'} m={'7'}>
-            <Button onClick={logoutAuth} htmlType={'link'}>
+            <Button onClick={() => logoutAuth()} type={'tertiary'}>
               Logout
             </Button>
           </Box>

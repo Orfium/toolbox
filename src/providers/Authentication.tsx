@@ -88,7 +88,9 @@ export function Authentication({ children }: AuthenticationProps) {
           setUser(clientUser);
 
           const decodedTokenResponse = await getAccessTokenSilently();
-          setPermissions(decodedTokenResponse?.decodedToken.permissions || []);
+          setPermissions(
+            decodedTokenResponse ? decodedTokenResponse?.decodedToken.permissions : []
+          );
         }
 
         setIsLoading(false);

@@ -1,15 +1,15 @@
+import { Mock } from 'vitest';
 import { getAuth0Client } from '~/utils/auth';
 
 describe('Auth0Client Errors Tests', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('getAuth0Client failed process', async () => {
     expect.assertions(1);
 
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require('@auth0/auth0-spa-js').Auth0Client.mockImplementation(() => {
+    ((await vi.importMock('@auth0/auth0-spa-js')).Auth0Client as Mock).mockImplementation(() => {
       throw new Error();
     });
 

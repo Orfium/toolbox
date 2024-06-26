@@ -4,8 +4,6 @@ import { Router } from 'react-router-dom';
 
 import { generateRoutes, RoutingStructure } from '~/routing/Routing';
 
-import '@testing-library/jest-dom';
-
 const structure: RoutingStructure = {
   fallbackPaths: {
     unauthorized: '/unauthorized-redirect',

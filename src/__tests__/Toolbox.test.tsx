@@ -1,4 +1,3 @@
-import { Auth0Client } from '@auth0/auth0-spa-js';
 import { ThemeProvider } from '@orfium/ictinus';
 import { cleanup, render, waitFor } from '@testing-library/react';
 import { getNewFakeToken } from '__mocks__/@auth0/auth0-spa-js';
@@ -7,7 +6,16 @@ import { Toolbox } from '~/providers';
 import { Authentication } from '~/providers/Authentication';
 import { orfiumIdBaseInstance } from '~/request';
 import MockRequest from '~/request/mock';
-const clientMock = jest.mocked(new Auth0Client({ clientId: '', domain: '' }));
+import { customRender } from '~/testing/utils';
+const clientMock = vi.mocked(
+  (
+    (await vi.importMock('@auth0/auth0-spa-js')) as { Auth0Client: (props: any) => any }
+  ).Auth0Client({
+    clientId: '',
+    domain: '',
+  })
+);
+
 const TestComp = () => {
   return <div data-testid={'test'}>Test</div>;
 };
@@ -21,7 +29,7 @@ describe('Authentication: ', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     cleanup();
   });
 
@@ -35,14 +43,14 @@ describe('Authentication: ', () => {
 
   it('renders the test component', async () => {
     clientMock.getTokenSilently.mockResolvedValue(getNewFakeToken());
-    jest.mock('../store/useUser', () => ({
-      __esModule: true,
-      default: {
-        user: {},
-      },
-    }));
-    clientMock.isAuthenticated.mockResolvedValue(true);
-    clientMock.getUser.mockResolvedValue({
+    // vi.mock('../store/useUser', () => ({
+    //   __esModule: true,
+    //   default: {
+    //     user: {},
+    //   },
+    // }));
+    clientMock.isAuthenticated.mockResolvedValueOnce(true);
+    clientMock.getUser.mockResolvedValueOnce({
       name: 'John Doe',
       updated_at: new Date().toDateString(),
     });
@@ -90,7 +98,7 @@ describe('Authentication: ', () => {
     });
 
     it('renders the loading while its authenticating', async () => {
-      const { findByTestId } = render(
+      const { findByTestId } = customRender(
         <ThemeProvider>
           <Toolbox>
             <TestComp />
@@ -101,7 +109,7 @@ describe('Authentication: ', () => {
     });
 
     it('renders the no organization message when it should', async () => {
-      const { findByTestId } = render(
+      const { findByTestId } = customRender(
         <ThemeProvider>
           <Toolbox>
             <TestComp />
