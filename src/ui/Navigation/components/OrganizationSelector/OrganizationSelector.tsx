@@ -1,5 +1,5 @@
 import { ListItem, ListItemText, Menu, useTheme } from '@orfium/ictinus';
-import { ReactNode, useRef, useState } from 'react';
+import { MouseEventHandler, ReactNode, useRef, useState } from 'react';
 import FlippableArrow from '~/ui/FlippableArrow';
 import {
   Button,
@@ -42,8 +42,8 @@ function OrganizationSelector(props: Props & TestProps) {
   } = props;
   const [open, setOpen] = useState(false);
   const btnRef = useRef(null);
-  const handleBtnClick = (e: any) => {
-    e?.preventDefault && e?.preventDefault();
+  const handleBtnClick: MouseEventHandler = (e) => {
+    e?.preventDefault();
     setOpen((state) => !state);
   };
   const theme = useTheme();

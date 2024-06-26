@@ -7,7 +7,7 @@ import {
   MenuItemDivider,
   useTheme,
 } from '@orfium/ictinus';
-import { useRef, useState } from 'react';
+import { MouseEventHandler, useRef, useState } from 'react';
 import { useAuthentication } from '~/hooks/useAuthentication';
 import { LogoutButton, MenuItem } from '~/ui/TopBar/components/FancyUserMenu/UserMenu.styles';
 import { AvatarButton, Email, Header, Tag, Username, UsernameWrapper } from './UserMenu.styles';
@@ -25,8 +25,8 @@ function UserMenu(props: UserMenuProps) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const btnRef = useRef(null);
-  const handleBtnClick = (e: any) => {
-    e?.preventDefault && e?.preventDefault();
+  const handleBtnClick: MouseEventHandler = (e) => {
+    e?.preventDefault();
     setOpen((state) => !state);
   };
 
