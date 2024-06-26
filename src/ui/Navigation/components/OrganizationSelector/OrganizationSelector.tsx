@@ -43,7 +43,6 @@ function OrganizationSelector(props: Props & TestProps) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef(null);
   const handleBtnClick: MouseEventHandler = (e) => {
-    e?.preventDefault();
     setOpen((state) => !state);
   };
   const theme = useTheme();

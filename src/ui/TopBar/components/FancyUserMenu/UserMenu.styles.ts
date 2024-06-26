@@ -179,8 +179,7 @@ export const SecondarySection = styled.div`
   padding-top: ${({ theme }) => theme.globals.spacing.get('6')};
 `;
 
-export const LogoutButton = styled.button`
-  border: none;
+export const LogoutButton = styled.div`
   width: 100%;
   ${({ theme }) => menuItemStyles(theme)};
 `;
