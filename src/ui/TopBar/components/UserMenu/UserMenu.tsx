@@ -2,6 +2,7 @@ import {
   AcceptedIconNames,
   Icon,
   ListItem,
+  ListItemAction,
   ListItemText,
   Menu,
   MenuItemDivider,
@@ -26,7 +27,6 @@ function UserMenu(props: UserMenuProps) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef(null);
   const handleBtnClick: MouseEventHandler = (e) => {
-    e?.preventDefault();
     setOpen((state) => !state);
   };
 
@@ -37,7 +37,16 @@ function UserMenu(props: UserMenuProps) {
       </AvatarButton>
       {/*
       // @ts-ignore */}
-      <Menu triggerRef={btnRef} isOpen={open} onClose={handleBtnClick}>
+      <Menu
+        triggerRef={btnRef}
+        isOpen={open}
+        onClose={handleBtnClick}
+        onAction={(action) => {
+          if (action === 'logout') {
+            logout();
+          }
+        }}
+      >
         <ListItem key={'copy'} textValue={'copy'} parentType={'Menu'}>
           <ListItemText>
             <Header theme={theme} data-menu-header>
@@ -84,11 +93,11 @@ function UserMenu(props: UserMenuProps) {
           );
         })}
         <ListItem key={'logout'} textValue={'logout'} parentType={'Menu'}>
-          <ListItemText>
-            <LogoutButton theme={theme} onClick={() => logout()} tabIndex={open ? 0 : -1}>
+          <ListItemAction>
+            <LogoutButton theme={theme}>
               <span>Log out</span>
             </LogoutButton>
-          </ListItemText>
+          </ListItemAction>
         </ListItem>
       </Menu>
       {/*<MenuOuterWrapper*/}
