@@ -22,14 +22,14 @@ export const Header = styled.header`
   z-index: 100;
   position: sticky;
   top: 0;
-  padding: 0 ${({ theme }) => theme.spacing.md};
+  padding: 0 ${({ theme }) => theme.globals.spacing.get("6")};
   ${({ theme }) => backGround(theme)};
 `;
 
 export const Contents = styled.main`
   grid-area: main;
   position: relative;
-  padding: ${({ theme }) => `0 ${theme.spacing.md} ${theme.spacing.lg}`};
+  padding: ${({ theme }) => `0 ${theme.globals.spacing.get("6")} ${theme.globals.spacing.get("8")}`};
   overflow: auto;
 `;
 

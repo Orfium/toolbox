@@ -1,4 +1,4 @@
-import { AcceptedIconNames } from '@orfium/ictinus/dist/components/Icon/types';
+import { AcceptedIconNames } from "@orfium/ictinus";
 import { Optional } from '~/utils/types';
 
 export type MenuItem = {

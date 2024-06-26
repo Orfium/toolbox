@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Theme } from '@orfium/ictinus';
-import { getFocus } from '@orfium/ictinus/dist/theme/states/index.js';
 import { rem } from 'polished';
 
 const AVATAR_SIZE_COLLAPSED = 36;
@@ -19,9 +18,9 @@ export const MenuOuterWrapper = styled.div`
   --min-height: ${rem(AVATAR_SIZE_COLLAPSED)};
   border: ${rem(1)} solid ${({ theme }) => theme.utils.getColor('lightGrey', 200)};
   border-radius: ${rem(8)};
-  box-shadow: ${({ theme }) => theme.elevation['04']};
+  box-shadow: ${({ theme }) => theme.globals.elevation['04']};
   background-color: #fff;
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.globals.spacing.get('6')};
   transition: padding 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease,
     border-color 0.25s ease, width 0.25s ease, height 0.25s ease;
   width: var(--max-width);
@@ -52,7 +51,8 @@ export const MenuOuterWrapper = styled.div`
     cursor: pointer;
 
     &:focus-visible {
-      outline: ${({ theme }) => getFocus({ theme }).styleOutline};
+      // @TODO fix this
+      outline: #c813d5 auto 0.0625rem;
     }
 
     [data-menu-header] {
@@ -71,13 +71,13 @@ export const MenuInnerWrapper = styled.div`
   min-width: ${rem(310)};
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: ${({ theme }) => theme.globals.spacing.get('6')};
 `;
 
 export const Header = styled.div`
   display: flex;
-  gap: ${({ theme }) => theme.spacing.sm};
-  padding: 0 ${({ theme }) => theme.spacing.sm};
+  gap: ${({ theme }) => theme.globals.spacing.get('4')};
+  padding: 0 ${({ theme }) => theme.globals.spacing.get('4')};
   align-items: center;
 
   > img {
@@ -108,9 +108,9 @@ export const UsernameWrapper = styled.div`
 `;
 
 export const Tag = styled.span`
-  font-size: ${({ theme }) => theme.typography.fontSizes[12]};
-  font-weight: ${({ theme }) => theme.typography.weights.medium};
-  padding: ${({ theme }) => theme.spacing.xsm};
+  font-size: ${({ theme }) => theme.globals.typography.fontSize.get('2')};
+  font-weight: ${({ theme }) => theme.globals.typography.fontWeight.get('medium')};
+  padding: ${({ theme }) => theme.globals.spacing.get('3')};
   background-color: ${({ theme }) => theme.utils.getColor('blue', 100)};
   color: ${({ theme }) => theme.utils.getColor('blue', 600)};
   border-radius: ${rem(2)};
@@ -118,14 +118,14 @@ export const Tag = styled.span`
 `;
 
 export const Username = styled.div`
-  font-weight: ${({ theme }) => theme.typography.weights.bold};
-  font-size: ${({ theme }) => theme.typography.fontSizes['18']};
+  font-weight: ${({ theme }) => theme.globals.typography.fontWeight.get('bold')};
+  font-size: ${({ theme }) => theme.globals.typography.fontSize.get('5')};
 `;
 
 export const Email = styled.div`
   color: ${({ theme }) => theme.utils.getColor('lightGrey', 650)};
-  font-weight: ${({ theme }) => theme.typography.weights.medium};
-  font-size: ${({ theme }) => theme.typography.fontSizes['12']};
+  font-weight: ${({ theme }) => theme.globals.typography.fontWeight.get('medium')};
+  font-size: ${({ theme }) => theme.globals.typography.fontSize.get('2')};
 `;
 
 const listColumn = css`
@@ -143,7 +143,7 @@ export const PrimarySection = styled.div`
 `;
 
 const menuItemStyles = (theme: Theme) => css`
-  padding: ${theme.spacing.md};
+  padding: ${theme.globals.spacing.get('6')};
   display: flex;
   justify-content: space-between;
   background-color: transparent;
@@ -163,7 +163,8 @@ const menuItemStyles = (theme: Theme) => css`
   }
 
   &:focus-visible {
-    outline: ${getFocus({ theme }).styleOutline};
+    // @TODO fix this
+    outline: #c813d5 auto 0.0625rem;
   }
 `;
 
@@ -175,7 +176,7 @@ export const MenuItem = styled.a`
 export const SecondarySection = styled.div`
   ${listColumn};
   border-top: 1px solid ${({ theme }) => theme.utils.getColor('lightGrey', 200)};
-  padding-top: ${({ theme }) => theme.spacing.md}};
+  padding-top: ${({ theme }) => theme.globals.spacing.get('6')};
 `;
 
 export const LogoutButton = styled.button`

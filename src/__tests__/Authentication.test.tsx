@@ -13,7 +13,6 @@ class CustomError extends Error {
 
 import { ErrorBoundary, useErrorHandler } from 'react-error-boundary';
 
-import { Auth0Client } from '@auth0/auth0-spa-js';
 import { FAKE_TOKEN, fakeTokenData, getNewFakeToken } from '__mocks__/@auth0/auth0-spa-js';
 import { defaultAuthenticationContextValues } from '~/contexts/authentication';
 import { useAuthentication } from '~/hooks';
@@ -24,7 +23,14 @@ import MockRequest from '~/request/mock';
 import useOrganization from '~/store/organizations';
 import useRequestToken from '~/store/requestToken';
 import { getTokenSilently, logoutAuth, onRedirectCallback } from '~/utils/auth';
-const clientMock = jest.mocked(new Auth0Client({ clientId: '', domain: '' }));
+const clientMock = vi.mocked(
+  (
+    (await vi.importMock('@auth0/auth0-spa-js')) as { Auth0Client: (props: any) => any }
+  ).Auth0Client({
+    clientId: '',
+    domain: '',
+  })
+);
 
 const TestingComponentSimple = () => {
   const { user, isAuthenticated, isLoading } = useAuthentication();
@@ -49,7 +55,7 @@ const TestingComponent = () => {
         try {
           const res = await getAccessTokenSilently();
 
-          if (res?.token) {
+          if (res && res?.token) {
             setResult(res.token);
           }
         } catch (err) {
@@ -77,7 +83,7 @@ describe('Context', () => {
   // let client;
 
   beforeEach(() => {
-    jest.resetModules();
+    vi.resetModules();
     // client = undefined;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -97,7 +103,7 @@ describe('Context', () => {
 
   afterEach(() => {
     // clear all mocks and mocked values
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     mock.reset();
@@ -311,7 +317,9 @@ describe('Context', () => {
         </ErrorBoundary>
       );
 
-      await waitFor(() => expect(clientMock.logout).toBeCalledTimes(1));
+      await waitFor(() => {
+        expect(clientMock.logout).toBeCalledTimes(1);
+      });
     });
 
     test('loginWithRedirect when access token fails and handle an error', async () => {

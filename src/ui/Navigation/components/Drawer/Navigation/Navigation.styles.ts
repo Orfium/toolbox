@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { transition } from '@orfium/ictinus/dist/theme/functions.js';
+import { transition } from "@orfium/ictinus";
 import { rem } from 'polished';
 
 export const NavigationContainer = styled.div<{ hasExtras: boolean }>`
@@ -9,9 +9,9 @@ export const NavigationContainer = styled.div<{ hasExtras: boolean }>`
   display: flex;
   flex-shrink: 0;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.sm};
+  gap: ${({ theme }) => theme.globals.spacing.get("4")};
   overflow: auto;
-  padding-bottom: ${({ theme }) => theme.spacing.lg};
+  padding-bottom: ${({ theme }) => theme.globals.spacing.get("8")};
   max-height: ${({ hasExtras }) => (hasExtras ? `calc(100% - ${rem(184)})` : '')};
 
   // handle scrolling
@@ -20,8 +20,8 @@ export const NavigationContainer = styled.div<{ hasExtras: boolean }>`
 
   //Stick the scrollbar to the edge
   box-sizing: border-box;
-  padding-right: ${({ theme }) => `${theme.spacing.md}`};
-  width: calc(100% + ${({ theme }) => `${theme.spacing.md}`});
+  padding-right: ${({ theme }) => `${theme.globals.spacing.get("6")}`};
+  width: calc(100% + ${({ theme }) => `${theme.globals.spacing.get("6")}`});
 
   .menu-item-text,
   .submenu-item-text {

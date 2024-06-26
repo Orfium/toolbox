@@ -28,17 +28,17 @@ export const getNewFakeToken = () => {
 /*
  * Mocked functions that can be imported to any test for mockResolve or mockReject values
  */
-export const onRedirectCallback = jest.fn();
-export const getTokenSilently = jest.fn();
-export const loginWithRedirect = jest.fn();
-export const getUser = jest.fn();
-export const handleRedirectCallback = jest.fn(() => {
+export const onRedirectCallback = vi.fn();
+export const getTokenSilently = vi.fn();
+export const loginWithRedirect = vi.fn();
+export const getUser = vi.fn();
+export const handleRedirectCallback = vi.fn(() => {
   return { appState: '' };
 });
-export const isAuthenticated = jest.fn();
-export const logout = jest.fn();
-export const loginWithPopup = jest.fn();
-export const Auth0Client = jest.fn().mockImplementation((options: any) => ({
+export const isAuthenticated = vi.fn();
+export const logout = vi.fn();
+export const loginWithPopup = vi.fn();
+export const Auth0Client = vi.fn((options: any) => ({
   getTokenSilently,
   loginWithRedirect,
   loginWithPopup,
@@ -53,9 +53,9 @@ export const Auth0Client = jest.fn().mockImplementation((options: any) => ({
   cacheLocation: 'localstorage',
   httpTimeoutMs: 10000,
   cookieStorage: {
-    get: jest.fn(),
-    save: jest.fn(),
-    remove: jest.fn(),
+    get: vi.fn(),
+    save: vi.fn(),
+    remove: vi.fn(),
   },
   orgHintCookieName: 'auth0..organization_hint',
   isAuthenticatedCookieName: 'auth0..is.authenticated',
@@ -63,19 +63,19 @@ export const Auth0Client = jest.fn().mockImplementation((options: any) => ({
   scope: 'offline_access',
   transactionManager: {
     storage: {
-      get: jest.fn(),
-      save: jest.fn(),
-      remove: jest.fn(),
+      get: vi.fn(),
+      save: vi.fn(),
+      remove: vi.fn(),
     },
     clientId: '',
     storageKey: 'a0.spajs.txs.',
     transaction: null,
   },
-  nowProvider: jest.fn(),
+  nowProvider: vi.fn(),
   cacheManager: {
     cache: {},
     keyManifest: null,
-    nowProvider: jest.fn(),
+    nowProvider: vi.fn(),
   },
   domainUrl: 'https://',
   tokenIssuer: 'https:///',
@@ -90,5 +90,5 @@ export const Auth0Client = jest.fn().mockImplementation((options: any) => ({
 
 /*
  * Mock auth0 client with predefined values
- * All necessary functions are mocked jest.fn() that can be used to run tests internally.
+ * All necessary functions are mocked vi.fn() that can be used to run tests internally.
  */

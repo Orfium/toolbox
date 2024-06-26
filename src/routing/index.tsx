@@ -2,11 +2,11 @@
 // That is why we keep react-router-dom as dependency in package.json
 
 export { BrowserRouter, Redirect, Route } from 'react-router-dom';
-export {
+export { generateRoutes } from './Routing';
+export type {
   Authorization,
   FallbackPath,
   RouteComponentProps,
   RouteItem,
   RoutingStructure,
-  generateRoutes,
 } from './Routing';

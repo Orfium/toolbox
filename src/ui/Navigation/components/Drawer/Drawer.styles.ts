@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { transition } from '@orfium/ictinus/dist/theme/functions.js';
+import { transition } from '@orfium/ictinus';
 import { rem } from 'polished';
 import { getGlobalNavWidth, menuItemStyle } from '~/ui/Navigation/common.styles';
 
@@ -9,7 +9,7 @@ export const DrawerContainer = styled.div<{
 }>`
   ${transition(0.2, 'width')};
   width: ${({ expanded }) => (expanded ? rem(252) : 0)};
-  background-color: ${({ theme }) => theme.palette.white};
+  background-color: ${({ theme }) => theme.globals.oldColors.white};
   position: ${({ isDesktop }) => (isDesktop ? 'relative' : 'absolute')};
   left: ${({ theme, isDesktop }) => (isDesktop ? 0 : getGlobalNavWidth(theme))};
   flex-shrink: 0;
@@ -36,37 +36,37 @@ export const OrgSwitcherWrapper = styled.div`
 `;
 
 export const NavHeader = styled.h2`
-  font-size: ${({ theme }) => `${theme.typography.fontSizes['18']}`};
-  font-weight: ${({ theme }) => `${theme.typography.weights.bold}`};
-  line-height: ${({ theme }) => `calc(7 * ${theme.spacing.xsm}`});
+  font-size: ${({ theme }) => `${theme.globals.typography.fontSize.get('5')}`};
+  font-weight: ${({ theme }) => `${theme.globals.typography.fontWeight.get('bold')}`};
+  line-height: ${({ theme }) => `calc(7 * ${theme.globals.spacing.get('3')}`});
   color: ${({ theme }) => theme.utils.getColor('blue', 600)};
   flex-shrink: 0;
-  margin: 0 0 ${({ theme }) => theme.spacing.sm} 0;
+  margin: 0 0 ${({ theme }) => theme.globals.spacing.get('4')} 0;
   white-space: nowrap;
   overflow: hidden;
 `;
 
 export const ExtrasContainer = styled.div`
   border-top: 1px solid ${({ theme }) => theme.utils.getColor('lightGrey', 200)};
-  padding: ${({ theme }) => `${theme.spacing.lg} 0`};
+  padding: ${({ theme }) => `${theme.globals.spacing.get('8')} 0`};
   overflow: auto;
 
   //Stick the scrollbar to the edge
   box-sizing: border-box;
-  padding-right: ${({ theme }) => `${theme.spacing.md}`};
-  width: calc(100% + ${({ theme }) => `${theme.spacing.md}`});
+  padding-right: ${({ theme }) => `${theme.globals.spacing.get('6')}`};
+  width: calc(100% + ${({ theme }) => `${theme.globals.spacing.get('6')}`});
 `;
 
 export const ExtrasSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.sm};
+  gap: ${({ theme }) => theme.globals.spacing.get('4')};
 `;
 
 export const ExtrasSectionTitle = styled.h2`
-  font-size: ${({ theme }) => `${theme.typography.fontSizes['12']}`};
-  font-weight: ${({ theme }) => `${theme.typography.weights.bold}`};
-  line-height: ${({ theme }) => theme.spacing.md});
+  font-size: ${({ theme }) => `${theme.globals.typography.fontSize.get('2')}`};
+  font-weight: ${({ theme }) => `${theme.globals.typography.fontWeight.get('bold')}`};
+  line-height: ${({ theme }) => theme.globals.spacing.get('6')});
   color: ${({ theme }) => theme.utils.getColor('blue', 600)};
   text-transform: uppercase;
   margin: 0;
@@ -74,7 +74,7 @@ export const ExtrasSectionTitle = styled.h2`
 
 export const ExtrasSectionMenuItem = styled.a`
   ${({ theme }) => menuItemStyle(theme)};
-  font-weight: ${({ theme }) => theme.typography.weights.regular};
+  font-weight: ${({ theme }) => theme.globals.typography.fontWeight.get('regular')};
 
   > span {
     transform: scale(1);
@@ -89,7 +89,7 @@ export const ExtrasSectionMenuItem = styled.a`
 `;
 
 export const NavElementsContainer = styled.div`
-  padding: ${({ theme }) => `${rem(10)} ${theme.spacing.md} 0`};
+  padding: ${({ theme }) => `${rem(10)} ${theme.globals.spacing.get('6')} 0`};
   display: flex;
   flex-direction: column;
   flex-grow: 1;

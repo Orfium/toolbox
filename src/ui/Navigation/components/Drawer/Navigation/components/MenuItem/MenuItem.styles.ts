@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { flexCenter, transition } from '@orfium/ictinus/dist/theme/functions.js';
+import { flexCenter, transition } from "@orfium/ictinus";
 import { rem } from 'polished';
 import { menuItemStyle } from '~/ui/Navigation/common.styles';
 import { NavLinkWithStatePassthrough } from '~/utils/NavLinkWithStatePassthrough';

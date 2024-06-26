@@ -1,19 +1,17 @@
-import { List, useTheme } from '@orfium/ictinus';
-import { MenuPositionAllowed } from '@orfium/ictinus/dist/components/utils/DropdownOptions/index.js';
-import { ReactNode, useRef, useState } from 'react';
-import { useClickAwayListener } from '~/hooks/useClickAwayListener';
+import { ListItem, ListItemText, Menu, useTheme } from '@orfium/ictinus';
+import { MouseEventHandler, ReactNode, useRef, useState } from 'react';
 import FlippableArrow from '~/ui/FlippableArrow';
 import {
   Button,
   ButtonContentWrapper,
   ButtonTextWrapper,
   ChevronWrapper,
-  Option,
   SelectedOrg,
   Tag,
   Wrapper,
 } from './OrganizationSelector.styles';
 
+export type MenuPositionAllowed = 'left' | 'right';
 export type Props = {
   /** Items that are being declared as menu options */
   items?: string[];
@@ -39,29 +37,27 @@ function OrganizationSelector(props: Props & TestProps) {
     disabled,
     onSelect,
     buttonText = 'More',
-    menuPosition = 'left',
     dataTestId,
     tagText = 'Organization',
   } = props;
   const [open, setOpen] = useState(false);
+  const btnRef = useRef(null);
+  const handleBtnClick: MouseEventHandler = (e) => {
+    e?.preventDefault();
+    setOpen((state) => !state);
+  };
   const theme = useTheme();
   const outerMenuWrapperRef = useRef<HTMLDivElement | null>(null);
   const textColor = theme.utils.getColor('blue', 600);
 
-  useClickAwayListener(outerMenuWrapperRef, (e: MouseEvent) => {
-    if (open) {
-      e.stopPropagation();
-      setOpen(false);
-    }
-  });
-
   return (
     <Wrapper ref={outerMenuWrapperRef} data-testid={dataTestId}>
       <Button
+        ref={btnRef}
         theme={theme}
         disabled={disabled}
         textColor={textColor}
-        onClick={() => setOpen((open) => !open)}
+        onClick={handleBtnClick}
       >
         <ButtonContentWrapper>
           <ButtonTextWrapper theme={theme}>
@@ -74,26 +70,37 @@ function OrganizationSelector(props: Props & TestProps) {
           </ButtonTextWrapper>
           {disabled ? null : (
             <ChevronWrapper theme={theme}>
-              <FlippableArrow expanded={open} color={textColor} size={11} />
+              <FlippableArrow color={'#000'} expanded={open} size={18} />
             </ChevronWrapper>
           )}
         </ButtonContentWrapper>
       </Button>
-
-      {open && (
-        <Option theme={theme} menuPosition={menuPosition}>
-          {items && (
-            <List
-              data={items}
-              rowSize={'small'}
-              handleOptionClick={(option: string) => {
-                setOpen(false);
-                onSelect(option);
-              }}
-            />
-          )}
-        </Option>
-      )}
+      <Menu
+        triggerRef={btnRef}
+        isOpen={open}
+        onClose={handleBtnClick}
+        onAction={(option: string) => {
+          onSelect(option);
+        }}
+      >
+        {items?.map((item) => (
+          <ListItem key={item} textValue={item} parentType={'Menu'}>
+            <ListItemText>{item}</ListItemText>
+          </ListItem>
+        ))}
+      </Menu>
+      {/*{open && (*/}
+      {/*  <Option theme={theme} menuPosition={menuPosition}>*/}
+      {/*    {items && (*/}
+      {/*      <List*/}
+      {/*        handleOptionClick={(option: string) => {*/}
+      {/*          setOpen(false);*/}
+      {/*          onSelect(option);*/}
+      {/*        }}*/}
+      {/*      />*/}
+      {/*    )}*/}
+      {/*  </Option>*/}
+      {/*)}*/}
     </Wrapper>
   );
 }

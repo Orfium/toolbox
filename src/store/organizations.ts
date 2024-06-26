@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export type Organization = {
@@ -56,7 +56,7 @@ const useOrganization = create(
       setSelectedOrganization: (organization: Organization['org_id'] | undefined) => {
         const orgs = get().organizations;
         if (organization === undefined) {
-          set({ selectedOrganization: organization });
+          set({ selectedOrganization: orgs[organization] });
         } else if (orgs === null) {
           set({ selectedOrganization: null });
         } else {
