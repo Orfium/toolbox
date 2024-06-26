@@ -42,7 +42,6 @@ function UserMenu(props: UserMenuProps) {
         isOpen={open}
         onClose={handleBtnClick}
         onAction={(action) => {
-          console.log({ action });
           if (action === 'logout') {
             logout();
           }
