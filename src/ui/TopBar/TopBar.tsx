@@ -13,7 +13,7 @@ export function TopBar({ utilitySlot, menuItems = [] }: TopBarProps) {
 
   return (
     <TopAppBarWrapper role="banner" aria-label="Top Application Banner">
-      <Logo alt={'Orfium logo'} height={28} width={28} />
+      <Logo title={'Orfium logo'} height={28} width={28} />
       <UserDefinedSlot>{topBarUtilitySlot || utilitySlot}</UserDefinedSlot>
       <UserSection>
         <UserMenu menuItems={menuItems} />
