@@ -63,7 +63,6 @@
     "jsdom": "^24.1.0",
     "jwt-encode": "^1.0.1",
     "lint-staged": "^12.4.1",
-    "patch-package": "^8.0.0",
     "prettier": "^2.6.2",
     "prettier-plugin-organize-imports": "^3.2.2",
     "react": "^18.1.0",
@@ -101,8 +100,7 @@
     "test": "vitest run",
     "test:watch": "node --experimental-vm-modules ./node_modules/.bin/jest --watch",
     "documentation:generate": "typedoc --out typeDocs src",
-    "documentation:up": "cd documentation && yarn start",
-    "postinstall": "patch-package"
+    "documentation:up": "cd documentation && yarn start"
   },
   "keywords": [
     "Orfium",

@@ -13,7 +13,7 @@ import {
 const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
   return (
     <Wrapper role="alert">
-      <ErrorCover alt="Error fallback cover" />
+      <ErrorCover title="Error fallback cover" />
       <ContentWrapper>
         <div style={{ textAlign: 'center' }}>
           <Box>
