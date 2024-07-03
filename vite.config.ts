@@ -65,7 +65,7 @@ export default defineConfig(({ mode }) => {
           ? {
               include: 'src/**',
             }
-          : undefined,
+          : false,
       lib: {
         entry: path.resolve(__dirname, 'src/index.ts'),
         name: pkg.name,
