@@ -36,14 +36,15 @@
     "react-dom": "^18.1.0",
     "react-error-boundary": "^3.1.4",
     "react-router-dom": "^5.3.1",
-    "zustand": "4.5.4"
+    "zustand": "4.5.4",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "semantic-release": "^24.0.0"
   },
   "devDependencies": {
     "@amanda-mitchell/semantic-release-npm-multiple": "^3.5.0",
     "@commitlint/cli": "^16.2.4",
     "@commitlint/config-conventional": "^16.2.4",
-    "@semantic-release/changelog": "^6.0.1",
-    "@semantic-release/git": "^10.0.1",
     "@sentry/browser": "7.21.1",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^14.3.1",
@@ -68,7 +69,6 @@
     "prettier": "^2.6.2",
     "prettier-plugin-organize-imports": "^3.2.2",
     "rimraf": "^3.0.2",
-    "semantic-release": "^22.0.12",
     "ts-lib": "^0.0.5",
     "tslib": "^2.3.1",
     "typedoc": "^0.25.12",
