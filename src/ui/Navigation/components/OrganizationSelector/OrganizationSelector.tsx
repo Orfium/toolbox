@@ -78,9 +78,8 @@ function OrganizationSelector(props: Props & TestProps) {
         triggerRef={btnRef}
         isOpen={open}
         onClose={handleBtnClick}
-        onAction={(option: string) => {
-          onSelect(option);
-        }}
+        onAction={onSelect}
+        sx={{ listProps: { maxHeight: 290 } }}
       >
         {items?.map((item) => (
           <ListItem key={item} textValue={item} parentType={'Menu'}>

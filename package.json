@@ -39,7 +39,7 @@
     "@commitlint/config-conventional": "^16.2.4",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@orfium/ictinus": "5.7.0-rc.21",
+    "@orfium/ictinus": "5.8.1",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "@sentry/browser": "7.21.1",
