@@ -23,10 +23,13 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@amanda-mitchell/semantic-release-npm-multiple": "^3.5.0",
     "@auth0/auth0-spa-js": "^2.1.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@orfium/ictinus": "5.8.1",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
     "axios": "^1.6.7",
     "axios-mock-adapter": "^1.22.0",
     "dayjs": "^1.11.10",
@@ -36,13 +39,10 @@
     "react-dom": "^18.1.0",
     "react-error-boundary": "^3.1.4",
     "react-router-dom": "^5.3.1",
-    "zustand": "4.5.4",
-    "@semantic-release/changelog": "^6.0.1",
-    "@semantic-release/git": "^10.0.1",
-    "semantic-release": "^24.0.0"
+    "semantic-release": "^24.0.0",
+    "zustand": "4.5.4"
   },
   "devDependencies": {
-    "@amanda-mitchell/semantic-release-npm-multiple": "^3.5.0",
     "@commitlint/cli": "^16.2.4",
     "@commitlint/config-conventional": "^16.2.4",
     "@sentry/browser": "7.21.1",
