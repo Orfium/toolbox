@@ -18,8 +18,8 @@ jobs:
     env:
       PRODUCT: toolbox
       CI: false
-      NODE_ENV: staging
-      REACT_APP_STAGE: staging
+      NODE_ENV: production
+      REACT_APP_STAGE: production
 
     environment:
       name: toolbox

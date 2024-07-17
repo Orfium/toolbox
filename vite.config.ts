@@ -32,7 +32,6 @@ const viteOnBuildSuccess = (): PluginOption => {
 const plugins = [
   react({
     babel: {},
-    jsxImportSource: '@emotion/react',
   }),
   tsconfigPaths(),
   svgr(),
@@ -51,7 +50,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    // publicDir: false,
+    publicDir: false,
     envPrefix: 'REACT_APP_',
     // Define these to keep compatibility with ictinus, toolbox and SSO
     define: {
