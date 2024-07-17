@@ -32,6 +32,8 @@ const viteOnBuildSuccess = () => {
 const plugins = [
   react({
     babel: {},
+    jsxImportSource: '@emotion/react',
+    jsxRuntime: 'classic',
   }),
   tsconfigPaths(),
   svgr(),
